@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Whatziroom</string>
+    <!--Login Activity-->
+    <string name="login_wrong_idpw">아이디나 패스워드가 틀렸습니다. 다시 입력해주세요.</string>
+    <string name="login_welcome_message">로그인에 성공했습니다.</string>
+    <string name="logout_bye_message">로그아웃 되었습니다.</string>
+    <string name="login_welcome_guest">게스트로 입장합니다.</string>
+
+    <string name="login_btn_name">로그인</string>
+    <string name="guest_btn_name">비회원</string>
+    <string name="login_signup_btn_name">회원가입</string>
+    <string name="gender_name">성별</string>
+    <string name="skip_name">건너뛰기</string>
+
+</resources>
