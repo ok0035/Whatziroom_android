@@ -3,19 +3,18 @@ package com.example.heronation.whatziroom.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.example.heronation.whatziroom.R;
+
 /**
  * Created by heronation on 2017-05-22.
  */
 
-public class RoomActivity extends BaseActivity {
+public class RoomListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        bindView();
-        setValues();
-        setUpEvents();
+        setContentView(R.layout.activity_room_list);
     }
 
     @Override

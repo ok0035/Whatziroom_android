@@ -1,10 +1,8 @@
-package com.example.heronation.whatziroom.Activity;
+package com.example.heronation.whatziroom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.heronation.whatziroom.R;
 
@@ -26,6 +24,8 @@ public class SplashActivity extends BaseActivity {
     public void setUpEvents() {
         super.setUpEvents();
 
+        hideActionBar();
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -34,6 +34,8 @@ public class SplashActivity extends BaseActivity {
 
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
+
+                    finish();
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
