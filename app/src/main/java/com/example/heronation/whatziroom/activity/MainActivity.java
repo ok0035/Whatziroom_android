@@ -154,8 +154,4 @@ public class MainActivity extends BaseActivity {
         tab_fourth = (LinearLayout) findViewById(R.id.page4Btn);
         tab_fifth = (LinearLayout) findViewById(R.id.page5Btn);
     }
-
-
-
-
 }
