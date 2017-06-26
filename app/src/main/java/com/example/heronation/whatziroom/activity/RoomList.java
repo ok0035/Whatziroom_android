@@ -1,4 +1,4 @@
-package com.example.heronation.whatziroom.Activity;
+package com.example.heronation.whatziroom.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
