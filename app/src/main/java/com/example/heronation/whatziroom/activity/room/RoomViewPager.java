@@ -148,12 +148,9 @@ public class RoomViewPager extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        ll = (LinearLayout) findViewById(R.id.linRoom);
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
-
         this.linRoom = (LinearLayout) findViewById(R.id.linRoom);
-        this.linIndicator = (LinearLayout) findViewById(R.id.linIndicator);
         this.vp = (ViewPager) findViewById(R.id.vp);
 
     }
