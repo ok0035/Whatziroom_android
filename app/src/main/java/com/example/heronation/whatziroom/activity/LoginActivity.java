@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
@@ -15,6 +18,15 @@ import com.example.heronation.whatziroom.R;
 public class LoginActivity extends BaseActivity {
 
     private TextView login_btn;
+    private android.widget.ImageView imgmypage;
+    private TextView tvloginid;
+    private android.widget.EditText edloginid;
+    private android.widget.LinearLayout layoutid;
+    private android.widget.EditText edloginpw;
+    private TextView btnlogin;
+    private TextView btnguest;
+    private TextView btnsignup;
+    private TextView tvforget;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +51,8 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override
@@ -51,6 +65,18 @@ public class LoginActivity extends BaseActivity {
         super.bindView();
 
         login_btn = (TextView) findViewById(R.id.btn_login);
+        this.tvforget = (TextView) findViewById(R.id.tv_forget);
+        this.btnsignup = (TextView) findViewById(R.id.btn_signup);
+        this.btnguest = (TextView) findViewById(R.id.btn_guest);
+        this.btnlogin = (TextView) findViewById(R.id.btn_login);
+        this.edloginpw = (EditText) findViewById(R.id.ed_login_pw);
+        this.layoutid = (LinearLayout) findViewById(R.id.layout_id);
+        this.edloginid = (EditText) findViewById(R.id.ed_login_id);
+        this.tvloginid = (TextView) findViewById(R.id.tv_login_id);
+        this.imgmypage = (ImageView) findViewById(R.id.img_mypage);
+
+
     }
+
 
 }
