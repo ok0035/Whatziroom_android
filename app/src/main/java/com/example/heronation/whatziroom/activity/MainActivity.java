@@ -1,6 +1,7 @@
 package com.example.heronation.whatziroom.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by ATIV on 2017-06-24.
@@ -38,6 +42,11 @@ public class MainActivity extends BaseActivity {
         setValues();
         bindView();
         setUpEvents();
+
+        LinearLayout layout = (LinearLayout)ll.findViewWithTag(0);
+        ll.findViewWithTag(0).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        TextView textView = (TextView) (layout.getChildAt(0));
+        textView.setTextColor(Color.WHITE);
 
     }
 
@@ -147,6 +156,7 @@ public class MainActivity extends BaseActivity {
         tab_first.setSelected(true);
     }
 
+
     // 프래그먼트간 페이지 이동
     View.OnClickListener movePageListener = new View.OnClickListener()
     {
@@ -161,11 +171,18 @@ public class MainActivity extends BaseActivity {
             {
                 if(tag==i)
                 {
+                    LinearLayout layout = (LinearLayout)ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(true);
+                    ll.findViewWithTag(i).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    TextView textView = (TextView) (layout.getChildAt(0));
+                    textView.setTextColor(Color.WHITE);
                 }
                 else
-                {
+                {   LinearLayout layout = (LinearLayout)ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(false);
+                    ll.findViewWithTag(i).setBackgroundColor(Color.WHITE);
+                    TextView textView = (TextView) (layout.getChildAt(0));
+                    textView.setTextColor(getResources().getColor(R.color.colorAccent));
                 }
                 i++;
 

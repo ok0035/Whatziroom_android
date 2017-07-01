@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="친구"
                 android:textSize="14dp"
+                android:tag="0"
                 android:textColor="@color/mainTxtColor"/>
 
         </LinearLayout>
@@ -42,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="방"
                 android:textSize="14dp"
+                android:tag="1"
                 android:textColor="@color/mainTxtColor"/>
 
         </LinearLayout>
@@ -60,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="스케쥴"
                 android:textSize="14dp"
+                android:tag="2"
                 android:textColor="@color/mainTxtColor"/>
 
         </LinearLayout>
@@ -77,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="알림"
                 android:textSize="14dp"
+                android:tag="3"
                 android:textColor="@color/mainTxtColor"/>
 
         </LinearLayout>
@@ -94,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="프로필"
                 android:textSize="14dp"
+                android:tag="4"
                 android:textColor="@color/mainTxtColor"/>
 
         </LinearLayout>

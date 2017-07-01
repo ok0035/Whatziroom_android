@@ -27,14 +27,14 @@ public class SubMainSecondActivity extends Fragment {
 
         layout = (LinearLayout) inflater.inflate(R.layout.activity_main_sub_2, container, false);
 
-        test = (Button) layout.findViewById(R.id.btnTest);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), RoomViewPager.class);
-                startActivity(intent);
-            }
-        });
+//        test = (Button) layout.findViewById(R.id.btnTest);
+//        test.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), RoomViewPager.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
         return layout;
