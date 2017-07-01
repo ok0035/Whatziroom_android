@@ -52,6 +52,14 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        btnsignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -67,8 +75,8 @@ public class LoginActivity extends BaseActivity {
         login_btn = (TextView) findViewById(R.id.btn_login);
         this.tvforget = (TextView) findViewById(R.id.tv_forget);
         this.btnsignup = (TextView) findViewById(R.id.btn_signup);
-        this.btnguest = (TextView) findViewById(R.id.btn_guest);
-        this.btnlogin = (TextView) findViewById(R.id.btn_login);
+//        this.btnguest = (TextView) findViewById(R.id.btn_guest);
+//        this.btnlogin = (TextView) findViewById(R.id.btn_login);
         this.edloginpw = (EditText) findViewById(R.id.ed_login_pw);
         this.layoutid = (LinearLayout) findViewById(R.id.layout_id);
         this.edloginid = (EditText) findViewById(R.id.ed_login_id);

@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
 
@@ -18,6 +20,10 @@ import com.example.heronation.whatziroom.R;
 public class BaseActivity extends AppCompatActivity {
 
     public static Context mContext = null;
+    public ImageView backBtn;
+    public TextView titleTxt;
+    public TextView configTxt1;
+    public TextView configTxt2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +66,7 @@ public class BaseActivity extends AppCompatActivity {
 //        myActionBar.setHomeAsUpIndicator(R.mipmap.hambutton);
 
         LayoutInflater inf = LayoutInflater.from(mContext);
-        View customBarView = inf.inflate(R.layout.main_action_bar, null);
+        View customBarView = inf.inflate(R.layout.custom_action_bar, null);
 
         myActionBar.setCustomView(customBarView);
         myActionBar.setDisplayShowCustomEnabled(true);
@@ -68,6 +74,12 @@ public class BaseActivity extends AppCompatActivity {
         Toolbar parent = (Toolbar) customBarView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
         getSupportActionBar().setElevation(0);
+
+
+        backBtn = (ImageView) customBarView.findViewById(R.id.backBtn);
+        titleTxt = (TextView) customBarView.findViewById(R.id.titleTxt);
+        configTxt1 = (TextView) customBarView.findViewById(R.id.configTxt1);
+        configTxt2 = (TextView) customBarView.findViewById(R.id.configTxt2);
 
     }
 
