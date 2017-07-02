@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity {
                         configTxt2.setVisibility(View.VISIBLE);
                         configTxt1.setText("추가");
                         configTxt2.setText("편집");
+                        changeTabColor(position);
                         break;
                     case 1:
                         titleTxt.setText("방 목록");
@@ -94,6 +95,7 @@ public class MainActivity extends BaseActivity {
                         configTxt2.setVisibility(View.VISIBLE);
                         configTxt1.setText("방개설");
                         configTxt2.setText("편집");
+                        changeTabColor(position);
                         break;
                     case 2:
                         titleTxt.setText("내 스케줄");
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity {
                         configTxt2.setVisibility(View.INVISIBLE);
                         configTxt1.setText("추가");
                         configTxt2.setText("편집");
+                        changeTabColor(position);
                         break;
                     case 3:
                         titleTxt.setText("알림");
@@ -110,6 +113,7 @@ public class MainActivity extends BaseActivity {
                         configTxt2.setVisibility(View.INVISIBLE);
                         configTxt1.setText("추가");
                         configTxt2.setText("편집");
+                        changeTabColor(position);
                         break;
                     case 4:
                         titleTxt.setText("프로필");
@@ -117,6 +121,7 @@ public class MainActivity extends BaseActivity {
                         configTxt1.setVisibility(View.INVISIBLE);
                         configTxt2.setVisibility(View.VISIBLE);
                         configTxt2.setText("설정");
+                        changeTabColor(position);
                         break;
 
                 }
@@ -254,5 +259,20 @@ public class MainActivity extends BaseActivity {
         tab_third = (LinearLayout) findViewById(R.id.page3Btn);
         tab_fourth = (LinearLayout) findViewById(R.id.page4Btn);
         tab_fifth = (LinearLayout) findViewById(R.id.page5Btn);
+    }
+
+    private void changeTabColor(int position){
+        for(int i = 0; i < 5 ; i++){
+            LinearLayout layout = (LinearLayout)ll.findViewWithTag(i);
+            ll.findViewWithTag(i).setBackgroundColor(Color.WHITE);
+            TextView textView = (TextView) (layout.getChildAt(0));
+            textView.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
+
+        LinearLayout layout = (LinearLayout)ll.findViewWithTag(position);
+        ll.findViewWithTag(position).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        TextView textView = (TextView) (layout.getChildAt(0));
+        textView.setTextColor(Color.WHITE);
+
     }
 }
