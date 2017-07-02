@@ -42,7 +42,7 @@ public class MainViewPager extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setCustomActionBar();
+        setMainActionBar();
 
         setValues();
         bindView();
@@ -266,8 +266,8 @@ public class MainViewPager extends BaseActivity {
     }
 
     @Override
-    public void setCustomActionBar() {
-        super.setCustomActionBar();
+    public void setMainActionBar() {
+        super.setMainActionBar();
         titleTxt.setText("친구목록");
         backBtn.setVisibility(View.INVISIBLE);
         configTxt1.setText("추가");

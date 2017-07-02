@@ -1,6 +1,5 @@
 package com.example.heronation.whatziroom.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,7 +12,7 @@ public class ProfilUpdateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_update);
-        setCustomActionBar();
+        setMainActionBar();
     }
 
 
@@ -30,8 +29,8 @@ public class ProfilUpdateActivity extends BaseActivity {
 
 
     @Override
-    public void setCustomActionBar() {
-        super.setCustomActionBar();
+    public void setMainActionBar() {
+        super.setMainActionBar();
         titleTxt.setText("내 정보 수정");
         backBtn.setVisibility(View.VISIBLE);
         configTxt1.setVisibility(View.INVISIBLE);

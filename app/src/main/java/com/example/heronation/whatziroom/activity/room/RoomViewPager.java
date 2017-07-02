@@ -33,7 +33,7 @@ public class RoomViewPager extends BaseActivity {
         setContentView(R.layout.activity_room);
 
 
-        setCustomActionBar();
+        setRoomActionBar();
 
         setValues();
         bindView();
@@ -67,7 +67,18 @@ public class RoomViewPager extends BaseActivity {
                     indicator.setVisibility(View.GONE);
                 } else {
                     indicator.setVisibility(View.VISIBLE);
+                }
 
+                switch(position) {
+                    case 0:
+                        btnRoomSchedule.setVisibility(View.VISIBLE);
+                        btnRoomSetting.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                    case 2:
+                        btnRoomSchedule.setVisibility(View.GONE);
+                        btnRoomSetting.setVisibility(View.GONE);
+                        break;
                 }
             }
 

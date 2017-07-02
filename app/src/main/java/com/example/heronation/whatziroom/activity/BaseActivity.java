@@ -66,7 +66,7 @@ public class BaseActivity extends AppCompatActivity {
 //        myActionBar.setHomeAsUpIndicator(R.mipmap.hambutton);
 
         LayoutInflater inf = LayoutInflater.from(mContext);
-        View customBarView = inf.inflate(R.layout.custom_action_bar, null);
+        View customBarView = inf.inflate(R.layout.actionbar_main, null);
 
         myActionBar.setCustomView(customBarView);
         myActionBar.setDisplayShowCustomEnabled(true);

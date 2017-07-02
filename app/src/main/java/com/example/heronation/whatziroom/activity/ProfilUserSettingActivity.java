@@ -1,12 +1,10 @@
 package com.example.heronation.whatziroom.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.example.heronation.whatziroom.R;
 import com.example.heronation.whatziroom.activity.base.BaseActivity;
@@ -27,7 +25,7 @@ public class ProfilUserSettingActivity extends BaseActivity {
         bindView();
         setValues();
         setUpEvents();
-        setCustomActionBar();
+        setMainActionBar();
 
     }
 
@@ -49,8 +47,8 @@ public class ProfilUserSettingActivity extends BaseActivity {
 
 
     @Override
-    public void setCustomActionBar() {
-        super.setCustomActionBar();
+    public void setMainActionBar() {
+        super.setMainActionBar();
         titleTxt.setText("와찌룸 설정");
         backBtn.setVisibility(View.INVISIBLE);
         configTxt1.setVisibility(View.INVISIBLE);

@@ -20,10 +20,17 @@ import com.example.heronation.whatziroom.R;
 public class BaseActivity extends AppCompatActivity {
 
     public static Context mContext = null;
+
+    //메인 액션바
     public ImageView backBtn;
     public TextView titleTxt;
     public TextView configTxt1;
     public TextView configTxt2;
+
+    //룸 액션바
+    public TextView btnRoomExit;
+    public TextView btnRoomSchedule;
+    public TextView btnRoomSetting;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +61,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setCustomActionBar() {
+    public void setMainActionBar() {
 
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.setDisplayShowHomeEnabled(false);
@@ -66,7 +73,7 @@ public class BaseActivity extends AppCompatActivity {
 //        myActionBar.setHomeAsUpIndicator(R.mipmap.hambutton);
 
         LayoutInflater inf = LayoutInflater.from(mContext);
-        View customBarView = inf.inflate(R.layout.custom_action_bar, null);
+        View customBarView = inf.inflate(R.layout.actionbar_main, null);
 
         myActionBar.setCustomView(customBarView);
         myActionBar.setDisplayShowCustomEnabled(true);
@@ -80,6 +87,34 @@ public class BaseActivity extends AppCompatActivity {
         titleTxt = (TextView) customBarView.findViewById(R.id.titleTxt);
         configTxt1 = (TextView) customBarView.findViewById(R.id.configTxt1);
         configTxt2 = (TextView) customBarView.findViewById(R.id.configTxt2);
+
+    }
+
+    public void setRoomActionBar() {
+
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.setDisplayShowHomeEnabled(false);
+        myActionBar.setDisplayHomeAsUpEnabled(false);
+        myActionBar.setDisplayShowTitleEnabled(false);
+        myActionBar.setDisplayShowCustomEnabled(true);
+        myActionBar.setHomeButtonEnabled(true);
+
+//        myActionBar.setHomeAsUpIndicator(R.mipmap.hambutton);
+
+        LayoutInflater inf = LayoutInflater.from(mContext);
+        View customBarView = inf.inflate(R.layout.actionbar_room, null);
+
+        this.btnRoomSetting = (TextView) customBarView.findViewById(R.id.btnRoomSetting);
+        this.btnRoomSchedule = (TextView) customBarView.findViewById(R.id.btnRoomSchedule);
+        this.btnRoomExit = (TextView) customBarView.findViewById(R.id.btnRoomExit);
+
+        myActionBar.setCustomView(customBarView);
+        myActionBar.setDisplayShowCustomEnabled(true);
+
+        Toolbar parent = (Toolbar) customBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+        getSupportActionBar().setElevation(0);
+
 
     }
 
