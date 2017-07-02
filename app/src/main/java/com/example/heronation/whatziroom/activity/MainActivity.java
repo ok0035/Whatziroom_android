@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by ATIV on 2017-06-24.
  */
@@ -254,11 +252,6 @@ public class MainActivity extends BaseActivity {
         vp = (ViewPager)findViewById(R.id.vp);
         ll = (LinearLayout)findViewById(R.id.ll);
 
-        tab_first = (LinearLayout) findViewById(R.id.page1Btn);
-        tab_second = (LinearLayout) findViewById(R.id.page2Btn);
-        tab_third = (LinearLayout) findViewById(R.id.page3Btn);
-        tab_fourth = (LinearLayout) findViewById(R.id.page4Btn);
-        tab_fifth = (LinearLayout) findViewById(R.id.page5Btn);
     }
 
     private void changeTabColor(int position){
