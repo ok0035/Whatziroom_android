@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context="com.example.heronation.whatziroom.activity.SplashActivity"
+    tools:context="com.example.heronation.whatziroom.activity.base.SplashActivity"
     android:background="#ffffff">
 
     <ImageView

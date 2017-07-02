@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.example.heronation.whatziroom.R;
+import com.example.heronation.whatziroom.activity.base.BaseActivity;
 
 /**
  * Created by heronation on 2017-05-22.

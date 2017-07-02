@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.heronation.whatziroom">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,30 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.BaseActivity"/>
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.base.BaseActivity" />
+        <activity android:name=".activity.base.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.SignUpActivity"/>
-        <activity android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name=".activity.RoomListActivity"/>
-        <activity android:name=".activity.room.RoomViewPager">
-
-
-        </activity>
-
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.SignUpActivity" />
+        <activity
+            android:name=".activity.main.MainViewPager"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.RoomListActivity" />
+        <activity android:name=".activity.room.RoomViewPager" />
+        <activity android:name=".activity.ProfilUpdateActivity" />
+        <activity android:name=".activity.ProfilUserSettingActivity"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

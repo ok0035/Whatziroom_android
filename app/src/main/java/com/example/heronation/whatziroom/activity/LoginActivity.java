@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
+import com.example.heronation.whatziroom.activity.base.BaseActivity;
+import com.example.heronation.whatziroom.activity.main.MainViewPager;
 
 /**
  * Created by heronation on 2017-05-22.
@@ -47,7 +49,7 @@ public class LoginActivity extends BaseActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainViewPager.class);
                 startActivity(intent);
             }
         });

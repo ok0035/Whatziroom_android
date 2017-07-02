@@ -3,28 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#3366ff">
+    android:background="#ffffff">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.9">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <ListView
+                    android:id="@+id/lvChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cacheColorHint="#00000000"
+                    android:divider="#000000"
+                    android:listSelector="#00000000"
+                    android:transcriptMode="alwaysScroll" />
+            </FrameLayout>
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_weight="0.1"
         android:background="#ffffff">
+
+        <EditText
+            android:hint="메세지를 입력하세요"
+            android:id="@+id/editText1"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="전 송"
+            android:layout_weight="6"/>
 
     </LinearLayout>
 

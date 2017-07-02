@@ -73,6 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="방 찾기"
+                    android:id="@+id/searchRoom"
                     android:background="@drawable/button_border"
                     android:gravity="center"
                     android:padding="5dp"/>

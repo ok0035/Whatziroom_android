@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.heronation.whatziroom.R;
-import com.example.heronation.whatziroom.activity.BaseActivity;
+import com.example.heronation.whatziroom.activity.base.BaseActivity;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -45,16 +45,11 @@ public class RoomViewPager extends BaseActivity {
     public void setUpEvents() {
         super.setUpEvents();
 
-
-
         /*
         *   Viewpase Adapter 설정
         */
 
         vpAdapter = new pagerAdapter(getSupportFragmentManager());
-//        indicator = new CircleIndicator(this);
-//        indicator.configureIndicator(ViewPager.LayoutParams.WRAP_CONTENT, 150, 0, 0 ,0, R.color.colorAccent,0);
-//        linIndicator.addView(indicator);
 
         vp.setAdapter(vpAdapter);
         indicator.setViewPager(vp);
@@ -84,24 +79,6 @@ public class RoomViewPager extends BaseActivity {
 
     }
 
-//    // 프래그먼트간 페이지 이동
-//    View.OnClickListener movePageListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            int tag = (int) v.getTag();
-//            vp.setCurrentItem(tag);
-//
-//            int i = 0;
-//            while (i < 3) {
-//                if (tag == i) {
-//                    ll.findViewWithTag(i).setSelected(true);
-//                } else {
-//                    ll.findViewWithTag(i).setSelected(false);
-//                }
-//                i++;
-//            }
-//        }
-//    };
 
     // 프래그먼트 어댑터
     private class pagerAdapter extends FragmentStatePagerAdapter {
