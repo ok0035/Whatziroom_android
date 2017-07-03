@@ -58,13 +58,44 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="참석여부를 선택하세요."/>
+                android:orientation="horizontal"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="참석여부를 선택하세요."
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@mipmap/ic_launcher"
+                    android:layout_marginRight="15dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@mipmap/ic_launcher"
+                    android:layout_marginRight="15dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -159,6 +190,15 @@
                 android:text="참석하는 사람들"
                 android:textStyle="bold"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:id="@+id/linAttendee">
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -193,12 +233,16 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
-            android:background="#ccffff">
+            android:background="#ccffff"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="스케줄 입력"/>
 
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 

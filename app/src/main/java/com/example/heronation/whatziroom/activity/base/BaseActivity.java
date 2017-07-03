@@ -1,11 +1,13 @@
 package com.example.heronation.whatziroom.activity.base;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -115,6 +117,15 @@ public class BaseActivity extends AppCompatActivity {
         parent.setContentInsetsAbsolute(0, 0);
         getSupportActionBar().setElevation(0);
 
+    }
+
+    //dp값을 입력하여 px로 변환하여 반환해줌
+    public int convertDPtoPX(int size) {
+
+        Resources r = getResources();
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, r.getDisplayMetrics());
+
+        return  px;
 
     }
 
