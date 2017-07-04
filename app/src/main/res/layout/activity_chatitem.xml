@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="horizontal"
+    android:paddingBottom="15dp"
     android:id="@+id/layout"
     android:gravity="center">
 
@@ -15,12 +16,39 @@
         android:layout_weight="1"
         android:layout_margin="10dp" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profileLeft"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:paddingTop="15dp"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_width="1dp"
+        android:layout_marginRight="5dp"
+        app:civ_border_color="#FF000000"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:textColor="#000000"
         android:text ="text"        />
+
+    <!--https://github.com/hdodenhof/CircleImageView-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profileRight"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:src="@drawable/profile_test"
+        android:paddingTop="15dp"
+        android:layout_marginLeft="5dp"
+        app:civ_border_width="1dp"
+        android:visibility="gone"
+        app:civ_border_color="#FF000000"/>
 
     <View
         android:layout_width="wrap_content"

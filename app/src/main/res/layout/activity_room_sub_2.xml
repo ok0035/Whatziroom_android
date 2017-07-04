@@ -40,7 +40,7 @@
 
         <EditText
             android:hint="메세지를 입력하세요"
-            android:id="@+id/editText1"
+            android:id="@+id/edChatText"
             android:inputType="textMultiLine"
             android:maxLines="4"
             android:layout_width="match_parent"
@@ -49,7 +49,7 @@
             android:layout_weight="1"/>
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/sendChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="전 송"

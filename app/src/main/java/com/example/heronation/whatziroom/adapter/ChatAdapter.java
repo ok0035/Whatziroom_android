@@ -15,6 +15,8 @@ import com.example.heronation.whatziroom.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by mapl0 on 2017-06-28.
  */
@@ -35,6 +37,7 @@ public class ChatAdapter extends BaseAdapter {
     public ChatAdapter() {
         m_List = new ArrayList();
     }
+
     // 외부에서 아이템 추가 요청 시 사용
     public void add(String _msg,int _type) {
 
@@ -71,6 +74,8 @@ public class ChatAdapter extends BaseAdapter {
         LinearLayout    layout  = null;
         View            viewRight = null;
         View            viewLeft = null;
+        CircleImageView profileRight = null;
+        CircleImageView profileLeft = null;
 
 
 
@@ -84,6 +89,8 @@ public class ChatAdapter extends BaseAdapter {
             text    = (TextView) convertView.findViewById(R.id.text);
             viewRight    = (View) convertView.findViewById(R.id.imageViewright);
             viewLeft    = (View) convertView.findViewById(R.id.imageViewleft);
+            profileLeft = (CircleImageView) convertView.findViewById(R.id.profileLeft);
+            profileRight = (CircleImageView) convertView.findViewById(R.id.profileRight);
 
 
             // 홀더 생성 및 Tag로 등록
@@ -92,6 +99,9 @@ public class ChatAdapter extends BaseAdapter {
             holder.layout = layout;
             holder.viewRight = viewRight;
             holder.viewLeft = viewLeft;
+            holder.profileLeft = profileLeft;
+            holder.profileRight = profileRight;
+
             convertView.setTag(holder);
         }
         else {
@@ -100,6 +110,9 @@ public class ChatAdapter extends BaseAdapter {
             layout  = holder.layout;
             viewRight = holder.viewRight;
             viewLeft = holder.viewLeft;
+            profileLeft = holder.profileLeft;
+            profileRight = holder.profileRight;
+
         }
 
         // Text 등록
@@ -108,18 +121,24 @@ public class ChatAdapter extends BaseAdapter {
         if( m_List.get(position).type == 0 ) {
             text.setBackgroundResource(R.drawable.inbox2);
             layout.setGravity(Gravity.LEFT);
+            profileRight.setVisibility(View.GONE);
+            profileLeft.setVisibility(View.VISIBLE);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
 
         }else if(m_List.get(position).type == 1){
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
+            profileRight.setVisibility(View.VISIBLE);
+            profileLeft.setVisibility(View.GONE);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
 
         }else if(m_List.get(position).type == 2){
             text.setBackgroundResource(R.drawable.datebg);
             layout.setGravity(Gravity.CENTER);
+            profileRight.setVisibility(View.GONE);
+            profileLeft.setVisibility(View.GONE);
             viewRight.setVisibility(View.VISIBLE);
             viewLeft.setVisibility(View.VISIBLE);
         }
@@ -157,5 +176,7 @@ public class ChatAdapter extends BaseAdapter {
         LinearLayout layout;
         View viewRight;
         View viewLeft;
+        CircleImageView profileRight;
+        CircleImageView profileLeft;
     }
 }
