@@ -20,7 +20,7 @@ import com.example.heronation.whatziroom.adapter.ChatAdapter;
  */
 
 public class RoomFragment2 extends Fragment {
-    LinearLayout layout;
+    LinearLayout layoutssss;
 
     ListView m_ListView;
     ChatAdapter m_Adapter;
@@ -32,15 +32,15 @@ public class RoomFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.activity_room_sub_2, container, false);
+        layoutssss = (LinearLayout) inflater.inflate(R.layout.activity_room_sub_2, container, false);
         // 커스텀 어댑터 생성
         m_Adapter = new ChatAdapter();
 
         // Xml에서 추가한 ListView 연결
-        m_ListView = (ListView) layout.findViewById(R.id.lvChat);
-        edChat = (EditText) layout.findViewById(R.id.edChatText);
-        sendButton = (TextView) layout.findViewById(R.id.sendChat);
-        linChatList = (LinearLayout) layout.findViewById(R.id.linChatList);
+        m_ListView = (ListView) layoutssss.findViewById(R.id.lvChat);
+        edChat = (EditText) layoutssss.findViewById(R.id.edChatText);
+        sendButton = (TextView) layoutssss.findViewById(R.id.sendChat);
+        linChatList = (LinearLayout) layoutssss.findViewById(R.id.linChatList);
 
         // ListView에 어댑터 연결
         m_ListView.setAdapter(m_Adapter);
@@ -130,7 +130,7 @@ public class RoomFragment2 extends Fragment {
             }
         });
 
-        return layout;
+        return layoutssss;
     }
     
 }
