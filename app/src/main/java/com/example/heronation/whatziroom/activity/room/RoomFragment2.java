@@ -22,7 +22,7 @@ import com.example.heronation.whatziroom.adapter.ChatAdapter;
 public class RoomFragment2 extends Fragment {
     LinearLayout layout;
 
-    ListView m_ListView;
+    ListView m_ListVieww;
     ChatAdapter m_Adapter;
     EditText edChat;
     TextView sendButton;
@@ -37,13 +37,13 @@ public class RoomFragment2 extends Fragment {
         m_Adapter = new ChatAdapter();
 
         // Xml에서 추가한 ListView 연결
-        m_ListView = (ListView) layout.findViewById(R.id.lvChat);
+        m_ListVieww = (ListView) layout.findViewById(R.id.lvChat);
         edChat = (EditText) layout.findViewById(R.id.edChatText);
         sendButton = (TextView) layout.findViewById(R.id.sendChat);
         linChatList = (LinearLayout) layout.findViewById(R.id.linChatList);
 
         // ListView에 어댑터 연결
-        m_ListView.setAdapter(m_Adapter);
+        m_ListVieww.setAdapter(m_Adapter);
 
         //pull test!!!
 
