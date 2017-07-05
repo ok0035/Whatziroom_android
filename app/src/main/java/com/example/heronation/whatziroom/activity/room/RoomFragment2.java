@@ -43,6 +43,8 @@ public class RoomFragment2 extends Fragment {
         // ListView에 어댑터 연결
         m_ListView.setAdapter(m_Adapter);
 
+        //pull test!!!
+
 //        m_Adapter.add("이건 뭐지",1);
 //        m_Adapter.add("쿨쿨",1);
 //        m_Adapter.add("쿨쿨쿨쿨",0);
