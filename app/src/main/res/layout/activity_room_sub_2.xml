@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/linChatList"
     android:background="#ffffff">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ccffff"
         android:layout_weight="0.9">
 
         <LinearLayout
@@ -25,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:cacheColorHint="#00000000"
                     android:divider="#000000"
+                    android:background="#ccffff"
                     android:listSelector="#00000000"
                     android:transcriptMode="alwaysScroll" />
             </FrameLayout>
@@ -36,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_weight="0.1"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:layout_gravity="center_vertical">
 
         <EditText
             android:hint="메세지를 입력하세요"
@@ -46,13 +50,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@null"
             android:layout_weight="1"/>
 
-        <Button
+        <TextView
             android:id="@+id/sendChat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="전 송"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:text="보내기"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/send_button_border"
             android:layout_weight="6"/>
 
     </LinearLayout>

@@ -7,10 +7,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
 import com.example.heronation.whatziroom.adapter.ChatAdapter;
@@ -25,7 +25,8 @@ public class RoomFragment2 extends Fragment {
     ListView m_ListView;
     ChatAdapter m_Adapter;
     EditText edChat;
-    Button sendButton;
+    TextView sendButton;
+    LinearLayout linChatList;
 
     @Nullable
     @Override
@@ -38,7 +39,8 @@ public class RoomFragment2 extends Fragment {
         // Xml에서 추가한 ListView 연결
         m_ListView = (ListView) layout.findViewById(R.id.lvChat);
         edChat = (EditText) layout.findViewById(R.id.edChatText);
-        sendButton = (Button) layout.findViewById(R.id.sendChat);
+        sendButton = (TextView) layout.findViewById(R.id.sendChat);
+        linChatList = (LinearLayout) layout.findViewById(R.id.linChatList);
 
         // ListView에 어댑터 연결
         m_ListView.setAdapter(m_Adapter);
@@ -56,6 +58,34 @@ public class RoomFragment2 extends Fragment {
 
         //PC에서 안드로이드 가상머신으로 테스트할때 편함 ㅎ
         //엔터키로 채팅 할 수 있음
+
+//        linChatList.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//
+//                if(event.getAction() == KeyEvent.ACTION_DOWN) {
+//                    switch(keyCode) {
+//
+//                        case KeyEvent.KEYCODE_ENTER:
+//
+//                            Log.d("레이아웃 엔터", "들어옴!");
+//
+//                            if(edChat.length() != 0) {
+//
+//                                m_Adapter.add(edChat.getText().toString(), 1);
+//                                m_Adapter.notifyDataSetChanged();
+//                                edChat.setText("");
+//
+//                            } else edChat.setText("");
+//
+//                            break;
+//                    }
+//                }
+//
+//                return false;
+//            }
+//        });
+
         edChat.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -66,12 +96,11 @@ public class RoomFragment2 extends Fragment {
                         case KeyEvent.KEYCODE_ENTER:
 
                             if(edChat.length() != 0) {
-                                //엔터로 인한 줄바꿈 없애기 위한 작업.. 첫 채팅 내용 첫글자가 짤림, 이유 모르겠음.. ㅠ
-                                edChat.setText(edChat.getText().toString().substring(1,edChat.getText().length()));
 
                                 m_Adapter.add(edChat.getText().toString(), 1);
                                 m_Adapter.notifyDataSetChanged();
                                 edChat.setText("");
+
                             } else edChat.setText("");
 
                             break;
@@ -80,6 +109,8 @@ public class RoomFragment2 extends Fragment {
                 return false;
             }
         });
+
+
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
