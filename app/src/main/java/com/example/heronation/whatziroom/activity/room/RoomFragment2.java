@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.heronation.whatziroom.R;
 import com.example.heronation.whatziroom.adapter.ChatAdapter;
 import com.example.heronation.whatziroom.adapter.ChatNoticeAdapter;
+import com.example.heronation.whatziroom.adapter.ChatNoticeItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class RoomFragment2 extends Fragment {
     private EditText edChat;
     private TextView sendButton;
     private LinearLayout linChatList;
-    private RecyclerView recyclerview;
+    private RecyclerView noticeView;
 
     @Nullable
     @Override
@@ -49,30 +50,29 @@ public class RoomFragment2 extends Fragment {
         linChatList = (LinearLayout) layout.findViewById(R.id.linChatList);
 
         //공지사항에 사용될 리싸이클뷰
-        recyclerview = (RecyclerView) layout.findViewById(R.id.noticeChat);
-        recyclerview.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        List<ChatNoticeAdapter.Item> data = new ArrayList<>();
+        noticeView = (RecyclerView) layout.findViewById(R.id.noticeChat);
+        noticeView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        List<ChatNoticeItem> data = new ArrayList<>();
 
-        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.HEADER, "스케줄을 입력해주세요."));
-        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "밥먹고"));
-        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "술먹고"));
-        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "집고고"));
+        data.add(new ChatNoticeItem(ChatNoticeAdapter.HEADER, "D-10 오후 6시"));
+        data.add(new ChatNoticeItem(ChatNoticeAdapter.CHILD, "밥먹고"));
+
 //        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.HEADER, "Cars"));
 //        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Audi"));
 //        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Aston Martin"));
 //        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "BMW"));
 //        data.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Cadillac"));
 
-        // 동적으로 리스트 추가하는 법
+//         동적으로 리스트 추가하는 법
 //        ChatNoticeAdapter.Item places = new ChatNoticeAdapter.Item(ChatNoticeAdapter.HEADER, "Places");
 //        places.invisibleChildren = new ArrayList<>();
 //        places.invisibleChildren.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Kerala"));
 //        places.invisibleChildren.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Tamil Nadu"));
 //        places.invisibleChildren.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Karnataka"));
 //        places.invisibleChildren.add(new ChatNoticeAdapter.Item(ChatNoticeAdapter.CHILD, "Maharashtra"));
-
+//
 //        data.add(places);
-        recyclerview.setAdapter(new ChatNoticeAdapter(data));
+        noticeView.setAdapter(new ChatNoticeAdapter(data));
 
         // ListView에 어댑터 연결
         m_ListView.setAdapter(m_Adapter);

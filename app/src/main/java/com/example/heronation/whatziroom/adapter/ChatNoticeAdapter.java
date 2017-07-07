@@ -2,6 +2,7 @@ package com.example.heronation.whatziroom.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,9 @@ public class ChatNoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static final int HEADER = 0;
     public static final int CHILD = 1;
 
-    private List<Item> data;
+    private List<ChatNoticeItem> data;
 
-    public ChatNoticeAdapter(List<Item> data) {
+    public ChatNoticeAdapter(List<ChatNoticeItem> data) {
         this.data = data;
     }
 
@@ -54,7 +55,9 @@ public class ChatNoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Item item = data.get(position);
+        final ChatNoticeItem item = data.get(position);
+        Log.d("positon : ", position + "");
+
         switch (item.type) {
             case HEADER:
                 final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;
@@ -65,11 +68,12 @@ public class ChatNoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 } else {
                     itemController.btn_expand_toggle.setImageResource(R.drawable.circle_plus);
                 }
+
                 itemController.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
+                            item.invisibleChildren = new ArrayList<ChatNoticeItem>();
                             int count = 0;
                             int pos = data.indexOf(itemController.refferalItem);
                             while (data.size() > pos + 1 && data.get(pos + 1).type == CHILD) {
@@ -81,7 +85,7 @@ public class ChatNoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             int pos = data.indexOf(itemController.refferalItem);
                             int index = pos + 1;
-                            for (Item i : item.invisibleChildren) {
+                            for (ChatNoticeItem i : item.invisibleChildren) {
                                 data.add(index, i);
                                 index++;
                             }
@@ -112,26 +116,12 @@ public class ChatNoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static class ListHeaderViewHolder extends RecyclerView.ViewHolder {
         public TextView header_title;
         public ImageView btn_expand_toggle;
-        public Item refferalItem;
+        public ChatNoticeItem refferalItem;
 
         public ListHeaderViewHolder(View itemView) {
             super(itemView);
             header_title = (TextView) itemView.findViewById(R.id.header_title);
             btn_expand_toggle = (ImageView) itemView.findViewById(R.id.btn_expand_toggle);
-        }
-    }
-
-    public static class Item {
-        public int type;
-        public String text;
-        public List<Item> invisibleChildren;
-
-        public Item() {
-        }
-
-        public Item(int type, String text) {
-            this.type = type;
-            this.text = text;
         }
     }
 }
