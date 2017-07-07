@@ -53,7 +53,9 @@ public class ProfilUserSettingActivity extends BaseActivity {
         backBtn.setVisibility(View.INVISIBLE);
         configTxt1.setVisibility(View.INVISIBLE);
         configTxt2.setVisibility(View.VISIBLE);
-        configTxt2.setText("완료");
+        configTxt2.setImageResource(R.mipmap.btn_ok);
+        configTxt2.setPadding(0,0,10,0);
+//        configTxt2.setText("완료");
 
     }
 
