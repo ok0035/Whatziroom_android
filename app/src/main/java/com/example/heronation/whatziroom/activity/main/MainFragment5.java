@@ -1,5 +1,6 @@
 package com.example.heronation.whatziroom.activity.main;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,12 +28,24 @@ public class MainFragment5 extends Fragment {
         layout = (LinearLayout) inflater.inflate(R.layout.activity_main_sub_5, container, false);
 
         TextView editBtn = (TextView)(layout.findViewById(R.id.updateUserInfoBtn));
+        TextView signOutBtn = (TextView)(layout.findViewById(R.id.signoutBtn));
 
+        // 내 정보 수정
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ProfilUpdateActivity.class);
+//                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(),R.anim.anim_slide_out_right,0).toBundle();
+//                startActivity(intent,bundle);
                 startActivity(intent);
+            }
+        });
+
+        // 로그아웃
+        signOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
 

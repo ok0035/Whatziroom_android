@@ -26,8 +26,8 @@ public class BaseActivity extends AppCompatActivity {
     //메인 액션바
     public ImageView backBtn;
     public TextView titleTxt;
-    public TextView configTxt1;
-    public TextView configTxt2;
+    public ImageView configTxt1;
+    public ImageView configTxt2;
 
     //룸 액션바
     public TextView btnRoomExit;
@@ -87,8 +87,8 @@ public class BaseActivity extends AppCompatActivity {
 
         backBtn = (ImageView) customBarView.findViewById(R.id.backBtn);
         titleTxt = (TextView) customBarView.findViewById(R.id.titleTxt);
-        configTxt1 = (TextView) customBarView.findViewById(R.id.configTxt1);
-        configTxt2 = (TextView) customBarView.findViewById(R.id.configTxt2);
+        configTxt1 = (ImageView) customBarView.findViewById(R.id.configTxt1);
+        configTxt2 = (ImageView) customBarView.findViewById(R.id.configTxt2);
 
     }
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import com.example.heronation.whatziroom.activity.room.RoomViewPager;
 
 public class MainFragment2 extends Fragment {
     LinearLayout layout;
-    TextView test;
+    ImageView searchBtn;
 
     @Nullable
     @Override
@@ -27,8 +28,8 @@ public class MainFragment2 extends Fragment {
 
         layout = (LinearLayout) inflater.inflate(R.layout.activity_main_sub_2, container, false);
 
-        test = (TextView) layout.findViewById(R.id.searchRoom);
-        test.setOnClickListener(new View.OnClickListener() {
+        searchBtn = (ImageView) layout.findViewById(R.id.searchRoom);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), RoomViewPager.class);

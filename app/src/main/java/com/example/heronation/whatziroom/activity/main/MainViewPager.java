@@ -109,39 +109,45 @@ public class MainViewPager extends BaseActivity {
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.VISIBLE);
                         configTxt2.setVisibility(View.VISIBLE);
-                        configTxt1.setText("추가");
-                        configTxt2.setText("편집");
+                        configTxt1.setImageResource(R.mipmap.btn_add_friend); // 친구 추가
+                        configTxt2.setImageResource(R.mipmap.btn_edit);
+//                        configTxt2.setText("편집");
                         break;
                     case 1:
                         titleTxt.setText("방 목록");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.VISIBLE);
                         configTxt2.setVisibility(View.VISIBLE);
-                        configTxt1.setText("방개설");
-                        configTxt2.setText("편집");
+                        configTxt1.setImageResource(R.mipmap.btn_add);
+                        configTxt2.setImageResource(R.mipmap.btn_edit);
+//                        configTxt2.setText("편집");
                         break;
                     case 2:
                         titleTxt.setText("내 스케줄");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.INVISIBLE);
                         configTxt2.setVisibility(View.INVISIBLE);
-                        configTxt1.setText("추가");
-                        configTxt2.setText("편집");
+                        configTxt1.setImageResource(R.mipmap.btn_add_friend);
+                        configTxt2.setImageResource(R.mipmap.btn_edit);
+//                        configTxt2.setText("편집");
                         break;
                     case 3:
                         titleTxt.setText("알림");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.INVISIBLE);
                         configTxt2.setVisibility(View.INVISIBLE);
-                        configTxt1.setText("추가");
-                        configTxt2.setText("편집");
+                        configTxt1.setImageResource(R.mipmap.btn_add_friend);
+                        configTxt2.setImageResource(R.mipmap.btn_edit);
+//                        configTxt2.setText("편집");
                         break;
                     case 4:
                         titleTxt.setText("프로필");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.INVISIBLE);
                         configTxt2.setVisibility(View.VISIBLE);
-                        configTxt2.setText("설정");
+//                        configTxt2.setText("설정");
+//                        configTxt2.setText("");
+                        configTxt2.setImageResource(R.mipmap.btn_setting);
                         configTxt2.setOnClickListener(configProfilListener );
                         break;
 
@@ -270,8 +276,9 @@ public class MainViewPager extends BaseActivity {
         super.setMainActionBar();
         titleTxt.setText("친구목록");
         backBtn.setVisibility(View.INVISIBLE);
-        configTxt1.setText("추가");
-        configTxt2.setText("편집");
+        configTxt1.setImageResource(R.mipmap.btn_add_friend);
+        configTxt2.setImageResource(R.mipmap.btn_edit);
+//        configTxt2.setText("편집");
     }
 
     // 상황에 따른 customActionbar 클릭 이벤트 리스너 클래스 모음//

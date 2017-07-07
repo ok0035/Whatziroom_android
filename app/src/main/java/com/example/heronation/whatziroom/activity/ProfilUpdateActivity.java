@@ -13,6 +13,10 @@ public class ProfilUpdateActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_update);
         setMainActionBar();
+
+        bindView();
+        setValues();
+        setUpEvents();
     }
 
 
@@ -20,6 +24,15 @@ public class ProfilUpdateActivity extends BaseActivity {
     @Override
     public void setUpEvents() {
         super.setUpEvents();
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
+//                overridePendingTransition(0, 0);
+            }
+        });
     }
 
     @Override
@@ -35,7 +48,7 @@ public class ProfilUpdateActivity extends BaseActivity {
         backBtn.setVisibility(View.VISIBLE);
         configTxt1.setVisibility(View.INVISIBLE);
         configTxt2.setVisibility(View.VISIBLE);
-        configTxt2.setText("저장");
+        configTxt2.setImageResource(R.mipmap.btn_ok);
 
     }
 
