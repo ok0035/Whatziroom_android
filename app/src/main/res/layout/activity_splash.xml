@@ -8,16 +8,16 @@
     android:layout_gravity="center"
     android:gravity="center"
     tools:context="com.example.heronation.whatziroom.activity.base.SplashActivity"
-    android:background="#ffffff">
+    android:background="#b42bff">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
         android:foregroundGravity="center"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:id="@+id/LogoImage"
-        android:background="@drawable/logo"/>
+        android:src="@mipmap/splash"/>
 
 </LinearLayout>

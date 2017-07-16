@@ -26,8 +26,11 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.RoomListActivity" />
         <activity android:name=".activity.room.RoomViewPager" />
+        <activity android:name=".activity.room.RoomSettingActivity"/>
+        <activity android:name=".activity.room.RoomAddSchedule"/>
+
         <activity android:name=".activity.ProfilUpdateActivity" />
-        <activity android:name=".activity.ProfilUserSettingActivity"></activity>
+        <activity android:name=".activity.ProfilUserSettingActivity"/>
     </application>
 
 </manifest>

@@ -148,7 +148,7 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("설정");
 //                        configTxt2.setText("");
                         configTxt2.setImageResource(R.mipmap.btn_setting);
-                        configTxt2.setOnClickListener(configProfilListener );
+                        configTxt2.setOnClickListener(configProfilListener);
                         break;
 
                 }

@@ -1,5 +1,6 @@
 package com.example.heronation.whatziroom.activity.room;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
+import com.example.heronation.whatziroom.activity.ProfilUserSettingActivity;
 import com.example.heronation.whatziroom.activity.base.BaseActivity;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -26,6 +29,10 @@ public class RoomViewPager extends BaseActivity {
     private me.relex.circleindicator.CircleIndicator indicator;
     private LinearLayout linIndicator;
     private LinearLayout linRoom;
+
+    private TextView btnRoomExit;
+    private TextView btnRoomSchedule;
+    private TextView btnRoomSetting;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,21 +98,23 @@ public class RoomViewPager extends BaseActivity {
         btnRoomExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 
         btnRoomSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(RoomViewPager.this, RoomAddSchedule.class);
+                startActivity(intent);
             }
         });
 
         btnRoomSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(RoomViewPager.this, RoomSettingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -160,7 +169,10 @@ public class RoomViewPager extends BaseActivity {
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
         this.linRoom = (LinearLayout) findViewById(R.id.linRoom);
-        this.vp = (ViewPager) findViewById(R.id.vp);
+
+        this.btnRoomExit = (TextView) findViewById(R.id.btnRoomExit);
+        this.btnRoomSchedule = (TextView) findViewById(R.id.btnRoomSchedule);
+        this.btnRoomSetting = (TextView) findViewById(R.id.btnRoomSetting);
 
     }
 }
