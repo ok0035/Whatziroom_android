@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -23,6 +24,8 @@ import com.example.heronation.whatziroom.activity.base.BaseActivity;
  */
 
 public class MainViewPager extends BaseActivity {
+
+
     private pagerAdapter vpAdapter;
     private ViewPager vp;
     private LinearLayout ll;
@@ -37,6 +40,14 @@ public class MainViewPager extends BaseActivity {
     private LinearLayout linArlert;
     private LinearLayout linProfile;
 
+    // 각 프래그먼트 별로 태그 값 설정하기 위해 선언
+    private FriendListView friendListView;
+    private RoomListView roomListView;
+    private ScheduleListView scheduleListView;
+    private NotificationListView notificationListView;
+    private ProfileView profileView;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +59,13 @@ public class MainViewPager extends BaseActivity {
         bindView();
         setUpEvents();
 
-        LinearLayout layout = (LinearLayout)ll.findViewWithTag(0);
-        ll.findViewWithTag(0).setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        TextView textView = (TextView) (layout.getChildAt(0));
-        textView.setTextColor(Color.WHITE);
-
+//        LinearLayout layout = (LinearLayout)ll.findViewWithTag(0);
+//        ll.findViewWithTag(0).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+//        TextView textView = (TextView) (layout.getChildAt(0));
+//        textView.setTextColor(Color.WHITE);
+        linFriend.performClick();
+        configTxt1.setOnClickListener(addFriendClickListner);
+        configTxt2.setOnClickListener(editFriendClickListener);
     }
 
     @Override
@@ -81,6 +94,8 @@ public class MainViewPager extends BaseActivity {
         */
 
         vpAdapter = new pagerAdapter(getSupportFragmentManager());
+
+
         vp.setAdapter(vpAdapter);
         vp.setCurrentItem(0); // 앱실행시 첫번째 화면
 
@@ -102,15 +117,21 @@ public class MainViewPager extends BaseActivity {
                 int tag = vp.getCurrentItem();
 
                 if(tag==position) changeTabColor(position);
-
+                Log.i("Position", " "+position);
+                Log.i("Fragment : ", getSupportFragmentManager().findFragmentById(R.id.vp)+"");
                 switch (position){
+
                     case 0:
                         titleTxt.setText("친구목록");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.VISIBLE);
                         configTxt2.setVisibility(View.VISIBLE);
                         configTxt1.setImageResource(R.mipmap.btn_add_friend); // 친구 추가
+                        configTxt1.setOnClickListener(addFriendClickListner);
                         configTxt2.setImageResource(R.mipmap.btn_edit);
+                        configTxt2.setOnClickListener(editFriendClickListener);
+                        friendListView.reloadFunc();
+//                        friendListView.testFunc();
 //                        configTxt2.setText("편집");
                         break;
                     case 1:
@@ -119,7 +140,9 @@ public class MainViewPager extends BaseActivity {
                         configTxt1.setVisibility(View.VISIBLE);
                         configTxt2.setVisibility(View.VISIBLE);
                         configTxt1.setImageResource(R.mipmap.btn_add);
+                        configTxt1.setOnClickListener(createNewRoomListener);
                         configTxt2.setImageResource(R.mipmap.btn_edit);
+                        configTxt2.setOnClickListener(null);
 //                        configTxt2.setText("편집");
                         break;
                     case 2:
@@ -168,6 +191,7 @@ public class MainViewPager extends BaseActivity {
                 }
             }
         });
+
 
     }
     private void changeTabColor(int position){
@@ -239,15 +263,15 @@ public class MainViewPager extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new MainFragment1();
+                    return new FriendListView();
                 case 1:
-                    return new MainFragment2();
+                    return new RoomListView();
                 case 2:
-                    return new MainFragment3();
+                    return new ScheduleListView();
                 case 3:
-                    return new MainFragment4();
+                    return new NotificationListView();
                 case 4:
-                    return new MainFragment5();
+                    return new ProfileView();
                 default:
                     return null;
             }
@@ -269,6 +293,17 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setValues() {
         super.setValues();
+        friendListView = new FriendListView();
+        roomListView = new RoomListView();
+        scheduleListView = new ScheduleListView();
+        notificationListView = new NotificationListView();
+        profileView = new ProfileView();
+        // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
+        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
+        getSupportFragmentManager().beginTransaction().add(roomListView, "2").commit();
+        getSupportFragmentManager().beginTransaction().add(scheduleListView, "3").commit();
+        getSupportFragmentManager().beginTransaction().add(notificationListView, "4").commit();
+        getSupportFragmentManager().beginTransaction().add(profileView, "5").commit();
     }
 
     @Override
@@ -281,7 +316,54 @@ public class MainViewPager extends BaseActivity {
 //        configTxt2.setText("편집");
     }
 
+
     // 상황에 따른 customActionbar 클릭 이벤트 리스너 클래스 모음//
+
+    View.OnClickListener addFriendClickListner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            titleTxt.setText("친구추가");
+            configTxt1.setVisibility(View.INVISIBLE);
+            configTxt2.setImageResource(R.mipmap.btn_ok);
+            final FriendListView friendListView = (FriendListView)getSupportFragmentManager().findFragmentByTag("1");
+            friendListView.findFriendFunc();
+
+            configTxt2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    titleTxt.setText("친구목록");
+                    backBtn.setVisibility(View.INVISIBLE);
+                    configTxt1.setVisibility(View.VISIBLE);
+                    configTxt2.setVisibility(View.VISIBLE);
+                    configTxt1.setImageResource(R.mipmap.btn_add_friend); // 친구 추가
+                    configTxt1.setOnClickListener(addFriendClickListner);
+                    configTxt2.setImageResource(R.mipmap.btn_edit);
+                    configTxt2.setOnClickListener(editFriendClickListener);
+                    friendListView.reloadFunc();
+                }
+            });
+        }
+    };
+
+    View.OnClickListener editFriendClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i("버튼 클릭","ㅇㅇㅇ");
+            FriendListView friendListView = (FriendListView)getSupportFragmentManager().findFragmentByTag("1");
+            friendListView.showBlockBtn();
+        }
+    };
+
+
+    View.OnClickListener createNewRoomListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RoomListView roomListView = (RoomListView)getSupportFragmentManager().findFragmentByTag("2");
+            roomListView.createNewRoomFunc();
+        }
+    };
+
 
     View.OnClickListener configProfilListener = new View.OnClickListener() {
         @Override
@@ -290,7 +372,6 @@ public class MainViewPager extends BaseActivity {
             startActivity(intent);
         }
     };
-
 
     @Override
     public void bindView() {
@@ -313,4 +394,6 @@ public class MainViewPager extends BaseActivity {
         this.tvFriend = (TextView) findViewById(R.id.tvFriend);
 
     }
+
+
 }

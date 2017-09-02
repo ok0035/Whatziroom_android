@@ -18,7 +18,7 @@ import com.example.heronation.whatziroom.R;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomFragment1 extends Fragment {
+public class InformationView extends Fragment {
     ScrollView layout;
     private ImageView[] ivAttendee;
     private LinearLayout linAttendee;
@@ -27,7 +27,7 @@ public class RoomFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (ScrollView) inflater.inflate(R.layout.activity_room_sub_1, container, false);
+        layout = (ScrollView) inflater.inflate(R.layout.layout_info, container, false);
         linAttendee = (LinearLayout) layout.findViewById(R.id.linAttendee);
 
         ivAttendee = new ImageView[5];

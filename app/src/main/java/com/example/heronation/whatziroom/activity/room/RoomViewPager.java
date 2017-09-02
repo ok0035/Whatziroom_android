@@ -6,8 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.heronation.whatziroom.R;
 import com.example.heronation.whatziroom.activity.base.BaseActivity;
@@ -111,6 +115,33 @@ public class RoomViewPager extends BaseActivity {
 
     }
 
+    public void setRoomActionBar() {
+
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.setDisplayShowHomeEnabled(false);
+        myActionBar.setDisplayHomeAsUpEnabled(false);
+        myActionBar.setDisplayShowTitleEnabled(false);
+        myActionBar.setDisplayShowCustomEnabled(true);
+        myActionBar.setHomeButtonEnabled(true);
+
+//        myActionBar.setHomeAsUpIndicator(R.mipmap.hambutton);
+
+        LayoutInflater inf = LayoutInflater.from(mContext);
+        View customBarView = inf.inflate(R.layout.actionbar_room, null);
+
+        this.btnRoomSetting = (TextView) customBarView.findViewById(R.id.btnRoomSetting);
+        this.btnRoomSchedule = (TextView) customBarView.findViewById(R.id.btnRoomSchedule);
+        this.btnRoomExit = (TextView) customBarView.findViewById(R.id.btnRoomExit);
+
+        myActionBar.setCustomView(customBarView);
+        myActionBar.setDisplayShowCustomEnabled(true);
+
+        Toolbar parent = (Toolbar) customBarView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+        getSupportActionBar().setElevation(0);
+
+    }
+
 
     // 프래그먼트 어댑터
     private class pagerAdapter extends FragmentStatePagerAdapter {
@@ -123,13 +154,13 @@ public class RoomViewPager extends BaseActivity {
             switch (position) {
                 case 0:
 
-                    return new RoomFragment1();
+                    return new InformationView();
                 case 1:
 
-                    return new RoomFragment2();
+                    return new ChatView();
                 case 2:
 
-                    return new RoomFragment3();
+                    return new SettingView();
                 default:
                     return null;
             }

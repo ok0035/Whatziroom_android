@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/roomListThumbImg"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:id="@+id/roomNameTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:text="방제목" />
+                    <TextView
+                        android:id="@+id/roomMakerNameTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="방제목"
+                        android:gravity="center_vertical|right"
+                        android:layout_marginLeft="20dp"/>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="#FF0000FF" />
+
+                <TextView
+                    android:id="@+id/roomTimeTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical"
+                    android:text="날짜, 시간" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/roomOutTxt"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_border_fill"
+            android:layout_gravity="right|center"
+            android:text="나가기"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

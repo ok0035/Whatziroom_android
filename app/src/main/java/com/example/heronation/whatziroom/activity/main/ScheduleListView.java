@@ -1,4 +1,4 @@
-package com.example.heronation.whatziroom.activity.room;
+package com.example.heronation.whatziroom.activity.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,14 +14,14 @@ import com.example.heronation.whatziroom.R;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomFragment3 extends Fragment {
+public class ScheduleListView extends Fragment {
     LinearLayout layout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.activity_room_sub_3, container, false);
+        layout = (LinearLayout) inflater.inflate(R.layout.layout_schedule_list, container, false);
 
         return layout;
     }

@@ -92,32 +92,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void setRoomActionBar() {
 
-        ActionBar myActionBar = getSupportActionBar();
-        myActionBar.setDisplayShowHomeEnabled(false);
-        myActionBar.setDisplayHomeAsUpEnabled(false);
-        myActionBar.setDisplayShowTitleEnabled(false);
-        myActionBar.setDisplayShowCustomEnabled(true);
-        myActionBar.setHomeButtonEnabled(true);
-
-//        myActionBar.setHomeAsUpIndicator(R.mipmap.hambutton);
-
-        LayoutInflater inf = LayoutInflater.from(mContext);
-        View customBarView = inf.inflate(R.layout.actionbar_room, null);
-
-        this.btnRoomSetting = (TextView) customBarView.findViewById(R.id.btnRoomSetting);
-        this.btnRoomSchedule = (TextView) customBarView.findViewById(R.id.btnRoomSchedule);
-        this.btnRoomExit = (TextView) customBarView.findViewById(R.id.btnRoomExit);
-
-        myActionBar.setCustomView(customBarView);
-        myActionBar.setDisplayShowCustomEnabled(true);
-
-        Toolbar parent = (Toolbar) customBarView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
-        getSupportActionBar().setElevation(0);
-
-    }
 
     //dp값을 입력하여 px로 변환하여 반환해줌
     public int convertDPtoPX(int size) {

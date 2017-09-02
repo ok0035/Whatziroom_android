@@ -56,7 +56,12 @@ public class ProfilUserSettingActivity extends BaseActivity {
         configTxt2.setImageResource(R.mipmap.btn_ok);
         configTxt2.setPadding(0,0,10,0);
 //        configTxt2.setText("완료");
-
+        configTxt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

@@ -1,6 +1,5 @@
 package com.example.heronation.whatziroom.activity.main;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,14 +17,14 @@ import com.example.heronation.whatziroom.activity.ProfilUpdateActivity;
  * Created by ATIV on 2017-06-25.
  */
 
-public class MainFragment5 extends Fragment {
+public class ProfileView extends Fragment {
     LinearLayout layout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.activity_main_sub_5, container, false);
+        layout = (LinearLayout) inflater.inflate(R.layout.profile_list, container, false);
 
         TextView editBtn = (TextView)(layout.findViewById(R.id.updateUserInfoBtn));
         TextView signOutBtn = (TextView)(layout.findViewById(R.id.signoutBtn));

@@ -19,7 +19,7 @@ import com.example.heronation.whatziroom.adapter.ChatAdapter;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomFragment2 extends Fragment {
+public class ChatView extends Fragment {
     LinearLayout layout;
 
     ListView m_ListVieww;
@@ -32,7 +32,7 @@ public class RoomFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.activity_room_sub_2, container, false);
+        layout = (LinearLayout) inflater.inflate(R.layout.layout_chat, container, false);
         // 커스텀 어댑터 생성
         m_Adapter = new ChatAdapter();
 
