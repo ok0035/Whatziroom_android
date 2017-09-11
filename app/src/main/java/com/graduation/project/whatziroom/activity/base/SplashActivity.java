@@ -6,6 +6,10 @@ import android.widget.ImageView;
 
 import com.graduation.project.whatziroom.R;
 import com.graduation.project.whatziroom.activity.login.LoginActivity;
+import com.graduation.project.whatziroom.activity.main.MainViewPager;
+import com.graduation.project.whatziroom.network.DBSI;
+import com.graduation.project.whatziroom.network.HttpNetwork;
+import com.graduation.project.whatziroom.network.Params;
 
 public class SplashActivity extends BaseActivity {
 
@@ -33,10 +37,54 @@ public class SplashActivity extends BaseActivity {
                 try {
                     Thread.sleep(2000);
 
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    DBSI db = new DBSI();
+                    String[][] user = db.selectQuery("select ID, PW from User");
 
-                    finish();
+                    if(user != null) {
+                        Params params = new Params();
+                        params.add("ID", user[0][0]);
+                        params.add("PW", user[0][1]);
+
+                        new HttpNetwork("AutoLogin.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                switch (response) {
+
+                                    case "success":
+                                        Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
+                                        startActivity(successIntent);
+                                        finish();
+
+                                        break;
+
+                                    case "fail":
+                                        Intent failIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                                        startActivity(failIntent);
+                                        finish();
+
+                                        break;
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(String response) {
+
+                            }
+
+                            @Override
+                            public void onPreExcute() {
+
+                            }
+                        });
+
+                    } else {
+                        Intent failIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(failIntent);
+                        finish();
+
+                    }
+
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.graduation.project.whatziroom.R;
 import com.graduation.project.whatziroom.activity.base.BaseActivity;
 import com.graduation.project.whatziroom.activity.main.MainViewPager;
+import com.graduation.project.whatziroom.network.DBSI;
 import com.graduation.project.whatziroom.network.HttpNetwork;
 import com.graduation.project.whatziroom.network.Params;
 import com.graduation.project.whatziroom.util.ParseData;
@@ -87,43 +88,39 @@ public class SignUpActivity extends BaseActivity {
                         Toast.makeText(SignUpActivity.this, "닉네임이 중복입니다.", Toast.LENGTH_SHORT).show();
                         break;
 
-                    case "success":
+                    default:
 
-                        Params params = new Params();
-                        params.add("ID", edSignupID.getText().toString());
+                        ParseData parse = new ParseData();
 
-                        new HttpNetwork("Login.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-                            @Override
-                            public void onSuccess(String response) {
-                                Log.d("Login", response);
+                        try {
+                            Log.d("res", response);
+                            String userDataString = parse.parseJsonArray(response).get(0).toString();
+                            JSONObject userData = new JSONObject(userDataString);
 
-                                ParseData parse = new ParseData();
-                                try {
-                                    Log.d("data", parse.parseJsonArray(response).get(0).toString());
-                                    Log.d("data2", parse.parseJsonObject(parse.parseJsonArray(response).get(0).toString(), "PKey"));
-                                    String userJson = parse.parseJsonArray(response).get(0).toString();
-                                    JSONObject json = new JSONObject(parse.parseJsonArray(response).get(0).toString());
+                            DBSI db = new DBSI();
+                            db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
+                                    + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
+                                    + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
+                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "')");
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                            Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
+                            startActivity(intent);
 
-                                Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onFailure(String response) {
-
-                            }
-                        });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         break;
                 }
             }
             @Override
             public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
 
             }
         });

@@ -63,6 +63,11 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
                     public void onFailure(String response) {
 
                     }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
                 });
 
 
