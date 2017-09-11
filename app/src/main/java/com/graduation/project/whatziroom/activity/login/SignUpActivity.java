@@ -14,6 +14,10 @@ import com.graduation.project.whatziroom.activity.base.BaseActivity;
 import com.graduation.project.whatziroom.activity.main.MainViewPager;
 import com.graduation.project.whatziroom.network.HttpNetwork;
 import com.graduation.project.whatziroom.network.Params;
+import com.graduation.project.whatziroom.util.ParseData;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SignUpActivity extends BaseActivity {
 
@@ -55,7 +59,6 @@ public class SignUpActivity extends BaseActivity {
 
     public void trySignUp() {
 
-
         Params params = new Params();
 
         params.add("ID", edSignupID.getText().toString());
@@ -64,30 +67,61 @@ public class SignUpActivity extends BaseActivity {
         params.add("Name", edSignupName.getText().toString());
         params.add("Email", edSignupEmail.getText().toString());
 
-        String url = "http://210.122.38.41/whatziroom/signup.php";
-
-        new HttpNetwork(url, params.getParams(), new HttpNetwork.AsyncResponse() {
+        new HttpNetwork("SignUp.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
 
                 Log.d("res", response);
 
                 switch (response) {
+
                     case "duplicateID":
                         Toast.makeText(SignUpActivity.this, "아이디가 중복입니다.", Toast.LENGTH_SHORT).show();
                         break;
+
                     case "duplicateEmail":
                         Toast.makeText(SignUpActivity.this, "이메일이 중복입니다.", Toast.LENGTH_SHORT).show();
                         break;
+
+                    case "duplicateName":
+                        Toast.makeText(SignUpActivity.this, "닉네임이 중복입니다.", Toast.LENGTH_SHORT).show();
+                        break;
+
                     case "success":
-                        Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
-                        startActivity(intent);
+
+                        Params params = new Params();
+                        params.add("ID", edSignupID.getText().toString());
+
+                        new HttpNetwork("Login.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                Log.d("Login", response);
+
+                                ParseData parse = new ParseData();
+                                try {
+                                    Log.d("data", parse.parseJsonArray(response).get(0).toString());
+                                    Log.d("data2", parse.parseJsonObject(parse.parseJsonArray(response).get(0).toString(), "PKey"));
+                                    String userJson = parse.parseJsonArray(response).get(0).toString();
+                                    JSONObject json = new JSONObject(parse.parseJsonArray(response).get(0).toString());
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(String response) {
+
+                            }
+                        });
+
                         break;
                 }
-
             }
-
             @Override
             public void onFailure(String response) {
 

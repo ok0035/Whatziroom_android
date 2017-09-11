@@ -358,8 +358,8 @@ public class MainViewPager extends BaseActivity {
     View.OnClickListener createNewRoomListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            RoomListView roomListView = (RoomListView)getSupportFragmentManager().findFragmentByTag("2");
-            roomListView.createNewRoomFunc();
+            CreateRoomDialog dialog = new CreateRoomDialog(MainViewPager.this);
+            dialog.show();
         }
     };
 

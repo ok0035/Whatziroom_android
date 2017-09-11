@@ -40,7 +40,7 @@ public class HttpNetwork extends AsyncTask<String, Void, String> {
 
         this.delegate = delegate;
         this.params = params;
-        this.execute(URL);
+        this.execute("http://210.122.38.41/whatziroom/PHP/" + URL);
 
     }
 

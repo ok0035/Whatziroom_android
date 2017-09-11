@@ -1,21 +1,16 @@
 package com.graduation.project.whatziroom.activity.main;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.graduation.project.whatziroom.Data.RoomData;
 import com.graduation.project.whatziroom.R;
@@ -69,6 +64,7 @@ public class RoomListView extends Fragment {
                 startActivity(intent);
             }
         });
+
         searchBtn = (ImageView) layout.findViewById(R.id.searchRoom);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,50 +75,6 @@ public class RoomListView extends Fragment {
 
 
         return layout;
-    }
-
-    public void createNewRoomFunc(){
-        LayoutInflater dialog = LayoutInflater.from(getActivity());
-        final View dialogLayout = dialog.inflate(R.layout.create_room_dialog, null);
-        final Dialog myDialog = new Dialog(getActivity());
-        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        myDialog.setContentView(dialogLayout);
-//        myDialog.setTitle("대화상자 제목이다");
-
-        DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
-
-        int deviceWidth = dm.widthPixels;
-        int deviceHeight = dm.heightPixels;
-
-        ViewGroup.LayoutParams params = myDialog.getWindow().getAttributes();
-        params.width = deviceWidth;
-        params.height = deviceHeight/2;
-
-        myDialog.getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-
-        myDialog.show();
-
-//        Button btn_ok = (Button) dialogLayout.findViewById(R.id.btn_ok);
-//        Button btn_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
-
-        TextView btn_ok = (TextView)dialogLayout.findViewById(R.id.newRoomConfirmBtn);
-        TextView btn_cancel = (TextView)dialogLayout.findViewById(R.id.newRoomCancelBtn);
-
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"방 개설 완료",Toast.LENGTH_SHORT).show();
-                myDialog.dismiss();
-            }
-        });
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getActivity(), "전송완료", Toast.LENGTH_SHORT).show();
-                myDialog.cancel();
-            }
-        });
     }
 
 }

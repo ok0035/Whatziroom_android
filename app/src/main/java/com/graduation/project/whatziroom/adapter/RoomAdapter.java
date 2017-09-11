@@ -58,4 +58,16 @@ public class RoomAdapter extends ArrayAdapter {
 
         return row;
     }
+
+//    // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
+//    public void addItem(String roomNumber, String roomName, String roomDescription, String chatRoomPKey) {
+//        GameListViewItem item = new GameListViewItem();
+//
+//        item.setRoomNumber(roomNumber);
+//        item.setRoomName(roomName);
+//        item.setDescription(roomDescription);
+//        item.setChatRoomPKey(chatRoomPKey);
+//
+//        listViewItemList.add(item);
+//    }
 }
