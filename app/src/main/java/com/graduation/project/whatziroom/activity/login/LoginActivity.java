@@ -3,7 +3,9 @@ package com.graduation.project.whatziroom.activity.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,8 +15,13 @@ import android.widget.Toast;
 import com.graduation.project.whatziroom.R;
 import com.graduation.project.whatziroom.activity.base.BaseActivity;
 import com.graduation.project.whatziroom.activity.main.MainViewPager;
+import com.graduation.project.whatziroom.network.DBSI;
 import com.graduation.project.whatziroom.network.HttpNetwork;
 import com.graduation.project.whatziroom.network.Params;
+import com.graduation.project.whatziroom.util.ParseData;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by heronation on 2017-05-22.
@@ -32,11 +39,13 @@ public class LoginActivity extends BaseActivity {
     private TextView btnguest;
     private TextView btnsignup;
     private TextView tvforget;
+    private android.widget.CheckBox chAutoCheckBox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
 
         bindView();
         setValues();
@@ -49,7 +58,17 @@ public class LoginActivity extends BaseActivity {
         super.setUpEvents();
         hideActionBar();
 
-        login_btn.setOnClickListener(new View.OnClickListener() {
+
+        DBSI db = new DBSI();
+
+        if (chAutoCheckBox.isChecked()) {
+            db.query("update User set AutoLogin = 1");
+        } else {
+            db.query("update User set AutoLogin = 0");
+        }
+
+
+        btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -62,16 +81,43 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String response) {
                         switch (response) {
-                            case "success":
-                                Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                                Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
-                                startActivity(successIntent);
-                                break;
 
                             case "fail":
 
                                 Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
                                 break;
+
+                            default:
+
+                                ParseData parse = new ParseData();
+
+                                try {
+                                    Log.d("res", response);
+                                    String userDataString = parse.parseJsonArray(response).get(0).toString();
+                                    JSONObject userData = new JSONObject(userDataString);
+
+                                    int isAutoLogin = 0;
+                                    if(chAutoCheckBox.isChecked())  isAutoLogin = 1;
+                                    else isAutoLogin = 0;
+
+                                    DBSI db = new DBSI();
+                                    db.query("delete from User;");
+                                    db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
+                                            + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
+                                            + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
+                                            + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', " + isAutoLogin + ")");
+
+                                    Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                                    Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
+                                    startActivity(successIntent);;
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                                break;
+
                         }
                     }
 
@@ -107,11 +153,10 @@ public class LoginActivity extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        login_btn = (TextView) findViewById(R.id.btn_login);
         this.tvforget = (TextView) findViewById(R.id.tv_forget);
         this.btnsignup = (TextView) findViewById(R.id.btn_signup);
-//        this.btnguest = (TextView) findViewById(R.id.btn_guest);
-//        this.btnlogin = (TextView) findViewById(R.id.btn_login);
+        this.btnlogin = (TextView) findViewById(R.id.btn_login);
+        this.chAutoCheckBox = (CheckBox) findViewById(R.id.chAutoCheckBox);
         this.edloginpw = (EditText) findViewById(R.id.ed_login_pw);
         this.layoutid = (LinearLayout) findViewById(R.id.layout_id);
         this.edloginid = (EditText) findViewById(R.id.ed_login_id);
