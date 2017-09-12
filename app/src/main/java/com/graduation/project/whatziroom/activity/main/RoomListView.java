@@ -37,25 +37,12 @@ public class RoomListView extends Fragment {
 
         roomListItem= new ArrayList<>();
 
-        RoomData r1 = new RoomData();
-        r1.setRoomName("히어로네이션");
-        r1.setRoomMakerName("Choi");
-        r1.setRoomDate("17.05.06");
-        roomListItem.add(r1);
+        RoomData roomList = new RoomData();
+        roomList.addItem("히어로네이션", "Choi", "17.05.06");
+        roomList.addItem("UOS", "Hwang", "16.07.04");
+        roomList.addItem("Dream", "Park", "15.08.20");
 
-        RoomData r2 = new RoomData();
-        r2.setRoomName("UOS");
-        r2.setRoomMakerName("Hwang");
-        r2.setRoomDate("16.07.04");
-        roomListItem.add(r2);
-
-        RoomData r3 = new RoomData();
-        r3.setRoomName("Dream");
-        r3.setRoomMakerName("Park");
-        r3.setRoomDate("15.08.20");
-        roomListItem.add(r3);
-
-        RoomAdapter roomAdapter = new RoomAdapter(getActivity(), roomListItem, 0);
+        RoomAdapter roomAdapter = new RoomAdapter(getActivity(), roomList.getList(), 0);
         roomListView.setAdapter(roomAdapter);
         roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

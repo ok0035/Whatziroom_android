@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.graduation.project.whatziroom.R;
 import com.graduation.project.whatziroom.activity.base.BaseActivity;
 import com.graduation.project.whatziroom.activity.base.BasicMethod;
+import com.graduation.project.whatziroom.network.DBSI;
 import com.graduation.project.whatziroom.network.HttpNetwork;
 import com.graduation.project.whatziroom.network.Params;
 
@@ -50,6 +51,11 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
             public void onClick(View view) {
 
                 Params params = new Params();
+                DBSI db = new DBSI();
+                params.add("PKey", db.selectQuery("select PKey from User")[0][0]);
+                params.add("Name", edCreateRoomNmae.getText().toString());
+                params.add("Description", edCreateRoomDesc.getText().toString());
+                params.add("MaxUser", edCreateRoomMaxUser.getText().toString());
 
                 new HttpNetwork("CreateRoom.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override

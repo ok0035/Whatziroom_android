@@ -109,12 +109,12 @@ public class LoginActivity extends BaseActivity {
 
                                     Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                                     Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
-                                    startActivity(successIntent);;
+                                    startActivity(successIntent);
+                                    finish();
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
 
                                 break;
 
