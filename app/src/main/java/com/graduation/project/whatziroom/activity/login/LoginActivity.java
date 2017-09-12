@@ -8,10 +8,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.graduation.project.whatziroom.R;
 import com.graduation.project.whatziroom.activity.base.BaseActivity;
 import com.graduation.project.whatziroom.activity.main.MainViewPager;
+import com.graduation.project.whatziroom.network.HttpNetwork;
+import com.graduation.project.whatziroom.network.Params;
 
 /**
  * Created by heronation on 2017-05-22.
@@ -50,8 +53,39 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LoginActivity.this, MainViewPager.class);
-                startActivity(intent);
+                Params params = new Params();
+
+                params.add("ID", edloginid.getText().toString());
+                params.add("PW", edloginpw.getText().toString());
+
+                new HttpNetwork("Login.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                    @Override
+                    public void onSuccess(String response) {
+                        switch (response) {
+                            case "success":
+                                Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                                Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
+                                startActivity(successIntent);
+                                break;
+
+                            case "fail":
+
+                                Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
+                });
+
             }
         });
 
