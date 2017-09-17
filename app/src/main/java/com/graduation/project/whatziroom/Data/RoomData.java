@@ -1,5 +1,8 @@
 package com.graduation.project.whatziroom.Data;
 
+import com.graduation.project.whatziroom.activity.main.MainViewPager;
+import com.graduation.project.whatziroom.adapter.RoomAdapter;
+
 import java.util.ArrayList;
 
 /**
@@ -9,19 +12,38 @@ import java.util.ArrayList;
 public class RoomData {
 
     private String roomName;
-    private String roomMakerName;
+    private String roomUserNumber;
     private String roomDate;
+    private String roomPKey;
+
+    private RoomAdapter adapter;
+
     private ArrayList<RoomData> roomArrayList;
 
     public RoomData() {
         super();
         roomArrayList = new ArrayList<>();
+        adapter = new RoomAdapter(MainViewPager.mContext, roomArrayList);
     }
 
-    public RoomData(String name, String makerName, String date) {
-        roomName = name;
-        roomMakerName = makerName;
-        roomDate = date;
+    public RoomData(String PKey, String name, String userNumber, String date) {
+
+        setRoomPKey(PKey);
+        setRoomName(name);
+        setRoomUserNumber(userNumber);
+        setRoomDate(date);
+    }
+
+    public ArrayList<RoomData> getRoomArrayList() {
+        return roomArrayList;
+    }
+
+    public String getRoomPKey() {
+        return roomPKey;
+    }
+
+    public void setRoomPKey(String roomPKey) {
+        this.roomPKey = roomPKey;
     }
 
     public String getRoomName() {
@@ -32,12 +54,12 @@ public class RoomData {
         this.roomName = roomName;
     }
 
-    public String getRoomMakerName() {
-        return roomMakerName;
+    public String getRoomUserNumber() {
+        return roomUserNumber;
     }
 
-    public void setRoomMakerName(String roomMakerName) {
-        this.roomMakerName = roomMakerName;
+    public void setRoomUserNumber(String roomUserNumber) {
+        this.roomUserNumber = roomUserNumber;
     }
 
     public String getRoomDate() {
@@ -48,18 +70,22 @@ public class RoomData {
         this.roomDate = roomDate;
     }
 
-    public void addItem(String name, String makerName, String date) {
 
-        roomName = name;
-        roomMakerName = makerName;
-        roomDate = date;
 
-        roomArrayList.add(new RoomData(name, makerName, date));
+    public void addItem(String roomPKey, String name, String userNumber, String date) {
+
+        setRoomPKey(roomPKey);
+        setRoomName(name);
+        setRoomUserNumber(userNumber);
+        setRoomDate(date);
+
+        roomArrayList.add(new RoomData(roomPKey ,name, userNumber, date));
 
     }
 
-    public ArrayList<RoomData> getList() {
-        return roomArrayList;
+    public RoomAdapter getAdapter() {
+
+        return adapter;
     }
 
 

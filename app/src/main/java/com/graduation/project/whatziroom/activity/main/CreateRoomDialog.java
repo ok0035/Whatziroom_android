@@ -2,6 +2,7 @@ package com.graduation.project.whatziroom.activity.main;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.graduation.project.whatziroom.R;
 import com.graduation.project.whatziroom.activity.base.BaseActivity;
 import com.graduation.project.whatziroom.activity.base.BasicMethod;
+import com.graduation.project.whatziroom.activity.room.RoomViewPager;
 import com.graduation.project.whatziroom.network.DBSI;
 import com.graduation.project.whatziroom.network.HttpNetwork;
 import com.graduation.project.whatziroom.network.Params;
@@ -60,9 +62,12 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
                 new HttpNetwork("CreateRoom.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
                     public void onSuccess(String response) {
-
+                        RoomListView.updateRoom();
                         Toast.makeText(BaseActivity.mContext, "방 개설 완료", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainViewPager.mContext, RoomViewPager.class);
+                        MainViewPager.mContext.startActivity(intent);
                         dismiss();
+
                     }
 
                     @Override
@@ -75,8 +80,6 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
 
                     }
                 });
-
-
             }
         });
 

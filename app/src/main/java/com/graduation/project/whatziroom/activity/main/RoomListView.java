@@ -14,41 +14,60 @@ import android.widget.ListView;
 
 import com.graduation.project.whatziroom.Data.RoomData;
 import com.graduation.project.whatziroom.R;
+import com.graduation.project.whatziroom.activity.base.BasicMethod;
 import com.graduation.project.whatziroom.activity.room.RoomViewPager;
-import com.graduation.project.whatziroom.adapter.RoomAdapter;
+import com.graduation.project.whatziroom.network.DBSI;
+import com.graduation.project.whatziroom.network.HttpNetwork;
+import com.graduation.project.whatziroom.network.Params;
+import com.graduation.project.whatziroom.util.ParseData;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomListView extends Fragment {
-    LinearLayout layout;
-    ImageView searchBtn;
-    ArrayList<RoomData> roomListItem;
-    ListView roomListView;
+public class RoomListView extends Fragment implements BasicMethod{
+
+    private LinearLayout layout;
+    private ImageView searchBtn;
+    private static ListView roomListView;
+    private static RoomData roomData;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         layout = (LinearLayout) inflater.inflate(R.layout.room_list, container, false);
-        roomListView = (ListView) layout.findViewById(R.id.roomListView);
 
-        roomListItem= new ArrayList<>();
+        bindView();
+        setUpEvents();
 
-        RoomData roomList = new RoomData();
-        roomList.addItem("히어로네이션", "Choi", "17.05.06");
-        roomList.addItem("UOS", "Hwang", "16.07.04");
-        roomList.addItem("Dream", "Park", "15.08.20");
+        return layout;
+    }
 
-        RoomAdapter roomAdapter = new RoomAdapter(getActivity(), roomList.getList(), 0);
-        roomListView.setAdapter(roomAdapter);
+    public RoomListView() {
+
+        roomData = new RoomData();
+    }
+
+    @Override
+    public void setUpEvents() {
+
+//        roomListView.setAdapter(roomData.getAdapter());
+
+        updateRoom();
+
         roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
+                intent.putExtra("PKey", roomData.getRoomArrayList().get(position).getRoomPKey().toString());
                 startActivity(intent);
+
             }
         });
 
@@ -60,8 +79,57 @@ public class RoomListView extends Fragment {
             }
         });
 
-
-        return layout;
     }
 
+    public static void updateRoom() {
+
+        Params params = new Params();
+        DBSI db = new DBSI();
+        db.selectQuery("select ID from User");
+        params.add("ID", db.selectQuery("select ID from User")[0][0]);
+
+        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+
+                try {
+                    ParseData parse = new ParseData();
+                    JSONArray roomList = parse.parseJsonArray(response);
+                    roomData = new RoomData();
+
+                    for(int i=0; i < roomList.length(); i++) {
+                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
+                        //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
+                        roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
+                    }
+                    roomListView.setAdapter(roomData.getAdapter());
+                    roomData.getAdapter().notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
+    }
+
+    @Override
+    public void setValues() {
+
+    }
+
+    @Override
+    public void bindView() {
+        roomListView = (ListView) layout.findViewById(R.id.roomListView);
+    }
 }

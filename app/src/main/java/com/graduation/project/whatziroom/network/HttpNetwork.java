@@ -138,7 +138,9 @@ public class HttpNetwork extends AsyncTask<String, Void, String> {
 
             result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
             result.append("=");
+            System.out.println("What?!,    " + pair.getValue());
             result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+
         }
 
         return result.toString();

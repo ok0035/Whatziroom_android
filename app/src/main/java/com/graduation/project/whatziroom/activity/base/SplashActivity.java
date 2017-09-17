@@ -2,6 +2,7 @@ package com.graduation.project.whatziroom.activity.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,77 +33,86 @@ public class SplashActivity extends BaseActivity {
 
         hideActionBar();
 
-        Thread thread = new Thread(new Runnable() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(2000);
 
-                    DBSI db = new DBSI();
-                    String[][] user = db.selectQuery("select ID, PW, AutoLogin from User");
+                DBSI db = new DBSI();
+                String[][] user = db.selectQuery("select ID, PW, AutoLogin from User");
 
-                    if(user != null) {
-                        Params params = new Params();
-                        params.add("ID", user[0][0]);
-                        params.add("PW", user[0][1]);
+                if(user != null) {
+                    Params params = new Params();
+                    params.add("ID", user[0][0]);
+                    params.add("PW", user[0][1]);
 
-                        if(user[0][2].equals("1")) {
+                    if(user[0][2].equals("1")) {
 
-                            new HttpNetwork("AutoLogin.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-                                @Override
-                                public void onSuccess(String response) {
-                                    switch (response) {
+                        new HttpNetwork("AutoLogin.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                switch (response) {
 
-                                        case "success":
-                                            Toast.makeText(SplashActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                                            Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
-                                            startActivity(successIntent);
-                                            finish();
-                                            break;
+                                    case "success":
+                                        Toast.makeText(SplashActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                                        Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
+                                        startActivity(successIntent);
+                                        finish();
+                                        break;
 
-                                        case "fail":
-                                            Intent failIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                                            startActivity(failIntent);
-                                            finish();
+                                    case "fail":
+                                        Intent failIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                                        startActivity(failIntent);
+                                        finish();
 
-                                            break;
-
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(String response) {
+                                        break;
 
                                 }
+                            }
 
-                                @Override
-                                public void onPreExcute() {
+                            @Override
+                            public void onFailure(String response) {
 
-                                }
+                            }
 
-                            });
-                        } else {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
-                        }
+                            @Override
+                            public void onPreExcute() {
 
+                            }
 
-
+                        });
                     } else {
-                        Intent failIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(failIntent);
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
                         finish();
-
                     }
 
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                } else {
+                    Intent failIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(failIntent);
+                    finish();
+
                 }
             }
-        });
+        }, 2000);
 
-        thread.start();
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(2000);
+//
+//
+//
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
+//        thread.start();
 
     }
 

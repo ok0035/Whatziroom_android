@@ -134,6 +134,7 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("편집");
                         break;
                     case 1:
+                        roomListView.updateRoom();
                         titleTxt.setText("방 목록");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.VISIBLE);
@@ -175,13 +176,18 @@ public class MainViewPager extends BaseActivity {
 
                 }
 
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     int position = vp.getCurrentItem();
+
+                    switch(position) {
+                        case 1:
+                            roomListView.updateRoom();
+                            break;
+                    }
 
 
                     // 원하는 페이지에 맞게 조건
@@ -262,15 +268,15 @@ public class MainViewPager extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FriendListView();
+                    return friendListView;
                 case 1:
-                    return new RoomListView();
+                    return roomListView;
                 case 2:
-                    return new ScheduleListView();
+                    return scheduleListView;
                 case 3:
-                    return new NotificationListView();
+                    return notificationListView;
                 case 4:
-                    return new ProfileView();
+                    return profileView;
                 default:
                     return null;
             }
@@ -297,12 +303,13 @@ public class MainViewPager extends BaseActivity {
         scheduleListView = new ScheduleListView();
         notificationListView = new NotificationListView();
         profileView = new ProfileView();
+
         // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
-        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
-        getSupportFragmentManager().beginTransaction().add(roomListView, "2").commit();
-        getSupportFragmentManager().beginTransaction().add(scheduleListView, "3").commit();
-        getSupportFragmentManager().beginTransaction().add(notificationListView, "4").commit();
-        getSupportFragmentManager().beginTransaction().add(profileView, "5").commit();
+//        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
+//        getSupportFragmentManager().beginTransaction().add(roomListView, "2").commit();
+//        getSupportFragmentManager().beginTransaction().add(scheduleListView, "3").commit();
+//        getSupportFragmentManager().beginTransaction().add(notificationListView, "4").commit();
+//        getSupportFragmentManager().beginTransaction().add(profileView, "5").commit();
     }
 
     @Override
