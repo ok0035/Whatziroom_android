@@ -1,6 +1,5 @@
 package com.graduation.project.whatziroom.activity.room;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,7 +28,7 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class RoomViewPager extends BaseActivity {
 
-//    private pagerAdapter vpAdapter;
+    //    private pagerAdapter vpAdapter;
     private ViewPager vp;
     private LinearLayout ll;
     private me.relex.circleindicator.CircleIndicator indicator;
@@ -39,8 +38,6 @@ public class RoomViewPager extends BaseActivity {
     private RoomInfoView roomInfoView;
     private RoomChatView roomChatView;
     private RoomFriendList roomFriendList;
-
-    ProgressDialog mProgressDialog;
 
     private String roomPKey;
     private String result = "notEmpty";
@@ -179,7 +176,6 @@ public class RoomViewPager extends BaseActivity {
 //                        Log.d("onPre", mProgressDialog.isShowing() + "");
 //                    }
 //                });
-
             }
         });
 
@@ -237,8 +233,6 @@ public class RoomViewPager extends BaseActivity {
         getSupportActionBar().setElevation(0);
 
     }
-
-
 
 
     @Override
