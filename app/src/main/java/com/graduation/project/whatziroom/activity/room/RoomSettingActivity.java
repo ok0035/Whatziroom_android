@@ -10,7 +10,7 @@ import com.graduation.project.whatziroom.activity.base.BaseActivity;
  * Created by mapl0 on 2017-09-05.
  */
 
-public class RoomSettingView extends BaseActivity {
+public class RoomSettingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

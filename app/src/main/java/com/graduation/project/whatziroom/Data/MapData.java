@@ -1,6 +1,6 @@
-package com.graduation.project.whatziroom.search;
+package com.graduation.project.whatziroom.Data;
 
-public class Item {
+public class MapData {
 	public String title;
 	public String imageUrl;
 	public String address;

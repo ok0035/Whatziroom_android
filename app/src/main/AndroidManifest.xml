@@ -29,7 +29,7 @@
         <activity android:name="com.graduation.project.whatziroom.activity.main.ProfilUpdateActivity" />
         <activity android:name="com.graduation.project.whatziroom.activity.main.ProfilUserSettingActivity"></activity>
         <activity android:name="com.graduation.project.whatziroom.activity.room.RegisterSchedule"/>
-        <activity android:name="com.graduation.project.whatziroom.activity.room.RoomSettingView"/>
+        <activity android:name="com.graduation.project.whatziroom.activity.room.RoomSettingActivity"/>
     </application>
 
 </manifest>

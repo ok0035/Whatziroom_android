@@ -16,7 +16,7 @@ import com.graduation.project.whatziroom.R;
  * Created by ATIV on 2017-06-25.
  */
 
-public class ProfileView extends Fragment {
+public class ProfileFragment extends Fragment {
     LinearLayout layout;
 
     @Nullable

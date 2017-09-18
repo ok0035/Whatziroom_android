@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by ATIV on 2017-06-25.
  */
 
-public class FriendListView extends Fragment {
+public class FriendListFragment extends Fragment {
     LinearLayout layout;
     boolean blockFlag = false; // true면 차단 버튼 보이게, false면 안보임
     FriendAdapter mFriendAdapter;

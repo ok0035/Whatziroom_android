@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.graduation.project.whatziroom.Data.MapData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,7 +61,7 @@ public class Searcher {
 			header.put(HEADER_NAME_X_APPID, appId);
 			header.put(HEADER_NAME_X_PLATFORM, HEADER_VALUE_X_PLATFORM_ANDROID);
 			String json = fetchData(url, header);
-			List<Item> itemList = parse(json);
+			List<MapData> itemList = parse(json);
 			if (onFinishSearchListener != null) {
 				if (itemList == null) {
 					onFinishSearchListener.onFail();
@@ -144,15 +146,15 @@ public class Searcher {
 		}
 	}
     
-	private List<Item> parse(String jsonString) {
-		List<Item> itemList = new ArrayList<Item>();
+	private List<MapData> parse(String jsonString) {
+		List<MapData> itemList = new ArrayList<MapData>();
 		try {
 			JSONObject reader = new JSONObject(jsonString);
 			JSONObject channel = reader.getJSONObject("channel");
 			JSONArray objects = channel.getJSONArray("item");
 			for (int i = 0; i < objects.length(); i++) {
 				JSONObject object = objects.getJSONObject(i);
-				Item item = new Item();
+				MapData item = new MapData();
 				item.title = object.getString("title");
 				item.imageUrl = object.getString("imageUrl");
 				item.address = object.getString("address");

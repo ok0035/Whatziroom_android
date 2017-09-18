@@ -1,4 +1,4 @@
-package com.graduation.project.whatziroom.activity;
+package com.graduation.project.whatziroom.activity.room;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,14 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.graduation.project.whatziroom.Data.MapData;
 import com.graduation.project.whatziroom.R;
-import com.graduation.project.whatziroom.search.Item;
 import com.graduation.project.whatziroom.search.OnFinishSearchListener;
 import com.graduation.project.whatziroom.search.Searcher;
 
@@ -34,14 +33,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchDemoActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class SearchPlaceActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private static final String LOG_TAG = "SearchDemoActivity";
 
     private MapView mMapView;
     private EditText mEditTextQuery;
-    private Button mButtonSearch;
-    private HashMap<Integer, Item> mTagItemMap = new HashMap<Integer, Item>();
+    private TextView mButtonSearch;
+    private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class SearchDemoActivity extends FragmentActivity implements MapView.MapV
         
         mEditTextQuery = (EditText) findViewById(R.id.editTextQuery); // 검색창
         
-        mButtonSearch = (Button) findViewById(R.id.buttonSearch); // 검색버튼
+        mButtonSearch = (TextView) findViewById(R.id.buttonSearch); // 검색버튼
         mButtonSearch.setOnClickListener(new OnClickListener() { // 검색버튼 클릭 이벤트 리스너
 			@Override
 			public void onClick(View v) {
@@ -77,9 +76,9 @@ public class SearchDemoActivity extends FragmentActivity implements MapView.MapV
 		        Searcher searcher = new Searcher(); // net.daum.android.map.openapi.search.Searcher
 		        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
 					@Override
-					public void onSuccess(List<Item> itemList) {
+					public void onSuccess(List<MapData> itemList) {
 						mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-						showResult(itemList); // 검색 결과 보여줌 
+						showResult(itemList); // 검색 결과 보여줌
 					}
 					
 					@Override
@@ -102,7 +101,7 @@ public class SearchDemoActivity extends FragmentActivity implements MapView.MapV
 		@Override
 		public View getCalloutBalloon(MapPOIItem poiItem) {
 			if (poiItem == null) return null;
-			Item item = mTagItemMap.get(poiItem.getTag());
+			MapData item = mTagItemMap.get(poiItem.getTag());
 			if (item == null) return null;
 			ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
 			TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
@@ -140,7 +139,7 @@ public class SearchDemoActivity extends FragmentActivity implements MapView.MapV
         
         searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
         	@Override
-        	public void onSuccess(final List<Item> itemList) {
+        	public void onSuccess(final List<MapData> itemList) {
         		showResult(itemList);
         	}
 
@@ -155,16 +154,16 @@ public class SearchDemoActivity extends FragmentActivity implements MapView.MapV
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(SearchDemoActivity.this, text, Toast.LENGTH_SHORT).show();
+				Toast.makeText(SearchPlaceActivity.this, text, Toast.LENGTH_SHORT).show();
 			}
 		});
     }
     
-	private void showResult(List<Item> itemList) {
+	private void showResult(List<MapData> itemList) {
 		MapPointBounds mapPointBounds = new MapPointBounds();
 		
 		for (int i = 0; i < itemList.size(); i++) {
-			Item item = itemList.get(i);
+			MapData item = itemList.get(i);
 
 			MapPOIItem poiItem = new MapPOIItem();
 			poiItem.setItemName(item.title);
@@ -213,7 +212,7 @@ public class SearchDemoActivity extends FragmentActivity implements MapView.MapV
 	
 	@Override
 	public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-		Item item = mTagItemMap.get(mapPOIItem.getTag());
+		MapData item = mTagItemMap.get(mapPOIItem.getTag());
 		StringBuilder sb = new StringBuilder();
 		sb.append("title=").append(item.title).append("\n");
 		sb.append("imageUrl=").append(item.imageUrl).append("\n");

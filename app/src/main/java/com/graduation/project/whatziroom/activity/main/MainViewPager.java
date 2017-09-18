@@ -40,11 +40,11 @@ public class MainViewPager extends BaseActivity {
     private LinearLayout linProfile;
 
     // 각 프래그먼트 별로 태그 값 설정하기 위해 선언
-    private FriendListView friendListView;
-    private RoomListView roomListView;
-    private ScheduleListView scheduleListView;
-    private NotificationListView notificationListView;
-    private ProfileView profileView;
+    private FriendListFragment friendListView;
+    private RoomListFragment roomListView;
+    private ScheduleListFragment scheduleListView;
+    private NotificationListFragment notificationListView;
+    private ProfileFragment profileView;
 
 
 
@@ -298,11 +298,11 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setValues() {
         super.setValues();
-        friendListView = new FriendListView();
-        roomListView = new RoomListView();
-        scheduleListView = new ScheduleListView();
-        notificationListView = new NotificationListView();
-        profileView = new ProfileView();
+        friendListView = new FriendListFragment();
+        roomListView = new RoomListFragment();
+        scheduleListView = new ScheduleListFragment();
+        notificationListView = new NotificationListFragment();
+        profileView = new ProfileFragment();
 
         // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
 //        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
@@ -332,7 +332,7 @@ public class MainViewPager extends BaseActivity {
             titleTxt.setText("친구추가");
             configTxt1.setVisibility(View.INVISIBLE);
             configTxt2.setImageResource(R.mipmap.btn_ok);
-            final FriendListView friendListView = (FriendListView)getSupportFragmentManager().findFragmentByTag("1");
+            final FriendListFragment friendListView = (FriendListFragment)getSupportFragmentManager().findFragmentByTag("1");
             friendListView.findFriendFunc();
 
             configTxt2.setOnClickListener(new View.OnClickListener() {
@@ -356,7 +356,7 @@ public class MainViewPager extends BaseActivity {
         @Override
         public void onClick(View v) {
             Log.i("버튼 클릭","ㅇㅇㅇ");
-            FriendListView friendListView = (FriendListView)getSupportFragmentManager().findFragmentByTag("1");
+            FriendListFragment friendListView = (FriendListFragment)getSupportFragmentManager().findFragmentByTag("1");
             friendListView.showBlockBtn();
         }
     };

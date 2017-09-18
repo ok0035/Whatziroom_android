@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by ATIV on 2017-06-25.
  */
 
-public class NotificationListView extends Fragment {
+public class NotificationListFragment extends Fragment {
     LinearLayout layout;
     // 현재 fragment가 전활될때마다
     // 선언한 NoticeData클래스가 재선언되고있다.

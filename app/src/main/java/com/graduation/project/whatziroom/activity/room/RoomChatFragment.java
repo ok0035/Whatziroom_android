@@ -19,7 +19,7 @@ import com.graduation.project.whatziroom.adapter.ChatAdapter;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomChatView extends Fragment {
+public class RoomChatFragment extends Fragment {
     LinearLayout layout;
 
     ListView m_ListVieww;

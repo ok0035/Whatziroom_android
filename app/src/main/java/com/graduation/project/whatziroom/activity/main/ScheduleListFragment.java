@@ -25,7 +25,7 @@ import org.json.JSONObject;
  * Created by ATIV on 2017-06-25.
  */
 
-public class ScheduleListView extends Fragment implements BasicMethod{
+public class ScheduleListFragment extends Fragment implements BasicMethod{
 
     private LinearLayout layout;
     private static ScheduleData data;

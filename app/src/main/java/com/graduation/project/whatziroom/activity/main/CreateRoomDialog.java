@@ -62,7 +62,7 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
                 new HttpNetwork("CreateRoom.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
                     public void onSuccess(String response) {
-                        RoomListView.updateRoom();
+                        RoomListFragment.updateRoom();
                         Toast.makeText(BaseActivity.mContext, "방 개설 완료", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainViewPager.mContext, RoomViewPager.class);
                         MainViewPager.mContext.startActivity(intent);

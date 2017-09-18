@@ -18,7 +18,7 @@ import com.graduation.project.whatziroom.R;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomInfoView extends Fragment {
+public class RoomInfoFragment extends Fragment {
     View layout;
     private ImageView[] ivAttendee;
     private LinearLayout linAttendee;
@@ -35,7 +35,7 @@ public class RoomInfoView extends Fragment {
         this.isEmpty = isEmpty;
     }
 
-    public RoomInfoView() {
+    public RoomInfoFragment() {
         super();
 
 

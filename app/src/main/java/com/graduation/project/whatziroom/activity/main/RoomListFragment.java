@@ -29,7 +29,7 @@ import org.json.JSONObject;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomListView extends Fragment implements BasicMethod{
+public class RoomListFragment extends Fragment implements BasicMethod{
 
     private LinearLayout layout;
     private ImageView searchBtn;
@@ -48,7 +48,7 @@ public class RoomListView extends Fragment implements BasicMethod{
         return layout;
     }
 
-    public RoomListView() {
+    public RoomListFragment() {
 
         roomData = new RoomData();
     }

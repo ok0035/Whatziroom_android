@@ -35,8 +35,8 @@ public class RoomViewPager extends BaseActivity {
     private LinearLayout linIndicator;
     private LinearLayout linRoom;
 
-    private RoomInfoView roomInfoView;
-    private RoomChatView roomChatView;
+    private RoomInfoFragment roomInfoView;
+    private RoomChatFragment roomChatView;
     private RoomFriendList roomFriendList;
 
     private String roomPKey;
@@ -200,7 +200,7 @@ public class RoomViewPager extends BaseActivity {
         btnRoomSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RoomSettingView.class);
+                Intent intent = new Intent(getApplicationContext(), RoomSettingActivity.class);
                 startActivity(intent);
             }
         });
@@ -248,8 +248,8 @@ public class RoomViewPager extends BaseActivity {
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
         this.linRoom = (LinearLayout) findViewById(R.id.linRoom);
 
-        roomInfoView = new RoomInfoView();
-        roomChatView = new RoomChatView();
+        roomInfoView = new RoomInfoFragment();
+        roomChatView = new RoomChatFragment();
         roomFriendList = new RoomFriendList();
 
     }
