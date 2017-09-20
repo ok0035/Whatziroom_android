@@ -142,6 +142,13 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        tvforget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, "비밀번호찾기 준비중입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

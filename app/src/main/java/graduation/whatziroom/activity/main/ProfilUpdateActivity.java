@@ -50,7 +50,12 @@ public class ProfilUpdateActivity extends BaseActivity {
         configTxt1.setVisibility(View.INVISIBLE);
         configTxt2.setVisibility(View.VISIBLE);
         configTxt2.setImageResource(R.mipmap.btn_ok);
-
+        configTxt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

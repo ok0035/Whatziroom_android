@@ -56,6 +56,13 @@ public class SignUpActivity extends BaseActivity {
                 trySignUp();
             }
         });
+
+        tvCancelSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void trySignUp() {
