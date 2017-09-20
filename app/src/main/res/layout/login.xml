@@ -101,6 +101,7 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:inputType="textPassword"
+                    android:paddingLeft="10dp"
                     android:singleLine="true" />
             </LinearLayout>
 
