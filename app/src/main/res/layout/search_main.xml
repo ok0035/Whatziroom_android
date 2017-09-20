@@ -42,16 +42,17 @@
         android:layout_height="0dp"
         android:layout_weight="0.83">
 
-        <net.daum.mf.map.api.MapView
-            android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"/>
-
         <ListView
             android:id="@+id/lvSearchList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <net.daum.mf.map.api.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
 
     </FrameLayout>
 

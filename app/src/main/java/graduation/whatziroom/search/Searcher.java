@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import graduation.whatziroom.Data.MapData;
+import graduation.whatziroom.Data.SearchData;
 
 public class Searcher {
     // http://dna.daum.net/apis/local
@@ -61,7 +61,7 @@ public class Searcher {
 			header.put(HEADER_NAME_X_APPID, appId);
 			header.put(HEADER_NAME_X_PLATFORM, HEADER_VALUE_X_PLATFORM_ANDROID);
 			String json = fetchData(url, header);
-			List<MapData> itemList = parse(json);
+			List<SearchData> itemList = parse(json);
 			if (onFinishSearchListener != null) {
 				if (itemList == null) {
 					onFinishSearchListener.onFail();
@@ -90,7 +90,7 @@ public class Searcher {
 		searchTask.execute(url);
     }
 	
-	public void searchCategory(Context applicationContext, String categoryCode, double latitude, double longitude, int radius, int page, String apikey, OnFinishSearchListener onFinishSearchListener) {
+	public void searchCategory(Context applicationContext, String categoryCode, double latitude, double longitude, String apikey, OnFinishSearchListener onFinishSearchListener) {
 		this.onFinishSearchListener = onFinishSearchListener;
 		
 		if (searchTask != null) {
@@ -147,29 +147,29 @@ public class Searcher {
 		}
 	}
     
-	private List<MapData> parse(String jsonString) {
-		List<MapData> itemList = new ArrayList<MapData>();
+	private List<SearchData> parse(String jsonString) {
+		List<SearchData> itemList = new ArrayList<SearchData>();
 		try {
 			JSONObject reader = new JSONObject(jsonString);
 			JSONObject channel = reader.getJSONObject("channel");
 			JSONArray objects = channel.getJSONArray("item");
 			for (int i = 0; i < objects.length(); i++) {
 				JSONObject object = objects.getJSONObject(i);
-				MapData item = new MapData();
-				item.title = object.getString("title");
-				item.imageUrl = object.getString("imageUrl");
-				item.address = object.getString("address");
-				item.newAddress = object.getString("newAddress");
-				item.zipcode = object.getString("zipcode");
-				item.phone = object.getString("phone");
-				item.category = object.getString("category");
-				item.latitude = object.getDouble("latitude");
-				item.longitude = object.getDouble("longitude");
-				item.distance = object.getDouble("distance");
-				item.direction = object.getString("direction");
-				item.id = object.getString("id");
-				item.placeUrl = object.getString("placeUrl");
-				item.addressBCode = object.getString("addressBCode");
+				SearchData item = new SearchData();
+				item.setTitle(object.getString("title"));
+				item.setImageUrl(object.getString("imageUrl"));
+				item.setAddress(object.getString("address"));
+				item.setNewAddress(object.getString("newAddress"));
+				item.setZipcode(object.getString("zipcode"));
+				item.setPhone(object.getString("phone"));
+				item.setCategory(object.getString("category"));
+				item.setLatitude(object.getDouble("latitude"));
+				item.setLongitude(object.getDouble("longitude"));
+				item.setDistance(object.getString("distance"));
+				item.setDirection(object.getString("direction"));
+				item.setId(object.getString("id"));
+				item.setPlaceUrl(object.getString("placeUrl"));
+				item.setAddressBCode(object.getString("addressBCode"));
 				itemList.add(item);
 
 				Log.d("title", object.getString("title"));

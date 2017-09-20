@@ -75,11 +75,6 @@ public class RoomData {
 
     public void addItem(String roomPKey, String name, String userNumber, String date) {
 
-        setRoomPKey(roomPKey);
-        setRoomName(name);
-        setRoomUserNumber(userNumber);
-        setRoomDate(date);
-
         roomArrayList.add(new RoomData(roomPKey ,name, userNumber, date));
 
     }

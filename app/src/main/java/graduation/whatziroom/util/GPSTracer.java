@@ -95,7 +95,7 @@ public class GPSTracer {
 
             for (String name : m_lstProviders) {
 
-                locationManager.requestLocationUpdates(name, 100, 0, locationListener);
+                locationManager.requestLocationUpdates(name, 10000, 0, locationListener);
             }
 
             new Runnable() {

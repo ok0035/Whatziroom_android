@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import graduation.whatziroom.Data.MapData;
+import graduation.whatziroom.Data.SearchData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.search.OnFinishSearchListener;
@@ -45,12 +46,18 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private MapView mMapView;
     private EditText mEditTextQuery;
     private TextView mButtonSearch;
-    private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
+    private HashMap<Integer, SearchData> mTagItemMap = new HashMap<Integer, SearchData>();
     ProgressDialog mProgressDialog;
     private EditText editTextQuery;
     private TextView buttonSearch;
     private MapView mapview;
-    private android.widget.ListView lvSearchList;
+    private ListView lvSearchList;
+    public static Context searchContext;
+
+    public SearchPlaceActivity() {
+        super();
+        searchContext = this;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +87,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                     return;
                 }
                 hideSoftKeyboard(); // 키보드 숨김
-                MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
+//                MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
                 double latitude = GPSTracer.latitude;
                 double longitude = GPSTracer.longitude;
 //		        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
@@ -90,9 +97,32 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 Searcher searcher = new Searcher(); // net.daum.android.map.openapi.search.Searcher
                 searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                     @Override
-                    public void onSuccess(List<MapData> itemList) {
-                        mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-                        showResult(itemList); // 검색 결과 보여줌
+                    public void onSuccess(final List<SearchData> itemList) {
+//                        mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
+//                        showResult(itemList); // 검색 결과 보여줌
+
+
+
+                        Handler handler = new Handler(Looper.getMainLooper());
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                mMapView.setVisibility(View.INVISIBLE);
+
+                                SearchData dataList = new SearchData();
+                                lvSearchList.setAdapter(dataList.getAdapter());
+
+                                for(int i=0; i<itemList.size(); i++) {
+                                    SearchData data = itemList.get(i);
+                                    dataList.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
+                                            data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
+                                }
+
+                                lvSearchList.deferNotifyDataSetChanged();
+                            }
+                        });
 
                     }
 
@@ -122,14 +152,14 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         @Override
         public View getCalloutBalloon(MapPOIItem poiItem) {
             if (poiItem == null) return null;
-            MapData item = mTagItemMap.get(poiItem.getTag());
+            SearchData item = mTagItemMap.get(poiItem.getTag());
             if (item == null) return null;
             ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
             TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
-            textViewTitle.setText(item.title);
+            textViewTitle.setText(item.getTitle());
             TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
-            textViewDesc.setText(item.address);
-            imageViewBadge.setImageDrawable(createDrawableFromUrl(item.imageUrl));
+            textViewDesc.setText(item.getAddress());
+            imageViewBadge.setImageDrawable(createDrawableFromUrl(item.getImageUrl()));
             return mCalloutBalloon;
         }
 
@@ -149,10 +179,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         Log.i(LOG_TAG, "MapView had loaded. Now, MapView APIs could be called safely");
 
         GPSTracer gps = new GPSTracer();
-
         gps.getLocation();
 
-        final Handler mHandler = new Handler();
 
         final Timer timer = new Timer();
         mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this, "",
@@ -180,7 +208,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
                     searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                         @Override
-                        public void onSuccess(final List<MapData> itemList) {
+                        public void onSuccess(final List<SearchData> itemList) {
                             showResult(itemList);
                         }
 
@@ -221,16 +249,16 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         });
     }
 
-    private void showResult(List<MapData> itemList) {
+    private void showResult(List<SearchData> itemList) {
         MapPointBounds mapPointBounds = new MapPointBounds();
 
         for (int i = 0; i < itemList.size(); i++) {
-            MapData item = itemList.get(i);
+            SearchData item = itemList.get(i);
 
             MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName(item.title);
+            poiItem.setItemName(item.getTitle());
             poiItem.setTag(i);
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude);
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.getLatitude(), item.getLongitude());
             poiItem.setMapPoint(mapPoint);
             mapPointBounds.add(mapPoint);
             poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
@@ -274,19 +302,19 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-        MapData item = mTagItemMap.get(mapPOIItem.getTag());
+        SearchData item = mTagItemMap.get(mapPOIItem.getTag());
         StringBuilder sb = new StringBuilder();
-        sb.append("title=").append(item.title).append("\n");
-        sb.append("imageUrl=").append(item.imageUrl).append("\n");
-        sb.append("address=").append(item.address).append("\n");
-        sb.append("newAddress=").append(item.newAddress).append("\n");
-        sb.append("zipcode=").append(item.zipcode).append("\n");
-        sb.append("phone=").append(item.phone).append("\n");
-        sb.append("category=").append(item.category).append("\n");
-        sb.append("longitude=").append(item.longitude).append("\n");
-        sb.append("latitude=").append(item.latitude).append("\n");
-        sb.append("distance=").append(item.distance).append("\n");
-        sb.append("direction=").append(item.direction).append("\n");
+        sb.append("title=").append(item.getTitle()).append("\n");
+        sb.append("imageUrl=").append(item.getImageUrl()).append("\n");
+        sb.append("address=").append(item.getAddress()).append("\n");
+        sb.append("newAddress=").append(item.getNewAddress()).append("\n");
+        sb.append("zipcode=").append(item.getZipcode()).append("\n");
+        sb.append("phone=").append(item.getPhone()).append("\n");
+        sb.append("category=").append(item.getCategory()).append("\n");
+        sb.append("longitude=").append(item.getLongitude()).append("\n");
+        sb.append("latitude=").append(item.getLatitude()).append("\n");
+        sb.append("distance=").append(item.getDistance()).append("\n");
+        sb.append("direction=").append(item.getDirection()).append("\n");
         Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
     }
 
@@ -339,10 +367,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     public void bindView() {
 
         this.lvSearchList = (ListView) findViewById(R.id.lvSearchList);
-        this.mapview = (MapView) findViewById(R.id.map_view);
+        this.mMapView = (MapView) findViewById(R.id.map_view);
         this.buttonSearch = (TextView) findViewById(R.id.buttonSearch);
         this.editTextQuery = (EditText) findViewById(R.id.editTextQuery);
-        mMapView = (MapView) findViewById(R.id.map_view);
 
         mEditTextQuery = (EditText) findViewById(R.id.editTextQuery); // 검색창
         mButtonSearch = (TextView) findViewById(R.id.buttonSearch); // 검색버튼
