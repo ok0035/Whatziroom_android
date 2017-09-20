@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/circle_plus" >
+            android:src="@null" >
         </ImageView>
 
         <LinearLayout

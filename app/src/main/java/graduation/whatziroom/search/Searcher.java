@@ -22,8 +22,8 @@ import graduation.whatziroom.Data.MapData;
 
 public class Searcher {
     // http://dna.daum.net/apis/local
-	public static final String DAUM_MAPS_LOCAL_KEYWORD_SEARCH_API_FORMAT = "https://apis.daum.net/local/v1/search/keyword.json?query=%s&location=%f,%f&radius=%d&page=%d&apikey=%s";
-	public static final String DAUM_MAPS_LOCAL_CATEGORY_SEARCH_API_FORMAT = "https://apis.daum.net/local/v1/search/category.json?code=%s&location=%f,%f&radius=%d&page=%d&apikey=%s";
+	public static final String DAUM_MAPS_LOCAL_KEYWORD_SEARCH_API_FORMAT = "https://apis.daum.net/local/v1/search/keyword.json?query=%s&location=%f,%f&apikey=%s";
+	public static final String DAUM_MAPS_LOCAL_CATEGORY_SEARCH_API_FORMAT = "https://apis.daum.net/local/v1/search/category.json?code=%s&location=%f,%f&apikey=%s";
 	/** category codes
 	MT1 대형마트
 	CS2 편의점
@@ -73,7 +73,7 @@ public class Searcher {
 		}
 	}
 
-	public void searchKeyword(Context applicationContext, String query, double latitude, double longitude, int radius, int page, String apikey, OnFinishSearchListener onFinishSearchListener) {
+	public void searchKeyword(Context applicationContext, String query, double latitude, double longitude, String apikey, OnFinishSearchListener onFinishSearchListener) {
     	this.onFinishSearchListener = onFinishSearchListener;
     	
 		if (searchTask != null) {
@@ -84,7 +84,8 @@ public class Searcher {
 		if (applicationContext != null) {
 			appId = applicationContext.getPackageName();
 		}
-		String url = buildKeywordSearchApiUrlString(query, latitude, longitude, radius, page, apikey);
+		String url = buildKeywordSearchApiUrlString(query, latitude, longitude, apikey);
+		Log.d("URL", url);
 		searchTask = new SearchTask();
 		searchTask.execute(url);
     }
@@ -100,23 +101,23 @@ public class Searcher {
 		if (applicationContext != null) {
 			appId = applicationContext.getPackageName();
 		}
-		String url = buildCategorySearchApiUrlString(categoryCode, latitude, longitude, radius, page, apikey);
+		String url = buildCategorySearchApiUrlString(categoryCode, latitude, longitude, apikey);
 		searchTask = new SearchTask();
 		searchTask.execute(url);
 	}
     
-	private String buildKeywordSearchApiUrlString(String query, double latitude, double longitude, int radius, int page, String apikey) {
+	private String buildKeywordSearchApiUrlString(String query, double latitude, double longitude, String apikey) {
     	String encodedQuery = "";
 		try {
 			encodedQuery = URLEncoder.encode(query, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-    	return String.format(DAUM_MAPS_LOCAL_KEYWORD_SEARCH_API_FORMAT, encodedQuery, latitude, longitude, radius, page, apikey);
+    	return String.format(DAUM_MAPS_LOCAL_KEYWORD_SEARCH_API_FORMAT, encodedQuery, latitude, longitude, apikey);
     }
 	
-	private String buildCategorySearchApiUrlString(String categoryCode, double latitude, double longitude, int radius, int page, String apikey) {
-		return String.format(DAUM_MAPS_LOCAL_CATEGORY_SEARCH_API_FORMAT, categoryCode, latitude, longitude, radius, page, apikey);
+	private String buildCategorySearchApiUrlString(String categoryCode, double latitude, double longitude, String apikey) {
+		return String.format(DAUM_MAPS_LOCAL_CATEGORY_SEARCH_API_FORMAT, categoryCode, latitude, longitude, apikey);
 	}
 	
 	private String fetchData(String urlString, Map<String, String> header) {

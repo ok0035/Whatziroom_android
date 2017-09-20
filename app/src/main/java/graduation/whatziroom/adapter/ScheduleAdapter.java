@@ -31,7 +31,6 @@ public class ScheduleAdapter extends ArrayAdapter {
         inf = LayoutInflater.from(mContext);
     }
 
-
     @Override
     public int getViewTypeCount() {
         return super.getViewTypeCount();

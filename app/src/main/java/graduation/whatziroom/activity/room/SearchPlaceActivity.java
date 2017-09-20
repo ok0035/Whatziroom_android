@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +33,12 @@ import java.util.TimerTask;
 
 import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
+import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
 import graduation.whatziroom.util.GPSTracer;
 
-public class SearchPlaceActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class SearchPlaceActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener, BasicMethod {
 
     private static final String LOG_TAG = "Sea";
 
@@ -44,137 +46,151 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private EditText mEditTextQuery;
     private TextView mButtonSearch;
     private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
-	ProgressDialog mProgressDialog;
+    ProgressDialog mProgressDialog;
+    private EditText editTextQuery;
+    private TextView buttonSearch;
+    private MapView mapview;
+    private android.widget.ListView lvSearchList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.search_main);
 
-        setContentView(R.layout.demo_search);
+        setValues();
+        bindView();
+        setUpEvents();
 
-        mMapView = (MapView)findViewById(R.id.map_view);
+    }
+
+    @Override
+    public void setUpEvents() {
+
         mMapView.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
 
-        mEditTextQuery = (EditText) findViewById(R.id.editTextQuery); // 검색창
-
-        mButtonSearch = (TextView) findViewById(R.id.buttonSearch); // 검색버튼
         mButtonSearch.setOnClickListener(new View.OnClickListener() { // 검색버튼 클릭 이벤트 리스너
-			@Override
-			public void onClick(View v) {
-		        String query = mEditTextQuery.getText().toString();
-		        if (query == null || query.length() == 0) {
-		        	showToast("검색어를 입력하세요.");
-		        	return;
-		        }
-		        hideSoftKeyboard(); // 키보드 숨김
-		        MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
-		        double latitude = geoCoordinate.latitude; // 위도
-		        double longitude = geoCoordinate.longitude; // 경도
-		        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-		        int page = 1; // 페이지 번호 (1 ~ 3). 한페이지에 15개
-		        String apikey = getResources().getString(R.string.APIKEY);
+            @Override
+            public void onClick(View v) {
+                String query = mEditTextQuery.getText().toString();
+                if (query == null || query.length() == 0) {
+                    showToast("검색어를 입력하세요.");
+                    return;
+                }
+                hideSoftKeyboard(); // 키보드 숨김
+                MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
+                double latitude = GPSTracer.latitude;
+                double longitude = GPSTracer.longitude;
+//		        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
+//		        int page = 1; // 페이지 번호 (1 ~ 3). 한페이지에 15개
+                String apikey = getResources().getString(R.string.APIKEY);
 
-		        Searcher searcher = new Searcher(); // net.daum.android.map.openapi.search.Searcher
-		        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
-					@Override
-					public void onSuccess(List<MapData> itemList) {
-						mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-						showResult(itemList); // 검색 결과 보여줌
-					}
+                Searcher searcher = new Searcher(); // net.daum.android.map.openapi.search.Searcher
+                searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
+                    @Override
+                    public void onSuccess(List<MapData> itemList) {
+                        mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
+                        showResult(itemList); // 검색 결과 보여줌
 
-					@Override
-					public void onFail() {
-						showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
-					}
-				});
-			}
-		});
+                    }
+
+                    @Override
+                    public void onFail() {
+//						showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
+                    }
+                });
+            }
+        });
     }
 
-	class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
-    	
-    	private final View mCalloutBalloon;
-    	
-    	public CustomCalloutBalloonAdapter() {
-    		mCalloutBalloon = getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
-		}
+    @Override
+    public void setValues() {
 
-		@Override
-		public View getCalloutBalloon(MapPOIItem poiItem) {
-			if (poiItem == null) return null;
-			MapData item = mTagItemMap.get(poiItem.getTag());
-			if (item == null) return null;
-			ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
-			TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
-			textViewTitle.setText(item.title);
-			TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
-			textViewDesc.setText(item.address);
-			imageViewBadge.setImageDrawable(createDrawableFromUrl(item.imageUrl));
-			return mCalloutBalloon;
-		}
-
-		@Override
-		public View getPressedCalloutBalloon(MapPOIItem poiItem) {
-			return null;
-		}
-    	
     }
-    
+
+
+    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
+
+        private final View mCalloutBalloon;
+
+        public CustomCalloutBalloonAdapter() {
+            mCalloutBalloon = getLayoutInflater().inflate(R.layout.search_balloon, null);
+        }
+
+        @Override
+        public View getCalloutBalloon(MapPOIItem poiItem) {
+            if (poiItem == null) return null;
+            MapData item = mTagItemMap.get(poiItem.getTag());
+            if (item == null) return null;
+            ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
+            TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
+            textViewTitle.setText(item.title);
+            TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
+            textViewDesc.setText(item.address);
+            imageViewBadge.setImageDrawable(createDrawableFromUrl(item.imageUrl));
+            return mCalloutBalloon;
+        }
+
+        @Override
+        public View getPressedCalloutBalloon(MapPOIItem poiItem) {
+            return null;
+        }
+
+    }
+
     private void hideSoftKeyboard() {
-		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(mEditTextQuery.getWindowToken(), 0);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEditTextQuery.getWindowToken(), 0);
     }
 
     public void onMapViewInitialized(MapView mapView) {
         Log.i(LOG_TAG, "MapView had loaded. Now, MapView APIs could be called safely");
 
-		GPSTracer gps = new GPSTracer();
+        GPSTracer gps = new GPSTracer();
 
-		gps.getLocation();
+        gps.getLocation();
 
-		final Handler mHandler = new Handler();
+        final Handler mHandler = new Handler();
 
-		final Timer timer = new Timer();
-		mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this,"",
-				"잠시만 기다려 주세요.",true);
-		TimerTask task = new TimerTask() {
-			@Override
-			public void run() {
-				if (mProgressDialog!=null && mProgressDialog.isShowing() && GPSTracer.getIsInit()){
+        final Timer timer = new Timer();
+        mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this, "",
+                "잠시만 기다려 주세요.", true);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (mProgressDialog != null && mProgressDialog.isShowing() && GPSTracer.getIsInit()) {
 
-					mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude,GPSTracer.longitude), 2, true);
+                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 2, true);
 
-					mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+                    mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
-					Searcher searcher = new Searcher();
-					String query = mEditTextQuery.getText().toString();
+                    Searcher searcher = new Searcher();
+                    String query = mEditTextQuery.getText().toString();
 
-					MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
+                    MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
+                    double latitude = GPSTracer.latitude;
+                    double longitude = GPSTracer.longitude;
 
-					double latitude = GPSTracer.latitude;
-					double longitude = GPSTracer.longitude;
 
+                    int radius = 0; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
+                    int page = 3; // 페이지 번호 (1 ~ 3). 한페이지에 15개
+                    String apikey = getResources().getString(R.string.APIKEY);
 
-					int radius = 0; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-					int page = 3; // 페이지 번호 (1 ~ 3). 한페이지에 15개
-					String apikey = getResources().getString(R.string.APIKEY);
+                    searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
+                        @Override
+                        public void onSuccess(final List<MapData> itemList) {
+                            showResult(itemList);
+                        }
 
-					searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
-						@Override
-						public void onSuccess(final List<MapData> itemList) {
-							showResult(itemList);
-						}
-
-						@Override
-						public void onFail() {
+                        @Override
+                        public void onFail() {
 //							showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
-						}
-					});
+                        }
+                    });
 
-//					searcher.searchCategory(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
+//					searcher.searchCategory(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
 //						@Override
 //						public void onSuccess(final List<MapData> itemList) {
 //							showResult(itemList);
@@ -187,105 +203,105 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 //					});
 
 
-					mProgressDialog.dismiss();
-					timer.cancel();
-				}
-			}
-		};
-		timer.schedule(task, 0, 2000);
+                    mProgressDialog.dismiss();
+                    timer.cancel();
+                }
+            }
+        };
+        timer.schedule(task, 0, 2000);
 
     }
 
-	private void showToast(final String text) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(SearchPlaceActivity.this, text, Toast.LENGTH_SHORT).show();
-			}
-		});
+    private void showToast(final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(SearchPlaceActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    
-	private void showResult(List<MapData> itemList) {
-		MapPointBounds mapPointBounds = new MapPointBounds();
-		
-		for (int i = 0; i < itemList.size(); i++) {
-			MapData item = itemList.get(i);
 
-			MapPOIItem poiItem = new MapPOIItem();
-			poiItem.setItemName(item.title);
-			poiItem.setTag(i);
-			MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude);
-			poiItem.setMapPoint(mapPoint);
-			mapPointBounds.add(mapPoint);
-			poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-			poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-			poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-			poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-			poiItem.setCustomImageAutoscale(false);
-			poiItem.setCustomImageAnchor(0.5f, 1.0f);
-			
-			mMapView.addPOIItem(poiItem);
-			mTagItemMap.put(poiItem.getTag(), item);
-		}
-		
-		mMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
-		
-		MapPOIItem[] poiItems = mMapView.getPOIItems();
-		if (poiItems.length > 0) {
-			mMapView.selectPOIItem(poiItems[0], false);
-		}
-	}
-	
-	private Drawable createDrawableFromUrl(String url) {
-		try {
-			InputStream is = (InputStream) this.fetch(url);
-			Drawable d = Drawable.createFromStream(is, "src");
-			return d;
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	private Object fetch(String address) throws MalformedURLException,IOException {
-		URL url = new URL(address);
-		Object content = url.getContent();
-		return content;
-	}
-	
-	@Override
-	public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-		MapData item = mTagItemMap.get(mapPOIItem.getTag());
-		StringBuilder sb = new StringBuilder();
-		sb.append("title=").append(item.title).append("\n");
-		sb.append("imageUrl=").append(item.imageUrl).append("\n");
-		sb.append("address=").append(item.address).append("\n");
-		sb.append("newAddress=").append(item.newAddress).append("\n");
-		sb.append("zipcode=").append(item.zipcode).append("\n");
-		sb.append("phone=").append(item.phone).append("\n");
-		sb.append("category=").append(item.category).append("\n");
-		sb.append("longitude=").append(item.longitude).append("\n");
-		sb.append("latitude=").append(item.latitude).append("\n");
-		sb.append("distance=").append(item.distance).append("\n");
-		sb.append("direction=").append(item.direction).append("\n");
-		Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
-	}
-	
-	@Override
-	@Deprecated
-	public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
-	}
+    private void showResult(List<MapData> itemList) {
+        MapPointBounds mapPointBounds = new MapPointBounds();
 
-	@Override
-	public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-	}
+        for (int i = 0; i < itemList.size(); i++) {
+            MapData item = itemList.get(i);
 
-	@Override
-	public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-	}
+            MapPOIItem poiItem = new MapPOIItem();
+            poiItem.setItemName(item.title);
+            poiItem.setTag(i);
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude);
+            poiItem.setMapPoint(mapPoint);
+            mapPointBounds.add(mapPoint);
+            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+            poiItem.setCustomImageAutoscale(false);
+            poiItem.setCustomImageAnchor(0.5f, 1.0f);
+
+            mMapView.addPOIItem(poiItem);
+            mTagItemMap.put(poiItem.getTag(), item);
+        }
+
+        mMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+
+        MapPOIItem[] poiItems = mMapView.getPOIItems();
+        if (poiItems.length > 0) {
+            mMapView.selectPOIItem(poiItems[0], false);
+        }
+    }
+
+    private Drawable createDrawableFromUrl(String url) {
+        try {
+            InputStream is = (InputStream) this.fetch(url);
+            Drawable d = Drawable.createFromStream(is, "src");
+            return d;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Object fetch(String address) throws MalformedURLException, IOException {
+        URL url = new URL(address);
+        Object content = url.getContent();
+        return content;
+    }
+
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
+        MapData item = mTagItemMap.get(mapPOIItem.getTag());
+        StringBuilder sb = new StringBuilder();
+        sb.append("title=").append(item.title).append("\n");
+        sb.append("imageUrl=").append(item.imageUrl).append("\n");
+        sb.append("address=").append(item.address).append("\n");
+        sb.append("newAddress=").append(item.newAddress).append("\n");
+        sb.append("zipcode=").append(item.zipcode).append("\n");
+        sb.append("phone=").append(item.phone).append("\n");
+        sb.append("category=").append(item.category).append("\n");
+        sb.append("longitude=").append(item.longitude).append("\n");
+        sb.append("latitude=").append(item.latitude).append("\n");
+        sb.append("distance=").append(item.distance).append("\n");
+        sb.append("direction=").append(item.direction).append("\n");
+        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    @Deprecated
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
+    }
+
+    @Override
+    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
+    }
+
+    @Override
+    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
+    }
 
     @Override
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapCenterPoint) {
@@ -317,6 +333,19 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int zoomLevel) {
+    }
+
+    @Override
+    public void bindView() {
+
+        this.lvSearchList = (ListView) findViewById(R.id.lvSearchList);
+        this.mapview = (MapView) findViewById(R.id.map_view);
+        this.buttonSearch = (TextView) findViewById(R.id.buttonSearch);
+        this.editTextQuery = (EditText) findViewById(R.id.editTextQuery);
+        mMapView = (MapView) findViewById(R.id.map_view);
+
+        mEditTextQuery = (EditText) findViewById(R.id.editTextQuery); // 검색창
+        mButtonSearch = (TextView) findViewById(R.id.buttonSearch); // 검색버튼
     }
 
 }
