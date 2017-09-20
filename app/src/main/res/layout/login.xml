@@ -64,6 +64,7 @@
                     android:layout_weight="0.2"
                     android:gravity="end|center_vertical"
                     android:paddingRight="10dp"
+                    android:textSize="15dp"
                     android:text="아이디" />
 
                 <EditText
@@ -91,6 +92,7 @@
                     android:layout_weight="0.2"
                     android:gravity="end|center_vertical"
                     android:paddingRight="10dp"
+                    android:textSize="15dp"
                     android:text="비밀번호" />
 
                 <EditText
@@ -101,6 +103,7 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:inputType="textPassword"
+                    android:paddingLeft="10dp"
                     android:singleLine="true" />
             </LinearLayout>
 

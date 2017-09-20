@@ -7,4 +7,6 @@
     <color name="colorActionBar"> #F47889</color>
     <color name="mainTxtColor"> #FF4081</color>
     <color name="sColor"> #AFAFAF </color>
+
+    <color name="mTitleColor"> #d8b6ba </color>
 </resources>

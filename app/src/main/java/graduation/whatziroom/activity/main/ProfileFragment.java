@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.main;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import graduation.whatziroom.R;
+import graduation.whatziroom.activity.login.LoginActivity;
+
+import static graduation.whatziroom.R.anim.anim_slide_in_left;
 
 /**
  * Created by ATIV on 2017-06-25.
@@ -44,6 +48,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(),0,0).toBundle();
+                startActivity(intent,bundle);
             }
         });
 
