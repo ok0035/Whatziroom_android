@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.graduation.project.whatziroom">
+    package="graduation.whatziroom">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
 
     <application
         android:allowBackup="true"
@@ -11,25 +14,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.graduation.project.whatziroom.activity.base.BaseActivity" />
-        <activity android:name="com.graduation.project.whatziroom.activity.base.SplashActivity">
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="79704877b631039ffafc66b405447499"/>
+
+        <activity android:name=".activity.base.BaseActivity"/>
+        <activity android:name=".activity.base.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.graduation.project.whatziroom.activity.login.LoginActivity" />
-        <activity android:name="com.graduation.project.whatziroom.activity.login.SignUpActivity" />
-        <activity
-            android:name="com.graduation.project.whatziroom.activity.main.MainViewPager"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.RoomListActivity" />
-        <activity android:name="com.graduation.project.whatziroom.activity.room.RoomViewPager" />
-        <activity android:name="com.graduation.project.whatziroom.activity.main.ProfilUpdateActivity" />
-        <activity android:name="com.graduation.project.whatziroom.activity.main.ProfilUserSettingActivity"></activity>
-        <activity android:name="com.graduation.project.whatziroom.activity.room.RegisterSchedule"/>
-        <activity android:name="com.graduation.project.whatziroom.activity.room.RoomSettingView"/>
+        <activity android:name=".activity.room.SearchPlaceActivity"/>
+        <activity android:name=".activity.login.LoginActivity"/>
+        <activity android:name=".activity.room.RoomNoSchedule"/>
+        <activity android:name=".activity.room.RoomSettingActivity"/>
+        <activity android:name=".activity.login.SignUpActivity"/>
+        <activity android:name=".activity.room.RoomViewPager"/>
+        <activity android:name=".activity.main.ProfilUpdateActivity"/>
+        <activity android:name=".activity.main.ProfilUserSettingActivity"/>
+        <activity android:name=".activity.room.RegisterSchedule"/>
+        <activity android:name=".activity.main.MainViewPager"/>
+
+
+
     </application>
 
 </manifest>
