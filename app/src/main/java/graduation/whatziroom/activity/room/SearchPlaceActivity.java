@@ -1,8 +1,10 @@
 package graduation.whatziroom.activity.room;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +27,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
@@ -40,6 +44,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private EditText mEditTextQuery;
     private TextView mButtonSearch;
     private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
+	ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,36 +135,65 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
 		gps.getLocation();
 
+		final Handler mHandler = new Handler();
+
+		final Timer timer = new Timer();
+		mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this,"",
+				"잠시만 기다려 주세요.",true);
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				if (mProgressDialog!=null && mProgressDialog.isShowing() && GPSTracer.getIsInit()){
+
+					mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude,GPSTracer.longitude), 2, true);
+
+					mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+
+					Searcher searcher = new Searcher();
+					String query = mEditTextQuery.getText().toString();
+
+					MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
+
+					double latitude = GPSTracer.latitude;
+					double longitude = GPSTracer.longitude;
 
 
+					int radius = 0; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
+					int page = 3; // 페이지 번호 (1 ~ 3). 한페이지에 15개
+					String apikey = getResources().getString(R.string.APIKEY);
 
-        mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude,GPSTracer.longitude), 2, true);
+					searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
+						@Override
+						public void onSuccess(final List<MapData> itemList) {
+							showResult(itemList);
+						}
 
-		mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-        
-        Searcher searcher = new Searcher();
-        String query = mEditTextQuery.getText().toString();
+						@Override
+						public void onFail() {
+//							showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
+						}
+					});
 
-		MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
-		double latitude = GPSTracer.latitude;
-		double longitude = GPSTracer.longitude;
+//					searcher.searchCategory(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
+//						@Override
+//						public void onSuccess(final List<MapData> itemList) {
+//							showResult(itemList);
+//						}
+//
+//						@Override
+//						public void onFail() {
+////							showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
+//						}
+//					});
 
 
-        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-        int page = 1;
-        String apikey = getResources().getString(R.string.APIKEY);
-        
-        searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, radius, page, apikey, new OnFinishSearchListener() {
-        	@Override
-        	public void onSuccess(final List<MapData> itemList) {
-        		showResult(itemList);
-        	}
+					mProgressDialog.dismiss();
+					timer.cancel();
+				}
+			}
+		};
+		timer.schedule(task, 0, 2000);
 
-        	@Override
-        	public void onFail() {
-        		showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
-        	}
-        });
     }
 
 	private void showToast(final String text) {

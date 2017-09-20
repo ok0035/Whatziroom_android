@@ -124,6 +124,8 @@ public class HttpNetwork extends AsyncTask<String, Void, String> {
         }
     }
 
+
+
     private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
     {
         StringBuilder result = new StringBuilder();
