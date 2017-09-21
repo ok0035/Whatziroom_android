@@ -15,10 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="79704877b631039ffafc66b405447499"/>
-
         <activity android:name=".activity.base.BaseActivity"/>
         <activity android:name=".activity.base.SplashActivity">
             <intent-filter>
@@ -37,8 +33,6 @@
         <activity android:name=".activity.main.ProfilUserSettingActivity"/>
         <activity android:name=".activity.room.RegisterSchedule"/>
         <activity android:name=".activity.main.MainViewPager"/>
-
-
 
     </application>
 

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class SearchAdapter extends ArrayAdapter {
 
 
         if(!data.getImageUrl().equals(""))
-            Glide.with(SearchPlaceActivity.searchContext).load(data.getImageUrl()).into(ivSearch);
+            Glide.with(SearchPlaceActivity.searchContext).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearch);
 
         return row;
     }

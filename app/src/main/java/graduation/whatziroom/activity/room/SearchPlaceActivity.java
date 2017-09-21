@@ -10,11 +10,17 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -44,15 +50,22 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private static final String LOG_TAG = "Sea";
 
     private MapView mMapView;
-    private EditText mEditTextQuery;
-    private TextView mButtonSearch;
     private HashMap<Integer, SearchData> mTagItemMap = new HashMap<Integer, SearchData>();
     ProgressDialog mProgressDialog;
-    private EditText editTextQuery;
-    private TextView buttonSearch;
-    private MapView mapview;
     private ListView lvSearchList;
     public static Context searchContext;
+
+    private SearchData searchData;
+    private android.widget.LinearLayout llSlideMain;
+    private ImageView ivSearchResult;
+    private android.widget.LinearLayout llSlideSub;
+    private com.sothree.slidinguppanel.SlidingUpPanelLayout slidingLayout;
+    private EditText edSearchQuery;
+    private TextView btnSearch;
+    private TextView tvSearchResultTitle;
+    private TextView tvSearchResultAddress;
+    private TextView tvSearchResultPhone;
+    private LinearLayout llBtnSelectPlace;
 
     public SearchPlaceActivity() {
         super();
@@ -71,17 +84,35 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     }
 
     @Override
+    public void onBackPressed() {
+        if (mMapView.getVisibility() == View.INVISIBLE) {
+
+            finish();
+
+        } else {
+
+            mMapView.setVisibility(View.INVISIBLE);
+            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
+        }
+    }
+
+    @Override
     public void setUpEvents() {
 
         mMapView.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
-        mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
+//        mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
 
-        mButtonSearch.setOnClickListener(new View.OnClickListener() { // 검색버튼 클릭 이벤트 리스너
+        btnSearch.setOnClickListener(new View.OnClickListener() { // 검색버튼 클릭 이벤트 리스너
             @Override
             public void onClick(View v) {
-                String query = mEditTextQuery.getText().toString();
+
+//                slidingLayout.setPanelHeight(BaseActivity.convertDPtoPX(0));
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
+                String query = edSearchQuery.getText().toString();
                 if (query == null || query.length() == 0) {
                     showToast("검색어를 입력하세요.");
                     return;
@@ -98,10 +129,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                     @Override
                     public void onSuccess(final List<SearchData> itemList) {
-//                        mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-//                        showResult(itemList); // 검색 결과 보여줌
-
-
+                        mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
+                        showResult(itemList); // 검색 결과 보여줌
 
                         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -111,12 +140,12 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
                                 mMapView.setVisibility(View.INVISIBLE);
 
-                                SearchData dataList = new SearchData();
-                                lvSearchList.setAdapter(dataList.getAdapter());
+                                searchData = new SearchData();
+                                lvSearchList.setAdapter(searchData.getAdapter());
 
                                 for(int i=0; i<itemList.size(); i++) {
                                     SearchData data = itemList.get(i);
-                                    dataList.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
+                                    searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
                                             data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
                                 }
 
@@ -133,6 +162,33 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 });
             }
         });
+
+
+        lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                SearchData data = searchData.getSearchList().get(i);
+                Log.d("MarkerPoint", data.getTitle());
+
+                onPOIItemSelected(mMapView, mMapView.getPOIItems()[i]);
+                mMapView.selectPOIItem(mMapView.getPOIItems()[i], true);
+                mMapView.setMapCenterPoint(mMapView.getPOIItems()[i].getMapPoint(), true);
+                mMapView.getPOIItems()[i].setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+                mMapView.getPOIItems()[i].setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+
+                Glide.with(SearchPlaceActivity.this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
+                tvSearchResultTitle.setText(data.getTitle());
+                tvSearchResultAddress.setText(data.getAddress());
+                tvSearchResultPhone.setText(data.getPhone());
+
+                mMapView.setVisibility(View.VISIBLE);
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+            }
+        });
+
+
     }
 
     @Override
@@ -172,7 +228,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
     private void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mEditTextQuery.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(edSearchQuery.getWindowToken(), 0);
     }
 
     public void onMapViewInitialized(MapView mapView) {
@@ -195,15 +251,15 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                     mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
                     Searcher searcher = new Searcher();
-                    String query = mEditTextQuery.getText().toString();
+                    String query = edSearchQuery.getText().toString();
 
                     MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
                     double latitude = GPSTracer.latitude;
                     double longitude = GPSTracer.longitude;
 
 
-                    int radius = 0; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-                    int page = 3; // 페이지 번호 (1 ~ 3). 한페이지에 15개
+//                    int radius = 0; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
+//                    int page = 3; // 페이지 번호 (1 ~ 3). 한페이지에 15개
                     String apikey = getResources().getString(R.string.APIKEY);
 
                     searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
@@ -261,15 +317,16 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.getLatitude(), item.getLongitude());
             poiItem.setMapPoint(mapPoint);
             mapPointBounds.add(mapPoint);
-            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
+//            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+//            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
             poiItem.setCustomImageAutoscale(false);
             poiItem.setCustomImageAnchor(0.5f, 1.0f);
 
             mMapView.addPOIItem(poiItem);
             mTagItemMap.put(poiItem.getTag(), item);
+
         }
 
         mMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
@@ -329,6 +386,19 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
     @Override
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
+
+        mapView.setMapCenterPoint(mapPOIItem.getMapPoint(), true);
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+        SearchData data = searchData.getSearchList().get(mapPOIItem.getTag());
+        Glide.with(this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
+        tvSearchResultTitle.setText(data.getTitle());
+        tvSearchResultAddress.setText(data.getAddress());
+        tvSearchResultPhone.setText(data.getPhone());
+
+
+//        Log.d("POIItem", mapPOIItem.getCustomSele);
+
     }
 
     @Override
@@ -366,13 +436,18 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     @Override
     public void bindView() {
 
+        this.llBtnSelectPlace = (LinearLayout) findViewById(R.id.llBtnSelectPlace);
+        this.slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingLayout);
+        this.llSlideSub = (LinearLayout) findViewById(R.id.llSlideSub);
+        this.tvSearchResultPhone = (TextView) findViewById(R.id.tvSearchResultPhone);
+        this.tvSearchResultAddress = (TextView) findViewById(R.id.tvSearchResultAddress);
+        this.tvSearchResultTitle = (TextView) findViewById(R.id.tvSearchResultTitle);
+        this.ivSearchResult = (ImageView) findViewById(R.id.ivSearchResult);
+        this.llSlideMain = (LinearLayout) findViewById(R.id.llSlideMain);
+        this.mMapView = (MapView) findViewById(R.id.mMapView);
         this.lvSearchList = (ListView) findViewById(R.id.lvSearchList);
-        this.mMapView = (MapView) findViewById(R.id.map_view);
-        this.buttonSearch = (TextView) findViewById(R.id.buttonSearch);
-        this.editTextQuery = (EditText) findViewById(R.id.editTextQuery);
-
-        mEditTextQuery = (EditText) findViewById(R.id.editTextQuery); // 검색창
-        mButtonSearch = (TextView) findViewById(R.id.buttonSearch); // 검색버튼
+        this.btnSearch = (TextView) findViewById(R.id.btnSearch);
+        this.edSearchQuery = (EditText) findViewById(R.id.edSearchQuery);
     }
 
 }

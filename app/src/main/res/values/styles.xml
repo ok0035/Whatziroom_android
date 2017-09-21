@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!--슬라이딩업패널을 쓰기위해서 적용-->
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
 </resources>

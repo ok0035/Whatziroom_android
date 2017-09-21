@@ -41,10 +41,11 @@ public class BaseActivity extends AppCompatActivity {
     public TextView btnRoomSchedule;
     public TextView btnRoomSetting;
 
+    private static Resources r;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mContext = this;
     }
 
@@ -103,9 +104,8 @@ public class BaseActivity extends AppCompatActivity {
 
 
     //dp값을 입력하여 px로 변환하여 반환해줌
-    public int convertDPtoPX(int size) {
-
-        Resources r = getResources();
+    public static int convertDPtoPX(int size) {
+        r = mContext.getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, r.getDisplayMetrics());
 
         return  px;
