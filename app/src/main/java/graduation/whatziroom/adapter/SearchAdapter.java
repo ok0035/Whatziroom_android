@@ -28,12 +28,12 @@ public class SearchAdapter extends ArrayAdapter {
 
     LayoutInflater inf = null;
     Context mContext = null;
-    ArrayList<SearchData> SearchList = null;
+    ArrayList<SearchData> searchList = null;
 
     public SearchAdapter(@NonNull Context context, ArrayList<SearchData> list) {
         super(context, R.layout.search_list_item, list);
         mContext = context;
-        SearchList = list;
+        searchList = list;
         inf = LayoutInflater.from(mContext);
     }
 
@@ -46,7 +46,7 @@ public class SearchAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.search_list_item, null);
         }
 
-        SearchData data = SearchList.get(position);
+        SearchData data = searchList.get(position);
 
         TextView tvTitle = row.findViewById(R.id.tvSearchTitle);
         TextView tvAddress = row.findViewById(R.id.tvSearchAddress);
@@ -56,12 +56,23 @@ public class SearchAdapter extends ArrayAdapter {
         tvTitle.setText(data.getTitle());
         tvAddress.setText(data.getAddress());
         tvPhone.setText(data.getPhone());
-        Log.d("imageURL", data.getImageUrl() + "..................");
-        System.out.println("IMAGEURL   " + data.getImageUrl());
 
 
-        if(!data.getImageUrl().equals(""))
+        if(!data.getImageUrl().equals("")) {
+            System.out.println("이미지가 없는데 이미지가 나오면 안되지!!!");
+
+            Log.d("Title", data.getTitle());
+            Log.d("Address", data.getAddress());
+            Log.d("Phone", data.getPhone());
+            System.out.println("ImageURL : " + data.getImageUrl());
             Glide.with(SearchPlaceActivity.searchContext).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearch);
+        } else {
+
+            //이미지뷰에 데이터가 남아있어서 의도하지 않은 이미지가 뿌려지는 것을 막아줌
+            Glide.with(SearchPlaceActivity.searchContext).clear(ivSearch);
+
+        }
+
 
         return row;
     }

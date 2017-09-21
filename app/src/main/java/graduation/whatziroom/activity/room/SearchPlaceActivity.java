@@ -141,18 +141,17 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                                 mMapView.setVisibility(View.INVISIBLE);
 
                                 searchData = new SearchData();
-                                lvSearchList.setAdapter(searchData.getAdapter());
-
                                 for(int i=0; i<itemList.size(); i++) {
                                     SearchData data = itemList.get(i);
                                     searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
                                             data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
                                 }
 
-                                lvSearchList.deferNotifyDataSetChanged();
+                                lvSearchList.setAdapter(searchData.getAdapter());
+//                                onDestroy();
+//                                lvSearchList.deferNotifyDataSetChanged();
                             }
                         });
-
                     }
 
                     @Override
