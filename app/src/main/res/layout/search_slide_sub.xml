@@ -1,15 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llSlideSub"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/llSlideSub"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:weightSum="1">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -18,9 +19,9 @@
             android:layout_weight="0.3">
 
             <ImageView
+                android:id="@+id/ivSearchResult"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/ivSearchResult"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true" />
 
@@ -29,8 +30,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="0.7"
+            android:orientation="vertical"
             android:weightSum="1">
 
             <LinearLayout
@@ -105,7 +106,7 @@
                             android:gravity="center_vertical"
                             android:text="주소   : "
                             android:textSize="12dp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvSearchResultAddress"
@@ -135,7 +136,7 @@
                             android:gravity="center_vertical"
                             android:text="TEL   : "
                             android:textSize="12dp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvSearchResultPhone"
@@ -156,5 +157,20 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scWebView"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/wbSearchResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </WebView>
+    </ScrollView>
 
 </LinearLayout>

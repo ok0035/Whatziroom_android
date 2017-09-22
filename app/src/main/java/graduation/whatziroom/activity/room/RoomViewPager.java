@@ -42,6 +42,14 @@ public class RoomViewPager extends BaseActivity {
     private String roomPKey;
     private String result = "notEmpty";
 
+    public RoomViewPager() {
+
+        roomInfoView = new RoomInfoFragment();
+        roomChatView = new RoomChatFragment();
+        roomFriendList = new RoomFriendList();
+
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,10 +255,6 @@ public class RoomViewPager extends BaseActivity {
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
         this.linRoom = (LinearLayout) findViewById(R.id.linRoom);
-
-        roomInfoView = new RoomInfoFragment();
-        roomChatView = new RoomChatFragment();
-        roomFriendList = new RoomFriendList();
 
     }
 }

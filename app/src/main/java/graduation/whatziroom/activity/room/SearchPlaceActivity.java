@@ -8,13 +8,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +71,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private TextView tvSearchResultAddress;
     private TextView tvSearchResultPhone;
     private LinearLayout llBtnSelectPlace;
+    private WebView wbSearchResult;
+    private ScrollView scWebView;
 
     public SearchPlaceActivity() {
         super();
@@ -85,16 +92,16 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
     @Override
     public void onBackPressed() {
+
+        if(slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
+            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
         if (mMapView.getVisibility() == View.INVISIBLE) {
 
-            finish();
+            mMapView.setVisibility(View.VISIBLE);
 
-        } else {
+        } mMapView.setVisibility(View.INVISIBLE);
 
-            mMapView.setVisibility(View.INVISIBLE);
-            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-
-        }
     }
 
     @Override
@@ -104,6 +111,13 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
 //        mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
+
+        edSearchQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            }
+        });
 
         btnSearch.setOnClickListener(new View.OnClickListener() { // 검색버튼 클릭 이벤트 리스너
             @Override
@@ -148,7 +162,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                                 }
 
                                 lvSearchList.setAdapter(searchData.getAdapter());
-//                                onDestroy();
 //                                lvSearchList.deferNotifyDataSetChanged();
                             }
                         });
@@ -181,12 +194,59 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 tvSearchResultAddress.setText(data.getAddress());
                 tvSearchResultPhone.setText(data.getPhone());
 
+                wbSearchResult.setWebViewClient(new WebViewClient());
+                WebSettings webSettings = wbSearchResult.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                wbSearchResult.loadUrl(data.getPlaceUrl());
+
                 mMapView.setVisibility(View.VISIBLE);
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
             }
         });
 
+        scWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+//                Log.d("getAction", motionEvent.getAction() + "");
+//                Log.d("ACTIONUP", motionEvent.ACTION_UP + "");
+//                Log.d("ACTIONDOWN", motionEvent.ACTION_DOWN + "");
+//                Log.d("ACTIONMOVE", motionEvent.ACTION_MOVE + "");
+//                Log.d("ACTIONCANCEL", motionEvent.ACTION_CANCEL + "");
+
+                if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) slidingLayout.setTouchEnabled(false);
+                else slidingLayout.setTouchEnabled(true);
+
+                return false;
+
+            }
+        });
+
+        slidingLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+//                Log.d("getAction", motionEvent.getAction() + "");
+//                Log.d("ACTIONUP", motionEvent.ACTION_UP + "");
+//                Log.d("ACTIONDOWN", motionEvent.ACTION_DOWN + "");
+//                Log.d("ACTIONMOVE", motionEvent.ACTION_MOVE + "");
+//                Log.d("ACTIONCANCEL", motionEvent.ACTION_CANCEL + "");
+//
+//                Log.d("Sliding getAction", motionEvent.getAction() + "");
+
+
+                return false;
+            }
+        });
+
+        wbSearchResult.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                return false;
+            }
+        });
 
     }
 
@@ -395,6 +455,11 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         tvSearchResultAddress.setText(data.getAddress());
         tvSearchResultPhone.setText(data.getPhone());
 
+        wbSearchResult.setWebViewClient(new WebViewClient());
+        WebSettings webSettings = wbSearchResult.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        wbSearchResult.loadUrl(data.getPlaceUrl());
+
 
 //        Log.d("POIItem", mapPOIItem.getCustomSele);
 
@@ -437,7 +502,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
         this.llBtnSelectPlace = (LinearLayout) findViewById(R.id.llBtnSelectPlace);
         this.slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingLayout);
-        this.llSlideSub = (LinearLayout) findViewById(R.id.llSlideSub);
         this.tvSearchResultPhone = (TextView) findViewById(R.id.tvSearchResultPhone);
         this.tvSearchResultAddress = (TextView) findViewById(R.id.tvSearchResultAddress);
         this.tvSearchResultTitle = (TextView) findViewById(R.id.tvSearchResultTitle);
@@ -447,6 +511,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         this.lvSearchList = (ListView) findViewById(R.id.lvSearchList);
         this.btnSearch = (TextView) findViewById(R.id.btnSearch);
         this.edSearchQuery = (EditText) findViewById(R.id.edSearchQuery);
+        this.wbSearchResult = (WebView) findViewById(R.id.wbSearchResult);
+        this.scWebView = (ScrollView) findViewById(R.id.scWebView);
     }
 
 }

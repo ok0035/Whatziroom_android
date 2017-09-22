@@ -1,5 +1,7 @@
 package graduation.whatziroom.Data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import graduation.whatziroom.activity.room.SearchPlaceActivity;
@@ -174,6 +176,8 @@ public class SearchData {
 
 	public void addItem(String imageUrl, String title, String address, String newAddress, String zipcode, String phone,
 						String category, double longitude, double latitude, double distance, String direction, String id, String placeUrl, String addressBCode) {
+
+		Log.d("PlaceURL", placeUrl + ".");
 
 		searchList.add(new SearchData(imageUrl, title, address, newAddress, zipcode, phone, category, longitude, latitude, distance, direction, id, placeUrl, addressBCode));
 

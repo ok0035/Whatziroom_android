@@ -46,6 +46,16 @@ public class MainViewPager extends BaseActivity {
     private NotificationListFragment notificationListView;
     private ProfileFragment profileView;
 
+    public MainViewPager() {
+
+        friendListView = new FriendListFragment();
+        roomListView = new RoomListFragment();
+        scheduleListView = new ScheduleListFragment();
+        notificationListView = new NotificationListFragment();
+        profileView = new ProfileFragment();
+
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -299,11 +309,7 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setValues() {
         super.setValues();
-        friendListView = new FriendListFragment();
-        roomListView = new RoomListFragment();
-        scheduleListView = new ScheduleListFragment();
-        notificationListView = new NotificationListFragment();
-        profileView = new ProfileFragment();
+
 
         // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
 //        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
