@@ -31,7 +31,6 @@
         <activity android:name=".activity.room.RoomViewPager"/>
         <activity android:name=".activity.main.ProfilUpdateActivity"/>
         <activity android:name=".activity.main.ProfilUserSettingActivity"/>
-        <activity android:name=".activity.room.RegisterSchedule"/>
         <activity android:name=".activity.main.MainViewPager"/>
 
     </application>

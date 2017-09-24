@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,9 +20,6 @@ import java.util.ArrayList;
 
 import graduation.whatziroom.Data.FriendData;
 import graduation.whatziroom.R;
-import graduation.whatziroom.network.DBSI;
-import graduation.whatziroom.network.HttpNetwork;
-import graduation.whatziroom.network.Params;
 
 /**
  * Created by Heronation on 2017-07-10.
@@ -36,7 +31,6 @@ public class FriendAdapter extends ArrayAdapter {
     ArrayList<FriendData> mList = null;
     LayoutInflater inf = null;
     int blockFlag;
-    DBSI dbsi;
 
     public FriendAdapter(Context context, ArrayList<FriendData> list, int blockFlag) {
         super(context, R.layout.friend_list_tiem, list);
@@ -44,7 +38,6 @@ public class FriendAdapter extends ArrayAdapter {
         mList = list;
         inf = LayoutInflater.from(mContext);
         this.blockFlag = blockFlag;
-        dbsi = new DBSI();
         Log.d("생성자 block flag : ", this.blockFlag + "");
     }
 
@@ -78,7 +71,7 @@ public class FriendAdapter extends ArrayAdapter {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, position + "커스텀 다이얼로그", Toast.LENGTH_SHORT).show();
-                    ShowDialog(position);
+                    ShowDialog();
                 }
             });
         }
@@ -111,20 +104,13 @@ public class FriendAdapter extends ArrayAdapter {
         return row;
     }
 
-    private void ShowDialog(final int position) {
+    private void ShowDialog() {
         LayoutInflater dialog = LayoutInflater.from(mContext);
         final View dialogLayout = dialog.inflate(R.layout.request_friend_dialog, null);
         final Dialog myDialog = new Dialog(mContext);
 
-        myDialog.setTitle(null);
-        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        myDialog.setTitle("대화상자 제목이다");
         myDialog.setContentView(dialogLayout);
-
-        final ViewGroup.LayoutParams params = myDialog.getWindow().getAttributes();
-        params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        myDialog.getWindow().setAttributes((WindowManager.LayoutParams) params);
-
         myDialog.show();
 
         Button btn_ok = (Button) dialogLayout.findViewById(R.id.btn_ok);
@@ -140,40 +126,7 @@ public class FriendAdapter extends ArrayAdapter {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mContext, "전송완료", Toast.LENGTH_SHORT).show();
-                if(mList.get(position).getFreindStatus().equals("wating")){
-                    Toast.makeText(mContext, "이미 친구 요청을 보낸 유저입니다.", Toast.LENGTH_SHORT).show();
-                }else{
-                    Params params1 = new Params();
-
-                    Log.d("UserPKey",dbsi.selectQuery("Select PKey From User")[0][0]);
-                    Log.d("FriendKey", String.valueOf(mList.get(position).getUserPKey()));
-                    Log.d("Status", "0");
-
-                    params1.add("UserPKey",dbsi.selectQuery("Select PKey From User")[0][0]);
-                    params1.add("FriendKey", String.valueOf(mList.get(position).getUserPKey()));
-                    params1.add("Status","0");
-
-                    new HttpNetwork("AddFriend.php", params1.getParams(), new HttpNetwork.AsyncResponse() {
-                        @Override
-                        public void onSuccess(String response) {
-                            Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(String response) {
-                            Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onPreExcute() {
-
-                        }
-                    });
-
-                }
-
-
+                Toast.makeText(mContext, "전송완료", Toast.LENGTH_SHORT).show();
                 myDialog.dismiss();
             }
         });
