@@ -52,7 +52,7 @@ public class RoomInfoFragment extends Fragment {
                 break;
 
             case "notEmpty":
-                layout = (ScrollView) inflater.inflate(R.layout.room_information, container, false);
+                layout = (ScrollView) inflater.inflate(R.layout.information, container, false);
                 linAttendee = (LinearLayout) layout.findViewById(R.id.linAttendee);
 
                 ivAttendee = new ImageView[5];

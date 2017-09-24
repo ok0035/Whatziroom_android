@@ -65,12 +65,12 @@ public class SearchAdapter extends ArrayAdapter {
             Log.d("Address", data.getAddress());
             Log.d("Phone", data.getPhone());
             System.out.println("ImageURL : " + data.getImageUrl());
-            Glide.with(SearchPlaceActivity.searchActivity).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearch);
+            Glide.with(SearchPlaceActivity.searchContext).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearch);
 
         } else {
 
             //이미지뷰에 데이터가 남아있어서 의도하지 않은 이미지가 뿌려지는 것을 막아줌
-            Glide.with(SearchPlaceActivity.searchActivity).clear(ivSearch);
+            Glide.with(SearchPlaceActivity.searchContext).clear(ivSearch);
 
         }
 

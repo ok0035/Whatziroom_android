@@ -9,6 +9,16 @@ public class FriendData {
     private String UserName;
     private int UserPKey;
     private String ThumbNailImagePath;
+    private String freindStatus;
+
+    public String getFreindStatus() {
+        return freindStatus;
+    }
+
+    public void setFreindStatus(String freindStatus) {
+        this.freindStatus = freindStatus;
+    }
+
 
     public String getUserName() {
         return UserName;
@@ -33,7 +43,6 @@ public class FriendData {
     public void setThumbNailImagePath(String thumbNailImagePath) {
         ThumbNailImagePath = thumbNailImagePath;
     }
-
 
 
 }

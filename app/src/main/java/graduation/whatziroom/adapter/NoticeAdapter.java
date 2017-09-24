@@ -19,7 +19,8 @@ import graduation.whatziroom.R;
  * Created by user on 2017-07-16.
  */
 
-public class NoticeAdapter extends ArrayAdapter {
+public class
+NoticeAdapter extends ArrayAdapter {
 
     Context mContext = null;
     ArrayList<NoticeData> mList = null;
