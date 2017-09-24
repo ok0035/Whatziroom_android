@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_border"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/noticeResultTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="저와 친구가 되어주실래요?"
+            android:background="@color/mTitleColor"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/sColor" />
+
+    <LinearLayout
+        android:id="@+id/noticeSelectBeforeLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
+
+            <ImageView
+                android:id="@+id/noticeListThumbImg"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/noticeTxt1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.5"
+                    android:textSize="16dp"
+                    android:gravity="center_vertical"
+                    android:text="xxx님의 친구 신청" />
+
+                <TextView
+                    android:id="@+id/noticeTxt2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.5"
+                    android:textSize="15dp"
+                    android:gravity="center_vertical"
+                    android:text="안녕하세요 친구가 되고 싶어요ㅠ" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/noticeOKBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="20dp"
+                android:text="O" />
+
+            <TextView
+                android:id="@+id/noticeCancelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:textSize="20dp"
+                android:text="X" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
