@@ -56,8 +56,7 @@ public class ScheduleAdapter extends ArrayAdapter {
         name.setText(data.getScheduleName());
         place.setText(data.getSchedulePlace());
         date.setText(data.getScheduleDate());
-        dDay.setText(data.getScheduleDday());
-
+        dDay.setText("D - " + data.getScheduleDday());
 
         return row;
     }

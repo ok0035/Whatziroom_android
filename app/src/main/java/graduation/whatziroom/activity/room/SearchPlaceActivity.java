@@ -1,7 +1,9 @@
 package graduation.whatziroom.activity.room;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +48,7 @@ import java.util.TimerTask;
 import graduation.whatziroom.Data.SearchData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
+import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
 import graduation.whatziroom.util.GPSTracer;
@@ -58,9 +61,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private HashMap<Integer, SearchData> mTagItemMap = new HashMap<Integer, SearchData>();
     ProgressDialog mProgressDialog;
     private ListView lvSearchList;
-    public static Context searchContext;
+    public static Activity searchActivity;
 
-    private SearchData searchData;
+    private SearchData searchData, selectedData;
     private android.widget.LinearLayout llSlideMain;
     private ImageView ivSearchResult;
     private android.widget.LinearLayout llSlideSub;
@@ -73,10 +76,17 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private LinearLayout llBtnSelectPlace;
     private WebView wbSearchResult;
     private ScrollView scWebView;
+    private TextView tvBtnSearchCancel;
+    private TextView tvBtnSearchSelect;
+
+    private int userPKey, roomPKey;
+    private String myScheduleDate;
 
     public SearchPlaceActivity() {
         super();
-        searchContext = this;
+
+        searchActivity = this;
+
     }
 
     @Override
@@ -93,14 +103,13 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     @Override
     public void onBackPressed() {
 
-        if(slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
+        if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
-        if (mMapView.getVisibility() == View.INVISIBLE) {
-
+        if (mMapView.getVisibility() == View.INVISIBLE)
             mMapView.setVisibility(View.VISIBLE);
-
-        } mMapView.setVisibility(View.INVISIBLE);
+        else
+            mMapView.setVisibility(View.INVISIBLE);
 
     }
 
@@ -155,7 +164,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                                 mMapView.setVisibility(View.INVISIBLE);
 
                                 searchData = new SearchData();
-                                for(int i=0; i<itemList.size(); i++) {
+                                for (int i = 0; i < itemList.size(); i++) {
                                     SearchData data = itemList.get(i);
                                     searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
                                             data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
@@ -183,11 +192,11 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 SearchData data = searchData.getSearchList().get(i);
                 Log.d("MarkerPoint", data.getTitle());
 
-                onPOIItemSelected(mMapView, mMapView.getPOIItems()[i]);
+//                onPOIItemSelected(mMapView, mMapView.getPOIItems()[i]);
                 mMapView.selectPOIItem(mMapView.getPOIItems()[i], true);
                 mMapView.setMapCenterPoint(mMapView.getPOIItems()[i].getMapPoint(), true);
-                mMapView.getPOIItems()[i].setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-                mMapView.getPOIItems()[i].setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+//                mMapView.getPOIItems()[i].setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+//                mMapView.getPOIItems()[i].setCustomSelectedImageResourceId(R.drawable.map_pin_red);
 
                 Glide.with(SearchPlaceActivity.this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
                 tvSearchResultTitle.setText(data.getTitle());
@@ -202,6 +211,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 mMapView.setVisibility(View.VISIBLE);
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
+                selectedData = data;
+
             }
         });
 
@@ -215,7 +226,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 //                Log.d("ACTIONMOVE", motionEvent.ACTION_MOVE + "");
 //                Log.d("ACTIONCANCEL", motionEvent.ACTION_CANCEL + "");
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_MOVE) slidingLayout.setTouchEnabled(false);
+                if (motionEvent.getAction() == MotionEvent.ACTION_MOVE)
+                    slidingLayout.setTouchEnabled(false);
                 else slidingLayout.setTouchEnabled(true);
 
                 return false;
@@ -223,35 +235,42 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             }
         });
 
-        slidingLayout.setOnTouchListener(new View.OnTouchListener() {
+
+        tvBtnSearchCancel.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View view) {
 
-//                Log.d("getAction", motionEvent.getAction() + "");
-//                Log.d("ACTIONUP", motionEvent.ACTION_UP + "");
-//                Log.d("ACTIONDOWN", motionEvent.ACTION_DOWN + "");
-//                Log.d("ACTIONMOVE", motionEvent.ACTION_MOVE + "");
-//                Log.d("ACTIONCANCEL", motionEvent.ACTION_CANCEL + "");
-//
-//                Log.d("Sliding getAction", motionEvent.getAction() + "");
+                finish();
 
-
-                return false;
             }
+
         });
 
-        wbSearchResult.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+        tvBtnSearchSelect.setOnClickListener(new View.OnClickListener() {
 
-                return false;
+            @Override
+            public void onClick(View view) {
+
+                ScheduleNameDialog dialog = new ScheduleNameDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
+                dialog.show();
+
             }
+
         });
 
     }
 
     @Override
     public void setValues() {
+
+        Intent intent = getIntent();
+
+        userPKey = MainViewPager.getUserPKey();
+        roomPKey = intent.getIntExtra("roomPKey", 0);
+        Log.d("SearchRoomPKey", roomPKey + "");
+        myScheduleDate = intent.getStringExtra("date");
+        Log.d("mySchedule", myScheduleDate);
 
     }
 
@@ -432,6 +451,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         sb.append("distance=").append(item.getDistance()).append("\n");
         sb.append("direction=").append(item.getDirection()).append("\n");
         Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     @Override
@@ -451,6 +472,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
         SearchData data = searchData.getSearchList().get(mapPOIItem.getTag());
         Glide.with(this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
+
+
+
         tvSearchResultTitle.setText(data.getTitle());
         tvSearchResultAddress.setText(data.getAddress());
         tvSearchResultPhone.setText(data.getPhone());
@@ -459,6 +483,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         WebSettings webSettings = wbSearchResult.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wbSearchResult.loadUrl(data.getPlaceUrl());
+
+        selectedData = mTagItemMap.get(mapPOIItem.getTag());
 
 
 //        Log.d("POIItem", mapPOIItem.getCustomSele);
@@ -513,6 +539,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         this.edSearchQuery = (EditText) findViewById(R.id.edSearchQuery);
         this.wbSearchResult = (WebView) findViewById(R.id.wbSearchResult);
         this.scWebView = (ScrollView) findViewById(R.id.scWebView);
+        this.tvBtnSearchSelect = (TextView) findViewById(R.id.tvBtnSearchSelect);
+        this.tvBtnSearchCancel = (TextView) findViewById(R.id.tvBtnSearchCancel);
     }
 
 }
