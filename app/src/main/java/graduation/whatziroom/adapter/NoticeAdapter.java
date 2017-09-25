@@ -19,8 +19,8 @@ import graduation.whatziroom.R;
  * Created by user on 2017-07-16.
  */
 
-public class
-NoticeAdapter extends ArrayAdapter {
+public class NoticeAdapter extends ArrayAdapter {
+
 
     Context mContext = null;
     ArrayList<NoticeData> mList = null;
@@ -37,11 +37,13 @@ NoticeAdapter extends ArrayAdapter {
     @Override
     public View getView(final int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
 
+
         View row = convertView;
 
         if(row == null){
             row = inf.inflate(R.layout.notice_list_item, null);
         }
+
 
         final LinearLayout llParent = (LinearLayout)row.findViewById(R.id.llParent);
         final LinearLayout ll = (LinearLayout)row.findViewById(R.id.noticeSelectBeforeLL);
@@ -85,13 +87,13 @@ NoticeAdapter extends ArrayAdapter {
             }
         }
 
-
-
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
+
 //                mList.get(position).setCheckFlag(1);
+
                 ll.setVisibility(View.GONE);
             }
         });
@@ -99,6 +101,7 @@ NoticeAdapter extends ArrayAdapter {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(mList.get(position).getSrFlag().equals("receive")){
                     noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
 //                mList.get(position).setCheckFlag(2);

@@ -12,16 +12,17 @@ import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import graduation.whatziroom.Data.NoticeData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.adapter.NoticeAdapter;
+
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
+
 
 /**
  * Created by ATIV on 2017-06-25.
@@ -78,9 +79,6 @@ public class NotificationListFragment extends Fragment {
 
             }
         });
-
-
-
 
         return layout;
     }

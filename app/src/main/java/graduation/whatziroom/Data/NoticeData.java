@@ -5,6 +5,7 @@ package graduation.whatziroom.Data;
  */
 
 public class NoticeData {
+
     private String userName;
     private String srFlag;
     private String friendStatus;
@@ -33,6 +34,7 @@ public class NoticeData {
     public void setFriendStatus(String friendStatus) {
         this.friendStatus = friendStatus;
     }
+
 
 
 }

@@ -107,6 +107,7 @@ public class LoginActivity extends BaseActivity {
                                             + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
                                             + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', " + isAutoLogin + ")");
 
+
                                     Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                                     Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
                                     startActivity(successIntent);

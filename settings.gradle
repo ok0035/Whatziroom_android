@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':switchdatetime'
+project(':switchdatetime').projectDir = new File('app/libs/switchdatetime')

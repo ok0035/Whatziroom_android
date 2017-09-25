@@ -20,7 +20,8 @@ public class SearchData {
 
 	public SearchData() {
 		searchList = new ArrayList<SearchData>();
-		adapter = new SearchAdapter(SearchPlaceActivity.searchContext, searchList);
+		adapter = new SearchAdapter(SearchPlaceActivity.searchActivity, searchList);
+
 	}
 
 	public SearchData(String imageUrl, String title, String address, String newAddress, String zipcode, String phone, String category,
@@ -46,7 +47,6 @@ public class SearchData {
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -54,7 +54,6 @@ public class SearchData {
 	public String getPlaceUrl() {
 		return placeUrl;
 	}
-
 	public void setPlaceUrl(String placeUrl) {
 		this.placeUrl = placeUrl;
 	}
@@ -62,7 +61,6 @@ public class SearchData {
 	public String getAddressBCode() {
 		return addressBCode;
 	}
-
 	public void setAddressBCode(String addressBCode) {
 		this.addressBCode = addressBCode;
 	}
@@ -70,7 +68,6 @@ public class SearchData {
 	public String getImageUrl() {
 		return imageUrl;
 	}
-
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
@@ -78,7 +75,6 @@ public class SearchData {
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -86,7 +82,6 @@ public class SearchData {
 	public String getAddress() {
 		return address;
 	}
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -94,7 +89,6 @@ public class SearchData {
 	public String getNewAddress() {
 		return newAddress;
 	}
-
 	public void setNewAddress(String newAddress) {
 		this.newAddress = newAddress;
 	}
@@ -102,7 +96,6 @@ public class SearchData {
 	public String getZipcode() {
 		return zipcode;
 	}
-
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
@@ -110,7 +103,6 @@ public class SearchData {
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
@@ -118,7 +110,6 @@ public class SearchData {
 	public String getCategory() {
 		return category;
 	}
-
 	public void setCategory(String category) {
 		this.category = category;
 	}
@@ -126,7 +117,6 @@ public class SearchData {
 	public double getLongitude() {
 		return longitude;
 	}
-
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
@@ -134,7 +124,6 @@ public class SearchData {
 	public double getLatitude() {
 		return latitude;
 	}
-
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
@@ -153,7 +142,6 @@ public class SearchData {
 	public String getDirection() {
 		return direction;
 	}
-
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
@@ -161,7 +149,6 @@ public class SearchData {
 	public SearchAdapter getAdapter() {
 		return adapter;
 	}
-
 	public void setAdapter(SearchAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -169,7 +156,6 @@ public class SearchData {
 	public ArrayList<SearchData> getSearchList() {
 		return searchList;
 	}
-
 	public void setSearchList(ArrayList<SearchData> searchList) {
 		this.searchList = searchList;
 	}

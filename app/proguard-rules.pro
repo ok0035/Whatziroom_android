@@ -16,10 +16,20 @@
 #   public *;
 #}
 
+<<<<<<< HEAD
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
+=======
+
+# Uncomment this to preserve the line number room_information for
+# debugging stack traces.
+#-keepattributes SourceFile,LineNumberTable
+
+# If you keep the line number room_information, uncomment this to
+
+>>>>>>> 7c7307beff4a627fc4076e4240d8e2c4f719f884
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile

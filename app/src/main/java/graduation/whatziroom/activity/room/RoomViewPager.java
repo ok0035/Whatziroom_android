@@ -17,6 +17,17 @@ import android.widget.TextView;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import graduation.whatziroom.R;
+import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import me.relex.circleindicator.CircleIndicator;
@@ -40,7 +51,16 @@ public class RoomViewPager extends BaseActivity {
     private RoomFriendList roomFriendList;
 
     private String roomPKey;
+    private int userPKey;
     private String result = "notEmpty";
+
+    // TimePicker, DatePicker를 위한 변수 선언
+
+    private static final String TAG = "Sample";
+    private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
+    private static final String STATE_TEXTVIEW = "STATE_TEXTVIEW";
+
+    private SwitchDateTimeDialogFragment dateTimeFragment;
 
     public RoomViewPager() {
 
@@ -73,6 +93,8 @@ public class RoomViewPager extends BaseActivity {
         Intent intentPKey = getIntent();
 
         roomPKey = intentPKey.getStringExtra("PKey");
+        userPKey = MainViewPager.getUserPKey();
+
         Log.d("RoomPKey", roomPKey);
 
         Params params = new Params();
@@ -197,11 +219,77 @@ public class RoomViewPager extends BaseActivity {
             }
         });
 
+        // Construct SwitchDateTimePicker
+        dateTimeFragment = (SwitchDateTimeDialogFragment) getSupportFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT);
+        if(dateTimeFragment == null) {
+            dateTimeFragment = SwitchDateTimeDialogFragment.newInstance(
+                    getString(R.string.label_datetime_dialog),
+                    getString(android.R.string.ok),
+                    getString(android.R.string.cancel)
+//                    getString(R.string.clean) // Optional
+            );
+        }
+
+        // Init format
+        final SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd a h:mm:ss", java.util.Locale.getDefault());
+        // Assign unmodifiable values
+        dateTimeFragment.set24HoursMode(false);
+        dateTimeFragment.setMinimumDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).getTime());
+        dateTimeFragment.setMaximumDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 30, Calendar.DECEMBER, 31).getTime());
+
+        // Define new day and month format
+        try {
+            dateTimeFragment.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+        } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        // Set listener for date
+        // Or use dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+        dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+                Log.d("Time", date.getYear() + "");
+                Log.d("Time", (date.getMonth() + 1) + "");
+                Log.d("Time", date.getDay() + "");
+                Log.d("Time", date.getDate() + "");
+                Log.d("Time", date.getHours() +"");
+                Log.d("Time", date.getMinutes() + "");
+
+                Intent intent = new Intent(getApplicationContext(), SearchPlaceActivity.class);
+
+                Log.d("dialogRoomPKey", roomPKey);
+
+                intent.putExtra("roomPKey", Integer.parseInt(roomPKey));
+                intent.putExtra("date", date.toString());
+
+                startActivity(intent);
+                dateTimeFragment.dismiss();
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+                // Do nothing
+            }
+
+            @Override
+            public void onNeutralButtonClick(Date date) {
+                // Optional if neutral button does'nt exists
+
+            }
+        });
+
         btnRoomSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterSchedule.class);
-                startActivity(intent);
+
+                dateTimeFragment.startAtCalendarView();
+
+                dateTimeFragment.setDefaultDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
+                        Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                        Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE)).getTime());
+                dateTimeFragment.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT);
+
             }
         });
 

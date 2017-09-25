@@ -96,14 +96,13 @@ public class FriendListFragment extends Fragment {
             }
         });
 
-
-
         return layout;
     }
 
 
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
     public void findFriendFunc(){
+
 
         final EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
         edittext.setHint("친구 찾기(이메일, 닉네임)");
@@ -167,6 +166,7 @@ public class FriendListFragment extends Fragment {
 //                ArrayList<FriendData> list = new ArrayList<FriendData>();
 //                list.add(fd);
 //                listview.setAdapter(new FriendAdapter(getActivity(), list, 2));
+
             }
         });
 
@@ -176,7 +176,6 @@ public class FriendListFragment extends Fragment {
         EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
         edittext.setText(null);
         edittext.setHint("친구 찾기(이름)");
-
 
         TextView textview = (TextView)getActivity().findViewById(R.id.searchFreindBtn);
         textview.setOnClickListener(null);
