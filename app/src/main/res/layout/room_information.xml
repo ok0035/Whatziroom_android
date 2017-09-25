@@ -2,44 +2,40 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="10dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/ivInformation"
-                android:scaleType="centerCrop"
-                android:background="@drawable/default_background" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:weightSum="1"
-                android:orientation="vertical">
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/ivInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/default_background"
+                    android:scaleType="centerCrop" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
-                    android:background="@null"
                     android:gravity="center"
+                    android:background="#77000000"
                     android:orientation="vertical"
                     android:weightSum="1">
+
 
                     <TextView
                         android:id="@+id/textTitle"
@@ -48,263 +44,273 @@
                         android:background="@null"
                         android:gravity="center"
                         android:textColor="#FFFFFF"
-                        android:text="여기는 제목"
                         android:textSize="30dp" />
 
 
                 </LinearLayout>
 
 
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="5dp">
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_margin="5dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="참석 여부"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="참석 여부"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="#777777" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.6"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#777777" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.6"
+                        android:layout_marginLeft="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="참석여부를 선택하세요."
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.4"
+                        android:gravity="center"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/tvInfoGoing"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="0.5"
+                            android:background="@color/colorPrimary"
+                            android:gravity="center"
+                            android:text="참석"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvInfoNotGoing"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="0.5"
+                            android:background="@color/colorPrimary"
+                            android:gravity="center"
+                            android:text="불참"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="스케줄 정보"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#777777" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:text="참석여부를 선택하세요."
-                        android:textSize="15dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:text="시간"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/tvInfoTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.4"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:weightSum="1">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvInfoGoing"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_weight="0.5"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:text="참석"
-                        android:textColor="#FFFFFF" />
+                        android:text="장소"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
 
                     <TextView
-                        android:id="@+id/tvInfoNotGoing"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="15dp"
+                        android:id="@+id/tvInfoPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_weight="0.5"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:text="불참"
-                        android:textColor="#FFFFFF" />
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="스케줄 정보"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:text="주최자"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="5dp"
-                android:background="#777777" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvInfoMaker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="0.5"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
-                <TextView
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="0.5"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:text="시간" />
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="설명"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
 
-                <TextView
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvInfoTime"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="0.5"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:text="17.07.25 07:00" />
+                    android:layout_height="2dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#777777" />
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="0.5"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="장소" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="0.5"
-                    android:id="@+id/tvInfoPlace"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="강남" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="0.5"
-                    android:textStyle="bold"
-                    android:text="주최자" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:id="@+id/tvInfoMaker"
-                    android:layout_weight="0.5"
-                    android:textStyle="bold"
-                    android:text="장영도" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="설명"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="5dp"
-                android:background="#777777" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.4"
-                android:layout_marginBottom="10dp"
-                android:background="@null"
-                android:orientation="vertical"
-                android:weightSum="1">
-
-                <TextView
-                    android:id="@+id/tvInfoDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.4"
                     android:background="@null"
-                    android:gravity="center"
-                    android:text="여기는 설명"
-                    android:textStyle="bold"
-                    android:textSize="15dp" />
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/tvInfoDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
+            android:id="@+id/tvNeedCreateSchedule"
+            android:gravity="center"
+            android:background="@null">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:background="#88000000"
+                android:textColor="#FFFFFF"
+                android:text="스케줄을 등록해주세요." />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </ScrollView>

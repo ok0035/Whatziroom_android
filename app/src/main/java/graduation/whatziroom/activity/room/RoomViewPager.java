@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,7 +44,7 @@ public class RoomViewPager extends BaseActivity {
     private LinearLayout ll;
     private me.relex.circleindicator.CircleIndicator indicator;
     private LinearLayout linIndicator;
-    private LinearLayout linRoom;
+    private FrameLayout flRoom;
 
     public static RoomInfoFragment roomInfoView;
     public static RoomChatFragment roomChatView;
@@ -146,6 +147,8 @@ public class RoomViewPager extends BaseActivity {
                 pagerAdapter vpAdapter = new pagerAdapter(getSupportFragmentManager());
 
                 vp.setAdapter(vpAdapter);
+//                Log.d("indicator", indicator.getHeight() + "");
+//                indicator.configureIndicator(0,0,0);
                 indicator.setViewPager(vp);
                 vp.setCurrentItem(0); // 앱실행시 첫번째 화면
 
@@ -341,7 +344,7 @@ public class RoomViewPager extends BaseActivity {
 
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
-        this.linRoom = (LinearLayout) findViewById(R.id.linRoom);
+        this.flRoom = (FrameLayout) findViewById(R.id.linRoom);
 
     }
 }

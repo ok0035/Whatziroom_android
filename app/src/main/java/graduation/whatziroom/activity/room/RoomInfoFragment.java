@@ -33,10 +33,10 @@ import graduation.whatziroom.util.ParseData;
 
 public class RoomInfoFragment extends Fragment implements BasicMethod{
 
-    View layout;
+    public static View infoLayout;
     private ImageView[] ivAttendee;
     private LinearLayout linAttendee;
-    private String isEmpty;
+    private static String isEmpty;
     private String result = "notEmpty";
 
     private static android.widget.ImageView ivInformation;
@@ -47,15 +47,16 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private static android.widget.TextView tvInfoPlace;
     private static android.widget.TextView tvInfoMaker;
     private static android.widget.TextView tvInfoDesc;
+    public static android.widget.LinearLayout tvNeedCreateSchedule;
 
 //    private ProgressDialog mProgressDialog;
 
-    public String getIsEmpty() {
+    public static String getIsEmpty() {
         return isEmpty;
     }
 
     public void setIsEmpty(String isEmpty) {
-        this.isEmpty = isEmpty;
+        RoomInfoFragment.isEmpty = isEmpty;
     }
 
     public RoomInfoFragment() {
@@ -68,23 +69,13 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        switch (getIsEmpty()) {
-            case "empty":
-                layout = (LinearLayout) inflater.inflate(R.layout.no_schedule, container, false);
-                break;
+        infoLayout = (ScrollView) inflater.inflate(R.layout.room_information, container, false);
 
-            case "notEmpty":
+        setValues();
+        bindView();
+        setUpEvents();
 
-                layout = (ScrollView) inflater.inflate(R.layout.room_information, container, false);
-
-                setValues();
-                bindView();
-                setUpEvents();
-
-                break;
-        }
-
-        return layout;
+        return infoLayout;
     }
 
     //dp값을 입력하여 px로 변환하여 반환해줌
@@ -101,6 +92,16 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     public void setUpEvents() {
 
         updateRoomInfo();
+
+        switch (getIsEmpty()) {
+            case "empty":
+                tvNeedCreateSchedule.setVisibility(View.VISIBLE);
+                break;
+
+            case "notEmpty":
+                tvNeedCreateSchedule.setVisibility(View.GONE);
+                break;
+        }
 
     }
 
@@ -120,11 +121,19 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                     JSONObject roomInfo = new JSONObject(parse.parseJsonArray(response).get(0).toString());
 
 //                    Glide.with(SearchPlaceActivity.searchActivity).clear(ivInformation);
+
+
+                    Log.d("Neme", roomInfo.getString("Name"));
+                    Log.d("Place", roomInfo.getString("Place"));
+                    Log.d("Time", roomInfo.getString("Time"));
+                    Log.d("Description", roomInfo.getString("Description"));
+
                     Glide.with(RoomViewPager.roomInfoView.getContext()).load(roomInfo.getString("URL")).into(ivInformation);
-                    textTitle.setText(roomInfo.getString("Name"));
+                    textTitle.setText(roomInfo.getString("Title"));
                     tvInfoPlace.setText(roomInfo.getString("Place"));
-                    tvInfoTime.setText(roomInfo.getString("time"));
+                    tvInfoTime.setText(roomInfo.getString("Time"));
                     tvInfoDesc.setText(roomInfo.getString("Description"));
+                    tvInfoMaker.setText(roomInfo.getString("Name"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -153,14 +162,15 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public void bindView() {
 
-        this.tvInfoDesc = (TextView) layout.findViewById(R.id.tvInfoDesc);
-        this.tvInfoMaker = (TextView) layout.findViewById(R.id.tvInfoMaker);
-        this.tvInfoPlace = (TextView) layout.findViewById(R.id.tvInfoPlace);
-        this.tvInfoTime = (TextView) layout.findViewById(R.id.tvInfoTime);
-        this.tvInfoNotGoing = (TextView) layout.findViewById(R.id.tvInfoNotGoing);
-        this.tvInfoGoing = (TextView) layout.findViewById(R.id.tvInfoGoing);
-        this.textTitle = (TextView) layout.findViewById(R.id.textTitle);
-        this.ivInformation = (ImageView) layout.findViewById(R.id.ivInformation);
+        this.tvInfoDesc = (TextView) infoLayout.findViewById(R.id.tvInfoDesc);
+        this.tvInfoMaker = (TextView) infoLayout.findViewById(R.id.tvInfoMaker);
+        this.tvInfoPlace = (TextView) infoLayout.findViewById(R.id.tvInfoPlace);
+        this.tvInfoTime = (TextView) infoLayout.findViewById(R.id.tvInfoTime);
+        this.tvInfoNotGoing = (TextView) infoLayout.findViewById(R.id.tvInfoNotGoing);
+        this.tvInfoGoing = (TextView) infoLayout.findViewById(R.id.tvInfoGoing);
+        this.textTitle = (TextView) infoLayout.findViewById(R.id.textTitle);
+        this.ivInformation = (ImageView) infoLayout.findViewById(R.id.ivInformation);
+        this.tvNeedCreateSchedule = (LinearLayout) infoLayout.findViewById(R.id.tvNeedCreateSchedule);
 
     }
 }
