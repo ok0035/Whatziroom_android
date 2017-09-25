@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.network.DBSI;
+
 
 /**
  * Created by ATIV on 2017-06-24.
@@ -45,6 +47,8 @@ public class MainViewPager extends BaseActivity {
     private ScheduleListFragment scheduleListView;
     private NotificationListFragment notificationListView;
     private ProfileFragment profileView;
+
+    private static int UserPKey;
 
     public MainViewPager() {
 
@@ -79,6 +83,10 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setUpEvents() {
         super.setUpEvents();
+
+        DBSI db = new DBSI();
+        UserPKey = Integer.parseInt(db.selectQuery("select PKey from User")[0][0]);
+        Log.d("UserPKeyMain", UserPKey + "");
 
                 /*
         *   버튼 클릭 시 페이지 이동
@@ -322,11 +330,13 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setMainActionBar() {
         super.setMainActionBar();
+
         titleTxt.setText("친구목록");
         backBtn.setVisibility(View.INVISIBLE);
         configTxt1.setImageResource(R.mipmap.btn_add_friend);
         configTxt2.setImageResource(R.mipmap.btn_edit);
 //        configTxt2.setText("편집");
+
     }
 
 
@@ -339,7 +349,9 @@ public class MainViewPager extends BaseActivity {
             titleTxt.setText("친구추가");
             configTxt1.setVisibility(View.INVISIBLE);
             configTxt2.setImageResource(R.mipmap.btn_ok);
+
 //            final FriendListFragment friendListView = (FriendListFragment)getSupportFragmentManager().findFragmentByTag("1");
+
             friendListView.findFriendFunc();
 
             configTxt2.setOnClickListener(new View.OnClickListener() {
@@ -408,5 +420,8 @@ public class MainViewPager extends BaseActivity {
 
     }
 
+    public static int getUserPKey() {
+        return UserPKey;
+    }
 
 }

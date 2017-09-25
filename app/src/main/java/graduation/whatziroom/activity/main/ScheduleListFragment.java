@@ -14,6 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import graduation.whatziroom.Data.ScheduleData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
@@ -28,8 +31,9 @@ import graduation.whatziroom.util.ParseData;
 public class ScheduleListFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
+
+    private static ListView scheduleList;
     private static ScheduleData data;
-    private static ListView list;
 
     @Nullable
     @Override
@@ -52,7 +56,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
         data = new ScheduleData();
         data.addItem("졸업 프로젝트", "용인대학교 환경과학대", "2017년 10월 13일", "D-25");
 
-        list.setAdapter(data.getAdapter());
+        scheduleList.setAdapter(data.getAdapter());
         data.getAdapter().notifyDataSetChanged();
 
     }
@@ -60,11 +64,13 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
     public static void updateSchedule() {
 
         Params params = new Params();
+        params.add("UserPKey", MainViewPager.getUserPKey() + "");
+
         new HttpNetwork("GetScheduleList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
 
-                Log.d("response", response);
+                Log.d("Schedule", response);
 
                 if(!response.equals("[]")) {
 
@@ -76,15 +82,27 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                         for(int i=0; i < roomList.length(); i++) {
 
                             JSONObject jsonScheduleData = new JSONObject(roomList.get(i).toString());
-                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), "5");
+
+                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date scheduleDate = transFormat.parse(jsonScheduleData.getString("Date"));
+                            Log.d("SListDate", scheduleDate.getDate() + "");
+
+                            Date nowDate = new Date();
+                            nowDate.getDate();
+
+                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(scheduleDate.getDate() - nowDate.getDate()));
 
                         }
 
-                        list.setAdapter(data.getAdapter());
+                        scheduleList.setAdapter(data.getAdapter());
                         data.getAdapter().notifyDataSetChanged();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+
                     }
                 }
             }
@@ -109,6 +127,8 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
     @Override
     public void bindView() {
-        list = layout.findViewById(R.id.scheduleListView);
+
+        scheduleList = layout.findViewById(R.id.scheduleListView);
+
     }
 }

@@ -25,6 +25,7 @@ import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
 
+
 /**
  * Created by ATIV on 2017-06-25.
  */
@@ -38,6 +39,7 @@ public class FriendListFragment extends Fragment {
     TextView searchFreindBtn;
     DBSI dbsi;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class FriendListFragment extends Fragment {
         freindListView = (ListView) layout.findViewById(R.id.friendList);
         friendListItem = new ArrayList<>();
         dbsi = new DBSI();
+
 
         searchFreindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +99,6 @@ public class FriendListFragment extends Fragment {
             }
         });
 
-
-
         return layout;
     }
 
@@ -105,14 +106,16 @@ public class FriendListFragment extends Fragment {
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
     public void findFriendFunc(){
 
+
         final EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
+
+
         edittext.setHint("친구 찾기(이메일, 닉네임)");
 
         final ListView listview = (ListView) getActivity().findViewById(R.id.friendList);
         TextView textview = (TextView)getActivity().findViewById(R.id.searchFreindBtn);
 
         listview.setAdapter(null);
-
         textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,6 +170,7 @@ public class FriendListFragment extends Fragment {
 //                ArrayList<FriendData> list = new ArrayList<FriendData>();
 //                list.add(fd);
 //                listview.setAdapter(new FriendAdapter(getActivity(), list, 2));
+
             }
         });
 
@@ -176,7 +180,6 @@ public class FriendListFragment extends Fragment {
         EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
         edittext.setText(null);
         edittext.setHint("친구 찾기(이름)");
-
 
         TextView textview = (TextView)getActivity().findViewById(R.id.searchFreindBtn);
         textview.setOnClickListener(null);

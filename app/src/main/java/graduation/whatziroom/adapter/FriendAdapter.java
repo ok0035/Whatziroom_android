@@ -17,9 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import graduation.whatziroom.Data.FriendData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.network.DBSI;
@@ -38,6 +36,7 @@ public class FriendAdapter extends ArrayAdapter {
     int blockFlag;
     DBSI dbsi;
 
+
     public FriendAdapter(Context context, ArrayList<FriendData> list, int blockFlag) {
         super(context, R.layout.friend_list_tiem, list);
         mContext = context;
@@ -45,6 +44,7 @@ public class FriendAdapter extends ArrayAdapter {
         inf = LayoutInflater.from(mContext);
         this.blockFlag = blockFlag;
         dbsi = new DBSI();
+
         Log.d("생성자 block flag : ", this.blockFlag + "");
     }
 
@@ -79,6 +79,7 @@ public class FriendAdapter extends ArrayAdapter {
                 public void onClick(View v) {
                     Toast.makeText(mContext, position + "커스텀 다이얼로그", Toast.LENGTH_SHORT).show();
                     ShowDialog(position);
+
                 }
             });
         }
@@ -112,6 +113,7 @@ public class FriendAdapter extends ArrayAdapter {
     }
 
     private void ShowDialog(final int position) {
+
         LayoutInflater dialog = LayoutInflater.from(mContext);
         final View dialogLayout = dialog.inflate(R.layout.request_friend_dialog, null);
         final Dialog myDialog = new Dialog(mContext);
@@ -140,6 +142,7 @@ public class FriendAdapter extends ArrayAdapter {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 //                Toast.makeText(mContext, "전송완료", Toast.LENGTH_SHORT).show();
                 if(mList.get(position).getFreindStatus().equals("wating")){
                     Toast.makeText(mContext, "이미 친구 요청을 보낸 유저입니다.", Toast.LENGTH_SHORT).show();
@@ -172,7 +175,6 @@ public class FriendAdapter extends ArrayAdapter {
                     });
 
                 }
-
 
                 myDialog.dismiss();
             }

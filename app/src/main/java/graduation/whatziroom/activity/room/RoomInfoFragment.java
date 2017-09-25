@@ -52,16 +52,8 @@ public class RoomInfoFragment extends Fragment {
                 break;
 
             case "notEmpty":
-                layout = (ScrollView) inflater.inflate(R.layout.information, container, false);
+                layout = (ScrollView) inflater.inflate(R.layout.room_information, container, false);
                 linAttendee = (LinearLayout) layout.findViewById(R.id.linAttendee);
-
-                ivAttendee = new ImageView[5];
-                for (int i = 0; i < ivAttendee.length; i++) {
-                    ivAttendee[i] = new ImageView(getContext());
-                    ivAttendee[i].setPadding(0, 0, convertDPtoPX(10), 0);
-                    ivAttendee[i].setImageResource(R.mipmap.ic_launcher);
-                    linAttendee.addView(ivAttendee[i]);
-                }
 
                 break;
         }

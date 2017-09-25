@@ -19,7 +19,6 @@ public class FriendData {
         this.freindStatus = freindStatus;
     }
 
-
     public String getUserName() {
         return UserName;
     }
@@ -43,6 +42,5 @@ public class FriendData {
     public void setThumbNailImagePath(String thumbNailImagePath) {
         ThumbNailImagePath = thumbNailImagePath;
     }
-
 
 }
