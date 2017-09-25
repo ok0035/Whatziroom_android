@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import graduation.whatziroom.Data.ScheduleData;
@@ -86,12 +87,26 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date scheduleDate = transFormat.parse(jsonScheduleData.getString("Date"));
+
+                            Calendar CalculateDate= Calendar.getInstance();
+
+                            CalculateDate.setTime(scheduleDate);
+                            long goalTime = CalculateDate.getTimeInMillis();
+
+                            CalculateDate.setTime(Calendar.getInstance().getTime());
+                            long nowTime = CalculateDate.getTimeInMillis();
+
+                            long dDay = (goalTime - nowTime);
+
+                            //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
+                            dDay = dDay / 1000 / 60 / 60 / 24;
+
                             Log.d("SListDate", scheduleDate.getDate() + "");
 
                             Date nowDate = new Date();
                             nowDate.getDate();
 
-                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(scheduleDate.getDate() - nowDate.getDate()));
+                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(dDay));
 
                         }
 

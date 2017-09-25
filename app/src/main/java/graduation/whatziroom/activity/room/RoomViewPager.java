@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import graduation.whatziroom.R;
-import graduation.whatziroom.activity.base.BaseActivity;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +26,7 @@ import java.util.Locale;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.activity.main.RoomListFragment;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import me.relex.circleindicator.CircleIndicator;
@@ -46,11 +45,11 @@ public class RoomViewPager extends BaseActivity {
     private LinearLayout linIndicator;
     private LinearLayout linRoom;
 
-    private RoomInfoFragment roomInfoView;
-    private RoomChatFragment roomChatView;
-    private RoomFriendList roomFriendList;
+    public static RoomInfoFragment roomInfoView;
+    public static RoomChatFragment roomChatView;
+    public static RoomFriendList roomFriendList;
 
-    private String roomPKey;
+    private int roomPKey;
     private int userPKey;
     private String result = "notEmpty";
 
@@ -92,13 +91,13 @@ public class RoomViewPager extends BaseActivity {
 
         Intent intentPKey = getIntent();
 
-        roomPKey = intentPKey.getStringExtra("PKey");
+        roomPKey = RoomListFragment.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
 
-        Log.d("RoomPKey", roomPKey);
+        Log.d("RoomPKey", roomPKey + "");
 
         Params params = new Params();
-        params.add("PKey", roomPKey);
+        params.add("PKey", roomPKey + "");
 
         new HttpNetwork("IsEmptySchedule.php", params.getParams(), new HttpNetwork.AsyncResponse() {
 
@@ -258,9 +257,9 @@ public class RoomViewPager extends BaseActivity {
 
                 Intent intent = new Intent(getApplicationContext(), SearchPlaceActivity.class);
 
-                Log.d("dialogRoomPKey", roomPKey);
+                Log.d("dialogRoomPKey", roomPKey + "");
 
-                intent.putExtra("roomPKey", Integer.parseInt(roomPKey));
+                intent.putExtra("roomPKey", Integer.parseInt(roomPKey + ""));
                 intent.putExtra("date", date.toString());
 
                 startActivity(intent);
