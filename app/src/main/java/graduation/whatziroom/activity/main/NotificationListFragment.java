@@ -38,17 +38,13 @@ public class NotificationListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         layout = (LinearLayout) inflater.inflate(R.layout.notification_list, container, false);
-<<<<<<< HEAD
-        ListView listview = layout.findViewById(R.id.noticeList);
-        Button button = layout.findViewById(R.id.tempBtn);
-=======
+
         final ListView listview = (ListView)layout.findViewById(R.id.noticeList);
         Button button = (Button)layout.findViewById(R.id.tempBtn);
         DBSI dbsi = new DBSI();
 
         Params params = new Params();
         params.add("UserPKey",dbsi.selectQuery("Select PKey From User")[0][0]);
->>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
 
         new HttpNetwork("GetFriendNotification.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override

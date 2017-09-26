@@ -12,13 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-<<<<<<< HEAD
-import android.widget.ImageView;
-=======
 import android.widget.FrameLayout;
->>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
@@ -345,15 +340,9 @@ public class RoomViewPager extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-<<<<<<< HEAD
-        this.vp = findViewById(R.id.vp);
-        this.indicator = findViewById(R.id.indicator);
-        this.linRoom = findViewById(R.id.linRoom);
-=======
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
-        this.flRoom = (FrameLayout) findViewById(R.id.linRoom);
->>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
+        this.flRoom = (FrameLayout) findViewById(R.id.flRoom);
 
     }
 }

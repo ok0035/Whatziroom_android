@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,13 +35,10 @@ public class FriendListFragment extends Fragment {
     FriendAdapter mFriendAdapter;
     ListView freindListView;
     ArrayList<FriendData> friendListItem;
-<<<<<<< HEAD
-    ImageView searchFreindBtn;
 
-=======
-    TextView searchFreindBtn;
+    ImageView searchFreindBtn;
     DBSI dbsi;
->>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
+
 
     @Nullable
     @Override
@@ -109,12 +105,8 @@ public class FriendListFragment extends Fragment {
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
     public void findFriendFunc(){
 
-<<<<<<< HEAD
-        EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
-=======
+        final EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
 
-        final EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
->>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
         edittext.setHint("친구 찾기(이메일, 닉네임)");
 
         final ListView listview = getActivity().findViewById(R.id.friendList);
@@ -183,12 +175,8 @@ public class FriendListFragment extends Fragment {
     }
     // 친구 추가 끝나고 완료 버튼 클릭시 실행되는 함수
     public void reloadFunc(){
-<<<<<<< HEAD
+
         EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
-=======
-        EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
-        edittext.setText(null);
->>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
         edittext.setHint("친구 찾기(이름)");
 
         ImageView textview = getActivity().findViewById(R.id.searchFreindBtn);
