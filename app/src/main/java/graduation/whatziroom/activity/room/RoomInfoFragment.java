@@ -95,17 +95,24 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public void setUpEvents() {
 
-        updateRoomInfo();
+        if(RoomListFragment.getRoomPKey() == 0) {
+            tvNeedCreateSchedule.setVisibility(View.VISIBLE);
+        } else {
 
-        switch (getIsEmpty()) {
-            case "empty":
-                tvNeedCreateSchedule.setVisibility(View.VISIBLE);
-                break;
+            updateRoomInfo();
 
-            case "notEmpty":
-                tvNeedCreateSchedule.setVisibility(View.GONE);
-                break;
+            switch (getIsEmpty()) {
+                case "empty":
+                    tvNeedCreateSchedule.setVisibility(View.VISIBLE);
+                    break;
+
+                case "notEmpty":
+                    tvNeedCreateSchedule.setVisibility(View.GONE);
+                    break;
+            }
+
         }
+
 
     }
 
@@ -126,22 +133,21 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
 //                    Glide.with(SearchPlaceActivity.searchActivity).clear(ivInformation);
 
-
                     Log.d("Neme", roomInfo.getString("Name"));
                     Log.d("Place", roomInfo.getString("Place"));
                     Log.d("Time", roomInfo.getString("Time"));
                     Log.d("Description", roomInfo.getString("Description"));
 
                     Glide.with(RoomViewPager.roomInfoView.getContext()).load(roomInfo.getString("ImageURL")).into(ivInformation);
-                    textTitle.setText(roomInfo.getString("Title"));
-                    tvInfoPlace.setText(roomInfo.getString("Place"));
-                    tvInfoTime.setText(roomInfo.getString("Time"));
-                    tvInfoDesc.setText(roomInfo.getString("Description"));
-                    tvInfoMaker.setText(roomInfo.getString("Name"));
-                    tvInfoOldAdd.setText(roomInfo.getString("OldAddress"));
-                    tvInfoNewAdd.setText(roomInfo.getString("NewAddress"));
-                    tvInfoTel.setText(roomInfo.getString("TEL"));
-                    tvInfoSite.setText(roomInfo.getString("WURL"));
+                    textTitle.setText(roomInfo.getString("Title").equals("null") ? "" : roomInfo.getString("Title"));
+                    tvInfoPlace.setText(roomInfo.getString("Place").equals("null") ? "" : roomInfo.getString("Place"));
+                    tvInfoTime.setText(roomInfo.getString("Time").equals("null") ? "" : roomInfo.getString("Time"));
+                    tvInfoDesc.setText(roomInfo.getString("Description").equals("null") ? "" : roomInfo.getString("Description"));
+                    tvInfoMaker.setText(roomInfo.getString("Name").equals("null") ? "" : roomInfo.getString("Name"));
+                    tvInfoOldAdd.setText(roomInfo.getString("OldAddress").equals("null") ? "" : roomInfo.getString("OldAddress"));
+                    tvInfoNewAdd.setText(roomInfo.getString("NewAddress").equals("null") ? "" : roomInfo.getString("NewAddress"));
+                    tvInfoTel.setText(roomInfo.getString("TEL").equals("null") ? "" : roomInfo.getString("TEL"));
+                    tvInfoSite.setText(roomInfo.getString("WURL").equals("null") ? "" : roomInfo.getString("WURL"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

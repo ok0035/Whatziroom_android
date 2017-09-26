@@ -91,7 +91,8 @@
                         android:layout_weight="0.2"
                         android:gravity="center_vertical"
                         android:text="장소   : "
-                        android:textSize="13dp"/>
+                        android:textSize="13dp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tvSchedulePlace"
@@ -121,7 +122,8 @@
                         android:layout_weight="0.2"
                         android:gravity="center_vertical"
                         android:text="날짜   : "
-                        android:textSize="13dp"/>
+                        android:textSize="13dp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tvScheduleTime"

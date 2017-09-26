@@ -41,6 +41,11 @@ public class RoomListFragment extends Fragment implements BasicMethod {
         return roomPKey;
     }
 
+    public static void setRoomPKey(String PKey) {
+        if(PKey == null || PKey.equals("null")) roomPKey = 0;
+        else roomPKey = Integer.parseInt(PKey);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,7 +73,6 @@ public class RoomListFragment extends Fragment implements BasicMethod {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
-                intent.putExtra("PKey", roomData.getRoomArrayList().get(position).getRoomPKey().toString());
                 roomPKey = Integer.parseInt(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
                 startActivity(intent);
 

@@ -90,8 +90,6 @@ public class RoomViewPager extends BaseActivity {
         *   Viewpase Adapter 설정
         */
 
-        Intent intentPKey = getIntent();
-
         roomPKey = RoomListFragment.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
 

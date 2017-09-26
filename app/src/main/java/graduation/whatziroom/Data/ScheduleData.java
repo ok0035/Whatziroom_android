@@ -12,6 +12,15 @@ import graduation.whatziroom.adapter.ScheduleAdapter;
 
 public class ScheduleData {
 
+    public String getScheduleRoomPKey() {
+        return scheduleRoomPKey;
+    }
+
+    public void setScheduleRoomPKey(String scheduleRoomPKey) {
+        this.scheduleRoomPKey = scheduleRoomPKey;
+    }
+
+    private String scheduleRoomPKey;
     private String scheduleName;
     private String scheduleDate;
     private String scheduleDday;
@@ -25,6 +34,11 @@ public class ScheduleData {
     }
 
     private String schedulePlace;
+
+    public ArrayList<ScheduleData> getScheduleList() {
+        return scheduleList;
+    }
+
     private ArrayList<ScheduleData> scheduleList;
 
     public ScheduleData() {
@@ -32,8 +46,9 @@ public class ScheduleData {
         scheduleList = new ArrayList<>();
     }
 
-    public ScheduleData(String sName, String sPlace, String sDate, String sDday) {
+    public ScheduleData(String roomPKey, String sName, String sPlace, String sDate, String sDday) {
 
+        scheduleRoomPKey = roomPKey;
         scheduleName = sName;
         schedulePlace = sPlace;
         scheduleDate = sDate;
@@ -72,14 +87,9 @@ public class ScheduleData {
         this.scheduleDday = scheduleDday;
     }
 
-    public void addItem(String scheduleName, String schedulePlace, String scheduleDate, String scheduleDday) {
+    public void addItem(String roomPKey, String scheduleName, String schedulePlace, String scheduleDate, String scheduleDday) {
 
-        this.scheduleName = scheduleName;
-        this.schedulePlace = schedulePlace;
-        this.scheduleDate = scheduleDate;
-        this.scheduleDday = scheduleDday;
-
-        scheduleList.add(new ScheduleData(scheduleName, schedulePlace, scheduleDate, scheduleDday));
+        scheduleList.add(new ScheduleData(roomPKey, scheduleName, schedulePlace, scheduleDate, scheduleDday));
 
     }
 }

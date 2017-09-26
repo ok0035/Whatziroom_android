@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +25,7 @@ import java.util.Date;
 import graduation.whatziroom.Data.ScheduleData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
+import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
@@ -55,10 +59,26 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
         updateSchedule();
 
         data = new ScheduleData();
-        data.addItem("졸업 프로젝트", "용인대학교 환경과학대", "2017년 10월 13일", "D-25");
 
         scheduleList.setAdapter(data.getAdapter());
         data.getAdapter().notifyDataSetChanged();
+
+        scheduleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                RoomListFragment.setRoomPKey(data.getScheduleList().get(i).getScheduleRoomPKey());
+
+                Log.d("RoomPKeyInSchedule", RoomListFragment.getRoomPKey() + "");
+
+                if(RoomListFragment.getRoomPKey() != 0) {
+
+                    Intent intent = new Intent(getContext(), RoomViewPager.class);
+                    startActivity(intent);
+
+                } else Toast.makeText(getContext(), "잘못된 데이터입니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -84,7 +104,6 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
                             JSONObject jsonScheduleData = new JSONObject(roomList.get(i).toString());
 
-
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date scheduleDate = transFormat.parse(jsonScheduleData.getString("Date"));
 
@@ -106,7 +125,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                             Date nowDate = new Date();
                             nowDate.getDate();
 
-                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(dDay));
+                            data.addItem(jsonScheduleData.getString("RoomPKey"), jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(dDay));
 
                         }
 
