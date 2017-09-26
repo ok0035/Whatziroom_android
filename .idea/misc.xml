@@ -40,8 +40,12 @@
 <<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
 =======
+<<<<<<< HEAD
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+=======
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8 (3)" project-jdk-type="JavaSDK">
 >>>>>>> 7c7307beff4a627fc4076e4240d8e2c4f719f884
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

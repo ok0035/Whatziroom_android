@@ -137,13 +137,13 @@ public class SignUpActivity extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        this.tvSaveSignup = (TextView) findViewById(R.id.tvSaveSignup);
-        this.tvCancelSignup = (TextView) findViewById(R.id.tvCancelSignup);
-        this.edSignupCheckPW = (EditText) findViewById(R.id.edSignupCheckPW);
-        this.edSignupPW = (EditText) findViewById(R.id.edSignupPW);
-        this.edSignupEmail = (EditText) findViewById(R.id.edSignupEmail);
-        this.edSignupName = (EditText) findViewById(R.id.edSignupName);
-        this.edSignupID = (EditText) findViewById(R.id.edSignupID);
+        this.tvSaveSignup = findViewById(R.id.tvSaveSignup);
+        this.tvCancelSignup = findViewById(R.id.tvCancelSignup);
+        this.edSignupCheckPW = findViewById(R.id.edSignupCheckPW);
+        this.edSignupPW = findViewById(R.id.edSignupPW);
+        this.edSignupEmail = findViewById(R.id.edSignupEmail);
+        this.edSignupName = findViewById(R.id.edSignupName);
+        this.edSignupID = findViewById(R.id.edSignupID);
 
     }
 }

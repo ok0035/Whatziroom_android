@@ -151,7 +151,7 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("편집");
                         break;
                     case 1:
-                        roomListView.updateRoom();
+                        RoomListFragment.updateRoom();
                         titleTxt.setText("방 목록");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.VISIBLE);
@@ -202,7 +202,7 @@ public class MainViewPager extends BaseActivity {
 
                     switch(position) {
                         case 1:
-                            roomListView.updateRoom();
+                            RoomListFragment.updateRoom();
                             break;
                     }
 
@@ -223,7 +223,7 @@ public class MainViewPager extends BaseActivity {
 
         for(int i=0; i<5; i++) {
 
-            LinearLayout layout = (LinearLayout)ll.findViewWithTag(i);
+            LinearLayout layout = ll.findViewWithTag(i);
             TextView textView = (TextView) layout.getChildAt(0);
 
             if(i != position) {
@@ -255,19 +255,19 @@ public class MainViewPager extends BaseActivity {
             {
                 if(tag==i)
                 {
-                    LinearLayout layout = (LinearLayout)ll.findViewWithTag(i);
+                    LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(true);
-                    ll.findViewWithTag(i).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    ll.findViewWithTag(i).setBackgroundColor(getResources().getColor(R.color.mainTxtColor));
                     TextView textView = (TextView) (layout.getChildAt(0));
                     textView.setTextColor(Color.WHITE);
                 }
                 else
                 {
-                    LinearLayout layout = (LinearLayout)ll.findViewWithTag(i);
+                    LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(false);
                     ll.findViewWithTag(i).setBackgroundColor(Color.WHITE);
                     TextView textView = (TextView) (layout.getChildAt(0));
-                    textView.setTextColor(getResources().getColor(R.color.colorAccent));
+                    textView.setTextColor(getResources().getColor(R.color.mainTxtColor));
                 }
                 i++;
 
@@ -398,21 +398,21 @@ public class MainViewPager extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        vp = (ViewPager)findViewById(R.id.vp);
-        ll = (LinearLayout)findViewById(R.id.ll);
+        vp = findViewById(R.id.vp);
+        ll = findViewById(R.id.ll);
 
-        this.vp = (ViewPager) findViewById(R.id.vp);
-        this.ll = (LinearLayout) findViewById(R.id.ll);
-        this.linProfile = (LinearLayout) findViewById(R.id.linProfile);
-        this.tvProfile = (TextView) findViewById(R.id.tvProfile);
-        this.linArlert = (LinearLayout) findViewById(R.id.linArlert);
-        this.tvAlert = (TextView) findViewById(R.id.tvAlert);
-        this.linSchedule = (LinearLayout) findViewById(R.id.linSchedule);
-        this.tvSchedule = (TextView) findViewById(R.id.tvSchedule);
-        this.linRoomBtn = (LinearLayout) findViewById(R.id.linRoomBtn);
-        this.tvRoom = (TextView) findViewById(R.id.tvRoom);
-        this.linFriend = (LinearLayout) findViewById(R.id.linFriend);
-        this.tvFriend = (TextView) findViewById(R.id.tvFriend);
+        this.vp = findViewById(R.id.vp);
+        this.ll = findViewById(R.id.ll);
+        this.linProfile = findViewById(R.id.linProfile);
+        this.tvProfile = findViewById(R.id.tvProfile);
+        this.linArlert = findViewById(R.id.linArlert);
+        this.tvAlert = findViewById(R.id.tvAlert);
+        this.linSchedule = findViewById(R.id.linSchedule);
+        this.tvSchedule = findViewById(R.id.tvSchedule);
+        this.linRoomBtn = findViewById(R.id.linRoomBtn);
+        this.tvRoom = findViewById(R.id.tvRoom);
+        this.linFriend = findViewById(R.id.linFriend);
+        this.tvFriend = findViewById(R.id.tvFriend);
 
     }
 

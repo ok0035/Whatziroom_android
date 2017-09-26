@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
     //룸 액션바
     public TextView btnRoomExit;
     public TextView btnRoomSchedule;
-    public TextView btnRoomSetting;
+    public ImageView btnRoomSetting;
 
     private static Resources r;
 
@@ -91,13 +91,13 @@ public class BaseActivity extends AppCompatActivity {
 
         Toolbar parent = (Toolbar) customBarView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
-        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setElevation(0); // 액션바 밑에 그림자 없애는거,,
 
 
-        backBtn = (ImageView) customBarView.findViewById(R.id.backBtn);
-        titleTxt = (TextView) customBarView.findViewById(R.id.titleTxt);
-        configTxt1 = (ImageView) customBarView.findViewById(R.id.configTxt1);
-        configTxt2 = (ImageView) customBarView.findViewById(R.id.configTxt2);
+        backBtn = customBarView.findViewById(R.id.backBtn);
+        titleTxt = customBarView.findViewById(R.id.titleTxt);
+        configTxt1 = customBarView.findViewById(R.id.configTxt1);
+        configTxt2 = customBarView.findViewById(R.id.configTxt2);
 
     }
 

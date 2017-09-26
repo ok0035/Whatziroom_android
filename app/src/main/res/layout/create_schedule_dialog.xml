@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
 
         android:orientation="vertical"
         android:gravity="center"
@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:background="@color/colorPrimary">
+            android:layout_weight="0.3"
+            android:background="@color/colorBlue">
 
             <TextView
                 android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp"
-                android:text="스케줄 정보를 입력해주세요!"/>
+                android:text="스케줄 정보를 입력해주세요."/>
 
         </LinearLayout>
 
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="0.2"
-                android:text="이름 : "
+                android:text="제목 : "
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -91,16 +91,18 @@
             android:layout_height="0dp"
             android:layout_weight="0.2"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tvBtnResister"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:id="@+id/tvBtnResister"
                 android:padding="5dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorBlue"
                 android:textColor="#FFFFFF"
+                android:textSize="16dp"
                 android:text="스케줄 등록하기"/>
 
         </LinearLayout>

@@ -300,10 +300,10 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             if (poiItem == null) return null;
             SearchData item = mTagItemMap.get(poiItem.getTag());
             if (item == null) return null;
-            ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
-            TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
+            ImageView imageViewBadge = mCalloutBalloon.findViewById(R.id.badge);
+            TextView textViewTitle = mCalloutBalloon.findViewById(R.id.title);
             textViewTitle.setText(item.getTitle());
-            TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
+            TextView textViewDesc = mCalloutBalloon.findViewById(R.id.desc);
             textViewDesc.setText(item.getAddress());
             imageViewBadge.setImageDrawable(createDrawableFromUrl(item.getImageUrl()));
             return mCalloutBalloon;
@@ -441,7 +441,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         }
     }
 
-    private Object fetch(String address) throws MalformedURLException, IOException {
+    private Object fetch(String address) throws IOException {
         URL url = new URL(address);
         Object content = url.getContent();
         return content;
@@ -536,6 +536,23 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     @Override
     public void bindView() {
 
+<<<<<<< HEAD
+        this.llBtnSelectPlace = findViewById(R.id.llBtnSelectPlace);
+        this.slidingLayout = findViewById(R.id.slidingLayout);
+        this.tvSearchResultPhone = findViewById(R.id.tvSearchResultPhone);
+        this.tvSearchResultAddress = findViewById(R.id.tvSearchResultAddress);
+        this.tvSearchResultTitle = findViewById(R.id.tvSearchResultTitle);
+        this.ivSearchResult = findViewById(R.id.ivSearchResult);
+        this.llSlideMain = findViewById(R.id.llSlideMain);
+        this.mMapView = findViewById(R.id.mMapView);
+        this.lvSearchList = findViewById(R.id.lvSearchList);
+        this.btnSearch = findViewById(R.id.btnSearch);
+        this.edSearchQuery = findViewById(R.id.edSearchQuery);
+        this.wbSearchResult = findViewById(R.id.wbSearchResult);
+        this.scWebView = findViewById(R.id.scWebView);
+        this.tvBtnSearchSelect = findViewById(R.id.tvBtnSearchSelect);
+        this.tvBtnSearchCancel = findViewById(R.id.tvBtnSearchCancel);
+=======
         this.llBtnSelectPlace = (LinearLayout) findViewById(R.id.llBtnSelectPlace);
         this.slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingLayout);
         this.tvSearchResultPhone = (TextView) findViewById(R.id.tvSearchResultPhone);
@@ -552,6 +569,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
         this.tvBtnSearchSelect = (TextView) findViewById(R.id.tvBtnSearchSelect);
         this.tvBtnSearchCancel = (TextView) findViewById(R.id.tvBtnSearchCancel);
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
     }
 
 }

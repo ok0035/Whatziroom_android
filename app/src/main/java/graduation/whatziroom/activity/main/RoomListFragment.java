@@ -79,7 +79,7 @@ public class RoomListFragment extends Fragment implements BasicMethod {
             }
         });
 
-        searchBtn = (ImageView) layout.findViewById(R.id.searchRoom);
+        searchBtn = layout.findViewById(R.id.searchRoom);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +138,6 @@ public class RoomListFragment extends Fragment implements BasicMethod {
 
     @Override
     public void bindView() {
-        roomListView = (ListView) layout.findViewById(R.id.roomListView);
+        roomListView = layout.findViewById(R.id.roomListView);
     }
 }

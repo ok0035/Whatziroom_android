@@ -69,9 +69,9 @@ public class ProfilUserSettingActivity extends BaseActivity {
     @Override
     public void bindView() {
         super.bindView();
-        this.noticeWaySpinner = (Spinner) findViewById(R.id.noticeWaySpinner);
-        this.noticeOffRadioBtn = (RadioButton) findViewById(R.id.noticeOffRadioBtn);
-        this.noticeOnRadioBtn = (RadioButton) findViewById(R.id.noticeOnRadioBtn);
+        this.noticeWaySpinner = findViewById(R.id.noticeWaySpinner);
+        this.noticeOffRadioBtn = findViewById(R.id.noticeOffRadioBtn);
+        this.noticeOnRadioBtn = findViewById(R.id.noticeOnRadioBtn);
     }
 
 }

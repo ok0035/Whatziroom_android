@@ -103,11 +103,29 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
             switch (getIsEmpty()) {
                 case "empty":
+<<<<<<< HEAD
+                layout = inflater.inflate(R.layout.no_schedule, container, false);
+                break;
+
+            case "notEmpty":
+                layout = inflater.inflate(R.layout.information, container, false);
+                linAttendee = layout.findViewById(R.id.linAttendee);
+
+                ivAttendee = new ImageView[5];
+                for (int i = 0; i < ivAttendee.length; i++) {
+                    ivAttendee[i] = new ImageView(getContext());
+                    ivAttendee[i].setPadding(0, 0, convertDPtoPX(10), 0);
+                    ivAttendee[i].setImageResource(R.mipmap.ic_launcher);
+                    linAttendee.addView(ivAttendee[i]);
+                }
+
+=======
                     tvNeedCreateSchedule.setVisibility(View.VISIBLE);
                     break;
 
                 case "notEmpty":
                     tvNeedCreateSchedule.setVisibility(View.GONE);
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
                     break;
             }
 
