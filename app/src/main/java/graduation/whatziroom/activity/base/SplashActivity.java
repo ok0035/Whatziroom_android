@@ -150,6 +150,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void bindView() {
         super.bindView();
-        this.LogoImage = (ImageView) findViewById(R.id.LogoImage);
+        this.LogoImage = findViewById(R.id.LogoImage);
     }
 }

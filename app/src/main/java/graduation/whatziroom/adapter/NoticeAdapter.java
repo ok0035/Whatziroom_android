@@ -42,12 +42,12 @@ public class NoticeAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.notice_list_item, null);
         }
 
-        final LinearLayout ll = (LinearLayout)row.findViewById(R.id.noticeSelectBeforeLL);
-        final TextView noticeResultTxt = (TextView)row.findViewById(R.id.noticeResultTxt);
-        TextView noticeTxt1 = (TextView)row.findViewById(R.id.noticeTxt1);
-        TextView noticeTxt2 = (TextView)row.findViewById(R.id.noticeTxt2);
-        TextView okBtn = (TextView)row.findViewById(R.id.noticeOKBtn);
-        TextView cancelBtn = (TextView)row.findViewById(R.id.noticeCancelBtn);
+        final LinearLayout ll = row.findViewById(R.id.noticeSelectBeforeLL);
+        final TextView noticeResultTxt = row.findViewById(R.id.noticeResultTxt);
+        TextView noticeTxt1 = row.findViewById(R.id.noticeTxt1);
+        TextView noticeTxt2 = row.findViewById(R.id.noticeTxt2);
+        TextView okBtn = row.findViewById(R.id.noticeOKBtn);
+        TextView cancelBtn = row.findViewById(R.id.noticeCancelBtn);
 
 //        noticeTxt1.setText(mList.get(position).getUserName()+"님의 친구 신청");
 //        noticeTxt2.setText(mList.get(position).getUserText());

@@ -6,10 +6,10 @@ package graduation.whatziroom.activity.base;
 
 public interface BasicMethod {
 
-    public void setUpEvents();
+    void setUpEvents();
 
-    public void setValues();
+    void setValues();
 
-    public void bindView();
+    void bindView();
 
 }

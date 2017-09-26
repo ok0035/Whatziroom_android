@@ -38,10 +38,10 @@ public class RoomChatFragment extends Fragment {
         m_Adapter = new ChatAdapter();
 
         // Xml에서 추가한 ListView 연결
-        m_ListVieww = (ListView) layout.findViewById(R.id.lvChat);
-        edChat = (EditText) layout.findViewById(R.id.edChatText);
-        sendButton = (TextView) layout.findViewById(R.id.sendChat);
-        linChatList = (LinearLayout) layout.findViewById(R.id.linChatList);
+        m_ListVieww = layout.findViewById(R.id.lvChat);
+        edChat = layout.findViewById(R.id.edChatText);
+        sendButton = layout.findViewById(R.id.sendChat);
+        linChatList = layout.findViewById(R.id.linChatList);
 
         // ListView에 어댑터 연결
         m_ListVieww.setAdapter(m_Adapter);

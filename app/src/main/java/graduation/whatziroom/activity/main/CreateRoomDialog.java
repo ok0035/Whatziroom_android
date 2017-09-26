@@ -100,11 +100,11 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
     @Override
     public void bindView() {
 
-        this.newRoomConfirmBtn = (TextView) findViewById(R.id.newRoomConfirmBtn);
-        this.newRoomCancelBtn = (TextView) findViewById(R.id.newRoomCancelBtn);
-        this.edCreateRoomDesc = (EditText) findViewById(R.id.edCreateRoomDesc);
-        this.edCreateRoomMaxUser = (EditText) findViewById(R.id.edCreateRoomMaxUser);
-        this.edCreateRoomNmae = (EditText) findViewById(R.id.edCreateRoomNmae);
+        this.newRoomConfirmBtn = findViewById(R.id.newRoomConfirmBtn);
+        this.newRoomCancelBtn = findViewById(R.id.newRoomCancelBtn);
+        this.edCreateRoomDesc = findViewById(R.id.edCreateRoomDesc);
+        this.edCreateRoomMaxUser = findViewById(R.id.edCreateRoomMaxUser);
+        this.edCreateRoomNmae = findViewById(R.id.edCreateRoomNmae);
 
     }
 }

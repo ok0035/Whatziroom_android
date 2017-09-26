@@ -11,7 +11,7 @@
         android:gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorBlue">
 
         <TextView
             android:layout_width="match_parent"

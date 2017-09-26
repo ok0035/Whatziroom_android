@@ -2,12 +2,17 @@ package graduation.whatziroom.activity.main;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.activity.login.LoginActivity;
 
 
 public class ProfilUpdateActivity extends BaseActivity {
+
+    private TextView updateProfilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,13 @@ public class ProfilUpdateActivity extends BaseActivity {
                 finish();
                 overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
 //                overridePendingTransition(0, 0);
+            }
+        });
+
+        updateProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProfilUpdateActivity.this, "이미지 변경", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -61,6 +73,7 @@ public class ProfilUpdateActivity extends BaseActivity {
     @Override
     public void bindView() {
         super.bindView();
+        updateProfilePic = findViewById(R.id.updateProfilePic);
     }
 
 

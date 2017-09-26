@@ -182,13 +182,13 @@ public class SwitchTimePicker implements RadialPickerLayout.OnValueSelectedListe
         mMinutePickerDescription = resources.getString(R.string.minute_picker_description);
         mSelectMinutes = resources.getString(R.string.select_minutes);
 
-        mHourView = (TextView) view.findViewById(R.id.hours);
+        mHourView = view.findViewById(R.id.hours);
         mHourView.setOnKeyListener(keyboardListener);
 
-        mMinuteView = (TextView) view.findViewById(R.id.minutes);
+        mMinuteView = view.findViewById(R.id.minutes);
         mMinuteView.setOnKeyListener(keyboardListener);
 
-        mAmPmTextView = (TextView) view.findViewById(R.id.ampm_label);
+        mAmPmTextView = view.findViewById(R.id.ampm_label);
         mAmPmTextView.setOnKeyListener(keyboardListener);
         mAmPmTextView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -214,7 +214,7 @@ public class SwitchTimePicker implements RadialPickerLayout.OnValueSelectedListe
         mAmText = amPmTexts[0];
         mPmText = amPmTexts[1];
 
-        mTimePicker = (RadialPickerLayout) view.findViewById(R.id.time_picker);
+        mTimePicker = view.findViewById(R.id.time_picker);
         mTimePicker.setOnValueSelectedListener(this);
         mTimePicker.setOnKeyListener(keyboardListener);
         mTimePicker.initialize(mContext, hourOfDay, minute, mIs24HourMode, mVibrate);
@@ -254,7 +254,7 @@ public class SwitchTimePicker implements RadialPickerLayout.OnValueSelectedListe
             RelativeLayout.LayoutParams paramsSeparator = new RelativeLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             paramsSeparator.addRule(RelativeLayout.CENTER_IN_PARENT);
-            TextView separatorView = (TextView) view.findViewById(R.id.separator);
+            TextView separatorView = view.findViewById(R.id.separator);
             separatorView.setLayoutParams(paramsSeparator);
         } else {
             mAmPmTextView.setVisibility(View.VISIBLE);

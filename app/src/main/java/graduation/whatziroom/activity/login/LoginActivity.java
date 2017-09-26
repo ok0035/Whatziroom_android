@@ -162,15 +162,15 @@ public class LoginActivity extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        this.tvforget = (TextView) findViewById(R.id.tv_forget);
-        this.btnsignup = (TextView) findViewById(R.id.btn_signup);
-        this.btnlogin = (TextView) findViewById(R.id.btn_login);
-        this.chAutoCheckBox = (CheckBox) findViewById(R.id.chAutoCheckBox);
-        this.edloginpw = (EditText) findViewById(R.id.ed_login_pw);
-        this.layoutid = (LinearLayout) findViewById(R.id.layout_id);
-        this.edloginid = (EditText) findViewById(R.id.ed_login_id);
-        this.tvloginid = (TextView) findViewById(R.id.tv_login_id);
-        this.imgmypage = (ImageView) findViewById(R.id.img_mypage);
+        this.tvforget = findViewById(R.id.tv_forget);
+        this.btnsignup = findViewById(R.id.btn_signup);
+        this.btnlogin = findViewById(R.id.btn_login);
+        this.chAutoCheckBox = findViewById(R.id.chAutoCheckBox);
+        this.edloginpw = findViewById(R.id.ed_login_pw);
+        this.layoutid = findViewById(R.id.layout_id);
+        this.edloginid = findViewById(R.id.ed_login_id);
+        this.tvloginid = findViewById(R.id.tv_login_id);
+        this.imgmypage = findViewById(R.id.img_mypage);
 
 
     }

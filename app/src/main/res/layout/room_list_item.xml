@@ -63,7 +63,7 @@
                     android:paddingEnd="3dp"
                     android:text="3"
                     android:textColor="#FFFFFF"
-                    android:background="@color/colorPrimaryDark"/>
+                    android:background="@color/colorBlue"/>
 
 
             </LinearLayout>

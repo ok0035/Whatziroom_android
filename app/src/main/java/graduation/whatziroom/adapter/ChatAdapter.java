@@ -85,12 +85,12 @@ public class ChatAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.chat_item, parent, false);
 
-            layout    = (LinearLayout) convertView.findViewById(R.id.layout);
-            text    = (TextView) convertView.findViewById(R.id.text);
-            viewRight    = (View) convertView.findViewById(R.id.imageViewright);
-            viewLeft    = (View) convertView.findViewById(R.id.imageViewleft);
-            profileLeft = (CircleImageView) convertView.findViewById(R.id.profileLeft);
-            profileRight = (CircleImageView) convertView.findViewById(R.id.profileRight);
+            layout    = convertView.findViewById(R.id.layout);
+            text    = convertView.findViewById(R.id.text);
+            viewRight    = convertView.findViewById(R.id.imageViewright);
+            viewLeft    = convertView.findViewById(R.id.imageViewleft);
+            profileLeft = convertView.findViewById(R.id.profileLeft);
+            profileRight = convertView.findViewById(R.id.profileRight);
 
 
             // 홀더 생성 및 Tag로 등록

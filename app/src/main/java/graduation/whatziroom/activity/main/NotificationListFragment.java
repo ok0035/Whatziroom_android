@@ -30,8 +30,8 @@ public class NotificationListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         layout = (LinearLayout) inflater.inflate(R.layout.notification_list, container, false);
-        ListView listview = (ListView)layout.findViewById(R.id.noticeList);
-        Button button = (Button)layout.findViewById(R.id.tempBtn);
+        ListView listview = layout.findViewById(R.id.noticeList);
+        Button button = layout.findViewById(R.id.tempBtn);
 
         NoticeData noticeData1 = new NoticeData();
         noticeData1.setUserName("최현승");

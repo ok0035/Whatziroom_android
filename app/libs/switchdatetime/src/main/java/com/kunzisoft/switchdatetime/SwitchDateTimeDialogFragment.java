@@ -155,7 +155,7 @@ public class SwitchDateTimeDialogFragment extends DialogFragment {
                 (ViewGroup) getActivity().findViewById(R.id.datetime_picker));
 
         // Set label
-        TextView labelView = (TextView) dateTimeLayout.findViewById(R.id.label);
+        TextView labelView = dateTimeLayout.findViewById(R.id.label);
         if(mLabel != null)
             labelView.setText(mLabel);
         else
@@ -164,7 +164,7 @@ public class SwitchDateTimeDialogFragment extends DialogFragment {
         // Lock animation for fast clicks
         blockAnimationIn = false;
         blockAnimationOut = false;
-        viewSwitcher = (ViewAnimator) dateTimeLayout.findViewById(R.id.dateSwitcher);
+        viewSwitcher = dateTimeLayout.findViewById(R.id.dateSwitcher);
         viewSwitcher.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -201,7 +201,7 @@ public class SwitchDateTimeDialogFragment extends DialogFragment {
         viewSwitcher.setDisplayedChild(currentPosition);
 
         // Button for switch between Hours/Minutes, Calendar and YearList
-        ImageButton buttonSwitch = (ImageButton) dateTimeLayout.findViewById(R.id.button_switch);
+        ImageButton buttonSwitch = dateTimeLayout.findViewById(R.id.button_switch);
         buttonSwitch.setBackgroundColor(Color.TRANSPARENT);
         buttonSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,12 +218,12 @@ public class SwitchDateTimeDialogFragment extends DialogFragment {
                 new OnClickHeaderElementListener(HeaderViewsPosition.VIEW_HOURS_AND_MINUTES.getPosition());
         timeHeaderValues.setOnClickListener(onTimeClickListener);
         // Values header month day
-        monthAndDayHeaderValues = (TextView) dateTimeLayout.findViewById(R.id.date_picker_month_and_day);
+        monthAndDayHeaderValues = dateTimeLayout.findViewById(R.id.date_picker_month_and_day);
         View.OnClickListener onMonthAndDayClickListener =
                 new OnClickHeaderElementListener(HeaderViewsPosition.VIEW_MONTH_AND_DAY.getPosition());
         monthAndDayHeaderValues.setOnClickListener(onMonthAndDayClickListener);
         // Values header year
-        yearHeaderValues = (TextView) dateTimeLayout.findViewById(R.id.date_picker_year);
+        yearHeaderValues = dateTimeLayout.findViewById(R.id.date_picker_year);
         View.OnClickListener onYearClickListener =
                 new OnClickHeaderElementListener(HeaderViewsPosition.VIEW_YEAR.getPosition());
         yearHeaderValues.setOnClickListener(onYearClickListener);
@@ -255,7 +255,7 @@ public class SwitchDateTimeDialogFragment extends DialogFragment {
         timePicker.setOnClickTimeListener(onTimeClickListener);
 
         // Construct DatePicker
-        materialCalendarView = (MaterialCalendarView) dateTimeLayout.findViewById(com.kunzisoft.switchdatetime.R.id.datePicker);
+        materialCalendarView = dateTimeLayout.findViewById(R.id.datePicker);
         materialCalendarView.state().edit()
                 .setMinimumDate(CalendarDay.from(minimumDateTime))
                 .setMaximumDate(CalendarDay.from(maximumDateTime))
@@ -277,7 +277,7 @@ public class SwitchDateTimeDialogFragment extends DialogFragment {
         materialCalendarView.invalidate();
 
         // Construct YearPicker
-        listPickerYearView = (ListPickerYearView) dateTimeLayout.findViewById(R.id.yearPicker);
+        listPickerYearView = dateTimeLayout.findViewById(R.id.yearPicker);
         listPickerYearView.setMinYear(minimumDateTime.get(Calendar.YEAR));
         listPickerYearView.setMaxYear(maximumDateTime.get(Calendar.YEAR));
         listPickerYearView.assignCurrentYear(dateTimeCalendar.get(Calendar.YEAR));

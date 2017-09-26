@@ -42,10 +42,10 @@ public class RoomAdapter extends ArrayAdapter {
         }
 
 //        ImageView roomThumbNail = (ImageView)row.findViewById(R.id.roomListThumbImg);
-        TextView roomName = (TextView)row.findViewById(R.id.roomNameTxt);
-        TextView roomMakerName = (TextView)row.findViewById(R.id.tvUserNumber);
-        TextView roomTime = (TextView)row.findViewById(R.id.roomTimeTxt);
-        TextView getOutBtn = (TextView)row.findViewById(R.id.roomOutTxt);
+        TextView roomName = row.findViewById(R.id.roomNameTxt);
+        TextView roomMakerName = row.findViewById(R.id.tvUserNumber);
+        TextView roomTime = row.findViewById(R.id.roomTimeTxt);
+        TextView getOutBtn = row.findViewById(R.id.roomOutTxt);
 
         RoomData data = mList.get(position);
 

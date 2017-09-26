@@ -120,8 +120,8 @@ public class ChatNoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public ListHeaderViewHolder(View itemView) {
             super(itemView);
-            header_title = (TextView) itemView.findViewById(R.id.header_title);
-            btn_expand_toggle = (ImageView) itemView.findViewById(R.id.btn_expand_toggle);
+            header_title = itemView.findViewById(R.id.header_title);
+            btn_expand_toggle = itemView.findViewById(R.id.btn_expand_toggle);
         }
     }
 }

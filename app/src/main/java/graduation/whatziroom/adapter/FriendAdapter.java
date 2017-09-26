@@ -51,9 +51,9 @@ public class FriendAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.friend_list_tiem, null);
         }
 
-        ImageView thumNail = (ImageView) row.findViewById(R.id.friendListThumbImg);
-        TextView firendName = (TextView) row.findViewById(R.id.friendListNameTxt);
-        TextView blockBtn = (TextView) row.findViewById(R.id.friendListBlockTxt);
+        ImageView thumNail = row.findViewById(R.id.friendListThumbImg);
+        TextView firendName = row.findViewById(R.id.friendListNameTxt);
+        TextView blockBtn = row.findViewById(R.id.friendListBlockTxt);
 
         FriendData data = mList.get(position);
 
@@ -113,8 +113,8 @@ public class FriendAdapter extends ArrayAdapter {
         myDialog.setContentView(dialogLayout);
         myDialog.show();
 
-        Button btn_ok = (Button) dialogLayout.findViewById(R.id.btn_ok);
-        Button btn_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
+        Button btn_ok = dialogLayout.findViewById(R.id.btn_ok);
+        Button btn_cancel = dialogLayout.findViewById(R.id.btn_cancel);
 
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override

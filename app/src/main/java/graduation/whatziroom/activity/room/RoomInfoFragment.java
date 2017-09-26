@@ -48,12 +48,12 @@ public class RoomInfoFragment extends Fragment {
 
         switch (getIsEmpty()) {
             case "empty":
-                layout = (LinearLayout) inflater.inflate(R.layout.no_schedule, container, false);
+                layout = inflater.inflate(R.layout.no_schedule, container, false);
                 break;
 
             case "notEmpty":
-                layout = (ScrollView) inflater.inflate(R.layout.information, container, false);
-                linAttendee = (LinearLayout) layout.findViewById(R.id.linAttendee);
+                layout = inflater.inflate(R.layout.information, container, false);
+                linAttendee = layout.findViewById(R.id.linAttendee);
 
                 ivAttendee = new ImageView[5];
                 for (int i = 0; i < ivAttendee.length; i++) {

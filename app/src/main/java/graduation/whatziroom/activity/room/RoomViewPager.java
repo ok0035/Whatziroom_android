@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -166,6 +167,7 @@ public class RoomViewPager extends BaseActivity {
                             case 0:
                                 btnRoomSchedule.setVisibility(View.VISIBLE);
                                 btnRoomSetting.setVisibility(View.VISIBLE);
+                                btnRoomSetting.setImageResource(R.mipmap.btn_setting);
                                 break;
                             case 1:
                             case 2:
@@ -315,9 +317,9 @@ public class RoomViewPager extends BaseActivity {
         LayoutInflater inf = LayoutInflater.from(mContext);
         View customBarView = inf.inflate(R.layout.actionbar_room, null);
 
-        this.btnRoomSetting = (TextView) customBarView.findViewById(R.id.btnRoomSetting);
-        this.btnRoomSchedule = (TextView) customBarView.findViewById(R.id.btnRoomSchedule);
-        this.btnRoomExit = (TextView) customBarView.findViewById(R.id.btnRoomExit);
+        this.btnRoomSetting = customBarView.findViewById(R.id.btnRoomSetting);
+        this.btnRoomSchedule = customBarView.findViewById(R.id.btnRoomSchedule);
+        this.btnRoomExit = customBarView.findViewById(R.id.btnRoomExit);
 
         myActionBar.setCustomView(customBarView);
         myActionBar.setDisplayShowCustomEnabled(true);
@@ -338,9 +340,9 @@ public class RoomViewPager extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        this.vp = (ViewPager) findViewById(R.id.vp);
-        this.indicator = (CircleIndicator) findViewById(R.id.indicator);
-        this.linRoom = (LinearLayout) findViewById(R.id.linRoom);
+        this.vp = findViewById(R.id.vp);
+        this.indicator = findViewById(R.id.indicator);
+        this.linRoom = findViewById(R.id.linRoom);
 
     }
 }

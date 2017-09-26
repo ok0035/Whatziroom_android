@@ -29,8 +29,8 @@ public class ProfileFragment extends Fragment {
 
         layout = (LinearLayout) inflater.inflate(R.layout.profile_list, container, false);
 
-        TextView editBtn = (TextView)(layout.findViewById(R.id.updateUserInfoBtn));
-        TextView signOutBtn = (TextView)(layout.findViewById(R.id.signoutBtn));
+        TextView editBtn = layout.findViewById(R.id.updateUserInfoBtn);
+        TextView signOutBtn = layout.findViewById(R.id.signoutBtn);
 
         // 내 정보 수정
         editBtn.setOnClickListener(new View.OnClickListener() {

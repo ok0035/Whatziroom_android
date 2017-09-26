@@ -112,9 +112,9 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
 
     @Override
     public void bindView() {
-        this.tvBtnResister = (TextView) findViewById(R.id.tvBtnResister);
-        this.edScheduleDesc = (EditText) findViewById(R.id.edScheduleDesc);
-        this.textView = (TextView) findViewById(R.id.textView);
-        this.edScheduleName = (EditText) findViewById(R.id.edScheduleName);
+        this.tvBtnResister = findViewById(R.id.tvBtnResister);
+        this.edScheduleDesc = findViewById(R.id.edScheduleDesc);
+        this.textView = findViewById(R.id.textView);
+        this.edScheduleName = findViewById(R.id.edScheduleName);
     }
 }

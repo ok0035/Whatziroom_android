@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class FriendListFragment extends Fragment {
     FriendAdapter mFriendAdapter;
     ListView freindListView;
     ArrayList<FriendData> friendListItem;
-    TextView searchFreindBtn;
+    ImageView searchFreindBtn;
 
 
     @Nullable
@@ -36,8 +37,8 @@ public class FriendListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         layout = (LinearLayout) inflater.inflate(R.layout.friend_list, container, false);
-        searchFreindBtn = (TextView)layout.findViewById(R.id.searchFreindBtn);
-        freindListView = (ListView) layout.findViewById(R.id.friendList);
+        searchFreindBtn = layout.findViewById(R.id.searchFreindBtn);
+        freindListView = layout.findViewById(R.id.friendList);
         friendListItem = new ArrayList<>();
 
         searchFreindBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,11 +86,11 @@ public class FriendListFragment extends Fragment {
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
     public void findFriendFunc(){
 
-        EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
+        EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
         edittext.setHint("친구 찾기(이메일, 닉네임)");
 
-        final ListView listview = (ListView) getActivity().findViewById(R.id.friendList);
-        TextView textview = (TextView)getActivity().findViewById(R.id.searchFreindBtn);
+        final ListView listview = getActivity().findViewById(R.id.friendList);
+        ImageView textview = getActivity().findViewById(R.id.searchFreindBtn);
 
         listview.setAdapter(null);
         textview.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +110,13 @@ public class FriendListFragment extends Fragment {
     }
     // 친구 추가 끝나고 완료 버튼 클릭시 실행되는 함수
     public void reloadFunc(){
-        EditText edittext = (EditText)getActivity().findViewById(R.id.findFreindEdt);
+        EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
         edittext.setHint("친구 찾기(이름)");
 
-        TextView textview = (TextView)getActivity().findViewById(R.id.searchFreindBtn);
+        ImageView textview = getActivity().findViewById(R.id.searchFreindBtn);
         textview.setOnClickListener(null);
 
-        ListView listview = (ListView) getActivity().findViewById(R.id.friendList);
+        ListView listview = getActivity().findViewById(R.id.friendList);
         listview.setAdapter(null);
         listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
 
@@ -128,12 +129,12 @@ public class FriendListFragment extends Fragment {
 
         if (!blockFlag) {
             blockFlag = true;
-            ListView listview = (ListView) getActivity().findViewById(R.id.friendList);
+            ListView listview = getActivity().findViewById(R.id.friendList);
             listview.setAdapter(null);
             listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 1));
         } else {
             blockFlag = false;
-            ListView listview = (ListView) getActivity().findViewById(R.id.friendList);
+            ListView listview = getActivity().findViewById(R.id.friendList);
             listview.setAdapter(null);
             listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
         }

@@ -187,8 +187,8 @@ class YearPickerAdapter extends RecyclerView.Adapter<YearPickerAdapter.TextIndic
 
         TextIndicatorViewHolder(View itemView) {
             super(itemView);
-            container = (ViewGroup) itemView.findViewById(R.id.year_element_container);
-            textView = (TextView) itemView.findViewById(R.id.year_textView);
+            container = itemView.findViewById(R.id.year_element_container);
+            textView = itemView.findViewById(R.id.year_textView);
         }
     }
 
