@@ -21,6 +21,7 @@ public class SearchData {
 	public SearchData() {
 		searchList = new ArrayList<SearchData>();
 		adapter = new SearchAdapter(SearchPlaceActivity.searchActivity, searchList);
+
 	}
 
 	public SearchData(String imageUrl, String title, String address, String newAddress, String zipcode, String phone, String category,
@@ -130,6 +131,7 @@ public class SearchData {
 	public double getDistance() {
 		return distance;
 	}
+
 	public void setDistance(String distance) {
 		if(distance.equals(""))
 			this.distance = 0;

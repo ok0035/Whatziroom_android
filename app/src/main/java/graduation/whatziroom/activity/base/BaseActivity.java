@@ -72,7 +72,6 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-
     public void setMainActionBar() {
 
         ActionBar myActionBar = getSupportActionBar();

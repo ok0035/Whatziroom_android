@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.room;
 
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -61,8 +62,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private HashMap<Integer, SearchData> mTagItemMap = new HashMap<Integer, SearchData>();
     ProgressDialog mProgressDialog;
     private ListView lvSearchList;
-    public static Activity searchActivity;
 
+    public static Activity searchActivity;
     private SearchData searchData, selectedData;
     private android.widget.LinearLayout llSlideMain;
     private ImageView ivSearchResult;
@@ -76,6 +77,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private LinearLayout llBtnSelectPlace;
     private WebView wbSearchResult;
     private ScrollView scWebView;
+
     private TextView tvBtnSearchCancel;
     private TextView tvBtnSearchSelect;
 
@@ -105,11 +107,12 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
         if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
-        if (mMapView.getVisibility() == View.INVISIBLE)
-            mMapView.setVisibility(View.VISIBLE);
-        else
+        else if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED)
+            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        else if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN && mMapView.getVisibility() == View.VISIBLE)
             mMapView.setVisibility(View.INVISIBLE);
+        else if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN && mMapView.getVisibility() == View.INVISIBLE)
+            mMapView.setVisibility(View.VISIBLE);
 
     }
 
@@ -164,7 +167,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                                 mMapView.setVisibility(View.INVISIBLE);
 
                                 searchData = new SearchData();
+
                                 for (int i = 0; i < itemList.size(); i++) {
+
                                     SearchData data = itemList.get(i);
                                     searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
                                             data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
@@ -192,9 +197,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 SearchData data = searchData.getSearchList().get(i);
                 Log.d("MarkerPoint", data.getTitle());
 
+
 //                onPOIItemSelected(mMapView, mMapView.getPOIItems()[i]);
-                mMapView.selectPOIItem(mMapView.getPOIItems()[i], true);
-                mMapView.setMapCenterPoint(mMapView.getPOIItems()[i].getMapPoint(), true);
+
 //                mMapView.getPOIItems()[i].setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
 //                mMapView.getPOIItems()[i].setCustomSelectedImageResourceId(R.drawable.map_pin_red);
 
@@ -210,6 +215,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
                 mMapView.setVisibility(View.VISIBLE);
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                mMapView.selectPOIItem(mMapView.getPOIItems()[i], true);
+                mMapView.setMapCenterPoint(mMapView.getPOIItems()[i].getMapPoint(), true);
 
                 selectedData = data;
 
@@ -226,6 +233,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 //                Log.d("ACTIONMOVE", motionEvent.ACTION_MOVE + "");
 //                Log.d("ACTIONCANCEL", motionEvent.ACTION_CANCEL + "");
 
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_MOVE)
                     slidingLayout.setTouchEnabled(false);
                 else slidingLayout.setTouchEnabled(true);
@@ -236,7 +244,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         });
 
 
-        tvBtnSearchCancel.setOnClickListener(new View.OnClickListener() {
+        tvBtnSearchCancel.setOnClickListener(new View.OnClickListener()
+
+        {
 
             @Override
             public void onClick(View view) {
@@ -247,7 +257,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
         });
 
-        tvBtnSearchSelect.setOnClickListener(new View.OnClickListener() {
+        tvBtnSearchSelect.setOnClickListener(new View.OnClickListener()
+
+        {
 
             @Override
             public void onClick(View view) {
@@ -437,22 +449,24 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-        SearchData item = mTagItemMap.get(mapPOIItem.getTag());
-        StringBuilder sb = new StringBuilder();
-        sb.append("title=").append(item.getTitle()).append("\n");
-        sb.append("imageUrl=").append(item.getImageUrl()).append("\n");
-        sb.append("address=").append(item.getAddress()).append("\n");
-        sb.append("newAddress=").append(item.getNewAddress()).append("\n");
-        sb.append("zipcode=").append(item.getZipcode()).append("\n");
-        sb.append("phone=").append(item.getPhone()).append("\n");
-        sb.append("category=").append(item.getCategory()).append("\n");
-        sb.append("longitude=").append(item.getLongitude()).append("\n");
-        sb.append("latitude=").append(item.getLatitude()).append("\n");
-        sb.append("distance=").append(item.getDistance()).append("\n");
-        sb.append("direction=").append(item.getDirection()).append("\n");
-        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+
+//        SearchData item = mTagItemMap.get(mapPOIItem.getTag());
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("title=").append(item.getTitle()).append("\n");
+//        sb.append("imageUrl=").append(item.getImageUrl()).append("\n");
+//        sb.append("address=").append(item.getAddress()).append("\n");
+//        sb.append("newAddress=").append(item.getNewAddress()).append("\n");
+//        sb.append("zipcode=").append(item.getZipcode()).append("\n");
+//        sb.append("phone=").append(item.getPhone()).append("\n");
+//        sb.append("category=").append(item.getCategory()).append("\n");
+//        sb.append("longitude=").append(item.getLongitude()).append("\n");
+//        sb.append("latitude=").append(item.getLatitude()).append("\n");
+//        sb.append("distance=").append(item.getDistance()).append("\n");
+//        sb.append("direction=").append(item.getDirection()).append("\n");
+//        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
 
         slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
     }
 
     @Override
@@ -468,12 +482,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
 
         mapView.setMapCenterPoint(mapPOIItem.getMapPoint(), true);
-        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
         SearchData data = searchData.getSearchList().get(mapPOIItem.getTag());
         Glide.with(this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
-
-
 
         tvSearchResultTitle.setText(data.getTitle());
         tvSearchResultAddress.setText(data.getAddress());
@@ -485,7 +495,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         wbSearchResult.loadUrl(data.getPlaceUrl());
 
         selectedData = mTagItemMap.get(mapPOIItem.getTag());
-
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
 //        Log.d("POIItem", mapPOIItem.getCustomSele);
 
@@ -526,6 +536,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     @Override
     public void bindView() {
 
+<<<<<<< HEAD
         this.llBtnSelectPlace = findViewById(R.id.llBtnSelectPlace);
         this.slidingLayout = findViewById(R.id.slidingLayout);
         this.tvSearchResultPhone = findViewById(R.id.tvSearchResultPhone);
@@ -541,6 +552,24 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         this.scWebView = findViewById(R.id.scWebView);
         this.tvBtnSearchSelect = findViewById(R.id.tvBtnSearchSelect);
         this.tvBtnSearchCancel = findViewById(R.id.tvBtnSearchCancel);
+=======
+        this.llBtnSelectPlace = (LinearLayout) findViewById(R.id.llBtnSelectPlace);
+        this.slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingLayout);
+        this.tvSearchResultPhone = (TextView) findViewById(R.id.tvSearchResultPhone);
+        this.tvSearchResultAddress = (TextView) findViewById(R.id.tvSearchResultAddress);
+        this.tvSearchResultTitle = (TextView) findViewById(R.id.tvSearchResultTitle);
+        this.ivSearchResult = (ImageView) findViewById(R.id.ivSearchResult);
+        this.llSlideMain = (LinearLayout) findViewById(R.id.llSlideMain);
+        this.mMapView = (MapView) findViewById(R.id.mMapView);
+        this.lvSearchList = (ListView) findViewById(R.id.lvSearchList);
+        this.btnSearch = (TextView) findViewById(R.id.btnSearch);
+        this.edSearchQuery = (EditText) findViewById(R.id.edSearchQuery);
+        this.wbSearchResult = (WebView) findViewById(R.id.wbSearchResult);
+        this.scWebView = (ScrollView) findViewById(R.id.scWebView);
+
+        this.tvBtnSearchSelect = (TextView) findViewById(R.id.tvBtnSearchSelect);
+        this.tvBtnSearchCancel = (TextView) findViewById(R.id.tvBtnSearchCancel);
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
     }
 
 }

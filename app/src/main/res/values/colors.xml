@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
 
 
+<<<<<<< HEAD
 
     <color name="colorAccent">#E55C6C</color>
 
@@ -13,4 +14,8 @@
 
     <color name="mTitleColor"> #E0C7A4 </color>
     <color name="colorBlue"> #297299 </color>
+=======
+    <color name="mTitleColor"> #d8b6ba </color>
+    <color name="indicatorColor"> #66000000 </color>
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
 </resources>

@@ -35,6 +35,11 @@ public class RoomListFragment extends Fragment implements BasicMethod {
     private ImageView searchBtn;
     private static ListView roomListView;
     private static RoomData roomData;
+    private static int roomPKey = 0;
+
+    public static int getRoomPKey() {
+        return roomPKey;
+    }
 
     @Nullable
     @Override
@@ -56,8 +61,6 @@ public class RoomListFragment extends Fragment implements BasicMethod {
     @Override
     public void setUpEvents() {
 
-//        roomListView.setAdapter(roomData.getAdapter());
-
         updateRoom();
 
         roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,6 +69,7 @@ public class RoomListFragment extends Fragment implements BasicMethod {
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
                 intent.putExtra("PKey", roomData.getRoomArrayList().get(position).getRoomPKey().toString());
+                roomPKey = Integer.parseInt(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
                 startActivity(intent);
 
             }

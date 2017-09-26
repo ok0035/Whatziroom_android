@@ -6,45 +6,35 @@ package graduation.whatziroom.Data;
 
 public class NoticeData {
 
+    private String userName;
+    private String srFlag;
+    private String friendStatus;
+
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
-        System.out.println("데이터클래스 초기화");
+        this.userName = userName;
     }
 
-    public String getUserThumbnail() {
-        return UserThumbnail;
+    public String getSrFlag() {
+        return srFlag;
     }
 
-    public void setUserThumbnail(String userThumbnail) {
-        UserThumbnail = userThumbnail;
+    public void setSrFlag(String srFlag) {
+        this.srFlag = srFlag;
     }
 
-    public String getUserText() {
-        return UserText;
+    public String getFriendStatus() {
+        return friendStatus;
     }
 
-    public void setUserText(String userText) {
-        UserText = userText;
+    public void setFriendStatus(String friendStatus) {
+        this.friendStatus = friendStatus;
     }
 
-    private String UserName;
-    private String UserThumbnail;
-    private String UserText;
-
-    public int getCheckFlag() {
-        return checkFlag;
-    }
-
-    public void setCheckFlag(int checkFlag) {
-        this.checkFlag = checkFlag;
-    }
-
-    private int checkFlag = 0; // 0대기, 1수락, 2거절
 
 
 }

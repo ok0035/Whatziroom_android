@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import graduation.whatziroom.Data.ScheduleData;
@@ -32,7 +33,6 @@ import graduation.whatziroom.util.ParseData;
 public class ScheduleListFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
-
     private static ListView scheduleList;
     private static ScheduleData data;
 
@@ -73,25 +73,40 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
                 Log.d("Schedule", response);
 
-                if(!response.equals("[]")) {
+                if (!response.equals("[]")) {
 
                     try {
                         ParseData parse = new ParseData();
                         JSONArray roomList = parse.parseJsonArray(response);
                         data = new ScheduleData();
 
-                        for(int i=0; i < roomList.length(); i++) {
+                        for (int i = 0; i < roomList.length(); i++) {
 
                             JSONObject jsonScheduleData = new JSONObject(roomList.get(i).toString());
 
+
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date scheduleDate = transFormat.parse(jsonScheduleData.getString("Date"));
+
+                            Calendar CalculateDate= Calendar.getInstance();
+
+                            CalculateDate.setTime(scheduleDate);
+                            long goalTime = CalculateDate.getTimeInMillis();
+
+                            CalculateDate.setTime(Calendar.getInstance().getTime());
+                            long nowTime = CalculateDate.getTimeInMillis();
+
+                            long dDay = (goalTime - nowTime);
+
+                            //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
+                            dDay = dDay / 1000 / 60 / 60 / 24;
+
                             Log.d("SListDate", scheduleDate.getDate() + "");
 
                             Date nowDate = new Date();
                             nowDate.getDate();
 
-                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(scheduleDate.getDate() - nowDate.getDate()));
+                            data.addItem(jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(dDay));
 
                         }
 
@@ -100,8 +115,10 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+
                     } catch (ParseException e) {
                         e.printStackTrace();
+
                     }
                 }
             }
@@ -126,6 +143,8 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
     @Override
     public void bindView() {
+
         scheduleList = layout.findViewById(R.id.scheduleListView);
+
     }
 }

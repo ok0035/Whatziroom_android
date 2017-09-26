@@ -20,6 +20,7 @@ import graduation.whatziroom.R;
 
 public class RoomAdapter extends ArrayAdapter {
 
+
     private Context mContext = null;
     private ArrayList<RoomData> mList = null;
     private LayoutInflater inf = null;

@@ -21,6 +21,7 @@ import graduation.whatziroom.R;
 
 public class NoticeAdapter extends ArrayAdapter {
 
+
     Context mContext = null;
     ArrayList<NoticeData> mList = null;
     LayoutInflater inf = null;
@@ -34,7 +35,8 @@ public class NoticeAdapter extends ArrayAdapter {
 
     @NonNull
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
+
 
         View row = convertView;
 
@@ -42,33 +44,65 @@ public class NoticeAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.notice_list_item, null);
         }
 
+<<<<<<< HEAD
         final LinearLayout ll = row.findViewById(R.id.noticeSelectBeforeLL);
         final TextView noticeResultTxt = row.findViewById(R.id.noticeResultTxt);
         TextView noticeTxt1 = row.findViewById(R.id.noticeTxt1);
         TextView noticeTxt2 = row.findViewById(R.id.noticeTxt2);
         TextView okBtn = row.findViewById(R.id.noticeOKBtn);
         TextView cancelBtn = row.findViewById(R.id.noticeCancelBtn);
+=======
+
+        final LinearLayout llParent = (LinearLayout)row.findViewById(R.id.llParent);
+        final LinearLayout ll = (LinearLayout)row.findViewById(R.id.noticeSelectBeforeLL);
+        final TextView noticeResultTxt = (TextView)row.findViewById(R.id.noticeResultTxt);
+        TextView noticeTxt1 = (TextView)row.findViewById(R.id.noticeTxt1);
+        TextView noticeTxt2 = (TextView)row.findViewById(R.id.noticeTxt2);
+        TextView okBtn = (TextView)row.findViewById(R.id.noticeOKBtn);
+        TextView cancelBtn = (TextView)row.findViewById(R.id.noticeCancelBtn);
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
 
 //        noticeTxt1.setText(mList.get(position).getUserName()+"님의 친구 신청");
 //        noticeTxt2.setText(mList.get(position).getUserText());
 
-        if(mList.get(position).getCheckFlag()==1){
-            noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
-            ll.setVisibility(View.GONE);
-        }else if(mList.get(position).getCheckFlag()==2){
-            noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
-            ll.setVisibility(View.GONE);
+        if(mList.get(position).getSrFlag().equals("receive")){
+            // 내가 받은 친구 신청 목록
+            okBtn.setVisibility(View.VISIBLE);
+            cancelBtn.setText("X");
+            if(mList.get(position).getFriendStatus().equals("1")){
+                noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
+                ll.setVisibility(View.GONE);
+            }else if(mList.get(position).getFriendStatus().equals("2")){
+                noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+                ll.setVisibility(View.GONE);
+            }else{
+                noticeTxt1.setText(mList.get(position).getUserName()+"님의 친구 신청");
+
+                ll.setVisibility(View.VISIBLE);
+            }
         }else{
-            noticeTxt1.setText(mList.get(position).getUserName()+"님의 친구 신청");
-            noticeTxt2.setText(mList.get(position).getUserText());
-            ll.setVisibility(View.VISIBLE);
+            // 내가 보낸 친구 신청 목록
+            okBtn.setVisibility(View.GONE);
+            cancelBtn.setText("취소");
+            if(mList.get(position).getFriendStatus().equals("1")){
+                noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
+                ll.setVisibility(View.GONE);
+            }else if(mList.get(position).getFriendStatus().equals("2")){
+                noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+                ll.setVisibility(View.GONE);
+            }else{
+                noticeTxt1.setText(mList.get(position).getUserName()+"님에게 보낸 친구 신청");
+                ll.setVisibility(View.VISIBLE);
+            }
         }
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
-                mList.get(position).setCheckFlag(1);
+
+//                mList.get(position).setCheckFlag(1);
+
                 ll.setVisibility(View.GONE);
             }
         });
@@ -76,9 +110,15 @@ public class NoticeAdapter extends ArrayAdapter {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
-                mList.get(position).setCheckFlag(2);
-                ll.setVisibility(View.GONE);
+
+                if(mList.get(position).getSrFlag().equals("receive")){
+                    noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+//                mList.get(position).setCheckFlag(2);
+                    ll.setVisibility(View.GONE);
+                }else{
+                    llParent.setVisibility(View.GONE);
+                }
+
             }
         });
 

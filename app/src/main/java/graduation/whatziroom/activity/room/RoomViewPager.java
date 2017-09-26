@@ -12,7 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.ImageView;
+=======
+import android.widget.FrameLayout;
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +31,7 @@ import java.util.Locale;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.activity.main.RoomListFragment;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import me.relex.circleindicator.CircleIndicator;
@@ -43,13 +48,13 @@ public class RoomViewPager extends BaseActivity {
     private LinearLayout ll;
     private me.relex.circleindicator.CircleIndicator indicator;
     private LinearLayout linIndicator;
-    private LinearLayout linRoom;
+    private FrameLayout flRoom;
 
-    private RoomInfoFragment roomInfoView;
-    private RoomChatFragment roomChatView;
-    private RoomFriendList roomFriendList;
+    public static RoomInfoFragment roomInfoView;
+    public static RoomChatFragment roomChatView;
+    public static RoomFriendList roomFriendList;
 
-    private String roomPKey;
+    private int roomPKey;
     private int userPKey;
     private String result = "notEmpty";
 
@@ -91,13 +96,13 @@ public class RoomViewPager extends BaseActivity {
 
         Intent intentPKey = getIntent();
 
-        roomPKey = intentPKey.getStringExtra("PKey");
+        roomPKey = RoomListFragment.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
 
-        Log.d("RoomPKey", roomPKey);
+        Log.d("RoomPKey", roomPKey + "");
 
         Params params = new Params();
-        params.add("PKey", roomPKey);
+        params.add("PKey", roomPKey + "");
 
         new HttpNetwork("IsEmptySchedule.php", params.getParams(), new HttpNetwork.AsyncResponse() {
 
@@ -146,6 +151,8 @@ public class RoomViewPager extends BaseActivity {
                 pagerAdapter vpAdapter = new pagerAdapter(getSupportFragmentManager());
 
                 vp.setAdapter(vpAdapter);
+//                Log.d("indicator", indicator.getHeight() + "");
+//                indicator.configureIndicator(0,0,0);
                 indicator.setViewPager(vp);
                 vp.setCurrentItem(0); // 앱실행시 첫번째 화면
 
@@ -258,9 +265,9 @@ public class RoomViewPager extends BaseActivity {
 
                 Intent intent = new Intent(getApplicationContext(), SearchPlaceActivity.class);
 
-                Log.d("dialogRoomPKey", roomPKey);
+                Log.d("dialogRoomPKey", roomPKey + "");
 
-                intent.putExtra("roomPKey", Integer.parseInt(roomPKey));
+                intent.putExtra("roomPKey", Integer.parseInt(roomPKey + ""));
                 intent.putExtra("date", date.toString());
 
                 startActivity(intent);
@@ -340,9 +347,15 @@ public class RoomViewPager extends BaseActivity {
     public void bindView() {
         super.bindView();
 
+<<<<<<< HEAD
         this.vp = findViewById(R.id.vp);
         this.indicator = findViewById(R.id.indicator);
         this.linRoom = findViewById(R.id.linRoom);
+=======
+        this.vp = (ViewPager) findViewById(R.id.vp);
+        this.indicator = (CircleIndicator) findViewById(R.id.indicator);
+        this.flRoom = (FrameLayout) findViewById(R.id.linRoom);
+>>>>>>> 00cd17b3124c68c932d01fb21531c4545c1ff194
 
     }
 }

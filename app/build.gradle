@@ -31,8 +31,9 @@ android {
 
     useLibrary 'org.apache.http.legacy'
 }
-
 dependencies {
+
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -45,6 +46,8 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.1.1'
     compile 'com.sothree.slidinguppanel:library:3.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+
     testCompile 'junit:junit:4.12'
     compile project(':switchdatetime')
+
 }
