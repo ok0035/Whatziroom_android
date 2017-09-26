@@ -47,6 +47,10 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private static android.widget.TextView tvInfoPlace;
     private static android.widget.TextView tvInfoMaker;
     private static android.widget.TextView tvInfoDesc;
+    private static android.widget.TextView tvInfoNewAdd;
+    private static android.widget.TextView tvInfoOldAdd;
+    private static android.widget.TextView tvInfoTel;
+    private static android.widget.TextView tvInfoSite;
     public static android.widget.LinearLayout tvNeedCreateSchedule;
 
 //    private ProgressDialog mProgressDialog;
@@ -113,8 +117,8 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
         new HttpNetwork("GetScheduleData.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
-                ParseData parse = new ParseData();
 
+                ParseData parse = new ParseData();
                 try {
 
                     Log.d("asdf", parse.parseJsonArray(response).get(0) + "");
@@ -128,12 +132,16 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                     Log.d("Time", roomInfo.getString("Time"));
                     Log.d("Description", roomInfo.getString("Description"));
 
-                    Glide.with(RoomViewPager.roomInfoView.getContext()).load(roomInfo.getString("URL")).into(ivInformation);
+                    Glide.with(RoomViewPager.roomInfoView.getContext()).load(roomInfo.getString("ImageURL")).into(ivInformation);
                     textTitle.setText(roomInfo.getString("Title"));
                     tvInfoPlace.setText(roomInfo.getString("Place"));
                     tvInfoTime.setText(roomInfo.getString("Time"));
                     tvInfoDesc.setText(roomInfo.getString("Description"));
                     tvInfoMaker.setText(roomInfo.getString("Name"));
+                    tvInfoOldAdd.setText(roomInfo.getString("OldAddress"));
+                    tvInfoNewAdd.setText(roomInfo.getString("NewAddress"));
+                    tvInfoTel.setText(roomInfo.getString("TEL"));
+                    tvInfoSite.setText(roomInfo.getString("WURL"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -171,6 +179,10 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
         this.textTitle = (TextView) infoLayout.findViewById(R.id.textTitle);
         this.ivInformation = (ImageView) infoLayout.findViewById(R.id.ivInformation);
         this.tvNeedCreateSchedule = (LinearLayout) infoLayout.findViewById(R.id.tvNeedCreateSchedule);
+        this.tvInfoSite = (TextView) infoLayout.findViewById(R.id.tvInfoSite);
+        this.tvInfoTel = (TextView) infoLayout.findViewById(R.id.tvInfoTel);
+        this.tvInfoOldAdd = (TextView) infoLayout.findViewById(R.id.tvInfoOldAdd);
+        this.tvInfoNewAdd = (TextView) infoLayout.findViewById(R.id.tvInfoNewAdd);
 
     }
 }

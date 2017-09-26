@@ -78,7 +78,11 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
                 params.add("Description", edScheduleDesc.getText().toString());
                 params.add("Longitude", data.getLongitude() + "");
                 params.add("Latitude", data.getLatitude() + "");
-                params.add("URL", data.getImageUrl() + "");
+                params.add("ImageURL", data.getImageUrl() + "");
+                params.add("NewAddress", data.getNewAddress());
+                params.add("OldAddress", data.getAddress());
+                params.add("TEL", data.getPhone());
+                params.add("WURL", data.getPlaceUrl());
 
                 new HttpNetwork("RegisterSchedule.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
