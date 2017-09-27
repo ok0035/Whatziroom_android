@@ -149,6 +149,21 @@ public class RoomViewPager extends BaseActivity {
                 indicator.setViewPager(vp);
                 vp.setCurrentItem(0); // 앱실행시 첫번째 화면
 
+//                vp.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                        if(vp.getCurrentItem() == 1 && RoomChatFragment.slidingChat.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+//
+//                            Log.d("ererer","ERERERER");
+//                            return vp.onInterceptTouchEvent(motionEvent);
+//
+//                        }
+//
+//                        return false;
+//                    }
+//                });
+
                 vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -243,6 +258,8 @@ public class RoomViewPager extends BaseActivity {
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e(TAG, e.getMessage());
         }
+
+
 
         // Set listener for date
         // Or use dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {

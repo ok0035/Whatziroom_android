@@ -1,10 +1,13 @@
 package graduation.whatziroom.activity.main;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,13 +32,14 @@ import graduation.whatziroom.util.ParseData;
  * Created by ATIV on 2017-06-25.
  */
 
-public class RoomListFragment extends Fragment implements BasicMethod {
+public class RoomListFragment extends Fragment implements BasicMethod, View.OnTouchListener {
 
     private LinearLayout layout;
     private ImageView searchBtn;
     private static ListView roomListView;
     private static RoomData roomData;
     private static int roomPKey = 0;
+    private ProgressDialog progress;
 
     public static int getRoomPKey() {
         return roomPKey;
@@ -53,6 +57,7 @@ public class RoomListFragment extends Fragment implements BasicMethod {
         layout = (LinearLayout) inflater.inflate(R.layout.room_list, container, false);
 
         bindView();
+        setValues();
         setUpEvents();
 
         return layout;
@@ -70,7 +75,7 @@ public class RoomListFragment extends Fragment implements BasicMethod {
 
         roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
                 roomPKey = Integer.parseInt(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
@@ -133,11 +138,18 @@ public class RoomListFragment extends Fragment implements BasicMethod {
 
     @Override
     public void setValues() {
-
+        progress = new ProgressDialog(RoomViewPager.mContext);
     }
 
     @Override
     public void bindView() {
         roomListView = layout.findViewById(R.id.roomListView);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        Log.d("TouchTest", "TOuch");
+        return false;
     }
 }

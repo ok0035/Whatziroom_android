@@ -57,4 +57,6 @@ public class RoomAdapter extends ArrayAdapter {
         return row;
     }
 
+
+
 }

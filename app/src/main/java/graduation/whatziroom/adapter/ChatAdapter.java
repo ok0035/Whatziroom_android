@@ -77,8 +77,6 @@ public class ChatAdapter extends BaseAdapter {
         CircleImageView profileRight = null;
         CircleImageView profileLeft = null;
 
-
-
         // 리스트가 길어지면서 현재 화면에 보이지 않는 아이템은 converView가 null인 상태로 들어 옴
         if ( convertView == null ) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
@@ -105,6 +103,7 @@ public class ChatAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         else {
+
             holder  = (CustomHolder) convertView.getTag();
             text    = holder.m_TextView;
             layout  = holder.layout;

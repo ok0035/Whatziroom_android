@@ -44,8 +44,6 @@ public class NoticeAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.notice_list_item, null);
         }
 
-
-
         final LinearLayout llParent = (LinearLayout)row.findViewById(R.id.llParent);
         final LinearLayout ll = (LinearLayout)row.findViewById(R.id.noticeSelectBeforeLL);
         final TextView noticeResultTxt = (TextView)row.findViewById(R.id.noticeResultTxt);
