@@ -3,6 +3,8 @@ package graduation.whatziroom.activity.room;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,8 +30,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
@@ -47,7 +47,6 @@ import me.relex.circleindicator.CircleIndicator;
 public class RoomViewPager extends BaseActivity {
 
     //    private pagerAdapter vpAdapter;
-    private LinearLayout ll;
     private LinearLayout linIndicator;
 
     public static RoomInfoFragment roomInfoView;
@@ -58,13 +57,15 @@ public class RoomViewPager extends BaseActivity {
     public static android.widget.LinearLayout llChatMapView;
     public static android.widget.ScrollView scChatInfoParent;
     public static android.widget.TextView tvChatCloseMap;
+    public static android.widget.FrameLayout flChatMap;
+
+    private ProgressDialog mProgressDialog;
 
     private android.support.v4.view.ViewPager vp;
-    private android.widget.FrameLayout flChatMap;
     private me.relex.circleindicator.CircleIndicator indicator;
     private android.widget.FrameLayout flRoom;
 
-    ProgressDialog  mProgressDialog;
+    private MapView chatMap;
 
     private int roomPKey;
     private int userPKey;
@@ -103,32 +104,10 @@ public class RoomViewPager extends BaseActivity {
     public void setUpEvents() {
         super.setUpEvents();
 
+
         /*
         *   Viewpase Adapter 설정
         */
-
-        final MapView chatMap = new MapView(RoomViewPager.mContext);
-        chatMap.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
-//        chatMap.setMapViewEventListener();
-//        chatMap.setPOIItemEventListener(this);
-
-
-        final Timer timer = new Timer();
-        mProgressDialog = ProgressDialog.show(RoomViewPager.mContext, "",
-                "잠시만 기다려 주세요.", true);
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-
-                    flChatMap.addView(chatMap);
-
-                    mProgressDialog.dismiss();
-                    timer.cancel();
-                }
-            }
-        };
-        timer.schedule(task, 0, 2000);
 
         roomPKey = RoomListFragment.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
@@ -210,7 +189,6 @@ public class RoomViewPager extends BaseActivity {
                 });
 
 
-
 //                vp.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {
@@ -286,6 +264,25 @@ public class RoomViewPager extends BaseActivity {
                 llChatSchedule.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        chatMap = new MapView(RoomViewPager.mContext);
+                        chatMap.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
+
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
+                                        "잠시만 기다려 주세요.", true);
+                                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+
+                                    RoomViewPager.flChatMap.addView(chatMap);
+
+                                    mProgressDialog.dismiss();
+                                }
+                            }
+                        });
+                        
                         RoomViewPager.llChatMapView.setVisibility(View.VISIBLE);
                     }
                 });
@@ -332,7 +329,7 @@ public class RoomViewPager extends BaseActivity {
 
         // Construct SwitchDateTimePicker
         dateTimeFragment = (SwitchDateTimeDialogFragment) getSupportFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT);
-        if(dateTimeFragment == null) {
+        if (dateTimeFragment == null) {
             dateTimeFragment = SwitchDateTimeDialogFragment.newInstance(
                     getString(R.string.label_datetime_dialog),
                     getString(android.R.string.ok),
@@ -356,7 +353,6 @@ public class RoomViewPager extends BaseActivity {
         }
 
 
-
         // Set listener for date
         // Or use dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
         dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
@@ -366,7 +362,7 @@ public class RoomViewPager extends BaseActivity {
                 Log.d("Time", (date.getMonth() + 1) + "");
                 Log.d("Time", date.getDay() + "");
                 Log.d("Time", date.getDate() + "");
-                Log.d("Time", date.getHours() +"");
+                Log.d("Time", date.getHours() + "");
                 Log.d("Time", date.getMinutes() + "");
 
                 Intent intent = new Intent(getApplicationContext(), SearchPlaceActivity.class);
@@ -396,8 +392,10 @@ public class RoomViewPager extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                dateTimeFragment.startAtCalendarView();
+                flChatMap.removeAllViews();
+                chatMap = null;
 
+                dateTimeFragment.startAtCalendarView();
                 dateTimeFragment.setDefaultDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
                         Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
                         Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE)).getTime());

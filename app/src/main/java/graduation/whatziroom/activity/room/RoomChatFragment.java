@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.room;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
     private EditText edChat;
     private TextView sendButton;
     private LinearLayout linChatList;
+
 
     @Nullable
     @Override
