@@ -65,7 +65,7 @@ public class RoomViewPager extends BaseActivity {
     private me.relex.circleindicator.CircleIndicator indicator;
     private android.widget.FrameLayout flRoom;
 
-    private MapView chatMap;
+    public static MapView chatMap;
 
     private int roomPKey;
     private int userPKey;
@@ -104,6 +104,7 @@ public class RoomViewPager extends BaseActivity {
     public void setUpEvents() {
         super.setUpEvents();
 
+//        updateMap();
 
         /*
         *   Viewpase Adapter 설정
@@ -265,25 +266,12 @@ public class RoomViewPager extends BaseActivity {
                     @Override
                     public void onClick(View view) {
 
-                        chatMap = new MapView(RoomViewPager.mContext);
-                        chatMap.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
+                        if (llChatMapView.getVisibility() == View.GONE) {
+                            llChatMapView.setVisibility(View.VISIBLE);
+                        }
 
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
-                                        "잠시만 기다려 주세요.", true);
-                                if (mProgressDialog != null && mProgressDialog.isShowing()) {
 
-                                    RoomViewPager.flChatMap.addView(chatMap);
-
-                                    mProgressDialog.dismiss();
-                                }
-                            }
-                        });
-                        
-                        RoomViewPager.llChatMapView.setVisibility(View.VISIBLE);
+                        else llChatMapView.setVisibility(View.GONE);
                     }
                 });
 
@@ -323,6 +311,7 @@ public class RoomViewPager extends BaseActivity {
         btnRoomExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -378,7 +367,9 @@ public class RoomViewPager extends BaseActivity {
 
             @Override
             public void onNegativeButtonClick(Date date) {
-                // Do nothing
+
+                updateMap();
+
             }
 
             @Override
@@ -394,6 +385,7 @@ public class RoomViewPager extends BaseActivity {
 
                 flChatMap.removeAllViews();
                 chatMap = null;
+                llChatMapView.setVisibility(View.GONE);
 
                 dateTimeFragment.startAtCalendarView();
                 dateTimeFragment.setDefaultDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
@@ -409,6 +401,26 @@ public class RoomViewPager extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RoomSettingActivity.class);
                 startActivity(intent);
+            }
+        });
+
+
+    }
+
+    public static void updateMap() {
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ProgressDialog mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
+                        "잠시만 기다려 주세요.", true);
+
+                chatMap = new MapView(BaseActivity.mContext);
+                chatMap.setDaumMapApiKey(BaseActivity.mContext.getResources().getString(R.string.APIKEY));
+
+                RoomViewPager.flChatMap.addView(chatMap);
+                mProgressDialog.dismiss();
             }
         });
 
@@ -460,5 +472,33 @@ public class RoomViewPager extends BaseActivity {
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateMap();
+            }
+        }, 2000);
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+//        updateMap();
     }
 }
