@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.room;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +12,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
+
+import net.daum.mf.map.api.MapView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
@@ -39,19 +47,29 @@ import me.relex.circleindicator.CircleIndicator;
 public class RoomViewPager extends BaseActivity {
 
     //    private pagerAdapter vpAdapter;
-    private ViewPager vp;
     private LinearLayout ll;
-    private me.relex.circleindicator.CircleIndicator indicator;
     private LinearLayout linIndicator;
-    private FrameLayout flRoom;
 
     public static RoomInfoFragment roomInfoView;
     public static RoomChatFragment roomChatView;
     public static RoomFriendList roomFriendList;
 
+    public static android.widget.LinearLayout llChatSchedule;
+    public static android.widget.LinearLayout llChatMapView;
+    public static android.widget.ScrollView scChatInfoParent;
+    public static android.widget.TextView tvChatCloseMap;
+
+    private android.support.v4.view.ViewPager vp;
+    private android.widget.FrameLayout flChatMap;
+    private me.relex.circleindicator.CircleIndicator indicator;
+    private android.widget.FrameLayout flRoom;
+
+    ProgressDialog  mProgressDialog;
+
     private int roomPKey;
     private int userPKey;
     private String result = "notEmpty";
+    private boolean shield = false;
 
     // TimePicker, DatePicker를 위한 변수 선언
 
@@ -88,6 +106,29 @@ public class RoomViewPager extends BaseActivity {
         /*
         *   Viewpase Adapter 설정
         */
+
+        final MapView chatMap = new MapView(RoomViewPager.mContext);
+        chatMap.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
+//        chatMap.setMapViewEventListener();
+//        chatMap.setPOIItemEventListener(this);
+
+
+        final Timer timer = new Timer();
+        mProgressDialog = ProgressDialog.show(RoomViewPager.mContext, "",
+                "잠시만 기다려 주세요.", true);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+
+                    flChatMap.addView(chatMap);
+
+                    mProgressDialog.dismiss();
+                    timer.cancel();
+                }
+            }
+        };
+        timer.schedule(task, 0, 2000);
 
         roomPKey = RoomListFragment.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
@@ -149,16 +190,39 @@ public class RoomViewPager extends BaseActivity {
                 indicator.setViewPager(vp);
                 vp.setCurrentItem(0); // 앱실행시 첫번째 화면
 
-//                vp.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                        if(vp.getCurrentItem() == 1 && RoomChatFragment.slidingChat.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                vp.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+//                        if(vp.getCurrentItem() == 1 && RoomChatFragment.llChatInfoParent.getVisibility() == View.VISIBLE) {
 //
 //                            Log.d("ererer","ERERERER");
+////                            vp.setEnabled(false);
+//
+//                            shield = vp.onInterceptTouchEvent(motionEvent);
+//
 //                            return vp.onInterceptTouchEvent(motionEvent);
 //
 //                        }
+
+                        return false;
+                    }
+                });
+
+
+
+//                vp.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if(shield) vp.setFocusableInTouchMode(false);
+//                    }
+//                });
+//
+//                vp.setOnDragListener(new View.OnDragListener() {
+//                    @Override
+//                    public boolean onDrag(View view, DragEvent dragEvent) {
+//
+//                        if(shield) return true;
 //
 //                        return false;
 //                    }
@@ -183,11 +247,29 @@ public class RoomViewPager extends BaseActivity {
                                 btnRoomSchedule.setVisibility(View.VISIBLE);
                                 btnRoomSetting.setVisibility(View.VISIBLE);
                                 btnRoomSetting.setImageResource(R.mipmap.btn_setting);
+
+                                scChatInfoParent.setVisibility(View.GONE);
+                                llChatSchedule.setVisibility(View.GONE);
+                                llChatMapView.setVisibility(View.GONE);
+
                                 break;
+
                             case 1:
+
+                                scChatInfoParent.setVisibility(View.VISIBLE);
+                                llChatSchedule.setVisibility(View.VISIBLE);
+                                llChatMapView.setVisibility(View.GONE);
+
+                                break;
+
                             case 2:
                                 btnRoomSchedule.setVisibility(View.GONE);
                                 btnRoomSetting.setVisibility(View.GONE);
+
+                                scChatInfoParent.setVisibility(View.GONE);
+                                llChatSchedule.setVisibility(View.GONE);
+                                llChatMapView.setVisibility(View.GONE);
+
                                 break;
                         }
                     }
@@ -200,6 +282,20 @@ public class RoomViewPager extends BaseActivity {
 
 //                mProgressDialog.dismiss();
 //                Log.d("onPost", mProgressDialog.isShowing() + "");
+
+                llChatSchedule.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        RoomViewPager.llChatMapView.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                tvChatCloseMap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        llChatMapView.setVisibility(View.GONE);
+                    }
+                });
 
             }
 
@@ -357,9 +453,14 @@ public class RoomViewPager extends BaseActivity {
     public void bindView() {
         super.bindView();
 
-        this.vp = (ViewPager) findViewById(R.id.vp);
-        this.indicator = (CircleIndicator) findViewById(R.id.indicator);
         this.flRoom = (FrameLayout) findViewById(R.id.flRoom);
+        this.indicator = (CircleIndicator) findViewById(R.id.indicator);
+        this.scChatInfoParent = (ScrollView) findViewById(R.id.scChatInfoParent);
+        this.llChatMapView = (LinearLayout) findViewById(R.id.llChatMapView);
+        this.flChatMap = (FrameLayout) findViewById(R.id.flChatMap);
+        this.llChatSchedule = (LinearLayout) findViewById(R.id.llChatSchedule);
+        this.vp = (ViewPager) findViewById(R.id.vp);
+        this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
 
     }
 }
