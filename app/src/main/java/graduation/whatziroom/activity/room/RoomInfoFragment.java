@@ -68,8 +68,8 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
         return schedulePKey;
     }
 
-    public static void setSchedulePKey(int schedulePKey) {
-        RoomInfoFragment.schedulePKey = schedulePKey;
+    public static void setSchedulePKey(String schedulePKey) {
+        RoomInfoFragment.schedulePKey = Integer.parseInt(schedulePKey);
     }
 
 //    private ProgressDialog mProgressDialog;
@@ -84,7 +84,6 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
     public RoomInfoFragment() {
         super();
-
 
     }
 
@@ -139,6 +138,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
         Params params = new Params();
         params.add("RoomPKey", String.valueOf(RoomInfoFragment.getRoomPKey()));
+//        params.add("SchedulePKey", String.valueOf(RoomInfoFragment.getSchedulePKey()));
 
         new HttpNetwork("GetScheduleData.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
