@@ -69,11 +69,10 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 RoomInfoFragment.setRoomPKey(data.getScheduleList().get(i).getScheduleRoomPKey());
-                RoomInfoFragment.setSchedulePKey(data.getScheduleList().get(i).getSchedulePKey());
 
                 Log.d("RoomPKeyInSchedule", RoomInfoFragment.getRoomPKey() + "");
 
-                if (RoomInfoFragment.getRoomPKey() != 0) {
+                if(RoomInfoFragment.getRoomPKey() != 0) {
 
                     Intent intent = new Intent(getContext(), RoomViewPager.class);
                     startActivity(intent);
@@ -81,6 +80,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                 } else Toast.makeText(getContext(), "잘못된 데이터입니다.", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     public static void updateSchedule() {
@@ -108,7 +108,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date scheduleDate = transFormat.parse(jsonScheduleData.getString("Date"));
 
-                            Calendar CalculateDate = Calendar.getInstance();
+                            Calendar CalculateDate= Calendar.getInstance();
 
                             CalculateDate.setTime(scheduleDate);
                             long goalTime = CalculateDate.getTimeInMillis();
@@ -127,7 +127,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                             nowDate.getDate();
 
                             data.addItem(jsonScheduleData.getString("RoomPKey"), jsonScheduleData.getString("SchedulePKey"), jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), jsonScheduleData.getString("Date"), String.valueOf(dDay));
-
+                            Log.d("RoomPKey...", jsonScheduleData.getString("RoomPKey"));
                         }
 
                         scheduleList.setAdapter(data.getAdapter());

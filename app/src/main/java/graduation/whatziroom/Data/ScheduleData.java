@@ -21,10 +21,10 @@ public class ScheduleData {
     }
 
     private String scheduleRoomPKey;
-    private String schedulePKey;
     private String scheduleName;
     private String scheduleDate;
     private String scheduleDday;
+    private String schedulePKey;
 
     public String getSchedulePlace() {
         return schedulePlace;
@@ -49,12 +49,12 @@ public class ScheduleData {
 
     public ScheduleData(String roomPKey, String schedulePKey, String sName, String sPlace, String sDate, String sDday) {
 
-        this.scheduleRoomPKey = roomPKey;
+        scheduleRoomPKey = roomPKey;
         this.schedulePKey = schedulePKey;
-        this.scheduleName = sName;
-        this.schedulePlace = sPlace;
-        this.scheduleDate = sDate;
-        this.scheduleDday = sDday;
+        scheduleName = sName;
+        schedulePlace = sPlace;
+        scheduleDate = sDate;
+        scheduleDday = sDday;
 
     }
 
@@ -64,16 +64,6 @@ public class ScheduleData {
 
         return adapter;
     }
-
-
-    public String getSchedulePKey() {
-        return schedulePKey;
-    }
-
-    public void setSchedulePKey(String schedulePKey) {
-        this.schedulePKey = schedulePKey;
-    }
-
 
     public String getScheduleName() {
         return scheduleName;

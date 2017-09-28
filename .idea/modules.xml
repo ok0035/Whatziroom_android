@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Whatziroom_android-969f3e068999ab840340a1b2726c0fed890a83bc.iml" filepath="$PROJECT_DIR$/Whatziroom_android-969f3e068999ab840340a1b2726c0fed890a83bc.iml" />
       <module fileurl="file://$PROJECT_DIR$/Whatziroom_android-master.iml" filepath="$PROJECT_DIR$/Whatziroom_android-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libs/switchdatetime/switchdatetime.iml" filepath="$PROJECT_DIR$/app/libs/switchdatetime/switchdatetime.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/switchdatetime/switchdatetime.iml" filepath="$PROJECT_DIR$/app/libs/switchdatetime/switchdatetime.iml" />
     </modules>
   </component>
