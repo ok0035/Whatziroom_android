@@ -1,6 +1,7 @@
 package graduation.whatziroom.activity.room;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +35,6 @@ import java.util.Locale;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.main.RoomListFragment;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import me.relex.circleindicator.CircleIndicator;
@@ -71,6 +71,7 @@ public class RoomViewPager extends BaseActivity {
     private int userPKey;
     private String result = "notEmpty";
     private boolean shield = false;
+    public static Context mContext;
 
     // TimePicker, DatePicker를 위한 변수 선언
 
@@ -85,6 +86,7 @@ public class RoomViewPager extends BaseActivity {
         roomInfoView = new RoomInfoFragment();
         roomChatView = new RoomChatFragment();
         roomFriendList = new RoomFriendList();
+        mContext = this;
 
     }
 
@@ -101,6 +103,13 @@ public class RoomViewPager extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        flChatMap.removeAllViews();
+        chatMap = null;
+        finish();
+    }
+
+    @Override
     public void setUpEvents() {
         super.setUpEvents();
 
@@ -110,7 +119,7 @@ public class RoomViewPager extends BaseActivity {
         *   Viewpase Adapter 설정
         */
 
-        roomPKey = RoomListFragment.getRoomPKey();
+        roomPKey = RoomInfoFragment.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
 
         Log.d("RoomPKey", roomPKey + "");
@@ -266,12 +275,34 @@ public class RoomViewPager extends BaseActivity {
                     @Override
                     public void onClick(View view) {
 
-                        if (llChatMapView.getVisibility() == View.GONE) {
+                        if(llChatMapView.getVisibility() == View.GONE) {
                             llChatMapView.setVisibility(View.VISIBLE);
+
+                            mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
+                                    "지도 활성화중...", true);
+
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateMap();
+                                }
+                            }, 3500);
+
+                        } else {
+                            llChatMapView.setVisibility(View.GONE);
+                            mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
+                                    "지도 비활성화중...", true);
+
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    chatMap =null;
+                                    flChatMap.removeAllViews();
+                                    mProgressDialog.dismiss();
+                                }
+                            }, 1000);
+
                         }
-
-
-                        else llChatMapView.setVisibility(View.GONE);
                     }
                 });
 
@@ -311,7 +342,8 @@ public class RoomViewPager extends BaseActivity {
         btnRoomExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                flChatMap.removeAllViews();
+                chatMap = null;
                 finish();
             }
         });
@@ -379,6 +411,7 @@ public class RoomViewPager extends BaseActivity {
             }
         });
 
+
         btnRoomSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -407,20 +440,27 @@ public class RoomViewPager extends BaseActivity {
 
     }
 
-    public static void updateMap() {
+    public void updateMap() {
+
+//        mProgressDialog = ProgressDialog.show(RoomViewPager.mContext, "",
+//                "잠시만 기다려 주세요.", true);
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                ProgressDialog mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
-                        "잠시만 기다려 주세요.", true);
 
-                chatMap = new MapView(BaseActivity.mContext);
-                chatMap.setDaumMapApiKey(BaseActivity.mContext.getResources().getString(R.string.APIKEY));
+                flChatMap.removeAllViews();
+                chatMap = null;
 
+                chatMap = new MapView(RoomViewPager.mContext);
+                chatMap.setDaumMapApiKey(RoomViewPager.mContext.getResources().getString(R.string.APIKEY));
                 RoomViewPager.flChatMap.addView(chatMap);
-                mProgressDialog.dismiss();
+
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
             }
         });
 
@@ -479,19 +519,17 @@ public class RoomViewPager extends BaseActivity {
         super.onResume();
 
 
-
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                updateMap();
-            }
-        }, 2000);
+        //어플리케이션이 동작하는 동안 다음 맵 API는 동시에 두개가 작동할 수 없음!!
+        //그래서 이 부분에서 변경사항이 있을 때 다시 시작해줌.
+        //특히 스케줄을 등록할때 ( 지도에 들어갈때 ) 충돌하는 현상이 있는데
+        //스케줄이 등록되고 채팅쪽 지도에 가보면 검은색 화면이 되는 버그가 있음... 고치는 중
+
 
     }
 

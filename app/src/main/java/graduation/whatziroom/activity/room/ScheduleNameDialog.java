@@ -93,9 +93,8 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
                         RoomInfoFragment.tvNeedCreateSchedule.setVisibility(View.GONE);
                         SearchPlaceActivity.searchActivity.finish();
                         Toast.makeText(RoomViewPager.mContext, "스케줄이 등록되었습니다.", Toast.LENGTH_SHORT).show();
-//                        RoomViewPager.updateMap();
-//                        RoomViewPager.
                         dismiss();
+
                     }
 
                     @Override

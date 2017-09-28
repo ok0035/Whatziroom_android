@@ -25,6 +25,7 @@ import java.util.Date;
 import graduation.whatziroom.Data.ScheduleData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
+import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
@@ -67,11 +68,11 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                RoomListFragment.setRoomPKey(data.getScheduleList().get(i).getScheduleRoomPKey());
+                RoomInfoFragment.setRoomPKey(data.getScheduleList().get(i).getScheduleRoomPKey());
 
-                Log.d("RoomPKeyInSchedule", RoomListFragment.getRoomPKey() + "");
+                Log.d("RoomPKeyInSchedule", RoomInfoFragment.getRoomPKey() + "");
 
-                if(RoomListFragment.getRoomPKey() != 0) {
+                if(RoomInfoFragment.getRoomPKey() != 0) {
 
                     Intent intent = new Intent(getContext(), RoomViewPager.class);
                     startActivity(intent);

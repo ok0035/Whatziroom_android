@@ -37,18 +37,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:tag="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:tag="1">
 
             <TextView
+                android:id="@+id/tvRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="방"
-                android:textSize="15dp"
-                android:id="@+id/tvRoom"
                 android:tag="1"
-                android:textColor="@color/mainTxtColor"/>
+                android:text="방"
+                android:textColor="@color/mainTxtColor"
+                android:textSize="15dp" />
 
         </LinearLayout>
 
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="스케쥴"
+                android:text="일정"
                 android:textSize="15dp"
                 android:id="@+id/tvSchedule"
                 android:tag="2"

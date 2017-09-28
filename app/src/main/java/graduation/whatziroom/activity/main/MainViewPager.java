@@ -90,9 +90,7 @@ public class MainViewPager extends BaseActivity {
         *   버튼 클릭 시 페이지 이동
         *   movePageListener 에서 페이지 이동 시 이벤트 구현
         */
-
-
-
+        
         linFriend.setOnClickListener(movePageListener);
         linFriend.setTag(0);
         linRoomBtn.setOnClickListener(movePageListener);
@@ -219,7 +217,7 @@ public class MainViewPager extends BaseActivity {
     private void changeTabColor(int position){
 
         ll.findViewWithTag(position).setSelected(true);
-        ll.findViewWithTag(position).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        ll.findViewWithTag(position).setBackgroundResource(R.drawable.round_background_main);
 
         for(int i=0; i<5; i++) {
 
@@ -229,7 +227,7 @@ public class MainViewPager extends BaseActivity {
             if(i != position) {
 
                 ll.findViewWithTag(i).setSelected(false);
-                ll.findViewWithTag(i).setBackgroundColor(Color.WHITE);
+                ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background);
                 textView.setTextColor(getResources().getColor(R.color.colorAccent));
 
             } else
@@ -257,7 +255,7 @@ public class MainViewPager extends BaseActivity {
                 {
                     LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(true);
-                    ll.findViewWithTag(i).setBackgroundColor(getResources().getColor(R.color.mainTxtColor));
+                    ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background_main);
                     TextView textView = (TextView) (layout.getChildAt(0));
                     textView.setTextColor(Color.WHITE);
                 }
@@ -265,7 +263,7 @@ public class MainViewPager extends BaseActivity {
                 {
                     LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(false);
-                    ll.findViewWithTag(i).setBackgroundColor(Color.WHITE);
+                    ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background);
                     TextView textView = (TextView) (layout.getChildAt(0));
                     textView.setTextColor(getResources().getColor(R.color.mainTxtColor));
                 }

@@ -9,9 +9,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +21,6 @@ import org.json.JSONObject;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
-import graduation.whatziroom.activity.main.RoomListFragment;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
@@ -53,6 +52,26 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private static android.widget.TextView tvInfoSite;
     public static android.widget.LinearLayout tvNeedCreateSchedule;
 
+    private static int roomPKey = 0;
+    private static int schedulePKey = 0;
+
+    public static int getRoomPKey() {
+        return roomPKey;
+    }
+
+    public static void setRoomPKey(String PKey) {
+        if(PKey == null || PKey.equals("null")) roomPKey = 0;
+        else roomPKey = Integer.parseInt(PKey);
+    }
+
+    public static int getSchedulePKey() {
+        return schedulePKey;
+    }
+
+    public static void setSchedulePKey(int schedulePKey) {
+        RoomInfoFragment.schedulePKey = schedulePKey;
+    }
+
 //    private ProgressDialog mProgressDialog;
 
     public static String getIsEmpty() {
@@ -73,7 +92,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        infoLayout = (ScrollView) inflater.inflate(R.layout.room_information, container, false);
+        infoLayout = (FrameLayout) inflater.inflate(R.layout.room_information, container, false);
 
         setValues();
         bindView();
@@ -95,7 +114,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public void setUpEvents() {
 
-        if(RoomListFragment.getRoomPKey() == 0) {
+        if(RoomInfoFragment.getRoomPKey() == 0) {
             tvNeedCreateSchedule.setVisibility(View.VISIBLE);
         } else {
 
@@ -119,7 +138,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     public static void updateRoomInfo() {
 
         Params params = new Params();
-        params.add("RoomPKey", String.valueOf(RoomListFragment.getRoomPKey()));
+        params.add("RoomPKey", String.valueOf(RoomInfoFragment.getRoomPKey()));
 
         new HttpNetwork("GetScheduleData.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override

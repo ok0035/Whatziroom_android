@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
+import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
@@ -38,17 +39,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     private ImageView searchBtn;
     private static ListView roomListView;
     private static RoomData roomData;
-    private static int roomPKey = 0;
-    private ProgressDialog progress;
-
-    public static int getRoomPKey() {
-        return roomPKey;
-    }
-
-    public static void setRoomPKey(String PKey) {
-        if(PKey == null || PKey.equals("null")) roomPKey = 0;
-        else roomPKey = Integer.parseInt(PKey);
-    }
+    ProgressDialog mProgressDialog;
 
     @Nullable
     @Override
@@ -78,7 +69,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
-                roomPKey = Integer.parseInt(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
+                RoomInfoFragment.setRoomPKey(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
                 startActivity(intent);
 
             }
@@ -138,7 +129,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
     @Override
     public void setValues() {
-        progress = new ProgressDialog(RoomViewPager.mContext);
+
     }
 
     @Override
