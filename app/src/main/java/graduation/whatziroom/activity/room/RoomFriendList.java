@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import graduation.whatziroom.R;
 
@@ -16,13 +16,13 @@ import graduation.whatziroom.R;
  */
 
 public class RoomFriendList extends Fragment {
-    LinearLayout layout;
+    ScrollView layout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.room_friend_list, container, false);
+        layout = (ScrollView) inflater.inflate(R.layout.room_friend_list, container, false);
 
         return layout;
     }
