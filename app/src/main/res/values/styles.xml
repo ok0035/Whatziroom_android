@@ -7,8 +7,32 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <!--커스텀바 너무 보기 싫어서 커스텀 해보려다가 높이만 줄여봄... 좀 나은듯-->
+        <item name="android:actionBarSize">40dip</item>
+        <item name="actionBarSize">40dip</item>
+
         <!--슬라이딩업패널을 쓰기위해서 적용-->
         <item name="android:windowActionBarOverlay">true</item>
+
     </style>
+
+    <!--<style name="CustomTheme" parent="Theme.AppCompat.Light">-->
+        <!--<item name="android:actionBarStyle">@style/CustomTheme.ActionBar</item>-->
+        <!--<item name="actionBarStyle">@style/CustomTheme.ActionBar</item>-->
+        <!--<item name="android:actionBarSize">60dip</item>-->
+        <!--<item name="actionBarSize">60dip</item>-->
+
+    <!--</style>-->
+
+    <!--<style name="CustomTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar">-->
+        <!--<item name="android:titleTextStyle">@style/CustomTheme.ActionBar.TitleText</item>-->
+        <!--<item name="titleTextStyle">@style/CustomTheme.ActionBar.TitleText</item>-->
+        <!--<item name="android:background">@drawable/round_background</item>-->
+        <!--<item name="android:windowBackground">@drawable/round_background_alpha</item>-->
+    <!--</style>-->
+
+    <!--<style name="CustomTheme.ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">-->
+        <!--<item name="android:textSize">15dip</item>-->
+    <!--</style>-->
 
 </resources>

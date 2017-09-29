@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,11 +34,14 @@ public class FriendListFragment extends Fragment {
     LinearLayout layout;
     boolean blockFlag = false; // true면 차단 버튼 보이게, false면 안보임
     FriendAdapter mFriendAdapter;
-    ListView freindListView;
     ArrayList<FriendData> friendListItem;
 
     ImageView searchFreindBtn;
     DBSI dbsi;
+
+    private android.widget.EditText findFreindEdt;
+    private android.widget.TextView tvFriendSearchBack;
+    private android.widget.ListView friendList;
 
 
     @Nullable
@@ -45,8 +49,9 @@ public class FriendListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         layout = (LinearLayout) inflater.inflate(R.layout.friend_list, container, false);
-        searchFreindBtn = layout.findViewById(R.id.searchFreindBtn);
-        freindListView = layout.findViewById(R.id.friendList);
+        this.friendList = (ListView) layout.findViewById(R.id.friendList);
+        this.tvFriendSearchBack = (TextView) layout.findViewById(R.id.tvFriendSearchBack);
+        this.searchFreindBtn = (ImageView) layout.findViewById(R.id.searchFreindBtn);
         friendListItem = new ArrayList<>();
         dbsi = new DBSI();
 
@@ -82,7 +87,7 @@ public class FriendListFragment extends Fragment {
                     e.printStackTrace();
                 }
                 mFriendAdapter = new FriendAdapter(getActivity(), friendListItem, 0);
-                freindListView.setAdapter(mFriendAdapter);
+                friendList.setAdapter(mFriendAdapter);
 
 
             }
@@ -120,6 +125,8 @@ public class FriendListFragment extends Fragment {
                 listview.setAdapter(null);
 //                friendListItem.clear();
                 // 서버 연결되면 검색하는 함수로 변경 지금은 임시
+
+                tvFriendSearchBack.setVisibility(View.VISIBLE);
 
                 final Params params = new Params();
                 params.add("UserPKey",dbsi.selectQuery("Select PKey From User")[0][0]);
@@ -182,6 +189,8 @@ public class FriendListFragment extends Fragment {
         ImageView textview = getActivity().findViewById(R.id.searchFreindBtn);
         textview.setOnClickListener(null);
 
+        tvFriendSearchBack.setVisibility(View.GONE);
+
         ListView listview = getActivity().findViewById(R.id.friendList);
         listview.setAdapter(null);
         listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
@@ -197,11 +206,13 @@ public class FriendListFragment extends Fragment {
             blockFlag = true;
             ListView listview = getActivity().findViewById(R.id.friendList);
             listview.setAdapter(null);
+            tvFriendSearchBack.setVisibility(View.GONE);
             listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 1));
         } else {
             blockFlag = false;
             ListView listview = getActivity().findViewById(R.id.friendList);
             listview.setAdapter(null);
+            tvFriendSearchBack.setVisibility(View.GONE);
             listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
         }
 

@@ -9,5 +9,6 @@
     <color name="mTitleColor"> #d8b6ba </color>
     <color name="indicatorColor"> #66000000 </color>
     <color name="colorBlue"> #297299 </color>
+    <color name="colorTransparent">#00FFFFFF</color>
 
 </resources>

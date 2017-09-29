@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
@@ -12,8 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.09"
+            android:layout_height="40dp"
             android:background="@drawable/back_search">
 
             <EditText
@@ -40,9 +39,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.91">
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp">
 
             <ListView
                 android:id="@+id/roomListView"
@@ -50,12 +48,33 @@
                 android:layout_height="match_parent">
             </ListView>
 
-            <ListView
-                android:id="@+id/roomSearchListView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/llRooomSearch"
+                android:orientation="vertical"
                 android:visibility="gone">
-            </ListView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/round_background_main"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:id="@+id/tvRoomSearchBack"
+                    android:text="모임 검색 결과입니다."/>
+
+                <ListView
+                    android:id="@+id/roomSearchListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +85,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/searchRoom"
+                    android:id="@+id/ivRoomSearchFlag"
                     android:gravity="center"
                     android:padding="5dp"
                     android:src="@mipmap/btn_search"/>
@@ -75,6 +94,6 @@
 
         </FrameLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
@@ -16,23 +17,19 @@ import graduation.whatziroom.activity.base.BaseActivity;
 public class CopyFieldVariable extends BaseActivity {
 
 
-    private android.widget.EditText findRoomEdt;
-    private android.widget.ListView roomListView;
-    private android.widget.ListView roomSearchListView;
-    private android.widget.ImageView searchRoom;
-    private EditText edFindRoom;
-
+    private android.widget.EditText findFreindEdt;
+    private android.widget.ImageView searchFreindBtn;
+    private android.widget.TextView tvFriendSearchBack;
+    private android.widget.ListView friendList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_list);
-
-        this.edFindRoom = (EditText) findViewById(R.id.edFindRoom);
-        this.searchRoom = (ImageView) findViewById(R.id.searchRoom);
-        this.roomSearchListView = (ListView) findViewById(R.id.roomSearchListView);
-        this.roomListView = (ListView) findViewById(R.id.roomListView);
-        this.findRoomEdt = (EditText) findViewById(R.id.edFindRoom);
+        setContentView(R.layout.friend_list);
+        this.friendList = (ListView) findViewById(R.id.friendList);
+        this.tvFriendSearchBack = (TextView) findViewById(R.id.tvFriendSearchBack);
+        this.searchFreindBtn = (ImageView) findViewById(R.id.searchFreindBtn);
+        this.findFreindEdt = (EditText) findViewById(R.id.findFreindEdt);
 
 
     }

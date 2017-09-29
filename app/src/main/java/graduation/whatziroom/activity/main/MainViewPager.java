@@ -161,7 +161,7 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("편집");
                         break;
                     case 2:
-                        titleTxt.setText("내 스케줄");
+                        titleTxt.setText("내 일정");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.INVISIBLE);
                         configTxt2.setVisibility(View.INVISIBLE);
