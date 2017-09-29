@@ -3,7 +3,7 @@ package graduation.whatziroom.Data;
 
 import java.util.ArrayList;
 
-import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.adapter.RoomAdapter;
 
 /**
@@ -24,7 +24,7 @@ public class RoomData {
     public RoomData() {
         super();
         roomArrayList = new ArrayList<>();
-        adapter = new RoomAdapter(MainViewPager.mContext, roomArrayList);
+        adapter = new RoomAdapter(BaseActivity.mContext, roomArrayList);
     }
 
     public RoomData(String PKey, String name, String userNumber, String date) {

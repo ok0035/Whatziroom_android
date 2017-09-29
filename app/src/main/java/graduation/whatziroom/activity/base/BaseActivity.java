@@ -96,6 +96,7 @@ public class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0); // 액션바 밑에 그림자 없애는거,,
 
 
+
         backBtn = customBarView.findViewById(R.id.backBtn);
         titleTxt = customBarView.findViewById(R.id.titleTxt);
         configTxt1 = customBarView.findViewById(R.id.configTxt1);

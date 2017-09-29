@@ -22,7 +22,7 @@ public class RoomFriendList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.room_friends, container, false);
+        layout = (LinearLayout) inflater.inflate(R.layout.room_friend_list, container, false);
 
         return layout;
     }

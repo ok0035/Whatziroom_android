@@ -85,6 +85,13 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             }
         });
 
+        roomSearchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                new ApplyRoomDialog(BaseActivity.mContext).show();
+            }
+        });
+
         ivBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,16 +105,13 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         ivRoomSearchFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (roomListView.getVisibility() == View.GONE) {
 
+                if (roomListView.getVisibility() == View.GONE)
                     roomListView.setVisibility(View.VISIBLE);
-                    llRooomSearch.setVisibility(View.GONE);
-
-                } else {
-
+                else
                     roomListView.setVisibility(View.GONE);
-                    llRooomSearch.setVisibility(View.VISIBLE);
-                }
+
+                llRooomSearch.setVisibility(View.GONE);
 
 
             }
@@ -134,8 +138,6 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
                     for (int i = 0; i < roomList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
                         //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-                        //룸정보만 뿌려주고 채팅이 오면 표시해주는 쪽으로 변경해야할듯
-                        //검색했을때도 룸데이타를 재활용하기 위해서
                         roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
                     }
                     roomListView.setAdapter(roomData.getAdapter());
@@ -168,7 +170,8 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             public void onSuccess(String response) {
                 Log.d("re", response);
 
-                if(response.equals("[]")) Toast.makeText(BaseActivity.mContext, "검색 결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                if (response.equals("[]"))
+                    Toast.makeText(BaseActivity.mContext, "검색 결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
 
                 else {
                     try {
