@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "756037264044",
+    "firebase_url": "https://youngsproject-ok0035.firebaseio.com",
+    "project_id": "youngsproject-ok0035",
+    "storage_bucket": "youngsproject-ok0035.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756037264044:android:f91c2737fb64339b",
+        "android_client_info": {
+          "package_name": "graduation.whatziroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756037264044-g2bibk39fuc6e78tbd1i9ldt8iijjnbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChuaoPv_-N3VyiOYsQVCFwSj_eMisI5oA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

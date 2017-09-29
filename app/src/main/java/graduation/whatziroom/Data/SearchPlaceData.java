@@ -11,21 +11,21 @@ import graduation.whatziroom.adapter.SearchAdapter;
  * Created by mapl0 on 2017-09-20.
  */
 
-public class SearchData {
+public class SearchPlaceData {
 
 	private String imageUrl, title, address, newAddress, zipcode, phone, category, direction, id, placeUrl, addressBCode;
 	private double longitude, latitude, distance;
 	private SearchAdapter adapter;
-	private ArrayList<SearchData> searchList;
+	private ArrayList<SearchPlaceData> searchList;
 
-	public SearchData() {
-		searchList = new ArrayList<SearchData>();
+	public SearchPlaceData() {
+		searchList = new ArrayList<SearchPlaceData>();
 		adapter = new SearchAdapter(SearchPlaceActivity.searchActivity, searchList);
 
 	}
 
-	public SearchData(String imageUrl, String title, String address, String newAddress, String zipcode, String phone, String category,
-					  double longitude, double latitude, double distance, String direction, String id, String placeUrl, String addressBCode) {
+	public SearchPlaceData(String imageUrl, String title, String address, String newAddress, String zipcode, String phone, String category,
+                           double longitude, double latitude, double distance, String direction, String id, String placeUrl, String addressBCode) {
 
 		setImageUrl(imageUrl);
 		setTitle(title);
@@ -153,10 +153,10 @@ public class SearchData {
 		this.adapter = adapter;
 	}
 
-	public ArrayList<SearchData> getSearchList() {
+	public ArrayList<SearchPlaceData> getSearchList() {
 		return searchList;
 	}
-	public void setSearchList(ArrayList<SearchData> searchList) {
+	public void setSearchList(ArrayList<SearchPlaceData> searchList) {
 		this.searchList = searchList;
 	}
 
@@ -165,7 +165,7 @@ public class SearchData {
 
 		Log.d("PlaceURL", placeUrl + ".");
 
-		searchList.add(new SearchData(imageUrl, title, address, newAddress, zipcode, phone, category, longitude, latitude, distance, direction, id, placeUrl, addressBCode));
+		searchList.add(new SearchPlaceData(imageUrl, title, address, newAddress, zipcode, phone, category, longitude, latitude, distance, direction, id, placeUrl, addressBCode));
 
 	}
 }

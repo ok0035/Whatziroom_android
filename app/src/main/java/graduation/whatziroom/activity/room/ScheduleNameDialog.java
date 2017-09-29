@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import graduation.whatziroom.Data.SearchData;
+import graduation.whatziroom.Data.SearchPlaceData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.ScheduleListFragment;
@@ -31,12 +31,12 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
     private android.widget.TextView tvBtnResister;
 
     private int userPKey, roomPKey;
-    private SearchData data;
+    private SearchPlaceData data;
     private String myScheduleDate;
     private TextView textView;
     private EditText edScheduleDesc;
 
-    public ScheduleNameDialog(@NonNull Context context, int userPKey, int roomPKey, String date, SearchData item) {
+    public ScheduleNameDialog(@NonNull Context context, int userPKey, int roomPKey, String date, SearchPlaceData item) {
         super(context);
 
         this.userPKey = userPKey;

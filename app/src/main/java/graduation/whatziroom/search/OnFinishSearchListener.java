@@ -3,9 +3,9 @@ package graduation.whatziroom.search;
 
 import java.util.List;
 
-import graduation.whatziroom.Data.SearchData;
+import graduation.whatziroom.Data.SearchPlaceData;
 
 public interface OnFinishSearchListener {
-	void onSuccess(List<SearchData> itemList);
+	void onSuccess(List<SearchPlaceData> itemList);
 	void onFail();
 }

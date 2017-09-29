@@ -1,6 +1,5 @@
 package graduation.whatziroom.activity.main;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +40,12 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     private ImageView searchBtn;
     private static ListView roomListView;
     private static RoomData roomData;
-    ProgressDialog mProgressDialog;
+    private RoomData roomSearchData;
+    private android.widget.EditText edFindRoom;
+    private android.widget.ListView roomSearchListView;
+    private android.widget.ImageView searchRoom;
+    private ImageView ivBtnSearch;
+
 
     @Nullable
     @Override
@@ -75,10 +81,30 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             }
         });
 
+        ivBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomListView.setVisibility(View.GONE);
+                roomSearchListView.setVisibility(View.VISIBLE);
+                updateSearchList();
+            }
+        });
+
         searchBtn = layout.findViewById(R.id.searchRoom);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(roomListView.getVisibility() == View.GONE) {
+
+                    roomListView.setVisibility(View.VISIBLE);
+                    roomSearchListView.setVisibility(View.GONE);
+
+                } else {
+
+                    roomListView.setVisibility(View.GONE);
+                    roomSearchListView.setVisibility(View.VISIBLE);
+                }
+
 
             }
         });
@@ -96,18 +122,64 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             @Override
             public void onSuccess(String response) {
 
+                if(response.equals("[]")) Toast.makeText(RoomViewPager.mContext, "검색 결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                else {
+
+                    try {
+                        ParseData parse = new ParseData();
+                        JSONArray roomList = parse.parseJsonArray(response);
+                        roomData = new RoomData();
+
+                        for(int i=0; i < roomList.length(); i++) {
+                            JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
+                            //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
+                            //룸정보만 뿌려주고 채팅이 오면 표시해주는 쪽으로 변경해야할듯
+                            //검색했을때도 룸데이타를 재활용하기 위해서
+                            roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
+                        }
+                        roomListView.setAdapter(roomData.getAdapter());
+                        roomData.getAdapter().notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
+    }
+
+    public void updateSearchList() {
+
+        Params params = new Params();
+        params.add("query", edFindRoom.getText().toString());
+
+        new HttpNetwork("SearchRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+                Log.d("re", response);
                 try {
                     ParseData parse = new ParseData();
                     JSONArray roomList = parse.parseJsonArray(response);
-                    roomData = new RoomData();
+                    roomSearchData = new RoomData();
 
                     for(int i=0; i < roomList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
                         //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-                        roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
+                        roomSearchData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
                     }
-                    roomListView.setAdapter(roomData.getAdapter());
-                    roomData.getAdapter().notifyDataSetChanged();
+                    roomSearchListView.setAdapter(roomSearchData.getAdapter());
+                    roomSearchData.getAdapter().notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,6 +207,10 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     @Override
     public void bindView() {
         roomListView = layout.findViewById(R.id.roomListView);
+        this.searchRoom = (ImageView) layout.findViewById(R.id.searchRoom);
+        this.roomSearchListView = (ListView) layout.findViewById(R.id.roomSearchListView);
+        this.edFindRoom = (EditText) layout.findViewById(R.id.edFindRoom);
+        this.ivBtnSearch = (ImageView) layout.findViewById(R.id.ivBtnSearch);
     }
 
     @Override

@@ -77,6 +77,8 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
     }
 
+    // 우선 채팅부터 구현하고 그 뒤에 디데이도 추가하자
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
