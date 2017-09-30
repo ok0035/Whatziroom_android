@@ -45,7 +45,7 @@ public class RoomFriendList extends Fragment implements BasicMethod{
     @Override
     public void setUpEvents() {
 
-//        updateApplyList();
+//        updateRequestList();
 //        updateRoomUserList();
 
         tvRoomExit.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +59,11 @@ public class RoomFriendList extends Fragment implements BasicMethod{
 
     }
 
-    public void updateApplyList() {
+    public void updateRequestList() {
 
         Params params = new Params();
 
-        new HttpNetwork("GetRoomApplyUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+        new HttpNetwork("GetRequestRoomUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
 

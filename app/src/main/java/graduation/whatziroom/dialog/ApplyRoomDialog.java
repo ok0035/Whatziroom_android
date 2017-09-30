@@ -28,7 +28,7 @@ public class ApplyRoomDialog extends Dialog implements BasicMethod {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.apply_room_dialog);
+        setContentView(R.layout.request_room_dialog);
 
         bindView();
         setValues();
