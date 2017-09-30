@@ -27,6 +27,7 @@ import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
+import graduation.whatziroom.dialog.ApplyRoomDialog;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;

@@ -50,6 +50,7 @@ import graduation.whatziroom.Data.SearchPlaceData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.dialog.ScheduleNameDialog;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
 import graduation.whatziroom.util.GPSTracer;

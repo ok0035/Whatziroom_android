@@ -1,4 +1,4 @@
-package graduation.whatziroom.activity.main;
+package graduation.whatziroom.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.base.BasicMethod;
+import graduation.whatziroom.activity.main.RoomListFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;

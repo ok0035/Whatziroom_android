@@ -1,4 +1,4 @@
-package graduation.whatziroom.activity.room;
+package graduation.whatziroom.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,6 +18,9 @@ import graduation.whatziroom.Data.SearchPlaceData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.ScheduleListFragment;
+import graduation.whatziroom.activity.room.RoomInfoFragment;
+import graduation.whatziroom.activity.room.RoomViewPager;
+import graduation.whatziroom.activity.room.SearchPlaceActivity;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 

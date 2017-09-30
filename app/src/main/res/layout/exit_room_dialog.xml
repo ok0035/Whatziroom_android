@@ -7,28 +7,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="250dp"
         android:background="@drawable/round_background_main"
         android:orientation="vertical"
         android:gravity="center">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="방 입장을 신청하시겠습까?"
+            android:text="경고\n\n모임에서 나가면 모임에 등록되어 있는 \n채팅 / 일정이 모두 사라집니다."
             android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="\n\n정말로 나가시겠습니까?"
+            android:textSize="15dp"
+            android:layout_marginBottom="30dp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:gravity="right"
             android:paddingRight="30dp">
 
             <TextView
-                android:id="@+id/tvDialogApplyYes"
+                android:id="@+id/tvRoomExitYes"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="30dp"
@@ -39,7 +49,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvDialogApplyNo"
+                android:id="@+id/tvRoomExitNo"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:gravity="center"

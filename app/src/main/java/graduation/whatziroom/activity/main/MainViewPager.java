@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.network.DBSI;
 
 /**

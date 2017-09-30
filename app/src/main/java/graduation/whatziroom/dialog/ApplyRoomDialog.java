@@ -1,4 +1,4 @@
-package graduation.whatziroom.activity.main;
+package graduation.whatziroom.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -38,6 +38,13 @@ public class ApplyRoomDialog extends Dialog implements BasicMethod {
 
     @Override
     public void setUpEvents() {
+
+        tvApplyYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         tvApplyNo.setOnClickListener(new View.OnClickListener() {
             @Override
