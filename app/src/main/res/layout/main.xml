@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="@color/colorActionBar">
 
     <LinearLayout
         android:id="@+id/ll"
@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="친구"
                 android:textSize="15dp"
+                android:textStyle="bold"
                 android:id="@+id/tvFriend"
                 android:tag="0"
                 android:textColor="@color/mainTxtColor"/>
@@ -46,7 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="1"
-                android:text="방"
+                android:textStyle="bold"
+                android:text="모임"
                 android:textColor="@color/mainTxtColor"
                 android:textSize="15dp" />
 
@@ -67,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="일정"
                 android:textSize="15dp"
+                android:textStyle="bold"
                 android:id="@+id/tvSchedule"
                 android:tag="2"
                 android:textColor="@color/mainTxtColor"/>
@@ -86,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="알림"
+                android:textStyle="bold"
                 android:textSize="15dp"
                 android:id="@+id/tvAlert"
                 android:tag="3"
@@ -106,6 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="프로필"
+                android:textStyle="bold"
                 android:textSize="15dp"
                 android:id="@+id/tvProfile"
                 android:tag="4"

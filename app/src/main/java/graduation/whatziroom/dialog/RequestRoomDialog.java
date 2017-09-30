@@ -2,6 +2,8 @@ package graduation.whatziroom.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -18,13 +20,13 @@ import graduation.whatziroom.network.Params;
  * Created by mapl0 on 2017-09-30.
  */
 
-public class ApplyRoomDialog extends Dialog implements BasicMethod {
+public class RequestRoomDialog extends Dialog implements BasicMethod {
 
     private android.widget.TextView tvApplyYes;
     private android.widget.TextView tvApplyNo;
     private int UserPKey, RoomPKey;
 
-    public ApplyRoomDialog(@NonNull Context context, int userPKey, int roomPKey) {
+    public RequestRoomDialog(@NonNull Context context, int userPKey, int roomPKey) {
         super(context);
 
         UserPKey = userPKey;
@@ -35,6 +37,7 @@ public class ApplyRoomDialog extends Dialog implements BasicMethod {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.request_room_dialog);
 
         bindView();
@@ -59,9 +62,14 @@ public class ApplyRoomDialog extends Dialog implements BasicMethod {
                     public void onSuccess(String response) {
                         switch(response) {
 
+                            case "already exist":
+                                Toast.makeText(getContext(), "이미 가입하셨거나 신청 대기중입니다.", Toast.LENGTH_SHORT).show();
+                                break;
+
                             case "fail":
                                 Toast.makeText(getContext(), "모임 신청에 실패하였습니다. \n잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                                 break;
+
                             case "success":
                                 Toast.makeText(getContext(), "모임 신청이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                 break;

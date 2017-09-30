@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -33,7 +33,7 @@ import graduation.whatziroom.util.ParseData;
 
 public class RoomUserList extends Fragment implements BasicMethod{
 
-    private ScrollView parent;
+    private LinearLayout parent;
     private android.widget.ListView lvRequestUserList;
     private android.widget.ListView lvRoomUserList;
     private android.widget.TextView tvRoomExit;
@@ -45,7 +45,7 @@ public class RoomUserList extends Fragment implements BasicMethod{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        parent = (ScrollView) inflater.inflate(R.layout.room_user_list, container, false);
+        parent = (LinearLayout) inflater.inflate(R.layout.room_user_list, container, false);
 
         bindView();
         setValues();

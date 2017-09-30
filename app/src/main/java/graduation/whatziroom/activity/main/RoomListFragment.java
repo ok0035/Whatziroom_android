@@ -27,7 +27,7 @@ import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
-import graduation.whatziroom.dialog.ApplyRoomDialog;
+import graduation.whatziroom.dialog.RequestRoomDialog;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
@@ -90,7 +90,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("roomPKey", roomSearchData.getRoomArrayList().get(i).getRoomPKey());
                 MainViewPager.getUserPKey();
-                new ApplyRoomDialog(getContext(), MainViewPager.getUserPKey(), Integer.parseInt(roomSearchData.getRoomArrayList().get(i).getRoomPKey())).show();
+                new RequestRoomDialog(getContext(), MainViewPager.getUserPKey(), Integer.parseInt(roomSearchData.getRoomArrayList().get(i).getRoomPKey())).show();
             }
         });
 

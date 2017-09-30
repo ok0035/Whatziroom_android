@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.room;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -72,6 +73,7 @@ public class RoomViewPager extends BaseActivity {
     private String result = "notEmpty";
     private boolean shield = false;
     public static Context mContext;
+    public static Activity mActivity;
 
     // TimePicker, DatePicker를 위한 변수 선언
 
@@ -87,6 +89,7 @@ public class RoomViewPager extends BaseActivity {
         roomChatView = new RoomChatFragment();
         roomFriendList = new RoomUserList();
         mContext = this;
+        mActivity = this;
 
     }
 
