@@ -63,7 +63,7 @@
                     android:paddingRight="3dp"
                     android:text="3"
                     android:textColor="#FFFFFF"
-                    android:background="@color/colorBlue"/>
+                    android:background="@drawable/round_background_button"/>
 
 
             </LinearLayout>

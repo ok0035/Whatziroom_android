@@ -203,8 +203,10 @@ public class MainViewPager extends BaseActivity {
                         case 1:
                             RoomListFragment.updateRoom();
                             break;
+                        case 2:
+                            ScheduleListFragment.updateSchedule();
+                            break;
                     }
-
 
                     // 원하는 페이지에 맞게 조건
                     InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

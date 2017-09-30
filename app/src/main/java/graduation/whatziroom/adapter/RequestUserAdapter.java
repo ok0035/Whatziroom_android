@@ -18,16 +18,16 @@ import graduation.whatziroom.R;
  * Created by mapl0 on 2017-09-30.
  */
 
-public class RequestRoomAdapter extends ArrayAdapter {
+public class RequestUserAdapter extends ArrayAdapter {
 
     private Context mContext = null;
-    private ArrayList<RoomUserData> roomApplyList = null;
+    private ArrayList<RoomUserData> requestRoomUserList = null;
     private LayoutInflater inflater = null;
 
-    public RequestRoomAdapter(@NonNull Context context, ArrayList<RoomUserData> list) {
+    public RequestUserAdapter(@NonNull Context context, ArrayList<RoomUserData> list) {
         super(context, R.layout.request_room_user_item, list);
         mContext = context;
-        roomApplyList = list;
+        requestRoomUserList = list;
         inflater = inflater.from(mContext);
     }
 
@@ -41,8 +41,11 @@ public class RequestRoomAdapter extends ArrayAdapter {
             parentLayout = inflater.inflate(R.layout.request_room_user_item, null);
         }
 
+        RoomUserData data = requestRoomUserList.get(position);
+
         TextView tvRoomRequestName = parentLayout.findViewById(R.id.tvRoomRequestName);
-        tvRoomRequestName.setText(roomApplyList.get(position).getName() + " 님이 입장을 신청하였습니다.");
+        tvRoomRequestName.setText(data.getName() + " 님이 입장을 신청하였습니다.");
+//        Log.d("requestAdapterName", data.getName());
 
         setUpEvents();
 
@@ -50,7 +53,6 @@ public class RequestRoomAdapter extends ArrayAdapter {
     }
 
     public void setUpEvents() {
-
 
     }
 }

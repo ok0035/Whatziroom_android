@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +39,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private static String isEmpty;
     private String result = "notEmpty";
 
-    public static LinearLayout tvNeedCreateSchedule;
+    public static TextView tvNeedCreateSchedule;
 
     private static int roomPKey = 0;
     private static int schedulePKey = 0;
@@ -123,7 +124,6 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
         }
 
-
     }
 
     public static void updateRoomInfo() {
@@ -184,7 +184,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public void bindView() {
 
-        this.tvNeedCreateSchedule = (LinearLayout) infoLayout.findViewById(R.id.tvNeedCreateSchedule);
+        this.tvNeedCreateSchedule = (TextView) infoLayout.findViewById(R.id.tvNeedCreateSchedule);
         this.roomInfoList = (ListView) infoLayout.findViewById(R.id.roomInfoList);
 
     }

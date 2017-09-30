@@ -26,6 +26,13 @@ public class RoomUserData {
         UserList = new ArrayList<RoomUserData>();
     }
 
+    public RoomUserData(String userPKey, String roomPKey, String name) {
+
+        UserPKey = userPKey;
+        RoomPKey = roomPKey;
+        Name = name;
+    }
+
     public String getRoomPKey() {
         return RoomPKey;
     }
@@ -52,9 +59,7 @@ public class RoomUserData {
 
     public void addItem(String userPKey, String roomPKey, String name) {
 
-        UserPKey = userPKey;
-        RoomPKey = roomPKey;
-        Name = name;
+        UserList.add(new RoomUserData(userPKey, roomPKey, name));
 
     }
 

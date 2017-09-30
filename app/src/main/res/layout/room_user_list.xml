@@ -30,7 +30,7 @@
             android:layout_margin="20dp">
 
             <ListView
-                android:id="@+id/lvApplyUserList"
+                android:id="@+id/lvRequestUserList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

@@ -7,24 +7,18 @@
     <ListView
         android:id="@+id/roomInfoList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/tvNeedCreateSchedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tvNeedCreateSchedule"
+        android:background="#88000000"
         android:gravity="center"
-        android:background="@null">
+        android:text="스케줄을 등록해주세요."
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="25dp"
-            android:gravity="center"
-            android:background="#88000000"
-            android:textColor="#FFFFFF"
-            android:text="스케줄을 등록해주세요." />
-
-    </LinearLayout>
 
 </FrameLayout>

@@ -51,7 +51,7 @@ public class RoomViewPager extends BaseActivity {
 
     public static RoomInfoFragment roomInfoView;
     public static RoomChatFragment roomChatView;
-    public static RoomFriendList roomFriendList;
+    public static RoomUserList roomFriendList;
 
     public static android.widget.LinearLayout llChatSchedule;
     public static android.widget.LinearLayout llChatMapView;
@@ -85,7 +85,7 @@ public class RoomViewPager extends BaseActivity {
 
         roomInfoView = new RoomInfoFragment();
         roomChatView = new RoomChatFragment();
-        roomFriendList = new RoomFriendList();
+        roomFriendList = new RoomUserList();
         mContext = this;
 
     }

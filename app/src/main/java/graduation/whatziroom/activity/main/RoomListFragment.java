@@ -28,7 +28,6 @@ import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.ApplyRoomDialog;
-import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
@@ -89,7 +88,9 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         roomSearchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new ApplyRoomDialog(BaseActivity.mContext).show();
+                Log.d("roomPKey", roomSearchData.getRoomArrayList().get(i).getRoomPKey());
+                MainViewPager.getUserPKey();
+                new ApplyRoomDialog(getContext(), MainViewPager.getUserPKey(), Integer.parseInt(roomSearchData.getRoomArrayList().get(i).getRoomPKey())).show();
             }
         });
 
@@ -114,7 +115,6 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
                 llRooomSearch.setVisibility(View.GONE);
 
-
             }
         });
 
@@ -123,9 +123,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     public static void updateRoom() {
 
         Params params = new Params();
-        DBSI db = new DBSI();
-        db.selectQuery("select ID from User");
-        params.add("ID", db.selectQuery("select ID from User")[0][0]);
+        params.add("UserPKey", MainViewPager.getUserPKey() + "");
 
         new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -141,6 +139,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
                         //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
                         roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
                     }
+
                     roomListView.setAdapter(roomData.getAdapter());
                     roomData.getAdapter().notifyDataSetChanged();
 

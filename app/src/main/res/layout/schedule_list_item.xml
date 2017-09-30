@@ -145,7 +145,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 android:layout_gravity="right|center"
-                android:background="@color/colorPrimary">
+                android:background="@drawable/round_background_button">
 
                 <TextView
                     android:id="@+id/tvScheduleDday"

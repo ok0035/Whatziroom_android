@@ -18,13 +18,13 @@ import graduation.whatziroom.R;
  * Created by mapl0 on 2017-09-30.
  */
 
-public class RoomFriendAdapter extends ArrayAdapter {
+public class RoomUserAdapter extends ArrayAdapter {
 
     private Context mContext = null;
     private ArrayList<RoomUserData> roomFriendList = null;
     private LayoutInflater inflater = null;
 
-    public RoomFriendAdapter(@NonNull Context context, ArrayList<RoomUserData> list) {
+    public RoomUserAdapter(@NonNull Context context, ArrayList<RoomUserData> list) {
         super(context, R.layout.room_user_list_item, list);
         mContext = context;
         roomFriendList = list;
