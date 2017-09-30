@@ -9,18 +9,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.44"
+        android:layout_weight="0.475"
+        android:weightSum="1"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
             android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="가입 신청"
+                android:text="모임 인원"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -28,11 +30,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="20dp">
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
 
             <ListView
-                android:id="@+id/lvRequestUserList"
+                android:id="@+id/lvRoomUserList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -57,18 +61,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.44"
+        android:layout_weight="0.475"
+        android:weightSum="1"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
             android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="모임 인원"
+                android:text="가입 신청"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -76,11 +82,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="20dp">
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
 
             <ListView
-                android:id="@+id/lvRoomUserList"
+                android:id="@+id/lvRequestUserList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -92,7 +100,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
+        android:layout_weight="0.05"
         android:layout_margin="20dp"
         android:gravity="center"
         android:orientation="horizontal">

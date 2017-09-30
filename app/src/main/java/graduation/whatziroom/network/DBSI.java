@@ -133,7 +133,7 @@ public class DBSI extends SQLiteOpenHelper {
     private void setDB(SQLiteDatabase db) {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS User (PKey integer(8) NOT NULL, Name varchar(20), ID varchar(20), PW varchar(60), Email varchar(30), " +
-                "Status tinyint(3), Acount varchar(30), Longitude double(10), Latitude double(10), CreatedDate timestamp, UpdatedDate timestamp, UDID varchar(200), AutoLogin integer(1));");
+                "Status tinyint(3), Acount varchar(30), Longitude double(10), Latitude double(10), CreatedDate timestamp, UpdatedDate timestamp, UDID varchar(200), AutoLogin integer(1), Message varchar(100));");
 
     }
 

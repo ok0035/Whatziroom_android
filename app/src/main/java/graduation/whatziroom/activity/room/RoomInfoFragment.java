@@ -41,27 +41,11 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
     public static TextView tvNeedCreateSchedule;
 
-    private static int roomPKey = 0;
-    private static int schedulePKey = 0;
+
 
     private static ListView roomInfoList;
 
-    public static int getRoomPKey() {
-        return roomPKey;
-    }
 
-    public static void setRoomPKey(String PKey) {
-        if(PKey == null || PKey.equals("null")) roomPKey = 0;
-        else roomPKey = Integer.parseInt(PKey);
-    }
-
-    public static int getSchedulePKey() {
-        return schedulePKey;
-    }
-
-    public static void setSchedulePKey(int schedulePKey) {
-        RoomInfoFragment.schedulePKey = schedulePKey;
-    }
 
 //    private ProgressDialog mProgressDialog;
 
@@ -75,11 +59,9 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     public RoomInfoFragment() {
         super();
 
-
     }
 
     // 우선 채팅부터 구현하고 그 뒤에 디데이도 추가하자
-
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,7 +88,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     @Override
     public void setUpEvents() {
 
-        if(RoomInfoFragment.getRoomPKey() == 0) {
+        if(RoomViewPager.getRoomPKey() == 0) {
             tvNeedCreateSchedule.setVisibility(View.VISIBLE);
         } else {
 
@@ -129,7 +111,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     public static void updateRoomInfo() {
 
         Params params = new Params();
-        params.add("RoomPKey", String.valueOf(RoomInfoFragment.getRoomPKey()));
+        params.add("RoomPKey", String.valueOf(RoomViewPager.getRoomPKey()));
 
         new HttpNetwork("GetScheduleData.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -148,7 +130,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
                         Log.d("Title", roomInfo.getString("Title"));
 
-                        roomInfoData.addItem(roomInfo.getString("ImageURL"), roomInfo.getString("Title"), roomInfo.getString("Place"),
+                        roomInfoData.addItem(roomInfo.getString("SchedulePKey"), roomInfo.getString("Status"), roomInfo.getString("ImageURL"), roomInfo.getString("Title"), roomInfo.getString("Place"),
                                 roomInfo.getString("Time"), roomInfo.getString("Description"), roomInfo.getString("Name"), roomInfo.getString("OldAddress"),
                                 roomInfo.getString("NewAddress"), roomInfo.getString("TEL"), roomInfo.getString("WURL"));
 

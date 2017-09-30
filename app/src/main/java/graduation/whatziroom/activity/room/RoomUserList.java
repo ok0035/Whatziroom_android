@@ -34,12 +34,13 @@ import graduation.whatziroom.util.ParseData;
 public class RoomUserList extends Fragment implements BasicMethod{
 
     private LinearLayout parent;
-    private android.widget.ListView lvRequestUserList;
-    private android.widget.ListView lvRoomUserList;
+    private static android.widget.ListView lvRequestUserList;
+    private static android.widget.ListView lvRoomUserList;
     private android.widget.TextView tvRoomExit;
-    private RoomUserData roomUserData, requestUserData;
-    private RequestUserAdapter requestUserAdapter;
-    private RoomUserAdapter roomUserAdapter;
+    private static RoomUserData roomUserData;
+    private static RoomUserData requestUserData;
+    private static RequestUserAdapter requestUserAdapter;
+    private static RoomUserAdapter roomUserAdapter;
 
     @Nullable
     @Override
@@ -71,10 +72,10 @@ public class RoomUserList extends Fragment implements BasicMethod{
 
     }
 
-    public void updateRequestList() {
+    public static void updateRequestList() {
 
         Params params = new Params();
-        params.add("RoomPKey", RoomInfoFragment.getRoomPKey() + "");
+        params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
 
         new HttpNetwork("GetRequestRoomUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -119,10 +120,10 @@ public class RoomUserList extends Fragment implements BasicMethod{
 
     }
 
-    public void updateRoomUserList() {
+    public static void updateRoomUserList() {
 
         Params params = new Params();
-        params.add("RoomPKey", RoomInfoFragment.getRoomPKey() + "");
+        params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
 
         new HttpNetwork("GetRoomUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override

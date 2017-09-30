@@ -105,10 +105,11 @@ public class SignUpActivity extends BaseActivity {
                             JSONObject userData = new JSONObject(userDataString);
 
                             DBSI db = new DBSI();
+                            db.query("delete from User");
                             db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
                                     + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
                                     + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
-                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', " + 0 + ")");
+                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', " + 0 + ", '')");
 
                             Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MainViewPager.class);

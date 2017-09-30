@@ -11,7 +11,19 @@ import graduation.whatziroom.adapter.RoomInfoAdapter;
 
 public class RoomInfoData {
 
-    private String ImageURL, Title, Place, Time, Description, Name, OldAddress, NewAddress, TEL, WebURL;
+    private String ImageURL;
+    private String Title;
+    private String Place;
+    private String Time;
+    private String Description;
+    private String Name;
+    private String OldAddress;
+    private String NewAddress;
+    private String TEL;
+    private String WebURL;
+    private String SchedulePKey;
+
+    private String Status;
     private ArrayList<RoomInfoData> RoomInfoList;
 
     public RoomInfoAdapter getAdapter() {
@@ -25,9 +37,11 @@ public class RoomInfoData {
 
     private RoomInfoAdapter adapter;
 
-    public RoomInfoData(String imageURL, String title, String place, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public RoomInfoData(String schedulePKey, String status, String imageURL, String title, String place, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
         super();
 
+        SchedulePKey = schedulePKey;
+        Status = status;
         ImageURL = imageURL;
         Title = title;
         Place = place;
@@ -47,9 +61,25 @@ public class RoomInfoData {
 
     }
 
-    public void addItem(String imageURL, String title, String place, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public void addItem(String schedulePKey, String status, String imageURL, String title, String place, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
 
-        RoomInfoList.add(new RoomInfoData(imageURL, title, place, time, description, name, oldAddress, newAddress, tel, webUrl));
+        RoomInfoList.add(new RoomInfoData(schedulePKey, status, imageURL, title, place, time, description, name, oldAddress, newAddress, tel, webUrl));
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getSchedulePKey() {
+        return SchedulePKey;
+    }
+
+    public void setSchedulePKey(String schedulePKey) {
+        SchedulePKey = schedulePKey;
     }
 
     public String getImageURL() {

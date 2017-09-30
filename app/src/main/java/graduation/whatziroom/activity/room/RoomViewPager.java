@@ -68,12 +68,14 @@ public class RoomViewPager extends BaseActivity {
 
     public static MapView chatMap;
 
-    private int roomPKey;
     private int userPKey;
     private String result = "notEmpty";
     private boolean shield = false;
     public static Context mContext;
     public static Activity mActivity;
+
+    private static int roomPKey = 0;
+    private static int schedulePKey = 0;
 
     // TimePicker, DatePicker를 위한 변수 선언
 
@@ -122,7 +124,7 @@ public class RoomViewPager extends BaseActivity {
         *   Viewpase Adapter 설정
         */
 
-        roomPKey = RoomInfoFragment.getRoomPKey();
+        roomPKey = RoomViewPager.getRoomPKey();
         userPKey = MainViewPager.getUserPKey();
 
         Log.d("RoomPKey", roomPKey + "");
@@ -186,38 +188,9 @@ public class RoomViewPager extends BaseActivity {
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-//                        if(vp.getCurrentItem() == 1 && RoomChatFragment.llChatInfoParent.getVisibility() == View.VISIBLE) {
-//
-//                            Log.d("ererer","ERERERER");
-////                            vp.setEnabled(false);
-//
-//                            shield = vp.onInterceptTouchEvent(motionEvent);
-//
-//                            return vp.onInterceptTouchEvent(motionEvent);
-//
-//                        }
-
                         return false;
                     }
                 });
-
-
-//                vp.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if(shield) vp.setFocusableInTouchMode(false);
-//                    }
-//                });
-//
-//                vp.setOnDragListener(new View.OnDragListener() {
-//                    @Override
-//                    public boolean onDrag(View view, DragEvent dragEvent) {
-//
-//                        if(shield) return true;
-//
-//                        return false;
-//                    }
-//                });
 
                 vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
@@ -256,10 +229,12 @@ public class RoomViewPager extends BaseActivity {
                             case 2:
                                 btnRoomSchedule.setVisibility(View.GONE);
                                 btnRoomSetting.setVisibility(View.GONE);
-
                                 scChatInfoParent.setVisibility(View.GONE);
                                 llChatSchedule.setVisibility(View.GONE);
                                 llChatMapView.setVisibility(View.GONE);
+
+                                RoomUserList.updateRoomUserList();
+                                RoomUserList.updateRequestList();
 
                                 break;
                         }
@@ -500,6 +475,22 @@ public class RoomViewPager extends BaseActivity {
     @Override
     public void setValues() {
         super.setValues();
+    }
+
+    public static int getRoomPKey() {
+        return roomPKey;
+    }
+
+    public static void setRoomPKey(String PKey) {
+        if(PKey == null || PKey.equals("null")) roomPKey = 0;
+        else roomPKey = Integer.parseInt(PKey);
+    }
+
+    public static int getSchedulePKey() {
+        return schedulePKey;
+    }
+    public static void setSchedulePKey(int schedulePKey) {
+        RoomViewPager.schedulePKey = schedulePKey;
     }
 
     @Override

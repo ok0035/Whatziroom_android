@@ -28,7 +28,7 @@
         <!--<item name="android:titleTextStyle">@style/CustomTheme.ActionBar.TitleText</item>-->
         <!--<item name="titleTextStyle">@style/CustomTheme.ActionBar.TitleText</item>-->
         <!--<item name="android:background">@drawable/round_background</item>-->
-        <!--<item name="android:windowBackground">@drawable/round_background_alpha</item>-->
+        <!--<item name="android:layout_margin">60dip</item>-->
     <!--</style>-->
 
     <!--<style name="CustomTheme.ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">-->

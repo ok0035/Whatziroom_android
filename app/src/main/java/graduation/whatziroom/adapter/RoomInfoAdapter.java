@@ -3,13 +3,13 @@ package graduation.whatziroom.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -17,7 +17,9 @@ import java.util.ArrayList;
 
 import graduation.whatziroom.Data.RoomInfoData;
 import graduation.whatziroom.R;
+import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.activity.room.RoomViewPager;
+import graduation.whatziroom.dialog.AttendScheduleDialog;
 
 /**
  * Created by mapl0 on 2017-09-28.
@@ -32,7 +34,6 @@ public class RoomInfoAdapter extends ArrayAdapter {
     private ImageView ivInformation;
     private TextView textTitle;
     private TextView tvInfoGoing;
-    private TextView tvInfoNotGoing;
     private TextView tvInfoMaker;
     private TextView tvInfoTime;
     private TextView tvInfoPlace;
@@ -41,6 +42,8 @@ public class RoomInfoAdapter extends ArrayAdapter {
     private TextView tvInfoTel;
     private TextView tvInfoSite;
     private TextView tvInfoDesc;
+
+    private RoomInfoData data;
 
     public RoomInfoAdapter(@NonNull Context context, ArrayList<RoomInfoData> list) {
         super(context, R.layout.room_info_item, list);
@@ -57,7 +60,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
 
         View roomInfoLayout = convertView;
 
-        if(roomInfoLayout == null)
+        if (roomInfoLayout == null)
             roomInfoLayout = inflater.inflate(R.layout.room_info_item, null);
 
         this.tvInfoDesc = (TextView) roomInfoLayout.findViewById(R.id.tvInfoDesc);
@@ -68,16 +71,14 @@ public class RoomInfoAdapter extends ArrayAdapter {
         this.tvInfoPlace = (TextView) roomInfoLayout.findViewById(R.id.tvInfoPlace);
         this.tvInfoTime = (TextView) roomInfoLayout.findViewById(R.id.tvInfoTime);
         this.tvInfoMaker = (TextView) roomInfoLayout.findViewById(R.id.tvInfoMaker);
-        this.tvInfoNotGoing = (TextView) roomInfoLayout.findViewById(R.id.tvInfoNotGoing);
         this.tvInfoGoing = (TextView) roomInfoLayout.findViewById(R.id.tvInfoGoing);
         this.textTitle = (TextView) roomInfoLayout.findViewById(R.id.textTitle);
         this.ivInformation = (ImageView) roomInfoLayout.findViewById(R.id.ivInformation);
 
-        RoomInfoData data = roomInfoList.get(position);
+        data = roomInfoList.get(position);
 
-//        Log.d("Title...", data.getTitle());
-
-        System.out.println("TitlePrintln......" + data.getTitle());
+        if (data.getStatus().equals("1"))
+            tvInfoGoing.setText("참석 확정");
 
         Glide.with(RoomViewPager.mContext).load(data.getImageURL()).into(ivInformation);
         textTitle.setText(data.getTitle().equals("null") ? "" : data.getTitle());
@@ -96,6 +97,17 @@ public class RoomInfoAdapter extends ArrayAdapter {
     }
 
     public void setUpEvents() {
+
+        tvInfoGoing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tvInfoGoing.getText().toString().equals("참석 확정"))
+                    Toast.makeText(mContext, "이미 참석을 확정하였습니다.", Toast.LENGTH_SHORT).show();
+                else
+                    new AttendScheduleDialog(getContext(), MainViewPager.getUserPKey() + "", data.getSchedulePKey()).show();
+
+            }
+        });
 
     }
 
