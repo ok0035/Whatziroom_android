@@ -13,9 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
-import graduation.whatziroom.adapter.ChatAdapter;
+import graduation.whatziroom.activity.main.MainViewPager;
 
 
 /**
@@ -25,12 +29,14 @@ import graduation.whatziroom.adapter.ChatAdapter;
 public class RoomChatFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
-    private ListView m_ListView;
-    private ChatAdapter m_Adapter;
+    private ListView lvChat;
+    private ChatData chatData;
     private EditText edChat;
-    private TextView sendButton;
-    private LinearLayout linChatList;
+    private TextView tvSendChat;
+    private LinearLayout llChat;
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     @Nullable
     @Override
@@ -48,16 +54,20 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
     @Override
     public void setUpEvents() {
 
+//        채팅 구현 예상
+//        파이어베이스에 유저키, 룸키, 메시지를 저장한다.
+//        저장 후 보낼때는 무조건 오른쪽에(flag를 ChatData에 추가한다.) 받을 때는 UserPKey를 비교해서 자신이면 오른쪽에 뿌려주도록 한다.
+
+
 
         // ListView에 어댑터 연결
-        m_ListView.setAdapter(m_Adapter);
+        lvChat.setAdapter(chatData.getAdapter());
 
 
 //        PC에서 안드로이드 가상머신으로 테스트할때 편함 ㅎ
 //        엔터키로 채팅 할 수 있음
 
-
-        linChatList.setOnKeyListener(new View.OnKeyListener() {
+        llChat.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
@@ -70,8 +80,8 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                             if(edChat.length() != 0) {
 
-                                m_Adapter.add(edChat.getText().toString().replaceAll("\n", ""), 1);
-                                m_Adapter.notifyDataSetChanged();
+                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString(), 0);
+                                chatData.getAdapter().notifyDataSetChanged();
                                 edChat.setText("");
 
                             } else edChat.setText("");
@@ -95,8 +105,8 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                             if(edChat.length() != 0) {
 
-                                m_Adapter.add(edChat.getText().toString(), 1);
-                                m_Adapter.notifyDataSetChanged();
+                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString(), 0);
+                                chatData.getAdapter().notifyDataSetChanged();
                                 edChat.setText("");
 
                             } else edChat.setText("");
@@ -108,14 +118,14 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
             }
         });
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        tvSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(edChat.getText().length() != 0) {
 
-                    m_Adapter.add(edChat.getText().toString(), 1);
-                    m_Adapter.notifyDataSetChanged();
+                    chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString(), 1);
+                    chatData.getAdapter().notifyDataSetChanged();
                     edChat.setText("");
                 }
             }
@@ -125,19 +135,23 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
     @Override
     public void setValues() {
-
+        chatData = new ChatData();
         // 커스텀 어댑터 생성
-        m_Adapter = new ChatAdapter();
+//        m_Adapter = new ChatAdapter();
+
+    }
+
+    public void updateInputList() {
 
     }
 
     @Override
     public void bindView() {
         // Xml에서 추가한 ListView 연결
-        m_ListView = layout.findViewById(R.id.lvChat);
-        edChat = layout.findViewById(R.id.edChatText);
-        sendButton = layout.findViewById(R.id.sendChat);
-        linChatList = layout.findViewById(R.id.linChatList);
+        lvChat = layout.findViewById(R.id.lvChat);
+        edChat = layout.findViewById(R.id.edChat);
+        tvSendChat = layout.findViewById(R.id.tvSendChat);
+        llChat = layout.findViewById(R.id.llChat);
 
     }
 }

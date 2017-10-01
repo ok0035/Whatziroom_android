@@ -49,6 +49,12 @@ public class MainViewPager extends BaseActivity {
     private ProfileFragment profileView;
     private static int UserPKey;
 
+    public static String getUserName() {
+        return UserName;
+    }
+
+    private static String UserName;
+
     public MainViewPager() {
 
         friendListView = new FriendListFragment();
@@ -84,7 +90,9 @@ public class MainViewPager extends BaseActivity {
         super.setUpEvents();
 
         DBSI db = new DBSI();
-        UserPKey = Integer.parseInt(db.selectQuery("select PKey from User")[0][0]);
+        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
+        UserPKey = Integer.parseInt(UserInfo[0][0]);
+        UserName = UserInfo[0][1];
         Log.d("UserPKeyMain", UserPKey + "");
 
                 /*

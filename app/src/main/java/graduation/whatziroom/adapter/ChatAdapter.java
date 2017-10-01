@@ -5,13 +5,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import graduation.whatziroom.Data.ChatData;
@@ -22,151 +20,78 @@ import graduation.whatziroom.R;
  * Created by mapl0 on 2017-06-28.
  */
 
-public class ChatAdapter extends BaseAdapter {
+public class ChatAdapter extends ArrayAdapter {
 
-    public class ListContents {
-        String msg;
-        int type;
+    private Context mContext = null;
+    private ArrayList<ChatData> mList = null;
+    private LayoutInflater inf = null;
 
-        ListContents(String _msg, int _type) {
-            this.msg = _msg;
-            this.type = _type;
-        }
+    private android.view.View divisionLeft;
+    private de.hdodenhof.circleimageview.CircleImageView ivProfileLeft;
+    private android.widget.TextView tvChatMessage, tvChatName;
+    private de.hdodenhof.circleimageview.CircleImageView ivProfileRight;
+    private android.view.View divisionRight;
+    private android.widget.LinearLayout llParent;
+
+    public ChatAdapter(Context context, ArrayList<ChatData> list) {
+        super(context, R.layout.chat_item, list);
+
+        mContext = context;
+        mList = list;
+        inf = LayoutInflater.from(mContext);
     }
-
-    private List<ListContents> m_List;
-
-    public ChatAdapter() {
-        m_List = new ArrayList();
-    }
-
-    // 외부에서 아이템 추가 요청 시 사용
-    public void add(String _msg, int _type) {
-
-        m_List.add(new ListContents(_msg, _type));
-    }
-
-    // 외부에서 아이템 삭제 요청 시 사용
-    public void remove(int _position) {
-        m_List.remove(_position);
-    }
-
-    @Override
-    public int getCount() {
-        return m_List.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return m_List.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
-        final Context context = parent.getContext();
 
-        TextView text = null;
-        ChatData holder = null;
-        LinearLayout layout = null;
-        View viewRight = null;
-        View viewLeft = null;
-        CircleImageView profileRight = null;
-        CircleImageView profileLeft = null;
+        View parentLayout = convertView;
 
         // 리스트가 길어지면서 현재 화면에 보이지 않는 아이템은 converView가 null인 상태로 들어 옴
-        if (convertView == null) {
+        if (parentLayout == null) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.chat_item, parent, false);
-
-            layout = convertView.findViewById(R.id.layout);
-            text = convertView.findViewById(R.id.text);
-            viewRight = convertView.findViewById(R.id.imageViewright);
-            viewLeft = convertView.findViewById(R.id.imageViewleft);
-            profileLeft = convertView.findViewById(R.id.profileLeft);
-            profileRight = convertView.findViewById(R.id.profileRight);
-
-            // 홀더 생성 및 Tag로 등록
-            holder = new ChatData();
-            holder.m_TextView = convertView.findViewById(R.id.text);
-            holder.layout = convertView.findViewById(R.id.layout);
-            holder.viewRight = convertView.findViewById(R.id.imageViewright);
-            holder.viewLeft = convertView.findViewById(R.id.imageViewleft);
-            holder.profileLeft = profileLeft = convertView.findViewById(R.id.profileLeft);
-            holder.profileRight = profileRight = convertView.findViewById(R.id.profileRight);
-
-            convertView.setTag(holder);
-        } else {
-
-            holder = (ChatData) convertView.getTag();
-//            text = holder.m_TextView;
-//            layout = holder.layout;
-//            viewRight = holder.viewRight;
-//            viewLeft = holder.viewLeft;
-//            profileLeft = holder.profileLeft;
-//            profileRight = holder.profileRight;
+            parentLayout = inf.inflate(R.layout.chat_item, parent, false);
 
         }
 
-        // Text 등록
-        holder.m_TextView.setText(m_List.get(position).msg);
+        this.llParent = (LinearLayout) parentLayout.findViewById(R.id.llParent);
+        this.divisionRight = (View) parentLayout.findViewById(R.id.divisionRight);
+        this.ivProfileRight = (CircleImageView) parentLayout.findViewById(R.id.ivProfileRight);
+        this.tvChatMessage = (TextView) parentLayout.findViewById(R.id.tvChatMessage);
+        this.tvChatName = (TextView) parentLayout.findViewById(R.id.tvChatName);
+        this.ivProfileLeft = (CircleImageView) parentLayout.findViewById(R.id.ivProfileLeft);
+        this.divisionLeft = (View) parentLayout.findViewById(R.id.divisionLeft);
 
-        if (m_List.get(position).type == 0) {
-            holder.m_TextView.setBackgroundResource(R.drawable.inbox2);
-            holder.layout.setGravity(Gravity.LEFT);
-            holder.profileRight.setVisibility(View.GONE);
-            holder.profileLeft.setVisibility(View.VISIBLE);
-            holder.viewRight.setVisibility(View.GONE);
-            holder.viewLeft.setVisibility(View.GONE);
+        ChatData data = mList.get(position);
 
-        } else if (m_List.get(position).type == 1) {
-            holder.m_TextView.setBackgroundResource(R.drawable.outbox2);
-            holder.layout.setGravity(Gravity.RIGHT);
-            holder.profileRight.setVisibility(View.VISIBLE);
-            holder.profileLeft.setVisibility(View.GONE);
-            holder.viewRight.setVisibility(View.GONE);
-            holder.viewLeft.setVisibility(View.GONE);
+        tvChatMessage.setText(data.getMessage());
+        tvChatName.setText(data.getName());
 
-        } else if (m_List.get(position).type == 2) {
-            holder.m_TextView.setBackgroundResource(R.drawable.datebg);
-            holder.layout.setGravity(Gravity.CENTER);
-            holder.profileRight.setVisibility(View.GONE);
-            holder.profileLeft.setVisibility(View.GONE);
-            holder.viewRight.setVisibility(View.VISIBLE);
-            holder.viewLeft.setVisibility(View.VISIBLE);
+        switch (data.getFlag()) {
+
+            case 0:
+                tvChatMessage.setBackgroundResource(R.drawable.inbox2);
+                llParent.setGravity(Gravity.LEFT);
+                divisionLeft.setVisibility(View.GONE);
+                divisionRight.setVisibility(View.GONE);
+                break;
+
+            case 1:
+                tvChatMessage.setBackgroundResource(R.drawable.outbox2);
+                llParent.setGravity(Gravity.RIGHT);
+                divisionLeft.setVisibility(View.GONE);
+                divisionRight.setVisibility(View.GONE);
+                break;
+
+            case 2:
+                tvChatMessage.setBackgroundResource(R.drawable.outbox2);
+                llParent.setGravity(Gravity.CENTER);
+                divisionLeft.setVisibility(View.VISIBLE);
+                divisionRight.setVisibility(View.VISIBLE);
+                break;
+
         }
 
-
-        // 리스트 아이템을 터치 했을 때 이벤트 발생
-        convertView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 클릭 : " + m_List.get(pos), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        // 리스트 아이템을 길게 터치 했을때 이벤트 발생
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 롱 클릭 : " + m_List.get(pos), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-
-        return convertView;
+        return parentLayout;
     }
 
 }

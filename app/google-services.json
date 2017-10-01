@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "756037264044-cqv70m0i278folhc62risoarns10un8a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "graduation.whatziroom",
+            "certificate_hash": "f8240b93c2725cec0b31c723a513b5711f35c7fe"
+          }
+        },
+        {
           "client_id": "756037264044-g2bibk39fuc6e78tbd1i9ldt8iijjnbm.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756037264044-g2bibk39fuc6e78tbd1i9ldt8iijjnbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
