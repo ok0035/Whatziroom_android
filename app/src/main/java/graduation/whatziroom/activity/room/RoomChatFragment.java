@@ -45,7 +45,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = (LinearLayout) inflater.inflate(R.layout.chat, container, false);
+        layout = (LinearLayout) inflater.inflate(R.layout.room_chat, container, false);
 
         bindView();
         setValues();
@@ -61,11 +61,8 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 //        파이어베이스에 유저키, 룸키, 메시지를 저장한다.
 //        저장 후 보낼때는 무조건 오른쪽에(flag를 ChatData에 추가한다.) 받을 때는 UserPKey를 비교해서 자신이면 오른쪽에 뿌려주도록 한다.
 
-
-
         // ListView에 어댑터 연결
         lvChat.setAdapter(chatData.getAdapter());
-
 
 //        PC에서 안드로이드 가상머신으로 테스트할때 편함 ㅎ
 //        엔터키로 채팅 할 수 있음
@@ -108,8 +105,8 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                             if(edChat.length() != 0) {
 
-                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
-                                chatData.getAdapter().notifyDataSetChanged();
+                                ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
+                                databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
                                 edChat.setText("");
 
                             } else edChat.setText("");
@@ -126,9 +123,6 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
             public void onClick(View v) {
 
                 if(edChat.getText().length() != 0) {
-
-//                    chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
-//                    chatData.getAdapter().notifyDataSetChanged();
 
                     ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
                     databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
@@ -170,15 +164,8 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
     @Override
     public void setValues() {
+
         chatData = new ChatData();
-        // 커스텀 어댑터 생성
-//        m_Adapter = new ChatAdapter();
-
-    }
-
-    public void updateChatList() {
-
-
 
     }
 

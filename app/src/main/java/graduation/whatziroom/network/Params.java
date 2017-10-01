@@ -21,6 +21,10 @@ public class Params {
         params.add(new BasicNameValuePair(key, value));
     }
 
+    public void InitParams() {
+        params.clear();
+    }
+
     public ArrayList<NameValuePair> getParams() {
         return params;
     }

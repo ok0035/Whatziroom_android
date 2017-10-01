@@ -19,6 +19,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import graduation.whatziroom.Data.RoomInfoData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
@@ -124,14 +128,34 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
                     JSONArray roomInfoArray = parse.parseJsonArray(response);
                     RoomInfoData roomInfoData = new RoomInfoData();
+                    String parseTime;
 
                     for (int i = 0; i < roomInfoArray.length(); i++) {
                         JSONObject roomInfo = new JSONObject(roomInfoArray.get(i).toString());
 
                         Log.d("Title", roomInfo.getString("Title"));
 
+                        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        try {
+                            Date date = transFormat.parse(roomInfo.getString("Time"));
+
+                            Log.d("Title", roomInfo.getString("Title"));
+                            Log.d("Time", (date.getYear() + 1900) + "");
+                            Log.d("Time", (date.getMonth() + 1) + "");
+                            Log.d("Time", date.getDate() + "");
+                            Log.d("Time", date.getHours() + "");
+                            Log.d("Time", date.getMinutes() + "");
+
+                            parseTime =  (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
+
+                        } catch (ParseException e) {
+
+                            e.printStackTrace();
+                            parseTime = roomInfo.getString("Time");
+                        }
+
                         roomInfoData.addItem(roomInfo.getString("SchedulePKey"), roomInfo.getString("Status"), roomInfo.getString("ImageURL"), roomInfo.getString("Title"), roomInfo.getString("Place"),
-                                roomInfo.getString("Time"), roomInfo.getString("Description"), roomInfo.getString("Name"), roomInfo.getString("OldAddress"),
+                                roomInfo.getString("Longitude"), roomInfo.getString("Latitude"), parseTime, roomInfo.getString("Description"), roomInfo.getString("Name"), roomInfo.getString("OldAddress"),
                                 roomInfo.getString("NewAddress"), roomInfo.getString("TEL"), roomInfo.getString("WURL"));
 
                     }

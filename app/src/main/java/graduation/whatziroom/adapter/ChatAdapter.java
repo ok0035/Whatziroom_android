@@ -36,7 +36,7 @@ public class ChatAdapter extends ArrayAdapter {
     private android.widget.LinearLayout llParent;
 
     public ChatAdapter(Context context, ArrayList<ChatData> list) {
-        super(context, R.layout.chat_item, list);
+        super(context, R.layout.room_chat_item, list);
 
         mContext = context;
         mList = list;
@@ -51,7 +51,7 @@ public class ChatAdapter extends ArrayAdapter {
         // 리스트가 길어지면서 현재 화면에 보이지 않는 아이템은 converView가 null인 상태로 들어 옴
         if (parentLayout == null) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
-            parentLayout = inf.inflate(R.layout.chat_item, parent, false);
+            parentLayout = inf.inflate(R.layout.room_chat_item, parent, false);
 
         }
 

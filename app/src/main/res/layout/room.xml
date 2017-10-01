@@ -48,16 +48,28 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.5"
+                    android:weightSum="1"
                     android:background="@drawable/round_background_button"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.2"
                         android:textColor="#FFFFFF"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:text="장소"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:id="@+id/tvRoomChatPlace"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:text=""/>
 
                 </LinearLayout>
 
@@ -66,16 +78,28 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.5"
+                    android:weightSum="1"
                     android:background="@drawable/round_background_button"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.2"
                         android:textColor="#FFFFFF"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:text="일시"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/tvRoomChatTime"
+                        android:layout_weight="0.8"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:text=""/>
 
                 </LinearLayout>
 
@@ -97,6 +121,7 @@
                     android:layout_weight="0.8"
                     android:background="@drawable/round_background_button"
                     android:padding="10dp">
+
 
                 </FrameLayout>
 

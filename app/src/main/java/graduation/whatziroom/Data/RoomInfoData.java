@@ -14,6 +14,8 @@ public class RoomInfoData {
     private String ImageURL;
     private String Title;
     private String Place;
+    private String Longitude;
+    private String Latitude;
     private String Time;
     private String Description;
     private String Name;
@@ -37,7 +39,7 @@ public class RoomInfoData {
 
     private RoomInfoAdapter adapter;
 
-    public RoomInfoData(String schedulePKey, String status, String imageURL, String title, String place, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public RoomInfoData(String schedulePKey, String status, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
         super();
 
         SchedulePKey = schedulePKey;
@@ -45,6 +47,8 @@ public class RoomInfoData {
         ImageURL = imageURL;
         Title = title;
         Place = place;
+        Longitude = longitude;
+        Latitude = latitude;
         Time = time;
         Description = description;
         Name = name;
@@ -61,9 +65,9 @@ public class RoomInfoData {
 
     }
 
-    public void addItem(String schedulePKey, String status, String imageURL, String title, String place, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public void addItem(String schedulePKey, String status, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
 
-        RoomInfoList.add(new RoomInfoData(schedulePKey, status, imageURL, title, place, time, description, name, oldAddress, newAddress, tel, webUrl));
+        RoomInfoList.add(new RoomInfoData(schedulePKey, status, imageURL, title, place, longitude, latitude, time, description, name, oldAddress, newAddress, tel, webUrl));
     }
 
     public String getStatus() {
