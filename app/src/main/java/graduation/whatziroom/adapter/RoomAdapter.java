@@ -44,14 +44,12 @@ public class RoomAdapter extends ArrayAdapter {
 
 //        ImageView roomThumbNail = (ImageView)row.findViewById(R.id.roomListThumbImg);
         TextView roomName = row.findViewById(R.id.roomNameTxt);
-        TextView roomMakerName = row.findViewById(R.id.tvUserNumber);
         TextView roomTime = row.findViewById(R.id.roomTimeTxt);
         TextView getOutBtn = row.findViewById(R.id.roomOutTxt);
 
         RoomData data = mList.get(position);
 
         roomName.setText(data.getRoomName());
-        roomMakerName.setText(data.getRoomUserNumber());
         roomTime.setText(data.getRoomDate());
 
         return row;

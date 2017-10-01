@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.R;
 
 
@@ -23,31 +24,33 @@ import graduation.whatziroom.R;
 
 public class ChatAdapter extends BaseAdapter {
 
-    public class ListContents{
+    public class ListContents {
         String msg;
         int type;
-        ListContents(String _msg,int _type)
-        {
+
+        ListContents(String _msg, int _type) {
             this.msg = _msg;
             this.type = _type;
         }
     }
 
     private List<ListContents> m_List;
+
     public ChatAdapter() {
         m_List = new ArrayList();
     }
 
     // 외부에서 아이템 추가 요청 시 사용
-    public void add(String _msg,int _type) {
+    public void add(String _msg, int _type) {
 
-        m_List.add(new ListContents(_msg,_type));
+        m_List.add(new ListContents(_msg, _type));
     }
 
     // 외부에서 아이템 삭제 요청 시 사용
     public void remove(int _position) {
         m_List.remove(_position);
     }
+
     @Override
     public int getCount() {
         return m_List.size();
@@ -69,79 +72,76 @@ public class ChatAdapter extends BaseAdapter {
         final int pos = position;
         final Context context = parent.getContext();
 
-        TextView        text    = null;
-        CustomHolder    holder  = null;
-        LinearLayout    layout  = null;
-        View            viewRight = null;
-        View            viewLeft = null;
+        TextView text = null;
+        ChatData holder = null;
+        LinearLayout layout = null;
+        View viewRight = null;
+        View viewLeft = null;
         CircleImageView profileRight = null;
         CircleImageView profileLeft = null;
 
         // 리스트가 길어지면서 현재 화면에 보이지 않는 아이템은 converView가 null인 상태로 들어 옴
-        if ( convertView == null ) {
+        if (convertView == null) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.chat_item, parent, false);
 
-            layout    = convertView.findViewById(R.id.layout);
-            text    = convertView.findViewById(R.id.text);
-            viewRight    = convertView.findViewById(R.id.imageViewright);
-            viewLeft    = convertView.findViewById(R.id.imageViewleft);
+            layout = convertView.findViewById(R.id.layout);
+            text = convertView.findViewById(R.id.text);
+            viewRight = convertView.findViewById(R.id.imageViewright);
+            viewLeft = convertView.findViewById(R.id.imageViewleft);
             profileLeft = convertView.findViewById(R.id.profileLeft);
             profileRight = convertView.findViewById(R.id.profileRight);
 
-
             // 홀더 생성 및 Tag로 등록
-            holder = new CustomHolder();
-            holder.m_TextView   = text;
-            holder.layout = layout;
-            holder.viewRight = viewRight;
-            holder.viewLeft = viewLeft;
-            holder.profileLeft = profileLeft;
-            holder.profileRight = profileRight;
+            holder = new ChatData();
+            holder.m_TextView = convertView.findViewById(R.id.text);
+            holder.layout = convertView.findViewById(R.id.layout);
+            holder.viewRight = convertView.findViewById(R.id.imageViewright);
+            holder.viewLeft = convertView.findViewById(R.id.imageViewleft);
+            holder.profileLeft = profileLeft = convertView.findViewById(R.id.profileLeft);
+            holder.profileRight = profileRight = convertView.findViewById(R.id.profileRight);
 
             convertView.setTag(holder);
-        }
-        else {
+        } else {
 
-            holder  = (CustomHolder) convertView.getTag();
-            text    = holder.m_TextView;
-            layout  = holder.layout;
-            viewRight = holder.viewRight;
-            viewLeft = holder.viewLeft;
-            profileLeft = holder.profileLeft;
-            profileRight = holder.profileRight;
+            holder = (ChatData) convertView.getTag();
+//            text = holder.m_TextView;
+//            layout = holder.layout;
+//            viewRight = holder.viewRight;
+//            viewLeft = holder.viewLeft;
+//            profileLeft = holder.profileLeft;
+//            profileRight = holder.profileRight;
 
         }
 
         // Text 등록
-        text.setText(m_List.get(position).msg);
+        holder.m_TextView.setText(m_List.get(position).msg);
 
-        if( m_List.get(position).type == 0 ) {
-            text.setBackgroundResource(R.drawable.inbox2);
-            layout.setGravity(Gravity.LEFT);
-            profileRight.setVisibility(View.GONE);
-            profileLeft.setVisibility(View.VISIBLE);
-            viewRight.setVisibility(View.GONE);
-            viewLeft.setVisibility(View.GONE);
+        if (m_List.get(position).type == 0) {
+            holder.m_TextView.setBackgroundResource(R.drawable.inbox2);
+            holder.layout.setGravity(Gravity.LEFT);
+            holder.profileRight.setVisibility(View.GONE);
+            holder.profileLeft.setVisibility(View.VISIBLE);
+            holder.viewRight.setVisibility(View.GONE);
+            holder.viewLeft.setVisibility(View.GONE);
 
-        }else if(m_List.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.outbox2);
-            layout.setGravity(Gravity.RIGHT);
-            profileRight.setVisibility(View.VISIBLE);
-            profileLeft.setVisibility(View.GONE);
-            viewRight.setVisibility(View.GONE);
-            viewLeft.setVisibility(View.GONE);
+        } else if (m_List.get(position).type == 1) {
+            holder.m_TextView.setBackgroundResource(R.drawable.outbox2);
+            holder.layout.setGravity(Gravity.RIGHT);
+            holder.profileRight.setVisibility(View.VISIBLE);
+            holder.profileLeft.setVisibility(View.GONE);
+            holder.viewRight.setVisibility(View.GONE);
+            holder.viewLeft.setVisibility(View.GONE);
 
-        }else if(m_List.get(position).type == 2){
-            text.setBackgroundResource(R.drawable.datebg);
-            layout.setGravity(Gravity.CENTER);
-            profileRight.setVisibility(View.GONE);
-            profileLeft.setVisibility(View.GONE);
-            viewRight.setVisibility(View.VISIBLE);
-            viewLeft.setVisibility(View.VISIBLE);
+        } else if (m_List.get(position).type == 2) {
+            holder.m_TextView.setBackgroundResource(R.drawable.datebg);
+            holder.layout.setGravity(Gravity.CENTER);
+            holder.profileRight.setVisibility(View.GONE);
+            holder.profileLeft.setVisibility(View.GONE);
+            holder.viewRight.setVisibility(View.VISIBLE);
+            holder.viewLeft.setVisibility(View.VISIBLE);
         }
-
 
 
         // 리스트 아이템을 터치 했을 때 이벤트 발생
@@ -150,10 +150,9 @@ public class ChatAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 클릭 : "+m_List.get(pos), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "리스트 클릭 : " + m_List.get(pos), Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
         // 리스트 아이템을 길게 터치 했을때 이벤트 발생
@@ -162,7 +161,7 @@ public class ChatAdapter extends BaseAdapter {
             @Override
             public boolean onLongClick(View v) {
                 // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 롱 클릭 : "+m_List.get(pos), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "리스트 롱 클릭 : " + m_List.get(pos), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -170,12 +169,4 @@ public class ChatAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class CustomHolder {
-        TextView m_TextView;
-        LinearLayout layout;
-        View viewRight;
-        View viewLeft;
-        CircleImageView profileRight;
-        CircleImageView profileLeft;
-    }
 }

@@ -134,7 +134,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
                     for (int i = 0; i < roomList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
                         //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-                        roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
+                        roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"));
                     }
 
                     roomListView.setAdapter(roomData.getAdapter());
@@ -178,8 +178,8 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
                         for (int i = 0; i < roomList.length(); i++) {
                             JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-                            //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-                            roomSearchData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("MaxUser"), jsonRoomData.getString("Description"));
+                            //다시 방정보만 뿌려주는걸로 수정, MaxUser 삭제
+                            roomSearchData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"));
                         }
                         roomSearchListView.setAdapter(roomSearchData.getAdapter());
                         roomSearchData.getAdapter().notifyDataSetChanged();

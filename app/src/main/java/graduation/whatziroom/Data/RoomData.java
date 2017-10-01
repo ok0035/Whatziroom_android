@@ -27,11 +27,10 @@ public class RoomData {
         adapter = new RoomAdapter(BaseActivity.mContext, roomArrayList);
     }
 
-    public RoomData(String PKey, String name, String userNumber, String date) {
+    public RoomData(String PKey, String name, String date) {
 
         setRoomPKey(PKey);
         setRoomName(name);
-        setRoomUserNumber(userNumber);
         setRoomDate(date);
     }
 
@@ -73,9 +72,9 @@ public class RoomData {
 
 
 
-    public void addItem(String roomPKey, String name, String userNumber, String date) {
+    public void addItem(String roomPKey, String name, String date) {
 
-        roomArrayList.add(new RoomData(roomPKey ,name, userNumber, date));
+        roomArrayList.add(new RoomData(roomPKey ,name, date));
 
     }
 

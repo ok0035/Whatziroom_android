@@ -62,7 +62,6 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
                 params.add("PKey", db.selectQuery("select PKey from User")[0][0]);
                 params.add("Name", edCreateRoomNmae.getText().toString());
                 params.add("Description", edCreateRoomDesc.getText().toString());
-                params.add("MaxUser", edCreateRoomMaxUser.getText().toString());
 
                 new HttpNetwork("CreateRoom.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -107,7 +106,6 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
         this.newRoomConfirmBtn = findViewById(R.id.newRoomConfirmBtn);
         this.newRoomCancelBtn = findViewById(R.id.newRoomCancelBtn);
         this.edCreateRoomDesc = findViewById(R.id.edCreateRoomDesc);
-        this.edCreateRoomMaxUser = findViewById(R.id.edCreateRoomMaxUser);
         this.edCreateRoomNmae = findViewById(R.id.edCreateRoomNmae);
 
     }

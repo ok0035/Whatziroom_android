@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:background="@drawable/round_background_button"
 
         android:orientation="vertical"
         android:gravity="center"
@@ -18,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.3"
-            android:background="@color/colorBlue">
+            android:background="@null">
 
             <TextView
                 android:layout_width="match_parent"
@@ -26,6 +27,7 @@
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp"
+                android:textStyle="bold"
                 android:text="스케줄 정보를 입력해주세요."/>
 
         </LinearLayout>
@@ -35,6 +37,8 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_background"
             android:layout_weight="0.2"
             android:weightSum="1">
 
@@ -60,8 +64,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.2"
             android:gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_background"
             android:orientation="horizontal">
 
             <TextView
@@ -100,9 +106,10 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="5dp"
-                android:background="@color/colorBlue"
+                android:background="@null"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
+                android:textStyle="bold"
                 android:text="스케줄 등록하기"/>
 
         </LinearLayout>
