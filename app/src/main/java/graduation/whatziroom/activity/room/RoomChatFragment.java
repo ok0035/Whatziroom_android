@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -80,7 +83,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                             if(edChat.length() != 0) {
 
-                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString(), 0);
+                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
                                 chatData.getAdapter().notifyDataSetChanged();
                                 edChat.setText("");
 
@@ -105,7 +108,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                             if(edChat.length() != 0) {
 
-                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString(), 0);
+                                chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
                                 chatData.getAdapter().notifyDataSetChanged();
                                 edChat.setText("");
 
@@ -124,10 +127,42 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                 if(edChat.getText().length() != 0) {
 
-                    chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString(), 1);
-                    chatData.getAdapter().notifyDataSetChanged();
+//                    chatData.addItem(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
+//                    chatData.getAdapter().notifyDataSetChanged();
+
+                    ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
+                    databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
                     edChat.setText("");
                 }
+            }
+        });
+
+        databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ChatData data = dataSnapshot.getValue(ChatData.class);
+                chatData.addItem(data);
+                chatData.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -141,7 +176,9 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
     }
 
-    public void updateInputList() {
+    public void updateChatList() {
+
+
 
     }
 

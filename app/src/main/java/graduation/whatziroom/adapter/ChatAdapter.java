@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.R;
+import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.activity.main.MainViewPager;
 
 
 /**
@@ -66,10 +68,24 @@ public class ChatAdapter extends ArrayAdapter {
         tvChatMessage.setText(data.getMessage());
         tvChatName.setText(data.getName());
 
-        switch (data.getFlag()) {
+        int flag;
+
+        if(data.getUserPKey().equals(MainViewPager.getUserPKey() + "")) flag = 1;
+        else if(data.getUserPKey().equals("0")) flag = 2;
+        else flag = 0;
+
+        LinearLayout.LayoutParams ChatNameParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        switch (flag) {
 
             case 0:
                 tvChatMessage.setBackgroundResource(R.drawable.inbox2);
+
+                ChatNameParams.setMargins(BaseActivity.convertDPtoPX(20), 0, 0, 0);
+                ChatNameParams.gravity = Gravity.LEFT;
+                tvChatName.setLayoutParams(ChatNameParams);
+//                tvChatName.setGravity(Gravity.LEFT);
+
                 llParent.setGravity(Gravity.LEFT);
                 divisionLeft.setVisibility(View.GONE);
                 divisionRight.setVisibility(View.GONE);
@@ -77,13 +93,20 @@ public class ChatAdapter extends ArrayAdapter {
 
             case 1:
                 tvChatMessage.setBackgroundResource(R.drawable.outbox2);
+
+                ChatNameParams.setMargins(0, 0, BaseActivity.convertDPtoPX(20), 0);
+                ChatNameParams.gravity = Gravity.RIGHT;
+                tvChatName.setLayoutParams(ChatNameParams);
+//                tvChatName.setGravity(Gravity.RIGHT);
+
                 llParent.setGravity(Gravity.RIGHT);
                 divisionLeft.setVisibility(View.GONE);
                 divisionRight.setVisibility(View.GONE);
                 break;
 
             case 2:
-                tvChatMessage.setBackgroundResource(R.drawable.outbox2);
+                tvChatMessage.setBackgroundResource(R.drawable.datebg);
+                tvChatName.setVisibility(View.GONE);
                 llParent.setGravity(Gravity.CENTER);
                 divisionLeft.setVisibility(View.VISIBLE);
                 divisionRight.setVisibility(View.VISIBLE);

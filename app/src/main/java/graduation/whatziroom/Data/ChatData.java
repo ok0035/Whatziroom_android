@@ -15,7 +15,6 @@ public class ChatData {
     private String RoomPKey;
     private String Name;
     private String Message;
-    private int Flag;
     private ArrayList<ChatData> ChatDataList;
     private ChatAdapter adapter;
 
@@ -26,13 +25,12 @@ public class ChatData {
 
     }
 
-    public ChatData(String roomPKey, String userPKey, String name, String message, int flag) {
+    public ChatData(String roomPKey, String userPKey, String name, String message) {
 
         RoomPKey = roomPKey;
         UserPKey = userPKey;
         Name = name;
         Message = message;
-        Flag = flag;
 
     }
 
@@ -68,14 +66,6 @@ public class ChatData {
         Name = name;
     }
 
-    public int getFlag() {
-        return Flag;
-    }
-
-    public void setFlag(int flag) {
-        Flag = flag;
-    }
-
     public ArrayList<ChatData> getChatDataList() {
         return ChatDataList;
     }
@@ -85,7 +75,7 @@ public class ChatData {
     }
 
     public ChatAdapter getAdapter() {
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
         return adapter;
     }
 
@@ -94,9 +84,15 @@ public class ChatData {
     }
 
 
-    public void addItem(String roomPKey, String userPKey, String name, String message, int flag) {
+    public void addItem(String roomPKey, String userPKey, String name, String message) {
 
-        ChatDataList.add(new ChatData(roomPKey, userPKey, name, message, flag));
+        ChatDataList.add(new ChatData(roomPKey, userPKey, name, message));
+
+    }
+
+    public void addItem(ChatData data) {
+
+        ChatDataList.add(data);
 
     }
 }
