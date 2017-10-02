@@ -12,4 +12,13 @@
     <color name="colorBlue"> #297299 </color>
     <color name="colorTransparent">#00FFFFFF</color>
 
+    <color name="colorTxtRoomActionbar"> #FFFFFF </color>
+    <color name="colorTxtMainActionbar"> #FFFFFF </color>
+
+    <!-- dialog 색 바꿔야댐 -->
+    <color name="colorBackDialogCreateRoom"> #EB9096 </color>
+    <color name="colorBackDialogCreateRoomWhite"> #FFFFFF </color>
+    <color name="colorTxtTitleDialogCreateRoom"> #FFFFFF </color>
+    <color name="colorTxtMenuDialogCreateRoom"> #000000 </color>
+
 </resources>

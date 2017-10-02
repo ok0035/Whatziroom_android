@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     public ImageView configTxt2;
 
     //룸 액션바
-    public TextView btnRoomExit;
+    public ImageView btnRoomExit;
     public TextView btnRoomSchedule;
     public ImageView btnRoomSetting;
 

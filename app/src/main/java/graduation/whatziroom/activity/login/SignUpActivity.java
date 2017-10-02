@@ -112,8 +112,10 @@ public class SignUpActivity extends BaseActivity {
                                     + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', " + 0 + ", '')");
 
                             Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
                             Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
                             startActivity(intent);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
