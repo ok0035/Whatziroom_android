@@ -24,8 +24,6 @@ public class RoomInfoData {
     private String TEL;
     private String WebURL;
     private String SchedulePKey;
-
-    private String Status;
     private ArrayList<RoomInfoData> RoomInfoList;
 
     public RoomInfoAdapter getAdapter() {
@@ -39,11 +37,10 @@ public class RoomInfoData {
 
     private RoomInfoAdapter adapter;
 
-    public RoomInfoData(String schedulePKey, String status, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
         super();
 
         SchedulePKey = schedulePKey;
-        Status = status;
         ImageURL = imageURL;
         Title = title;
         Place = place;
@@ -65,17 +62,9 @@ public class RoomInfoData {
 
     }
 
-    public void addItem(String schedulePKey, String status, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public void addItem(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
 
-        RoomInfoList.add(new RoomInfoData(schedulePKey, status, imageURL, title, place, longitude, latitude, time, description, name, oldAddress, newAddress, tel, webUrl));
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
+        RoomInfoList.add(new RoomInfoData(schedulePKey, imageURL, title, place, longitude, latitude, time, description, name, oldAddress, newAddress, tel, webUrl));
     }
 
     public String getSchedulePKey() {

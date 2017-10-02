@@ -275,6 +275,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                         if (llChatMapView.getVisibility() == View.GONE) {
                             llChatMapView.setVisibility(View.VISIBLE);
+                            llChatSchedule.setVisibility(View.GONE);
 
                             mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
                                     "지도 활성화중...", true);
@@ -288,6 +289,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                         } else {
                             llChatMapView.setVisibility(View.GONE);
+                            llChatSchedule.setVisibility(View.VISIBLE);
 //                            mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
 //                                    "지도 비활성화중...", true);
 //
@@ -308,6 +310,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     @Override
                     public void onClick(View view) {
                         llChatMapView.setVisibility(View.GONE);
+                        llChatSchedule.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -321,16 +324,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onPreExcute() {
 
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mProgressDialog = new ProgressDialog(RoomViewPager.this);
-//                        mProgressDialog.setMessage("Please wait...");
-//                        mProgressDialog.setCancelable(false);
-//                        mProgressDialog.show();
-//                        Log.d("onPre", mProgressDialog.isShowing() + "");
-//                    }
-//                });
             }
         });
 
@@ -509,7 +502,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
         if (chatMap != null) {
 
-            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 2, true);
+            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 3, true);
 
             if (mProgressDialog != null && mProgressDialog.isShowing()) {
                 mProgressDialog.dismiss();
@@ -538,8 +531,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             @Override
                             public void run() {
 
-                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 2, true);
                                 showPlaceMarker();
+                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 3, true);
                                 mProgressDialog.dismiss();
                             }
                         }, 2500);
@@ -567,8 +560,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
             poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
             poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_blue);
-            poiItem.setCustomImageAutoscale(false);
             poiItem.setCustomImageAnchor(0.5f, 1.0f);
+            poiItem.setCustomImageAutoscale(true);
 
             chatMap.addPOIItem(poiItem);
             mTagItemMap.put(poiItem.getTag(), item);
@@ -599,8 +592,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
         poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-        poiItem.setCustomImageAutoscale(false);
         poiItem.setCustomImageAnchor(0.5f, 1.0f);
+        poiItem.setCustomImageAutoscale(true);
 
         chatMap.addPOIItem(poiItem);
 

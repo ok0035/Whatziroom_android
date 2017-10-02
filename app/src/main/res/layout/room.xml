@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:id="@+id/flRoom"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@null"
-    android:id="@+id/flRoom">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,14 +19,14 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scChatInfoParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/round_background_alpha"
-        android:weightSum="1"
-        android:id="@+id/scChatInfoParent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:weightSum="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,42 +34,42 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/llChatSchedule"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_margin="6dp"
-                android:gravity="center"
-                android:id="@+id/llChatSchedule"
-                android:weightSum="1"
                 android:background="@drawable/round_background_button"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.5"
-                    android:weightSum="1"
                     android:background="@drawable/round_background_button"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
+                        android:text="장소"
                         android:textColor="#FFFFFF"
                         android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:text="장소"/>
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvRoomChatPlace"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
-                        android:id="@+id/tvRoomChatPlace"
+                        android:text=""
                         android:textColor="#FFFFFF"
                         android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:text=""/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -78,28 +78,28 @@
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:layout_weight="0.5"
-                    android:weightSum="1"
                     android:background="@drawable/round_background_button"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
+                        android:text="일시"
                         android:textColor="#FFFFFF"
                         android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:text="일시"/>
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvRoomChatTime"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/tvRoomChatTime"
                         android:layout_weight="0.8"
+                        android:text=""
                         android:textColor="#FFFFFF"
                         android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:text=""/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -109,7 +109,7 @@
             <LinearLayout
                 android:id="@+id/llChatMapView"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="300dp"
                 android:orientation="vertical"
                 android:weightSum="1">
 
@@ -118,7 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="6dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.9"
                     android:background="@drawable/round_background_button"
                     android:padding="10dp">
 
@@ -162,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            app:ci_drawable="@color/indicatorColor"/>
+            app:ci_drawable="@color/indicatorColor" />
 
     </LinearLayout>
 
