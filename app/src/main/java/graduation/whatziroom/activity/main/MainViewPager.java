@@ -15,10 +15,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.network.DBSI;
+import graduation.whatziroom.util.GPSTracer;
 
 /**
  * Created by ATIV on 2017-06-24.
@@ -52,8 +56,10 @@ public class MainViewPager extends BaseActivity {
     public static String getUserName() {
         return UserName;
     }
-
     private static String UserName;
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     public MainViewPager() {
 
@@ -64,7 +70,6 @@ public class MainViewPager extends BaseActivity {
         profileView = new ProfileFragment();
 
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +93,8 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setUpEvents() {
         super.setUpEvents();
+
+        GPSTracer.getInstance().getLocation();
 
         DBSI db = new DBSI();
         String UserInfo[][] = db.selectQuery("select PKey, Name from User");
@@ -223,6 +230,35 @@ public class MainViewPager extends BaseActivity {
             }
         });
 
+        //여기에 본인의 UserPKey로 데이터가 추가되면 리스트갱신 등의 이벤트를 줄 수 있을 듯
+//        databaseReference.child("Notice").child(MainViewPager.getUserPKey() + "").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+////                ChatData data = dataSnapshot.getValue(ChatData.class);
+////                chatData.addItem(data);
+////                chatData.getAdapter().notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
     }
     private void changeTabColor(int position){
@@ -429,4 +465,9 @@ public class MainViewPager extends BaseActivity {
         return UserPKey;
     }
 
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+    }
 }

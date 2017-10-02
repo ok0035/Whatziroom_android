@@ -9,6 +9,7 @@ public class NoticeData {
     private String userName;
     private String srFlag;
     private String friendStatus;
+    private String firebaseStatus;
 
 
     public String getUserName() {
