@@ -44,12 +44,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private String result = "notEmpty";
 
     public static TextView tvNeedCreateSchedule;
-
-
-
     private static ListView roomInfoList;
-
-
 
 //    private ProgressDialog mProgressDialog;
 

@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import graduation.whatziroom.Data.RoomInfoData;
 import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
@@ -76,8 +75,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private android.widget.TextView tvRoomChatTime;
     private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
 
-    private String ScheduleTime, SchedulePlace;
-    private double ScheduleLongitude, ScheduleLatitude;
+    private static double ScheduleLongitude;
+    private static double ScheduleLatitude;
+    private static String ScheduleTime, SchedulePlace;
 
     private ProgressDialog mProgressDialog;
 
@@ -279,26 +279,26 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
                                     "지도 활성화중...", true);
 
-                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
                                 public void run() {
                                     updateMap();
                                 }
-                            }, 3500);
+                            });
 
                         } else {
                             llChatMapView.setVisibility(View.GONE);
-                            mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
-                                    "지도 비활성화중...", true);
-
-                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    chatMap = null;
-                                    flChatMap.removeAllViews();
-                                    mProgressDialog.dismiss();
-                                }
-                            }, 1000);
+//                            mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
+//                                    "지도 비활성화중...", true);
+//
+//                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+////                                    chatMap = null;
+////                                    flChatMap.removeAllViews();
+//                                    mProgressDialog.dismiss();
+//                                }
+//                            }, 500);
 
                         }
                     }
@@ -414,9 +414,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View v) {
 
-                flChatMap.removeAllViews();
-                chatMap = null;
                 llChatMapView.setVisibility(View.GONE);
+                chatMap = null;
+                flChatMap.removeAllViews();
 
                 dateTimeFragment.startAtCalendarView();
                 dateTimeFragment.setDefaultDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
@@ -435,6 +435,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             }
         });
 
+        updateChatMapInfo();
+
+    }
+
+    //스케줄을 생성했을때 다시 정보를 불러와야 하는데 이 작업은 RegisterScheduleDialog에서 하기 때문에 스태틱으로 할 수 밖에 없었음
+    //스태틱 함수가 너무 많은게 걱정이 되긴 하지만 현재로선 마땅한 방법도 없는 듯... 우선 이렇게 쓰기로.
+    public static void updateChatMapInfo() {
 
         Params scheduleParams = new Params();
         scheduleParams.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
@@ -453,7 +460,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     try {
 
                         JSONArray roomInfoArray = parse.parseJsonArray(response);
-                        RoomInfoData roomInfoData = new RoomInfoData();
                         JSONObject roomInfo = new JSONObject(roomInfoArray.get(0).toString());
                         Date date = transFormat.parse(roomInfo.getString("Time"));
 
@@ -463,8 +469,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         ScheduleLongitude = Double.parseDouble(roomInfo.getString("Longitude"));
                         ScheduleLatitude = Double.parseDouble(roomInfo.getString("Latitude"));
 
-                        Log.d("Longitude", ScheduleLongitude + "");
-                        Log.d("Latitude", ScheduleLatitude + "");
+//                        Log.d("Longitude", ScheduleLongitude + "");
+//                        Log.d("Latitude", ScheduleLatitude + "");
+
+                        TextView tvRoomChatTime = mActivity.findViewById(R.id.tvRoomChatTime);
+                        TextView tvRoomChatPlace = mActivity.findViewById(R.id.tvRoomChatPlace);
 
                         tvRoomChatTime.setText(ScheduleTime);
                         tvRoomChatPlace.setText(SchedulePlace);
@@ -491,9 +500,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             }
         });
 
-//        tvRoomChatTime.setText();
-
-
     }
 
     public void updateMap() {
@@ -501,37 +507,49 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //        mProgressDialog = ProgressDialog.show(RoomViewPager.mContext, "",
 //                "잠시만 기다려 주세요.", true);
 
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
+        if (chatMap != null) {
+
+            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 2, true);
+
+            if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+
+        } else {
+
+            if (mProgressDialog != null && mProgressDialog.isShowing())
+                mProgressDialog.setMessage("방 입장 후 처음 지도를 실행하시나요?\n지도를 실행하고 있습니다...");
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
                 flChatMap.removeAllViews();
                 chatMap = null;
 
-                chatMap = new MapView(RoomViewPager.mContext);
-                chatMap.setDaumMapApiKey(RoomViewPager.mContext.getResources().getString(R.string.APIKEY));
-                flChatMap.addView(chatMap);
+                    chatMap = new MapView(RoomViewPager.mContext);
+                    chatMap.setDaumMapApiKey(RoomViewPager.mContext.getResources().getString(R.string.APIKEY));
+                    flChatMap.addView(chatMap);
 
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d("맵초기화중...", ScheduleLongitude + "");
-                            Log.d("맵초기화중...", ScheduleLatitude + "");
-                            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 2, true);
-                            showPlace();
-                            mProgressDialog.dismiss();
-                        }
-                    }, 3000);
+                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                        mProgressDialog.setMessage("스케줄 정보를 가져오고 있습니다...");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
 
+                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 2, true);
+                                showPlaceMarker();
+                                mProgressDialog.dismiss();
+                            }
+                        }, 2500);
+                    }
                 }
-            }
-        });
-
+            }, 2500);
+        }
     }
 
-    private void showResult(List<MapData> itemList) {
+    private void showUserLocationMarker(List<MapData> itemList) {
         MapPointBounds mapPointBounds = new MapPointBounds();
 
         for (int i = 0; i < itemList.size(); i++) {
@@ -548,7 +566,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
             poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_blue);
             poiItem.setCustomImageAutoscale(false);
             poiItem.setCustomImageAnchor(0.5f, 1.0f);
 
@@ -565,7 +583,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         }
     }
 
-    private void showPlace() {
+    private void showPlaceMarker() {
 
         MapPointBounds mapPointBounds = new MapPointBounds();
 

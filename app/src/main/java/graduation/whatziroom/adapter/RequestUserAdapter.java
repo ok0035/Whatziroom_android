@@ -74,8 +74,8 @@ public class RequestUserAdapter extends ArrayAdapter {
             public void onClick(View view) {
 
                 Params params = new Params();
-                params.add("UserPKey", data.getUserPKey());
-                params.add("RoomPKey", data.getRoomPKey());
+                params.add("UserPKey", data.getUserPKey() + "");
+                params.add("RoomPKey", data.getRoomPKey() + "");
 
                 new HttpNetwork("AcceptUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -119,8 +119,8 @@ public class RequestUserAdapter extends ArrayAdapter {
             public void onClick(View view) {
 
                 Params params = new Params();
-                params.add("UserPKey", data.getUserPKey());
-                params.add("RoomPKey", data.getRoomPKey());
+                params.add("UserPKey", data.getUserPKey() + "");
+                params.add("RoomPKey", data.getRoomPKey() + "");
 
                 new HttpNetwork("RefuseUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override

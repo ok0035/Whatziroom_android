@@ -81,10 +81,15 @@ public class ChatAdapter extends ArrayAdapter {
             case 0:
                 tvChatMessage.setBackgroundResource(R.drawable.inbox2);
 
-                ChatNameParams.setMargins(BaseActivity.convertDPtoPX(20), 0, 0, 0);
-                ChatNameParams.gravity = Gravity.LEFT;
-                tvChatName.setLayoutParams(ChatNameParams);
-//                tvChatName.setGravity(Gravity.LEFT);
+                //만약 전 대화 기록이 본인일 경우 이름을 출력하지 않음!!
+                if(position == 0 || !mList.get(position - 1).getUserPKey().equals(data.getUserPKey())) {
+
+                    ChatNameParams.setMargins(BaseActivity.convertDPtoPX(20), 0, 0, 0);
+                    ChatNameParams.gravity = Gravity.LEFT;
+                    tvChatName.setLayoutParams(ChatNameParams);
+                    tvChatName.setVisibility(View.VISIBLE);
+
+                } else tvChatName.setVisibility(View.GONE);
 
                 llParent.setGravity(Gravity.LEFT);
                 divisionLeft.setVisibility(View.GONE);
@@ -94,10 +99,13 @@ public class ChatAdapter extends ArrayAdapter {
             case 1:
                 tvChatMessage.setBackgroundResource(R.drawable.outbox2);
 
-                ChatNameParams.setMargins(0, 0, BaseActivity.convertDPtoPX(20), 0);
-                ChatNameParams.gravity = Gravity.RIGHT;
-                tvChatName.setLayoutParams(ChatNameParams);
+//                ChatNameParams.setMargins(0, 0, BaseActivity.convertDPtoPX(20), 0);
+//                ChatNameParams.gravity = Gravity.RIGHT;
+//                tvChatName.setLayoutParams(ChatNameParams);
 //                tvChatName.setGravity(Gravity.RIGHT);
+//                카톡을 보니 본인 이름은 출력하지 않게해서 공간활용을 해서 따라하는중...
+
+                tvChatName.setVisibility(View.GONE);
 
                 llParent.setGravity(Gravity.RIGHT);
                 divisionLeft.setVisibility(View.GONE);

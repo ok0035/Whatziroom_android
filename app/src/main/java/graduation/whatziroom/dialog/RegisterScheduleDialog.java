@@ -30,7 +30,7 @@ import graduation.whatziroom.network.Params;
  * Created by mapl0 on 2017-09-24.
  */
 
-public class ScheduleNameDialog extends Dialog implements BasicMethod {
+public class RegisterScheduleDialog extends Dialog implements BasicMethod {
 
     private android.widget.EditText edScheduleName;
     private android.widget.TextView tvBtnResister;
@@ -41,7 +41,7 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
     private TextView textView;
     private EditText edScheduleDesc;
 
-    public ScheduleNameDialog(@NonNull Context context, int userPKey, int roomPKey, String date, MapData item) {
+    public RegisterScheduleDialog(@NonNull Context context, int userPKey, int roomPKey, String date, MapData item) {
         super(context);
 
         this.userPKey = userPKey;
@@ -96,6 +96,7 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
                         Log.d("RegistSchedule", response);
                         ScheduleListFragment.updateSchedule();
                         RoomInfoFragment.updateRoomInfo();
+                        RoomViewPager.updateChatMapInfo();
                         RoomInfoFragment.tvNeedCreateSchedule.setVisibility(View.GONE);
                         SearchPlaceActivity.searchActivity.finish();
                         Toast.makeText(RoomViewPager.mContext, "스케줄이 등록되었습니다.", Toast.LENGTH_SHORT).show();

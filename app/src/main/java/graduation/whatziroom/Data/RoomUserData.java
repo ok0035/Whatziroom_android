@@ -8,9 +8,10 @@ import java.util.ArrayList;
 
 public class RoomUserData {
 
-    private String RoomPKey;
-    private String UserPKey;
+    private int RoomPKey;
+    private int UserPKey;
     private String Name;
+    private String Longitude, Latitude;
     private ArrayList<RoomUserData> UserList;
 
     public ArrayList<RoomUserData> getUserList() {
@@ -26,26 +27,31 @@ public class RoomUserData {
         UserList = new ArrayList<RoomUserData>();
     }
 
-    public RoomUserData(String userPKey, String roomPKey, String name) {
+    public RoomUserData(int userPKey, int roomPKey, String name) {
 
         UserPKey = userPKey;
         RoomPKey = roomPKey;
         Name = name;
     }
 
-    public String getRoomPKey() {
+    public RoomUserData(int userPKey, double longitude, double latitude) {
+
+
+    }
+
+    public int getRoomPKey() {
         return RoomPKey;
     }
 
-    public void setRoomPKey(String roomPKey) {
+    public void setRoomPKey(int roomPKey) {
         RoomPKey = roomPKey;
     }
 
-    public String getUserPKey() {
+    public int getUserPKey() {
         return UserPKey;
     }
 
-    public void setUserPKey(String userPKey) {
+    public void setUserPKey(int userPKey) {
         UserPKey = userPKey;
     }
 
@@ -57,7 +63,7 @@ public class RoomUserData {
         Name = name;
     }
 
-    public void addItem(String userPKey, String roomPKey, String name) {
+    public void addItem(int userPKey, int roomPKey, String name) {
 
         UserList.add(new RoomUserData(userPKey, roomPKey, name));
 

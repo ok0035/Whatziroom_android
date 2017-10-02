@@ -50,7 +50,7 @@ import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.dialog.ScheduleNameDialog;
+import graduation.whatziroom.dialog.RegisterScheduleDialog;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
 import graduation.whatziroom.util.GPSTracer;
@@ -265,7 +265,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             @Override
             public void onClick(View view) {
 
-                ScheduleNameDialog dialog = new ScheduleNameDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
+                RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
                 dialog.show();
 
             }

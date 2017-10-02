@@ -90,7 +90,7 @@ public class RoomUserList extends Fragment implements BasicMethod{
 
                     for (int i = 0; i < requestUserList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(requestUserList.get(i).toString());
-                        requestUserData.addItem(jsonRoomData.getString("UserPKey"), jsonRoomData.getString("RoomPKey"), jsonRoomData.getString("Name"));
+                        requestUserData.addItem(Integer.parseInt(jsonRoomData.getString("UserPKey")), Integer.parseInt(jsonRoomData.getString("RoomPKey")), jsonRoomData.getString("Name"));
 
                         Log.d("RequestUserPKey", jsonRoomData.getString("UserPKey"));
                         Log.d("RequestUserRoomKey", jsonRoomData.getString("RoomPKey"));
@@ -138,7 +138,7 @@ public class RoomUserList extends Fragment implements BasicMethod{
 
                     for (int i = 0; i < roomUserList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(roomUserList.get(i).toString());
-                        roomUserData.addItem(jsonRoomData.getString("UserPKey"), jsonRoomData.getString("RoomPKey"), jsonRoomData.getString("Name"));
+                        roomUserData.addItem(Integer.parseInt(jsonRoomData.getString("UserPKey")), Integer.parseInt(jsonRoomData.getString("RoomPKey")), jsonRoomData.getString("Name"));
                         Log.d("RoomUserPKey", jsonRoomData.getString("UserPKey"));
                         Log.d("RoomUserRoomKey", jsonRoomData.getString("RoomPKey"));
                         Log.d("RoomUserName", jsonRoomData.getString("Name"));
