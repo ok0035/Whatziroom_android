@@ -1,9 +1,12 @@
 package graduation.whatziroom.activity.main;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +26,7 @@ import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.util.GPSTracer;
+import graduation.whatziroom.util.LocationService;
 
 /**
  * Created by ATIV on 2017-06-24.
@@ -60,6 +64,26 @@ public class MainViewPager extends BaseActivity {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+    private LocationService locationService;
+    private boolean isBind;
+
+    ServiceConnection sconn = new ServiceConnection() {
+        @Override //서비스가 실행될 때 호출
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocationService.LocationBinder locationBinder = (LocationService.LocationBinder) service;
+            locationService = locationBinder.getService();
+            isBind = true;
+            Log.e("LOG", "onServiceConnected()");
+        }
+
+        @Override //서비스가 종료될 때 호출 그러나 강제 종료가 된경우 혹은 충돌이 일어날때만 간헐적으로 실행된다고 함. 이부분은 직접 체크해주어야 한다.
+        public void onServiceDisconnected(ComponentName name) {
+            locationService = null;
+            isBind = false;
+            Log.e("LOG", "onServiceDisconnected()");
+        }
+    };
 
     public MainViewPager() {
 
@@ -259,6 +283,17 @@ public class MainViewPager extends BaseActivity {
 //
 //            }
 //        });
+
+        Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
+
+//        startService(locationIntent);
+        bindService(locationIntent, sconn, BIND_AUTO_CREATE);
+
+        if(locationService != null) {
+            Log.d("ServiceLongitude", locationService.longitude + "");
+            Log.d("ServiceLatitude", locationService.latitude + "");
+        }
+
 
     }
     private void changeTabColor(int position){
