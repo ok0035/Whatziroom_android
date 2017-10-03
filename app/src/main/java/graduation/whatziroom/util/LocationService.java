@@ -1,5 +1,7 @@
 package graduation.whatziroom.util;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +10,16 @@ import android.location.LocationListener;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
+
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 
 import static graduation.whatziroom.activity.base.BaseActivity.mContext;
 
@@ -51,6 +57,25 @@ public class LocationService extends Service {
     public void onCreate() {
         Log.e("LOG", "onCreate()");
 
+        unregisterRestartAlarm();
+
+        new HttpNetwork("", new Params().getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
+
         getLocation();
 
         super.onCreate();
@@ -60,7 +85,7 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("LOG", "onStartCommand()");
         //서비스가 시작되면 이곳에 도착한다.
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
@@ -68,21 +93,23 @@ public class LocationService extends Service {
         Log.e("LOG", "onDestroy()");
         //서비스가 종료되면 다시 서비스를 재요청해서 백그라운드에 계속 살아남게 한다.
         //찾아본 결과 앱 정보에서 강제 정지하면 이 부분이 안먹힌다고 한다. 완전한 좀비는 아니라는 것...
-        sendBroadcast(new Intent("gogogo"));
+//        sendBroadcast(new Intent("LocationReceiver"));
+        registerRestartAlarm();
         super.onDestroy();
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.e("LOG", "onUnbind()");
         //언바운드되면 다시 서비스를 재요청해서 백그라운드에 계속 살아남게 한다.
-        sendBroadcast(new Intent("LocationReceiver"));
+        Log.e("LOG", "onUnbind()");
+        registerRestartAlarm();
+
         return super.onUnbind(intent);
     }
 
     public void getLocation() {
 
-        locationManager = (android.location.LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (android.location.LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         boolean isGPSEnabled = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
         boolean isNetworkEnabled = locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER);
@@ -127,7 +154,7 @@ public class LocationService extends Service {
 
             for (String name : m_lstProviders) {
 
-                locationManager.requestLocationUpdates(name, 10000, 0, locationListener);
+                locationManager.requestLocationUpdates(name, 5000, 0, locationListener);
             }
 
             new Runnable() {
@@ -147,6 +174,47 @@ public class LocationService extends Service {
             mContext.startActivity(intent);
 
         }
+    }
+
+//    private void function() {
+//
+//        Log.d(TAG, "========================");
+//        Log.d(TAG, "function()");
+//        Log.d(TAG, "========================");
+//
+//    }
+
+    /**
+     * 서비스가 시스템에 의해서 또는 강제적으로 종료되었을 때 호출되어
+     * 알람을 등록해서 10초 후에 서비스가 실행되도록 한다.
+     */
+    private void registerRestartAlarm() {
+
+        Log.d("LocationService", "registerRestartAlarm()");
+
+        Intent intent = new Intent(LocationService.this, LocationReceiver.class);
+        intent.setAction("LocationReceiver");
+        PendingIntent sender = PendingIntent.getBroadcast(LocationService.this, 0, intent, 0);
+
+        long firstTime = SystemClock.elapsedRealtime();
+        firstTime += 10000; // 10초 후에 알람이벤트 발생
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 6000, sender);
+    }
+
+    /**
+     * 기존 등록되어있는 알람을 해제한다.
+     */
+    private void unregisterRestartAlarm() {
+
+        Log.d("PersistentService", "unregisterRestartAlarm()");
+        Intent intent = new Intent(LocationService.this, LocationReceiver.class);
+        intent.setAction("LocationReceiver");
+        PendingIntent sender = PendingIntent.getBroadcast(LocationService.this, 0, intent, 0);
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.cancel(sender);
     }
 
 }
