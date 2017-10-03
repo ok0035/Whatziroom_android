@@ -120,6 +120,7 @@ public class NoticeAdapter extends ArrayAdapter {
                 });
 
 
+
             }
         });
 
@@ -128,8 +129,6 @@ public class NoticeAdapter extends ArrayAdapter {
             public void onClick(View v) {
 
                 if(mList.get(position).getSrFlag().equals("receive")){
-
-
                     Params params = new Params();
                     params.add("FriendPKey", mList.get(position).getFriendPKey());
                     params.add("Status","2");

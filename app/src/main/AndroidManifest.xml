@@ -34,6 +34,15 @@
         <activity android:name=".activity.room.RegisterSchedule"/>
         <activity android:name=".activity.main.MainViewPager"/>
 
+        <service android:name=".util.LocationService"></service>
+
+        <receiver
+            android:name=".util.LocationReceiver" >
+            <intent-filter >
+                <action android:name="LocationReceiver" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

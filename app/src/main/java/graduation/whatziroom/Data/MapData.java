@@ -11,21 +11,21 @@ import graduation.whatziroom.adapter.SearchAdapter;
  * Created by mapl0 on 2017-09-20.
  */
 
-public class SearchPlaceData {
+public class MapData {
 
 	private String imageUrl, title, address, newAddress, zipcode, phone, category, direction, id, placeUrl, addressBCode;
 	private double longitude, latitude, distance;
 	private SearchAdapter adapter;
-	private ArrayList<SearchPlaceData> searchList;
+	private ArrayList<MapData> searchList;
 
-	public SearchPlaceData() {
-		searchList = new ArrayList<SearchPlaceData>();
-//		adapter = new SearchAdapter(SearchPlaceActivity.searchActivity, searchList);
+	public MapData() {
+		searchList = new ArrayList<MapData>();
+		adapter = new SearchAdapter(SearchPlaceActivity.searchActivity, searchList);
 
 	}
 
-	public SearchPlaceData(String imageUrl, String title, String address, String newAddress, String zipcode, String phone, String category,
-                           double longitude, double latitude, double distance, String direction, String id, String placeUrl, String addressBCode) {
+	public MapData(String imageUrl, String title, String address, String newAddress, String zipcode, String phone, String category,
+                   double longitude, double latitude, double distance, String direction, String id, String placeUrl, String addressBCode) {
 
 		setImageUrl(imageUrl);
 		setTitle(title);
@@ -41,6 +41,14 @@ public class SearchPlaceData {
 		setId(id);
 		setPlaceUrl(placeUrl);
 		setAddressBCode(addressBCode);
+
+	}
+
+	public MapData(String title, double longitude, double latitude) {
+
+		setTitle(title);
+		setLongitude(longitude);
+		setLatitude(latitude);
 
 	}
 
@@ -153,10 +161,10 @@ public class SearchPlaceData {
 		this.adapter = adapter;
 	}
 
-	public ArrayList<SearchPlaceData> getSearchList() {
+	public ArrayList<MapData> getSearchList() {
 		return searchList;
 	}
-	public void setSearchList(ArrayList<SearchPlaceData> searchList) {
+	public void setSearchList(ArrayList<MapData> searchList) {
 		this.searchList = searchList;
 	}
 
@@ -165,7 +173,7 @@ public class SearchPlaceData {
 
 		Log.d("PlaceURL", placeUrl + ".");
 
-		searchList.add(new SearchPlaceData(imageUrl, title, address, newAddress, zipcode, phone, category, longitude, latitude, distance, direction, id, placeUrl, addressBCode));
+		searchList.add(new MapData(imageUrl, title, address, newAddress, zipcode, phone, category, longitude, latitude, distance, direction, id, placeUrl, addressBCode));
 
 	}
 }

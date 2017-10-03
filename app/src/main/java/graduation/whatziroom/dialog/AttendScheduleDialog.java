@@ -68,6 +68,7 @@ public class AttendScheduleDialog extends Dialog implements BasicMethod {
                         switch (response) {
 
                             case "success":
+
                                 RoomInfoFragment.updateRoomInfo();
                                 ScheduleListFragment.updateSchedule();
                                 Toast.makeText(mContext, "참석이 확정되었습니다.", Toast.LENGTH_SHORT).show();

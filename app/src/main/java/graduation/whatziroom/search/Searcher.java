@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import graduation.whatziroom.Data.SearchPlaceData;
+
+import graduation.whatziroom.Data.MapData;
 
 public class Searcher {
     // http://dna.daum.net/apis/local
@@ -61,7 +62,8 @@ public class Searcher {
 			header.put(HEADER_NAME_X_APPID, appId);
 			header.put(HEADER_NAME_X_PLATFORM, HEADER_VALUE_X_PLATFORM_ANDROID);
 			String json = fetchData(url, header);
-			List<SearchPlaceData> itemList = parse(json);
+
+			List<MapData> itemList = parse(json);
 			if (onFinishSearchListener != null) {
 				if (itemList == null) {
 					onFinishSearchListener.onFail();
@@ -147,15 +149,18 @@ public class Searcher {
 		}
 	}
     
-	private List<SearchPlaceData> parse(String jsonString) {
-		List<SearchPlaceData> itemList = new ArrayList<SearchPlaceData>();
+
+	private List<MapData> parse(String jsonString) {
+		List<MapData> itemList = new ArrayList<MapData>();
 		try {
 			JSONObject reader = new JSONObject(jsonString);
 			JSONObject channel = reader.getJSONObject("channel");
 			JSONArray objects = channel.getJSONArray("item");
 			for (int i = 0; i < objects.length(); i++) {
 				JSONObject object = objects.getJSONObject(i);
-				SearchPlaceData item = new SearchPlaceData();
+
+				MapData item = new MapData();
+
 				item.setTitle(object.getString("title"));
 				item.setImageUrl(object.getString("imageUrl"));
 				item.setAddress(object.getString("address"));

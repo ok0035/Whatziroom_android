@@ -14,20 +14,19 @@
         <LinearLayout
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:layout_height="match_parent">
 
-            <TextView
+            <ImageView
                 android:id="@+id/btnRoomExit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="나가기"
-                android:textColor="#FFFFFF"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start"
                 android:textSize="14dp"
                 android:layout_marginLeft="5dp"
                 android:padding="4dp"
-                android:background="@drawable/back_actionbar"/>
+                android:src="@drawable/outroom"/>
+
 
         </LinearLayout>
 
@@ -42,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="새 스케줄"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorTxtRoomActionbar"
+
                 android:textSize="14dp"
                 android:layout_marginRight="5dp"
                 android:padding="4dp"
@@ -50,11 +50,10 @@
 
             <ImageView
                 android:id="@+id/btnRoomSetting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:text="설정"
-                android:textColor="#FFFFFF"
+
                 android:padding="4dp"
                 android:textSize="14dp"
                 android:src="@mipmap/btn_setting"

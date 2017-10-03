@@ -16,21 +16,17 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-import graduation.whatziroom.Data.SearchPlaceData;
+import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.room.SearchPlaceActivity;
-
-/**
- * Created by mapl0 on 2017-09-20.
- */
 
 public class SearchAdapter extends ArrayAdapter {
 
     LayoutInflater inf = null;
     Context mContext = null;
-    ArrayList<SearchPlaceData> searchList = null;
+    ArrayList<MapData> searchList = null;
 
-    public SearchAdapter(@NonNull Context context, ArrayList<SearchPlaceData> list) {
+    public SearchAdapter(@NonNull Context context, ArrayList<MapData> list) {
         super(context, R.layout.search_list_item, list);
         mContext = context;
         searchList = list;
@@ -46,7 +42,7 @@ public class SearchAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.search_list_item, null);
         }
 
-        SearchPlaceData data = searchList.get(position);
+        MapData data = searchList.get(position);
 
         TextView tvTitle = row.findViewById(R.id.tvSearchTitle);
         TextView tvAddress = row.findViewById(R.id.tvSearchAddress);

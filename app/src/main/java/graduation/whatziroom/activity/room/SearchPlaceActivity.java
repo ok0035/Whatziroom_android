@@ -46,11 +46,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import graduation.whatziroom.Data.SearchPlaceData;
+import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.dialog.ScheduleNameDialog;
+import graduation.whatziroom.dialog.RegisterScheduleDialog;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
 import graduation.whatziroom.util.GPSTracer;
@@ -60,12 +60,12 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private static final String LOG_TAG = "Sea";
 
     private MapView mMapView;
-    private HashMap<Integer, SearchPlaceData> mTagItemMap = new HashMap<Integer, SearchPlaceData>();
+    private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
     ProgressDialog mProgressDialog;
     private ListView lvSearchList;
 
     public static Activity searchActivity;
-    private SearchPlaceData searchData, selectedData;
+    private MapData searchData, selectedData;
     private android.widget.LinearLayout llSlideMain;
     private ImageView ivSearchResult;
     private android.widget.LinearLayout llSlideSub;
@@ -155,7 +155,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 Searcher searcher = new Searcher(); // net.daum.android.map.openapi.search.Searcher
                 searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                     @Override
-                    public void onSuccess(final List<SearchPlaceData> itemList) {
+                    public void onSuccess(final List<MapData> itemList) {
                         mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
                         showResult(itemList); // 검색 결과 보여줌
 
@@ -167,11 +167,11 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
                                 mMapView.setVisibility(View.INVISIBLE);
 
-                                searchData = new SearchPlaceData();
+                                searchData = new MapData();
 
                                 for (int i = 0; i < itemList.size(); i++) {
 
-                                    SearchPlaceData data = itemList.get(i);
+                                    MapData data = itemList.get(i);
                                     searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
                                             data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
                                 }
@@ -195,7 +195,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                SearchPlaceData data = searchData.getSearchList().get(i);
+                MapData data = searchData.getSearchList().get(i);
                 Log.d("MarkerPoint", data.getTitle());
 
 
@@ -265,7 +265,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             @Override
             public void onClick(View view) {
 
-                ScheduleNameDialog dialog = new ScheduleNameDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
+                RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
                 dialog.show();
 
             }
@@ -299,7 +299,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         @Override
         public View getCalloutBalloon(MapPOIItem poiItem) {
             if (poiItem == null) return null;
-            SearchPlaceData item = mTagItemMap.get(poiItem.getTag());
+            MapData item = mTagItemMap.get(poiItem.getTag());
             if (item == null) return null;
             ImageView imageViewBadge = mCalloutBalloon.findViewById(R.id.badge);
             TextView textViewTitle = mCalloutBalloon.findViewById(R.id.title);
@@ -355,7 +355,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
                     searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                         @Override
-                        public void onSuccess(final List<SearchPlaceData> itemList) {
+
+                        public void onSuccess(final List<MapData> itemList) {
                             showResult(itemList);
                         }
 
@@ -396,11 +397,11 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         });
     }
 
-    private void showResult(List<SearchPlaceData> itemList) {
+    private void showResult(List<MapData> itemList) {
         MapPointBounds mapPointBounds = new MapPointBounds();
 
         for (int i = 0; i < itemList.size(); i++) {
-            SearchPlaceData item = itemList.get(i);
+            MapData item = itemList.get(i);
 
             MapPOIItem poiItem = new MapPOIItem();
             poiItem.setItemName(item.getTitle());
@@ -408,10 +409,12 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.getLatitude(), item.getLongitude());
             poiItem.setMapPoint(mapPoint);
             mapPointBounds.add(mapPoint);
-            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
-//            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
-            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-//            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+//            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
+            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+//            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
             poiItem.setCustomImageAutoscale(false);
             poiItem.setCustomImageAnchor(0.5f, 1.0f);
 
@@ -451,7 +454,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
 
-//        SearchData item = mTagItemMap.get(mapPOIItem.getTag());
+//        SearchPlaceData item = mTagItemMap.get(mapPOIItem.getTag());
 //        StringBuilder sb = new StringBuilder();
 //        sb.append("title=").append(item.getTitle()).append("\n");
 //        sb.append("imageUrl=").append(item.getImageUrl()).append("\n");
@@ -483,7 +486,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
 
         mapView.setMapCenterPoint(mapPOIItem.getMapPoint(), true);
-        SearchPlaceData data = searchData.getSearchList().get(mapPOIItem.getTag());
+        MapData data = searchData.getSearchList().get(mapPOIItem.getTag());
         Glide.with(this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
 
         tvSearchResultTitle.setText(data.getTitle());

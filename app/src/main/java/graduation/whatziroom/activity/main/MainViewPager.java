@@ -1,9 +1,14 @@
 package graduation.whatziroom.activity.main;
 
+
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
+
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,10 +20,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.network.DBSI;
+import graduation.whatziroom.util.LocationService;
+
 
 /**
  * Created by ATIV on 2017-06-24.
@@ -55,6 +66,31 @@ public class MainViewPager extends BaseActivity {
 
     private static String UserName;
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+    private LocationService locationService;
+    private boolean isBind = false;
+
+    ServiceConnection sconn = new ServiceConnection() {
+        @Override //서비스가 실행될 때 호출
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocationService.LocationBinder locationBinder = (LocationService.LocationBinder) service;
+            locationService = locationBinder.getService();
+            Log.d("ServiceLongitude", locationService.longitude + "");
+            isBind = true;
+            Log.e("LOG", "onServiceConnected()");
+        }
+
+        @Override //서비스가 종료될 때 호출 그러나 강제 종료가 된경우 혹은 충돌이 일어날때만 간헐적으로 실행된다고 함. 이부분은 직접 체크해주어야 한다.
+        public void onServiceDisconnected(ComponentName name) {
+            locationService = null;
+            isBind = false;
+            Log.e("LOG", "onServiceDisconnected()");
+        }
+    };
+
+
     public MainViewPager() {
 
         friendListView = new FriendListFragment();
@@ -63,7 +99,14 @@ public class MainViewPager extends BaseActivity {
         notificationListView = new NotificationListFragment();
         profileView = new ProfileFragment();
 
+        DBSI db = new DBSI();
+        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
+        UserPKey = Integer.parseInt(UserInfo[0][0]);
+        UserName = UserInfo[0][1];
+
     }
+
+//    public boolean isBind = false;
 
 
     @Override
@@ -89,17 +132,17 @@ public class MainViewPager extends BaseActivity {
     public void setUpEvents() {
         super.setUpEvents();
 
-        DBSI db = new DBSI();
-        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
-        UserPKey = Integer.parseInt(UserInfo[0][0]);
-        UserName = UserInfo[0][1];
+//        GPSTracer.getInstance().getLocation();
+
+
         Log.d("UserPKeyMain", UserPKey + "");
 
                 /*
         *   버튼 클릭 시 페이지 이동
         *   movePageListener 에서 페이지 이동 시 이벤트 구현
         */
-        
+
+
         linFriend.setOnClickListener(movePageListener);
         linFriend.setTag(0);
         linRoomBtn.setOnClickListener(movePageListener);
@@ -139,10 +182,11 @@ public class MainViewPager extends BaseActivity {
 
                 int tag = vp.getCurrentItem();
 
-                if(tag==position) changeTabColor(position);
-                Log.i("Position", " "+position);
-                Log.i("Fragment : ", getSupportFragmentManager().findFragmentById(R.id.vp)+"");
-                switch (position){
+                if (tag == position) changeTabColor(position);
+                Log.i("Position", " " + position);
+                Log.i("Fragment : ", getSupportFragmentManager().findFragmentById(R.id.vp) + "");
+                switch (position) {
+
 
                     case 0:
                         titleTxt.setText("친구목록");
@@ -195,7 +239,8 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("설정");
 //                        configTxt2.setText("");
                         configTxt2.setImageResource(R.mipmap.btn_setting);
-                        configTxt2.setOnClickListener(configProfilListener );
+                        configTxt2.setOnClickListener(configProfilListener);
+
                         break;
 
                 }
@@ -207,7 +252,7 @@ public class MainViewPager extends BaseActivity {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     int position = vp.getCurrentItem();
 
-                    switch(position) {
+                    switch (position) {
                         case 1:
                             RoomListFragment.updateRoom();
                             break;
@@ -217,25 +262,69 @@ public class MainViewPager extends BaseActivity {
                     }
 
                     // 원하는 페이지에 맞게 조건
-                    InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
                     im.hideSoftInputFromWindow(vp.getWindowToken(), 0);
                 }
             }
         });
 
+        //여기에 본인의 UserPKey로 데이터가 추가되면 리스트갱신 등의 이벤트를 줄 수 있을 듯
+//        databaseReference.child("Notice").child(MainViewPager.getUserPKey() + "").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+////                ChatData data = dataSnapshot.getValue(ChatData.class);
+////                chatData.addItem(data);
+////                chatData.getAdapter().notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        if (!isBind) {
+
+//            Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
+
+            startService(new Intent(MainViewPager.this, LocationService.class));
+            bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);
+            isBind = true;
+        }
 
     }
-    private void changeTabColor(int position){
+
+
+    private void changeTabColor(int position) {
+
 
         ll.findViewWithTag(position).setSelected(true);
         ll.findViewWithTag(position).setBackgroundResource(R.drawable.round_background_main);
 
-        for(int i=0; i<5; i++) {
+        for (int i = 0; i < 5; i++) {
+
 
             LinearLayout layout = ll.findViewWithTag(i);
             TextView textView = (TextView) layout.getChildAt(0);
 
-            if(i != position) {
+            if (i != position) {
+
 
                 ll.findViewWithTag(i).setSelected(false);
                 ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background);
@@ -248,30 +337,26 @@ public class MainViewPager extends BaseActivity {
 
     }
 
-
-
     // 프래그먼트간 페이지 이동
-    View.OnClickListener movePageListener = new View.OnClickListener()
-    {
+    View.OnClickListener movePageListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
+
             int tag = (int) v.getTag();
             vp.setCurrentItem(tag);
 
             int i = 0;
-            while(i<5)
-            {
-                if(tag==i)
-                {
+
+            while (i < 5) {
+                if (tag == i) {
+
                     LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(true);
                     ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background_main);
                     TextView textView = (TextView) (layout.getChildAt(0));
                     textView.setTextColor(Color.WHITE);
-                }
-                else
-                {
+                } else {
+
                     LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(false);
                     ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background);
@@ -379,7 +464,8 @@ public class MainViewPager extends BaseActivity {
     View.OnClickListener editFriendClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.i("버튼 클릭","ㅇㅇㅇ");
+            Log.i("버튼 클릭", "ㅇㅇㅇ");
+//            FriendListFragment friendListView = (FriendListFragment) getSupportFragmentManager().findFragmentByTag("1");
 
             friendListView.showBlockBtn();
         }
@@ -427,6 +513,14 @@ public class MainViewPager extends BaseActivity {
 
     public static int getUserPKey() {
         return UserPKey;
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(sconn);
+        isBind = false;
+        locationService = null;
+        super.onDestroy();
     }
 
 }

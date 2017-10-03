@@ -5,7 +5,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 
-import graduation.whatziroom.Data.FriendData;
 
 /**
  * Created by mapl0 on 2017-09-08.
@@ -21,6 +20,10 @@ public class Params {
 
     public void add(String key, String value) {
         params.add(new BasicNameValuePair(key, value));
+    }
+
+    public void InitParams() {
+        params.clear();
     }
 
     public ArrayList<NameValuePair> getParams() {
