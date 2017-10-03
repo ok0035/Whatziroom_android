@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/logo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.1"
+            android:background="@drawable/button_border">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="end|center_vertical"
+                android:textSize="15dp"
+                android:text="아이디" />
+
+            <EditText
+                android:id="@+id/edSignupID"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.1"
+            android:background="@drawable/button_border">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="end|center_vertical"
+                android:textSize="15dp"
+                android:text="이름" />
+
+            <EditText
+                android:id="@+id/edSignupName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.1"
+            android:background="@drawable/button_border">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="end|center_vertical"
+                android:textSize="15dp"
+                android:text="이메일" />
+
+            <EditText
+                android:id="@+id/edSignupEmail"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.1"
+
+            android:background="@drawable/button_border">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="end|center_vertical"
+                android:textSize="15dp"
+                android:text="비밀번호" />
+
+            <EditText
+                android:id="@+id/edSignupPW"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:singleLine="true"
+                android:inputType="textPassword"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.1"
+            android:background="@drawable/button_border">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="end|center_vertical"
+                android:textSize="15dp"
+                android:text="비밀번호 확인"
+                />
+
+            <EditText
+                android:id="@+id/edSignupCheckPW"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:singleLine="true"
+                android:inputType="textPassword"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="0.12">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.45"
+                android:background="@drawable/button_border"
+                android:gravity="center"
+                android:id="@+id/tvCancelSignup"
+                android:textSize="22dp"
+                android:text="취소하기" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.03" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.45"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:id="@+id/tvSaveSignup"
+                android:text="저장하기"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:textSize="22dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#E55C6C</color>
+    <color name="mainTxtColor"> #EB9096</color>
+    <color name="colorActionBar"> #EFDAC9</color>
+    <color name="colorBeige">#c0c0c0</color>
+    <color name="sColor"> #BAB0A4 </color>
+    <color name="mTitleColor"> #d8b6ba </color>
+    <color name="indicatorColor"> #66000000 </color>
+    <color name="colorBlue"> #297299 </color>
+    <color name="colorTransparent">#00FFFFFF</color>
+
+</resources>

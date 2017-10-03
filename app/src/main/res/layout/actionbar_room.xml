@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainTxtColor"
+    android:padding="0dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/btnRoomExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="나가기"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp"
+                android:layout_marginLeft="5dp"
+                android:padding="4dp"
+                android:background="@drawable/back_actionbar"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/btnRoomSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="새 스케줄"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp"
+                android:layout_marginRight="5dp"
+                android:padding="4dp"
+                android:background="@drawable/back_actionbar"/>
+
+            <ImageView
+                android:id="@+id/btnRoomSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="설정"
+                android:textColor="#FFFFFF"
+                android:padding="4dp"
+                android:textSize="14dp"
+                android:src="@mipmap/btn_setting"
+                android:layout_marginRight="5dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>
