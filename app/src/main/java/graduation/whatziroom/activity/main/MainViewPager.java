@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,10 +22,15 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.network.DBSI;
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.LocationService;
 
 /**
@@ -94,11 +100,6 @@ public class MainViewPager extends BaseActivity {
         notificationListView = new NotificationListFragment();
         profileView = new ProfileFragment();
 
-        DBSI db = new DBSI();
-        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
-        UserPKey = Integer.parseInt(UserInfo[0][0]);
-        UserName = UserInfo[0][1];
-
     }
 
 //    public boolean isBind = false;
@@ -127,6 +128,10 @@ public class MainViewPager extends BaseActivity {
         super.setUpEvents();
 
 //        GPSTracer.getInstance().getLocation();
+        DBSI db = new DBSI();
+        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
+        UserPKey = Integer.parseInt(UserInfo[0][0]);
+        UserName = UserInfo[0][1];
 
         Log.d("UserPKeyMain", UserPKey + "");
 
@@ -296,6 +301,45 @@ public class MainViewPager extends BaseActivity {
             bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);
             isBind = true;
         }
+
+        //서비스에서 객체를 받는데 시간이 걸리므로 postDelayed로 실행해주고 timer로 지속적으로 위치를 업데이트해준다.
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Timer timer = new Timer();
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Log.d("위치 확인, 경도", locationService.longitude + "");
+                        Log.d("위치 확인, 위도", locationService.latitude + "");
+
+                        Params params = new Params();
+                        params.add("UserPKey", MainViewPager.getUserPKey() + "");
+                        params.add("Longitude", locationService.longitude + "");
+                        params.add("Latitude", locationService.latitude + "");
+
+                        new HttpNetwork("UpdateUserLocation.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                Log.d("LocationNetwork", response);
+                            }
+
+                            @Override
+                            public void onFailure(String response) {
+
+                            }
+
+                            @Override
+                            public void onPreExcute() {
+
+                            }
+                        });
+                    }
+                };
+
+                timer.schedule(task, 0, 5000);
+
+            }},3000);
 
     }
 

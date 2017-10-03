@@ -208,6 +208,7 @@ public class LocationService extends Service {
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 6000, sender);
 
+        //앱이 종료되면 바로 다시 앱 실행~!
         Intent dialogIntent = new Intent(this, SplashActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
