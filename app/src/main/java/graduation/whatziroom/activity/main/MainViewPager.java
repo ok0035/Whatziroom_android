@@ -94,6 +94,11 @@ public class MainViewPager extends BaseActivity {
         notificationListView = new NotificationListFragment();
         profileView = new ProfileFragment();
 
+        DBSI db = new DBSI();
+        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
+        UserPKey = Integer.parseInt(UserInfo[0][0]);
+        UserName = UserInfo[0][1];
+
     }
 
 //    public boolean isBind = false;
@@ -123,10 +128,6 @@ public class MainViewPager extends BaseActivity {
 
 //        GPSTracer.getInstance().getLocation();
 
-        DBSI db = new DBSI();
-        String UserInfo[][] = db.selectQuery("select PKey, Name from User");
-        UserPKey = Integer.parseInt(UserInfo[0][0]);
-        UserName = UserInfo[0][1];
         Log.d("UserPKeyMain", UserPKey + "");
 
                 /*

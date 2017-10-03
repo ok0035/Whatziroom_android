@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import graduation.whatziroom.activity.base.SplashActivity;
+import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -56,6 +58,10 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         Log.e("LOG", "onCreate()");
+
+        int PKey = MainViewPager.getUserPKey();
+
+        Log.d("서비스에서 로컬디비 접근", PKey + "");
 
         unregisterRestartAlarm();
 
@@ -201,6 +207,10 @@ public class LocationService extends Service {
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 6000, sender);
+
+        Intent dialogIntent = new Intent(this, SplashActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
     }
 
     /**
