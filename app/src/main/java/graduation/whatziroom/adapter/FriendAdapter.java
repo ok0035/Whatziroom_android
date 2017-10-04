@@ -172,7 +172,6 @@ public class FriendAdapter extends ArrayAdapter {
 //                Toast.makeText(mContext, "전송완료", Toast.LENGTH_SHORT).show();
                 if(mList.get(position).getFreindStatus().equals("send_wating")){
                     Toast.makeText(mContext, "이미 친구 요청을 보낸 유저입니다.", Toast.LENGTH_SHORT).show();
-
                 }else if(mList.get(position).getFreindStatus().equals("receive_wating")){
                     Toast.makeText(mContext, "상대방이 친구 요청을 요구했습니다. \n 알림창을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }

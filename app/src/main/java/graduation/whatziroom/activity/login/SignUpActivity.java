@@ -71,7 +71,6 @@ public class SignUpActivity extends BaseActivity {
 
     public void trySignUp() {
 
-
         new AsyncTask<Void, Void, Void>() {
 
             String fcbToken;
