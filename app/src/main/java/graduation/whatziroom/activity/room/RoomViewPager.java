@@ -629,40 +629,71 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                         showPlaceMarker();
 
-                        MapPointBounds mapPointBounds = new MapPointBounds();
-                        for (int i = 0; i < attendUserList.size(); i++) {
-                            UserData item = attendUserList.get(i);
-
+                        try {
+                            MapPointBounds mapPointBounds = new MapPointBounds();
                             MapPOIItem poiItem = new MapPOIItem();
-                            poiItem.setItemName(item.getName());
-                            poiItem.setTag(i);
-                            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(Double.parseDouble(item.getLatitude()), Double.parseDouble(item.getLongitude()));
-                            poiItem.setMapPoint(mapPoint);
+
+                            poiItem.setItemName(SchedulePlace);
+                            poiItem.setTag(0);
+                            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude);
                             mapPointBounds.add(mapPoint);
+                            poiItem.setMapPoint(mapPoint);
 //            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
                             poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-                            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+                            poiItem.setCustomImageResourceId(R.drawable.map_pin_red);
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
                             poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-                            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_blue);
+                            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
                             poiItem.setCustomImageAnchor(0.5f, 1.0f);
                             poiItem.setCustomImageAutoscale(true);
 
                             chatMap.addPOIItem(poiItem);
 
-                            //이것의 정확한 사용처를 아직 잘 모르겠음
-                            mTagItemMap.put(poiItem.getTag(), item);
+                            for (int i = 0; i < attendUserList.size(); i++) {
+                                UserData item = attendUserList.get(i);
 
-                        }
+                                try {
 
-                        if(!isMove) {
-                            chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
-                            isMove = true;
-                        }
+                                    //위치가 0일때는 마커를 찍지 않고 제대로 위치를 불러왔을 때 마커를 찍어주자
+                                    if(item.getLatitude().equals("0") || item.getLongitude().equals("0")) continue;
 
-                        MapPOIItem[] poiItems = chatMap.getPOIItems();
-                        if (poiItems.length > 0) {
-                            chatMap.selectPOIItem(poiItems[0], false);
+                                    poiItem.setItemName(item.getName());
+                                    poiItem.setTag(i + 1);
+                                    mapPoint = MapPoint.mapPointWithGeoCoord(Double.parseDouble(item.getLatitude()), Double.parseDouble(item.getLongitude()));
+                                    poiItem.setMapPoint(mapPoint);
+                                    mapPointBounds.add(mapPoint);
+//            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                                    poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+                                    poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+//            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                                    poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+                                    poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_blue);
+                                    poiItem.setCustomImageAnchor(0.5f, 1.0f);
+                                    poiItem.setCustomImageAutoscale(true);
+
+                                    chatMap.addPOIItem(poiItem);
+
+                                    //이것의 정확한 사용처를 아직 잘 모르겠음
+                                    mTagItemMap.put(poiItem.getTag(), item);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            //최초 한번만 위치를 약속장소로 옮기고 선택해준다.
+                            if(!isMove) {
+                                chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+
+                                MapPOIItem[] poiItems = chatMap.getPOIItems();
+                                if (poiItems.length > 0) {
+                                    chatMap.selectPOIItem(poiItems[0], false);
+                                }
+                                isMove = true;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                     } catch (JSONException e) {
@@ -688,24 +719,28 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     private void showPlaceMarker() {
 
-        MapPointBounds mapPointBounds = new MapPointBounds();
+        try {
 
-        MapPOIItem poiItem = new MapPOIItem();
-        poiItem.setItemName(SchedulePlace);
-        poiItem.setTag(0);
-        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude);
-        poiItem.setMapPoint(mapPoint);
-        mapPointBounds.add(mapPoint);
+            MapPOIItem poiItem = new MapPOIItem();
+            poiItem.setItemName(SchedulePlace);
+            poiItem.setTag(0);
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude);
+            poiItem.setMapPoint(mapPoint);
 //            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        poiItem.setCustomImageResourceId(R.drawable.map_pin_red);
+            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomImageResourceId(R.drawable.map_pin_red);
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-        poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-        poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-        poiItem.setCustomImageAnchor(0.5f, 1.0f);
-        poiItem.setCustomImageAutoscale(true);
+            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
+            poiItem.setCustomImageAnchor(0.5f, 1.0f);
+            poiItem.setCustomImageAutoscale(true);
 
-        chatMap.addPOIItem(poiItem);
+            chatMap.addPOIItem(poiItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
 //        chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
 
@@ -860,5 +895,19 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if(traceLocationTimer != null) {
+            traceLocationTimer.cancel();
+            traceLocationTimer = null;
+        }
+
+        flChatMap.removeAllViews();
+        chatMap = null;
+
+        super.onDestroy();
     }
 }

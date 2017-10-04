@@ -15,6 +15,8 @@ import graduation.whatziroom.R;
 import graduation.whatziroom.activity.login.LoginActivity;
 import graduation.whatziroom.network.DBSI;
 
+import static graduation.whatziroom.activity.main.MainViewPager.CheckLocationTimer;
+
 /**
  * Created by ATIV on 2017-06-25.
  */
@@ -75,6 +77,11 @@ public class ProfileFragment extends Fragment {
         signoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(CheckLocationTimer != null) {
+                    CheckLocationTimer.cancel();
+                    CheckLocationTimer = null;
+                }
 
                 DBSI db = new DBSI();
                 db.query("delete from User");

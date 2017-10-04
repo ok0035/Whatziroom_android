@@ -13,12 +13,17 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
-import graduation.whatziroom.activity.base.SplashActivity;
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 
 import static graduation.whatziroom.activity.base.BaseActivity.mContext;
 
@@ -51,30 +56,69 @@ public class LocationService extends Service {
         Log.e("LOG", "onBind()");
         //앱에서 서비스를 사용할때 호출된다.
         //이곳이 호출되어야 액티비티에 값을 전달 할 수 있다.
+
         return mIBinder;
     }
 
 
-//    @Override
-//    public void onCreate() {
-//        Log.e("LOG", "onCreate()");
-//
-//        super.onCreate();
-//    }
+    @Override
+    public void onCreate() {
+        Log.e("LOG", "onCreate()");
+
+        super.onCreate();
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("LOG", "onStartCommand()");
         //서비스가 시작되면 이곳에 도착한다. 즉 여기서 원하는 이벤트를 주면 된다. OnCreate에서 해주려고 했으나 intent 값을 제대로 받아오지 못한다.
 
-        interval = intent.getIntExtra("interval", 5000);
-        Log.d("LocationIntent", interval + "");
-
         unregisterRestartAlarm();
 
         //간격이 0이면 사용하지 않는 것으로 간주
-        if(interval != 0)
+        if(interval != 0) {
+
             getLocation();
+
+            try {
+
+                Timer CheckLocationTimer = new Timer();
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Log.d("위치 확인, 경도", longitude + "");
+                        Log.d("위치 확인, 위도", latitude + "");
+
+                        Params params = new Params();
+                        params.add("UUID", GetDevicesUUID());
+                        params.add("Longitude", longitude + "");
+                        params.add("Latitude", latitude + "");
+
+                        new HttpNetwork("UpdateUserLocation.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                Log.d("LocationNetwork", response);
+                            }
+
+                            @Override
+                            public void onFailure(String response) {
+
+                            }
+
+                            @Override
+                            public void onPreExcute() {
+
+                            }
+                        });
+                    }
+                };
+
+                CheckLocationTimer.schedule(task, 8000, 5000);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         return START_STICKY;
     }
@@ -96,6 +140,17 @@ public class LocationService extends Service {
         registerRestartAlarm();
 
         return super.onUnbind(intent);
+    }
+
+    public String GetDevicesUUID(){
+        final TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        final String tmDevice, tmSerial, androidId;
+        tmDevice = "" + tm.getDeviceId();
+        tmSerial = "" + tm.getSimSerialNumber();
+        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        String deviceId = deviceUuid.toString();
+        return deviceId;
     }
 
     public void getLocation() {
@@ -146,7 +201,7 @@ public class LocationService extends Service {
             for (String name : m_lstProviders) {
 
                 System.out.println("Location In Manager..." + interval);
-                locationManager.requestLocationUpdates(name, interval, 0, locationListener);
+                locationManager.requestLocationUpdates(name, interval, 5, locationListener);
 
             }
 
@@ -195,10 +250,10 @@ public class LocationService extends Service {
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, firstTime, 6000, sender);
 
-        //앱이 종료되면 바로 다시 앱 실행~!
-        Intent dialogIntent = new Intent(this, SplashActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
+//        //앱이 종료되면 바로 다시 앱 실행~!
+//        Intent dialogIntent = new Intent(this, SplashActivity.class);
+//        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(dialogIntent);
     }
 
     /**

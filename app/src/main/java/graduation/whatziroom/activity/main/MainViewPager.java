@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,14 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.network.DBSI;
-import graduation.whatziroom.network.HttpNetwork;
-import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.LocationService;
 
 
@@ -76,7 +71,7 @@ public class MainViewPager extends BaseActivity {
 
     private LocationService locationService;
     private boolean isBind = false;
-    private int interval = 3000; // 지도 갱신 시간 설정을 구현할때 이 설정을 바꿔주면됨!
+    public static Timer CheckLocationTimer;
 
     ServiceConnection sconn = new ServiceConnection() {
         @Override //서비스가 실행될 때 호출
@@ -306,61 +301,41 @@ public class MainViewPager extends BaseActivity {
 
         //현재 위치 추적이 필요한 상황인지를 체크해서 시작해주면 될 듯 하다.
         //이 서비스가 실행되면 앱이 종료되지 않는다.
-        updateLocation();
+        startLocationService();
 
     }
 
-    public void updateLocation() {
+    @Override
+    public void onBackPressed() {
+        if(CheckLocationTimer != null) {
+            CheckLocationTimer.cancel();
+            CheckLocationTimer = null;
+        }
+        super.onBackPressed();
+    }
+
+    public void startLocationService() {
 
         //서비스가 시작되있지 않다면 서비스를 시작하고 바인딩 해준다.
         if (!isBind) {
 
 //            Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
 
-            startService(new Intent(MainViewPager.this, LocationService.class).putExtra("interval", interval));
-            bindService(new Intent(MainViewPager.this, LocationService.class).putExtra("interval", interval), sconn, BIND_AUTO_CREATE);
+            startService(new Intent(MainViewPager.this, LocationService.class));
+            bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);
             isBind = true;
         }
 
-        //서비스에서 객체를 받는데 시간이 걸리므로 postDelayed로 실행해주고 timer로 지속적으로 위치를 업데이트해준다.
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Timer timer = new Timer();
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Log.d("위치 확인, 경도", locationService.longitude + "");
-                        Log.d("위치 확인, 위도", locationService.latitude + "");
-
-                        Params params = new Params();
-                        params.add("UserPKey", MainViewPager.getUserPKey() + "");
-                        params.add("Longitude", locationService.longitude + "");
-                        params.add("Latitude", locationService.latitude + "");
-
-                        new HttpNetwork("UpdateUserLocation.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-                            @Override
-                            public void onSuccess(String response) {
-                                Log.d("LocationNetwork", response);
-                            }
-
-                            @Override
-                            public void onFailure(String response) {
-
-                            }
-
-                            @Override
-                            public void onPreExcute() {
-
-                            }
-                        });
-                    }
-                };
-
-                timer.schedule(task, 0, 5000);
-
-            }
-        },3000);
+//        //서비스에서 객체를 받는데 시간이 걸리므로 postDelayed로 실행해주고 timer로 지속적으로 위치를 업데이트해준다.
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//
+//
+//            }
+//        },3000);
 
     }
 
@@ -523,7 +498,6 @@ public class MainViewPager extends BaseActivity {
         }
     };
 
-
     View.OnClickListener createNewRoomListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -531,7 +505,6 @@ public class MainViewPager extends BaseActivity {
             dialog.show();
         }
     };
-
 
     View.OnClickListener configProfilListener = new View.OnClickListener() {
         @Override
@@ -569,6 +542,10 @@ public class MainViewPager extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if(CheckLocationTimer != null) {
+            CheckLocationTimer.cancel();
+            CheckLocationTimer = null;
+        }
         unbindService(sconn);
         isBind = false;
         locationService = null;

@@ -72,6 +72,7 @@ public class SplashActivity extends BaseActivity {
                     Params params = new Params();
                     params.add("ID", user[0][0]);
                     params.add("PW", user[0][1]);
+                    params.add("UUID", GetDevicesUUID(mContext));
 
                     if(user[0][2].equals("1")) {
 

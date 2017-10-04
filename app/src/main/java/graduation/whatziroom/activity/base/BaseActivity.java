@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.security.MessageDigest;
+import java.util.UUID;
 
 import graduation.whatziroom.R;
 
@@ -134,6 +136,20 @@ public class BaseActivity extends AppCompatActivity {
             // TODO Auto-generated catch block
             Log.e("name not found", e.toString());
         }
+    }
+
+    //요즘에는 UDID가 아니라 UUID를 쓴다고 함. 이걸로 식별해서 서비스에서만 위치추적이 되게끔 바꾸려고함
+    public String GetDevicesUUID(Context mContext){
+
+//        checkCallingPermission(READ_PHONE_STATE);
+        final TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        final String tmDevice, tmSerial, androidId;
+        tmDevice = "" + tm.getDeviceId();
+        tmSerial = "" + tm.getSimSerialNumber();
+        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        String deviceId = deviceUuid.toString();
+        return deviceId;
     }
 
 }

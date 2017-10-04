@@ -6,7 +6,20 @@ package graduation.whatziroom.Data;
 
 public class UserData {
 
-    private String PKey, Name, ID, PW, Email, Status, Acount, Longitude, Latitude, CreatedDate, UpdatedDate, UDID, Message;
+    private String PKey;
+    private String Name;
+    private String ID;
+    private String PW;
+    private String Email;
+    private String Status;
+    private String Acount;
+    private String Longitude;
+    private String Latitude;
+    private String CreatedDate;
+    private String UpdatedDate;
+    private String UUID;
+    private String Message;
+    private String FirebaseToken;
 
     public UserData(String pkey, String name, String longitude, String latitude) {
 
@@ -106,12 +119,12 @@ public class UserData {
         UpdatedDate = updatedDate;
     }
 
-    public String getUDID() {
-        return UDID;
+    public String getUUID() {
+        return UUID;
     }
 
-    public void setUDID(String UDID) {
-        this.UDID = UDID;
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
     }
 
     public String getMessage() {
@@ -120,5 +133,13 @@ public class UserData {
 
     public void setMessage(String message) {
         Message = message;
+    }
+
+    public String getFirebaseToken() {
+        return FirebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        FirebaseToken = firebaseToken;
     }
 }

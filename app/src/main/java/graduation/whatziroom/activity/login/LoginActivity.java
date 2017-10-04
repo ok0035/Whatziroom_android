@@ -81,6 +81,8 @@ public class LoginActivity extends BaseActivity {
 
                 params.add("ID", edloginid.getText().toString());
                 params.add("PW", edloginpw.getText().toString());
+                params.add("UUID", GetDevicesUUID(mContext));
+                params.add("FirebaseToken", "여기에 파이어베이스 토큰");
 
                 new HttpNetwork("Login.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -101,17 +103,16 @@ public class LoginActivity extends BaseActivity {
                                     String userDataString = parse.parseJsonArray(response).get(0).toString();
                                     JSONObject userData = new JSONObject(userDataString);
 
-                                    int isAutoLogin = 0;
-                                    if(chAutoCheckBox.isChecked())  isAutoLogin = 1;
-                                    else isAutoLogin = 0;
+                                    int isAutoLogin = 1;
+//                                    if(chAutoCheckBox.isChecked())  isAutoLogin = 1;
+//                                    else isAutoLogin = 0;
 
                                     DBSI db = new DBSI();
                                     db.query("delete from User;");
                                     db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
                                             + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
                                             + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
-                                            + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', '" + isAutoLogin + "', '" + userData.getString("Message") + "')");
-
+                                            + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UUID") + "', " + isAutoLogin + ", '', '" + userData.getString("FirebaseToken") + "')");
 
                                     Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                                     Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);

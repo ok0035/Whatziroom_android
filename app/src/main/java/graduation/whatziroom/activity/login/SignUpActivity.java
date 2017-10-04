@@ -74,6 +74,8 @@ public class SignUpActivity extends BaseActivity {
         params.add("CPW", edSignupCheckPW.getText().toString());
         params.add("Name", edSignupName.getText().toString());
         params.add("Email", edSignupEmail.getText().toString());
+        params.add("UUID", GetDevicesUUID(mContext));
+        params.add("FirebaseToken", "여기에 파이어베이스 토큰");
 
         new HttpNetwork("SignUp.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -109,7 +111,7 @@ public class SignUpActivity extends BaseActivity {
                             db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
                                     + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
                                     + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
-                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UDID") + "', " + 0 + ", '')");
+                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UUID") + "', " + 1 + ", '', '" + userData.getString("FirebaseToken") + "')");
 
                             Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
