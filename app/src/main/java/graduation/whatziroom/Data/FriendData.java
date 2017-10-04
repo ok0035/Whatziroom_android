@@ -10,6 +10,16 @@ public class FriendData {
     private int UserPKey;
     private String ThumbNailImagePath;
     private String freindStatus;
+    private int FirendTablePKey;
+
+    public int getFirendTablePKey() {
+        return FirendTablePKey;
+    }
+
+    public void setFirendTablePKey(int firendTablePKey) {
+        FirendTablePKey = firendTablePKey;
+    }
+
 
     public String getFreindStatus() {
         return freindStatus;

@@ -198,12 +198,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 MapData data = searchData.getSearchList().get(i);
                 Log.d("MarkerPoint", data.getTitle());
 
-
-//                onPOIItemSelected(mMapView, mMapView.getPOIItems()[i]);
-
-//                mMapView.getPOIItems()[i].setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-//                mMapView.getPOIItems()[i].setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-
                 Glide.with(SearchPlaceActivity.this).load(data.getImageUrl()).apply(RequestOptions.circleCropTransform()).into(ivSearchResult);
                 tvSearchResultTitle.setText(data.getTitle());
                 tvSearchResultAddress.setText(data.getAddress());
@@ -325,38 +319,45 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     public void onMapViewInitialized(MapView mapView) {
         Log.i(LOG_TAG, "MapView had loaded. Now, MapView APIs could be called safely");
 
-        GPSTracer gps = new GPSTracer();
-        gps.getLocation();
-
-
         final Timer timer = new Timer();
         mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this, "",
                 "잠시만 기다려 주세요.", true);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing() && GPSTracer.getIsInit()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
 
-                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 2, true);
+//                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 2, true);
 
-                    mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+                    //이 모드는 현재위치로 이동시켜주지만 다른 곳으로 이동을 할 수 없고 오직 본인 위치에만 머무른다.
+                    mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+
+                    //그래서 현재 위치를 찾은 다음 맵 이동을 중지해주어야 하는데, 곧바로 하면 충돌이 나기 때문에 시간차를 두고 모드를 변경해준다.
+                    //이렇게 하는 이유는 GPSTracer를 더이상 사용하지 않고 위치 추적을 할 때에는 LocationService를 이용할 것이기 때문이다.
+                    //즉 GPSTracer를 사용하는 곳을 안 쓰도록 수정중
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+                        }
+                    }, 3500);
+
+//                    mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
                     Searcher searcher = new Searcher();
                     String query = edSearchQuery.getText().toString();
 
-                    MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
                     double latitude = GPSTracer.latitude;
                     double longitude = GPSTracer.longitude;
 
-
-//                    int radius = 0; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
-//                    int page = 3; // 페이지 번호 (1 ~ 3). 한페이지에 15개
                     String apikey = getResources().getString(R.string.APIKEY);
 
                     searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                         @Override
+
                         public void onSuccess(final List<MapData> itemList) {
                             showResult(itemList);
+
                         }
 
                         @Override
@@ -377,9 +378,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 //						}
 //					});
 
-
                     mProgressDialog.dismiss();
                     timer.cancel();
+
                 }
             }
         };

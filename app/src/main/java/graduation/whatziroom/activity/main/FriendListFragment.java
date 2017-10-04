@@ -3,6 +3,8 @@ package graduation.whatziroom.activity.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,31 +54,46 @@ public class FriendListFragment extends Fragment {
         this.friendList = (ListView) layout.findViewById(R.id.friendList);
         this.tvFriendSearchBack = (TextView) layout.findViewById(R.id.tvFriendSearchBack);
         this.searchFreindBtn = (ImageView) layout.findViewById(R.id.searchFreindBtn);
+        this.findFreindEdt = (EditText) layout.findViewById(R.id.findFreindEdt);
         friendListItem = new ArrayList<>();
         dbsi = new DBSI();
 
-        searchFreindBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("toucg","asdf");
-                FriendData friendData = new FriendData();
-                friendData.setUserName("동적추가");
-                mFriendAdapter.notifyDataSetChanged();
-            }
-        });
+//        findFreindEdt.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                String filterText = editable.toString();
+//                if (filterText.length() > 0) {
+//                    friendList.setFilterText(filterText);
+//                } else {
+//                    friendList.clearTextFilter();
+//                }
+//
+//
+//            }
+//        });
 
         final Params params = new Params();
         params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
         new HttpNetwork("GetFriendList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
-                Log.d("response",response);
+                Log.d("response", response);
 //                Toast.makeText(getActivity(),response, Toast.LENGTH_SHORT).show();
                 ParseData parseData = new ParseData();
                 JSONArray parseArray = new JSONArray();
                 try {
-                    parseArray  = parseData.parseJsonArray(response);
-                    for(int i = 0 ; i < parseArray.length() ; i++){
+                    parseArray = parseData.parseJsonArray(response);
+                    for (int i = 0; i < parseArray.length(); i++) {
 
                         FriendData friendData = new FriendData();
                         friendData.setUserName(parseArray.getJSONObject(i).getString("Name"));
@@ -108,7 +125,7 @@ public class FriendListFragment extends Fragment {
 
 
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
-    public void findFriendFunc(){
+    public void findFriendFunc() {
 
         final EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
 
@@ -129,7 +146,7 @@ public class FriendListFragment extends Fragment {
                 tvFriendSearchBack.setVisibility(View.VISIBLE);
 
                 final Params params = new Params();
-                params.add("UserPKey",dbsi.selectQuery("Select PKey From User")[0][0]);
+                params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
                 params.add("FindText", edittext.getText().toString());
                 final ArrayList<FriendData> list = new ArrayList<FriendData>();
                 new HttpNetwork("FindFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
@@ -139,8 +156,8 @@ public class FriendListFragment extends Fragment {
                         try {
                             JSONArray parseArray = parseData.parseJsonArray(response);
 
-                            for(int i = 0 ; i < parseArray.length(); i++){
-                                Log.d("for문"," 동작");
+                            for (int i = 0; i < parseArray.length(); i++) {
+                                Log.d("for문", " 동작");
                                 FriendData friendData = new FriendData();
                                 friendData.setUserPKey(parseArray.getJSONObject(i).getInt("PKey"));
                                 friendData.setUserName(parseArray.getJSONObject(i).getString("Name"));
@@ -180,8 +197,9 @@ public class FriendListFragment extends Fragment {
         });
 
     }
+
     // 친구 추가 끝나고 완료 버튼 클릭시 실행되는 함수
-    public void reloadFunc(){
+    public void reloadFunc() {
 
         EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
         edittext.setHint("친구 찾기(이름)");

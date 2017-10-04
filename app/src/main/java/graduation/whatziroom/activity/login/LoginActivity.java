@@ -59,13 +59,18 @@ public class LoginActivity extends BaseActivity {
         hideActionBar();
 
 
-        DBSI db = new DBSI();
+        //위치 추적 때문에 어쩔 수 없이 자동 로그인을 없애야 할거 같음.
+        //자동으로 앱을 실행하는데 무조건 로그인을 거쳐야 UserPKey를 받을 수 있기 때문에
+        //자동으로 로그인이 되게끔 해야한다. 프로필에서 로그아웃이 가능하므로 문제 없을 듯
 
-        if (chAutoCheckBox.isChecked()) {
-            db.query("update User set AutoLogin = 1");
-        } else {
-            db.query("update User set AutoLogin = 0");
-        }
+        DBSI db = new DBSI();
+        db.query("update User set AutoLogin = 1");
+
+//        if (chAutoCheckBox.isChecked()) {
+//            db.query("update User set AutoLogin = 1");
+//        } else {
+//            db.query("update User set AutoLogin = 0");
+//        }
 
 
         btnlogin.setOnClickListener(new View.OnClickListener() {

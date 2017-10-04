@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class RoomUserData {
 
+
     private int RoomPKey;
     private int UserPKey;
     private String Name;
@@ -28,6 +29,7 @@ public class RoomUserData {
     }
 
     public RoomUserData(int userPKey, int roomPKey, String name) {
+
 
         UserPKey = userPKey;
         RoomPKey = roomPKey;
@@ -64,6 +66,7 @@ public class RoomUserData {
     }
 
     public void addItem(int userPKey, int roomPKey, String name) {
+
 
         UserList.add(new RoomUserData(userPKey, roomPKey, name));
 

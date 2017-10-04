@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+
 import graduation.whatziroom.Data.MapData;
 
 public class Searcher {
@@ -61,6 +62,7 @@ public class Searcher {
 			header.put(HEADER_NAME_X_APPID, appId);
 			header.put(HEADER_NAME_X_PLATFORM, HEADER_VALUE_X_PLATFORM_ANDROID);
 			String json = fetchData(url, header);
+
 			List<MapData> itemList = parse(json);
 			if (onFinishSearchListener != null) {
 				if (itemList == null) {
@@ -147,6 +149,7 @@ public class Searcher {
 		}
 	}
     
+
 	private List<MapData> parse(String jsonString) {
 		List<MapData> itemList = new ArrayList<MapData>();
 		try {
@@ -155,7 +158,9 @@ public class Searcher {
 			JSONArray objects = channel.getJSONArray("item");
 			for (int i = 0; i < objects.length(); i++) {
 				JSONObject object = objects.getJSONObject(i);
+
 				MapData item = new MapData();
+
 				item.setTitle(object.getString("title"));
 				item.setImageUrl(object.getString("imageUrl"));
 				item.setAddress(object.getString("address"));

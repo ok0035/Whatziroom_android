@@ -25,8 +25,7 @@
         android:layout_margin="5dp"
         android:background="@drawable/round_background_alpha"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:weightSum="1">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,7 +108,7 @@
             <LinearLayout
                 android:id="@+id/llChatMapView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="350dp"
                 android:orientation="vertical"
                 android:weightSum="1">
 

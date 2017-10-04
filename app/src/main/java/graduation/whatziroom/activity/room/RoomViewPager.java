@@ -37,14 +37,16 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import graduation.whatziroom.Data.MapData;
+import graduation.whatziroom.Data.UserData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.network.HttpNetwork;
@@ -73,11 +75,16 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public android.widget.FrameLayout flChatMap;
     private android.widget.TextView tvRoomChatPlace;
     private android.widget.TextView tvRoomChatTime;
-    private HashMap<Integer, MapData> mTagItemMap = new HashMap<Integer, MapData>();
+    private HashMap<Integer, UserData> mTagItemMap = new HashMap<Integer, UserData>();
 
     private static double ScheduleLongitude;
     private static double ScheduleLatitude;
-    private static String ScheduleTime, SchedulePlace;
+    private static String ScheduleTime;
+    private static String SchedulePlace;
+    private static String SoonSchedulePKey;
+    private ArrayList<UserData> attendUserList;
+    private Timer traceLocationTimer;
+    private boolean isMove = false;
 
     private ProgressDialog mProgressDialog;
 
@@ -86,7 +93,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private android.widget.FrameLayout flRoom;
 
     public static MapView chatMap;
-
     private String result = "notEmpty";
     private boolean shield = false;
     public static Context mContext;
@@ -110,7 +116,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         roomFriendList = new RoomUserList();
         mContext = this;
         mActivity = this;
-
         ScheduleLongitude = 0.0;
         ScheduleLatitude = 0.0;
 
@@ -130,6 +135,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     @Override
     public void onBackPressed() {
+        if(traceLocationTimer != null) {
+            traceLocationTimer.cancel();
+            traceLocationTimer = null;
+        }
         flChatMap.removeAllViews();
         chatMap = null;
         finish();
@@ -242,6 +251,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                                 scChatInfoParent.setVisibility(View.VISIBLE);
                                 llChatSchedule.setVisibility(View.VISIBLE);
+                                btnRoomSchedule.setVisibility(View.VISIBLE);
+                                btnRoomSetting.setVisibility(View.VISIBLE);
                                 llChatMapView.setVisibility(View.GONE);
 
                                 break;
@@ -265,6 +276,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                     }
                 });
+
+                updateChatMapInfo();
 
 //                mProgressDialog.dismiss();
 //                Log.d("onPost", mProgressDialog.isShowing() + "");
@@ -290,6 +303,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         } else {
                             llChatMapView.setVisibility(View.GONE);
                             llChatSchedule.setVisibility(View.VISIBLE);
+                            if(traceLocationTimer != null) {
+                                traceLocationTimer.cancel();
+                                traceLocationTimer = null;
+                            }
 //                            mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
 //                                    "지도 비활성화중...", true);
 //
@@ -301,6 +318,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //                                    mProgressDialog.dismiss();
 //                                }
 //                            }, 500);
+
 
                         }
                     }
@@ -333,6 +351,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         btnRoomExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(traceLocationTimer != null) {
+                    traceLocationTimer.cancel();
+                    traceLocationTimer = null;
+                }
+
                 flChatMap.removeAllViews();
                 chatMap = null;
                 finish();
@@ -407,6 +430,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View v) {
 
+                if(traceLocationTimer != null) {
+                    traceLocationTimer.cancel();
+                    traceLocationTimer = null;
+                }
+
                 llChatMapView.setVisibility(View.GONE);
                 chatMap = null;
                 flChatMap.removeAllViews();
@@ -427,8 +455,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                 startActivity(intent);
             }
         });
-
-        updateChatMapInfo();
 
     }
 
@@ -456,6 +482,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         JSONObject roomInfo = new JSONObject(roomInfoArray.get(0).toString());
                         Date date = transFormat.parse(roomInfo.getString("Time"));
 
+                        SoonSchedulePKey = roomInfo.getString("SchedulePKey");
                         ScheduleTime = (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
                         SchedulePlace = roomInfo.getString("Place");
 
@@ -500,80 +527,163 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //        mProgressDialog = ProgressDialog.show(RoomViewPager.mContext, "",
 //                "잠시만 기다려 주세요.", true);
 
-        if (chatMap != null) {
+        try {
 
-            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 3, true);
+            isMove = false;
 
-            if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss();
+            if (chatMap != null) {
+
+//            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
+
+                traceUserLocation();
+
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+            } else {
+
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.setMessage("방 입장 후 처음 지도를 실행하시나요?\n지도를 실행하고 있습니다...");
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        flChatMap.removeAllViews();
+                        chatMap = null;
+
+                        chatMap = new MapView(RoomViewPager.mContext);
+                        chatMap.setDaumMapApiKey(RoomViewPager.mContext.getResources().getString(R.string.APIKEY));
+                        flChatMap.addView(chatMap);
+
+                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                            mProgressDialog.setMessage("위치 정보를 가져오고 있습니다...");
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    traceUserLocation();
+
+//                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
+                                    mProgressDialog.dismiss();
+
+                                }
+                            }, 2500);
+                        }
+                    }
+                }, 2500);
             }
 
-        } else {
-
-            if (mProgressDialog != null && mProgressDialog.isShowing())
-                mProgressDialog.setMessage("방 입장 후 처음 지도를 실행하시나요?\n지도를 실행하고 있습니다...");
-
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                flChatMap.removeAllViews();
-                chatMap = null;
-
-                    chatMap = new MapView(RoomViewPager.mContext);
-                    chatMap.setDaumMapApiKey(RoomViewPager.mContext.getResources().getString(R.string.APIKEY));
-                    flChatMap.addView(chatMap);
-
-                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                        mProgressDialog.setMessage("스케줄 정보를 가져오고 있습니다...");
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                showPlaceMarker();
-                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 3, true);
-                                mProgressDialog.dismiss();
-                            }
-                        }, 2500);
-                    }
-                }
-            }, 2500);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
-    private void showUserLocationMarker(List<MapData> itemList) {
-        MapPointBounds mapPointBounds = new MapPointBounds();
+    private void traceUserLocation() {
 
-        for (int i = 0; i < itemList.size(); i++) {
-            MapData item = itemList.get(i);
+        traceLocationTimer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                showLocationMarker();
+            }
+        };
+        traceLocationTimer.schedule(task, 0, 3000);
 
-            MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName(item.getTitle());
-            poiItem.setTag(i);
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.getLatitude(), item.getLongitude());
-            poiItem.setMapPoint(mapPoint);
-            mapPointBounds.add(mapPoint);
+    }
+
+    private void showLocationMarker() {
+
+        Params params = new Params();
+        params.add("SchedulePKey", SoonSchedulePKey);
+
+        new HttpNetwork("GetAttendUserList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+
+                if(!response.equals("[]")) {
+
+                    try {
+                        ParseData parse = new ParseData();
+                        JSONArray jsonAttendUserList = parse.parseJsonArray(response);
+                        attendUserList = new ArrayList<UserData>();
+
+                        for (int i = 0; i < jsonAttendUserList.length(); i++) {
+                            JSONObject jsonUserData = new JSONObject(jsonAttendUserList.get(i).toString());
+                            attendUserList.add(new UserData(jsonUserData.getString("PKey"), jsonUserData.getString("Name"), jsonUserData.getString("Longitude"), jsonUserData.getString("Latitude")));
+                            Log.d("ATTEND_PKEY", jsonUserData.getString("PKey"));
+                            Log.d("ATTEND_Name", jsonUserData.getString("Name"));
+                            Log.d("ATTEND_Longtitude", jsonUserData.getString("Longitude"));
+                            Log.d("ATTEND_Latitude", jsonUserData.getString("Latitude"));
+                        }
+
+                        try {
+                            chatMap.removeAllPOIItems(); //기존 위치 마커 삭제
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        showPlaceMarker();
+
+                        MapPointBounds mapPointBounds = new MapPointBounds();
+                        for (int i = 0; i < attendUserList.size(); i++) {
+                            UserData item = attendUserList.get(i);
+
+                            MapPOIItem poiItem = new MapPOIItem();
+                            poiItem.setItemName(item.getName());
+                            poiItem.setTag(i);
+                            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(Double.parseDouble(item.getLatitude()), Double.parseDouble(item.getLongitude()));
+                            poiItem.setMapPoint(mapPoint);
+                            mapPointBounds.add(mapPoint);
 //            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
-            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+                            poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+                            poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_blue);
-            poiItem.setCustomImageAnchor(0.5f, 1.0f);
-            poiItem.setCustomImageAutoscale(true);
+                            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+                            poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_blue);
+                            poiItem.setCustomImageAnchor(0.5f, 1.0f);
+                            poiItem.setCustomImageAutoscale(true);
 
-            chatMap.addPOIItem(poiItem);
-            mTagItemMap.put(poiItem.getTag(), item);
+                            chatMap.addPOIItem(poiItem);
 
-        }
+                            //이것의 정확한 사용처를 아직 잘 모르겠음
+                            mTagItemMap.put(poiItem.getTag(), item);
 
-        chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+                        }
 
-        MapPOIItem[] poiItems = chatMap.getPOIItems();
-        if (poiItems.length > 0) {
-            chatMap.selectPOIItem(poiItems[0], false);
-        }
+                        if(!isMove) {
+                            chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+                            isMove = true;
+                        }
+
+                        MapPOIItem[] poiItems = chatMap.getPOIItems();
+                        if (poiItems.length > 0) {
+                            chatMap.selectPOIItem(poiItems[0], false);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
+
     }
 
     private void showPlaceMarker() {
@@ -588,7 +698,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         mapPointBounds.add(mapPoint);
 //            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
         poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
+        poiItem.setCustomImageResourceId(R.drawable.map_pin_red);
 //            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
         poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
@@ -597,14 +707,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
         chatMap.addPOIItem(poiItem);
 
-        chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+//        chatMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
 
-        MapPOIItem[] poiItems = chatMap.getPOIItems();
-        if (poiItems.length > 0) {
-            chatMap.selectPOIItem(poiItems[0], false);
-        }
+//        MapPOIItem[] poiItems = chatMap.getPOIItems();
+//        if (poiItems.length > 0) {
+//            chatMap.selectPOIItem(poiItems[0], false);
+//        }
     }
-
 
     public void setRoomActionBar() {
 
@@ -651,9 +760,16 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public static int getSchedulePKey() {
         return schedulePKey;
     }
-
     public static void setSchedulePKey(int schedulePKey) {
         RoomViewPager.schedulePKey = schedulePKey;
+    }
+
+    public static String getSoonSchedulePKey() {
+        return SoonSchedulePKey;
+    }
+
+    public static void setSoonSchedulePKey(String soonSchedulePKey) {
+        SoonSchedulePKey = soonSchedulePKey;
     }
 
     @Override
@@ -693,6 +809,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+
 
     }
 
@@ -743,6 +860,5 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-
     }
 }

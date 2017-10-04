@@ -14,6 +14,7 @@ public class RoomInfoData {
     private String ImageURL;
     private String Title;
     private String Place;
+
     private String Longitude;
     private String Latitude;
     private String Time;
@@ -24,6 +25,7 @@ public class RoomInfoData {
     private String TEL;
     private String WebURL;
     private String SchedulePKey;
+
     private ArrayList<RoomInfoData> RoomInfoList;
 
     public RoomInfoAdapter getAdapter() {

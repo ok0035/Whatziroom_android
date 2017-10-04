@@ -36,7 +36,9 @@ public class ChatAdapter extends ArrayAdapter {
     private android.widget.LinearLayout llParent;
 
     public ChatAdapter(Context context, ArrayList<ChatData> list) {
+
         super(context, R.layout.room_chat_item, list);
+
 
         mContext = context;
         mList = list;
@@ -51,7 +53,9 @@ public class ChatAdapter extends ArrayAdapter {
         // 리스트가 길어지면서 현재 화면에 보이지 않는 아이템은 converView가 null인 상태로 들어 옴
         if (parentLayout == null) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
+
             parentLayout = inf.inflate(R.layout.room_chat_item, parent, false);
+
 
         }
 
@@ -91,6 +95,7 @@ public class ChatAdapter extends ArrayAdapter {
 
                 } else tvChatName.setVisibility(View.GONE);
 
+
                 llParent.setGravity(Gravity.LEFT);
                 divisionLeft.setVisibility(View.GONE);
                 divisionRight.setVisibility(View.GONE);
@@ -99,6 +104,7 @@ public class ChatAdapter extends ArrayAdapter {
             case 1:
                 tvChatMessage.setBackgroundResource(R.drawable.outbox2);
 
+
 //                ChatNameParams.setMargins(0, 0, BaseActivity.convertDPtoPX(20), 0);
 //                ChatNameParams.gravity = Gravity.RIGHT;
 //                tvChatName.setLayoutParams(ChatNameParams);
@@ -106,6 +112,7 @@ public class ChatAdapter extends ArrayAdapter {
 //                카톡을 보니 본인 이름은 출력하지 않게해서 공간활용을 해서 따라하는중...
 
                 tvChatName.setVisibility(View.GONE);
+
 
                 llParent.setGravity(Gravity.RIGHT);
                 divisionLeft.setVisibility(View.GONE);

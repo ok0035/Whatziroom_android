@@ -132,7 +132,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="left"
-                android:layout_weight="0.06">
+                android:layout_weight="0.06"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/chAutoCheckBox"

@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import graduation.whatziroom.Data.NoticeData;
 import graduation.whatziroom.R;
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 
 /**
  * Created by user on 2017-07-16.
@@ -89,11 +92,35 @@ public class NoticeAdapter extends ArrayAdapter {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
 
-//                mList.get(position).setCheckFlag(1);
 
-                ll.setVisibility(View.GONE);
+                Params params = new Params();
+                params.add("FriendPKey", mList.get(position).getFriendPKey());
+                params.add("Status","1");
+                new HttpNetwork("SetFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                    @Override
+                    public void onSuccess(String response) {
+                        if(response.contains("SUCCESS")){
+                            noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
+                            ll.setVisibility(View.GONE);
+                        }else{
+                            Toast.makeText(mContext,response,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
+                });
+
+
+
             }
         });
 
@@ -102,11 +129,63 @@ public class NoticeAdapter extends ArrayAdapter {
             public void onClick(View v) {
 
                 if(mList.get(position).getSrFlag().equals("receive")){
-                    noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+                    Params params = new Params();
+                    params.add("FriendPKey", mList.get(position).getFriendPKey());
+                    params.add("Status","2");
+                    new HttpNetwork("SetFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                        @Override
+                        public void onSuccess(String response) {
+                            if(response.contains("SUCCESS")){
+                                noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+                                ll.setVisibility(View.GONE);
+                            }else{
+                                Toast.makeText(mContext,response,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String response) {
+
+                        }
+
+                        @Override
+                        public void onPreExcute() {
+
+                        }
+                    });
+
+
+
+
 //                mList.get(position).setCheckFlag(2);
                     ll.setVisibility(View.GONE);
                 }else{
-                    llParent.setVisibility(View.GONE);
+
+                    Params params = new Params();
+                    params.add("FriendPKey", mList.get(position).getFriendPKey());
+                    params.add("Status","-1");
+                    new HttpNetwork("SetFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                        @Override
+                        public void onSuccess(String response) {
+                            if(response.contains("SUCCESS")){
+                                mList.remove(position);
+                                notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(mContext,response,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String response) {
+
+                        }
+
+                        @Override
+                        public void onPreExcute() {
+
+                        }
+                    });
+
                 }
 
             }

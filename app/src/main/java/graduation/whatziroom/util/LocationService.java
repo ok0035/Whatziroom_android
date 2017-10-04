@@ -19,9 +19,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import graduation.whatziroom.activity.base.SplashActivity;
-import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.network.HttpNetwork;
-import graduation.whatziroom.network.Params;
 
 import static graduation.whatziroom.activity.base.BaseActivity.mContext;
 
@@ -36,9 +33,11 @@ public class LocationService extends Service {
     private android.location.LocationManager locationManager;
 
     private static boolean flag = false;
+    private int interval = 5000;
 
     public double longitude;
     public double latitude;
+
 
     public class LocationBinder extends Binder {
         public LocationService getService(){
@@ -55,42 +54,28 @@ public class LocationService extends Service {
         return mIBinder;
     }
 
-    @Override
-    public void onCreate() {
-        Log.e("LOG", "onCreate()");
 
-        int PKey = MainViewPager.getUserPKey();
-
-        Log.d("서비스에서 로컬디비 접근", PKey + "");
-
-        unregisterRestartAlarm();
-
-        new HttpNetwork("", new Params().getParams(), new HttpNetwork.AsyncResponse() {
-            @Override
-            public void onSuccess(String response) {
-
-            }
-
-            @Override
-            public void onFailure(String response) {
-
-            }
-
-            @Override
-            public void onPreExcute() {
-
-            }
-        });
-
-        getLocation();
-
-        super.onCreate();
-    }
+//    @Override
+//    public void onCreate() {
+//        Log.e("LOG", "onCreate()");
+//
+//        super.onCreate();
+//    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("LOG", "onStartCommand()");
-        //서비스가 시작되면 이곳에 도착한다.
+        //서비스가 시작되면 이곳에 도착한다. 즉 여기서 원하는 이벤트를 주면 된다. OnCreate에서 해주려고 했으나 intent 값을 제대로 받아오지 못한다.
+
+        interval = intent.getIntExtra("interval", 5000);
+        Log.d("LocationIntent", interval + "");
+
+        unregisterRestartAlarm();
+
+        //간격이 0이면 사용하지 않는 것으로 간주
+        if(interval != 0)
+            getLocation();
+
         return START_STICKY;
     }
 
@@ -127,7 +112,7 @@ public class LocationService extends Service {
             locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    Log.e("onLocationChanged", "onLocationChanged 여기는 서비스입니다!!");
+                    Log.e("onLocationChanged", "onLocationChanged ----- Here is Service");
                     Log.e("location", "[" + location.getProvider() + "] (" + location.getLatitude() + "," + location.getLongitude() + ")");
 //                    locationManager.removeUpdates(locationListener);
 
@@ -160,7 +145,9 @@ public class LocationService extends Service {
 
             for (String name : m_lstProviders) {
 
-                locationManager.requestLocationUpdates(name, 5000, 0, locationListener);
+                System.out.println("Location In Manager..." + interval);
+                locationManager.requestLocationUpdates(name, interval, 0, locationListener);
+
             }
 
             new Runnable() {

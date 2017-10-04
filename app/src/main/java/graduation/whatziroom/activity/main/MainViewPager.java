@@ -1,5 +1,6 @@
 package graduation.whatziroom.activity.main;
 
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +34,7 @@ import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.LocationService;
+
 
 /**
  * Created by ATIV on 2017-06-24.
@@ -73,6 +76,7 @@ public class MainViewPager extends BaseActivity {
 
     private LocationService locationService;
     private boolean isBind = false;
+    private int interval = 3000; // 지도 갱신 시간 설정을 구현할때 이 설정을 바꿔주면됨!
 
     ServiceConnection sconn = new ServiceConnection() {
         @Override //서비스가 실행될 때 호출
@@ -92,6 +96,7 @@ public class MainViewPager extends BaseActivity {
         }
     };
 
+
     public MainViewPager() {
 
         friendListView = new FriendListFragment();
@@ -103,6 +108,7 @@ public class MainViewPager extends BaseActivity {
     }
 
 //    public boolean isBind = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,12 +139,14 @@ public class MainViewPager extends BaseActivity {
         UserPKey = Integer.parseInt(UserInfo[0][0]);
         UserName = UserInfo[0][1];
 
+
         Log.d("UserPKeyMain", UserPKey + "");
 
                 /*
         *   버튼 클릭 시 페이지 이동
         *   movePageListener 에서 페이지 이동 시 이벤트 구현
         */
+
 
         linFriend.setOnClickListener(movePageListener);
         linFriend.setTag(0);
@@ -183,6 +191,7 @@ public class MainViewPager extends BaseActivity {
                 Log.i("Position", " " + position);
                 Log.i("Fragment : ", getSupportFragmentManager().findFragmentById(R.id.vp) + "");
                 switch (position) {
+
 
                     case 0:
                         titleTxt.setText("친구목록");
@@ -236,6 +245,7 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("");
                         configTxt2.setImageResource(R.mipmap.btn_setting);
                         configTxt2.setOnClickListener(configProfilListener);
+
                         break;
 
                 }
@@ -258,6 +268,7 @@ public class MainViewPager extends BaseActivity {
 
                     // 원하는 페이지에 맞게 조건
                     InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
                     im.hideSoftInputFromWindow(vp.getWindowToken(), 0);
                 }
             }
@@ -293,12 +304,21 @@ public class MainViewPager extends BaseActivity {
 //            }
 //        });
 
+        //현재 위치 추적이 필요한 상황인지를 체크해서 시작해주면 될 듯 하다.
+        //이 서비스가 실행되면 앱이 종료되지 않는다.
+        updateLocation();
+
+    }
+
+    public void updateLocation() {
+
+        //서비스가 시작되있지 않다면 서비스를 시작하고 바인딩 해준다.
         if (!isBind) {
 
 //            Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
 
-            startService(new Intent(MainViewPager.this, LocationService.class));
-            bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);
+            startService(new Intent(MainViewPager.this, LocationService.class).putExtra("interval", interval));
+            bindService(new Intent(MainViewPager.this, LocationService.class).putExtra("interval", interval), sconn, BIND_AUTO_CREATE);
             isBind = true;
         }
 
@@ -339,17 +359,19 @@ public class MainViewPager extends BaseActivity {
 
                 timer.schedule(task, 0, 5000);
 
-            }},3000);
+            }
+        },3000);
 
     }
 
-
     private void changeTabColor(int position) {
+
 
         ll.findViewWithTag(position).setSelected(true);
         ll.findViewWithTag(position).setBackgroundResource(R.drawable.round_background_main);
 
         for (int i = 0; i < 5; i++) {
+
 
             LinearLayout layout = ll.findViewWithTag(i);
             TextView textView = (TextView) layout.getChildAt(0);
@@ -367,23 +389,26 @@ public class MainViewPager extends BaseActivity {
 
     }
 
-
     // 프래그먼트간 페이지 이동
     View.OnClickListener movePageListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             int tag = (int) v.getTag();
             vp.setCurrentItem(tag);
 
             int i = 0;
+
             while (i < 5) {
                 if (tag == i) {
+
                     LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(true);
                     ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background_main);
                     TextView textView = (TextView) (layout.getChildAt(0));
                     textView.setTextColor(Color.WHITE);
                 } else {
+
                     LinearLayout layout = ll.findViewWithTag(i);
                     ll.findViewWithTag(i).setSelected(false);
                     ll.findViewWithTag(i).setBackgroundResource(R.drawable.round_background);
@@ -492,7 +517,8 @@ public class MainViewPager extends BaseActivity {
         @Override
         public void onClick(View v) {
             Log.i("버튼 클릭", "ㅇㅇㅇ");
-            FriendListFragment friendListView = (FriendListFragment) getSupportFragmentManager().findFragmentByTag("1");
+//            FriendListFragment friendListView = (FriendListFragment) getSupportFragmentManager().findFragmentByTag("1");
+
             friendListView.showBlockBtn();
         }
     };
@@ -548,4 +574,5 @@ public class MainViewPager extends BaseActivity {
         locationService = null;
         super.onDestroy();
     }
+
 }

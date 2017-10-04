@@ -10,7 +10,7 @@
     <color name="mTitleColor"> #d8b6ba </color>
     <color name="indicatorColor"> #66000000 </color>
     <color name="colorBlue"> #297299 </color>
-    <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorTransparent">#00FFFF</color>
 
     <color name="colorTxtRoomActionbar"> #FFFFFF </color>
     <color name="colorTxtMainActionbar"> #FFFFFF </color>
@@ -20,5 +20,10 @@
     <color name="colorBackDialogCreateRoomWhite"> #FFFFFF </color>
     <color name="colorTxtTitleDialogCreateRoom"> #FFFFFF </color>
     <color name="colorTxtMenuDialogCreateRoom"> #000000 </color>
+
+    <color name="colorBackDialogExitRoom"> #EB9096 </color>
+    <color name="colorTxtTitleDialogExitRoom"> #d12a10 </color>
+    <color name="colorTxtDialogExitRoom"> #000000 </color>
+    <color name="colorTxtMenuDialogExitRoom"> #000000 </color>
 
 </resources>

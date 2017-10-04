@@ -44,6 +44,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private String result = "notEmpty";
 
     public static TextView tvNeedCreateSchedule;
+
     private static ListView roomInfoList;
 
 //    private ProgressDialog mProgressDialog;
@@ -123,6 +124,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
                     JSONArray roomInfoArray = parse.parseJsonArray(response);
                     RoomInfoData roomInfoData = new RoomInfoData();
+
                     String parseTime;
 
                     for (int i = 0; i < roomInfoArray.length(); i++) {

@@ -53,9 +53,16 @@ public class NotificationListFragment extends Fragment {
                 ParseData parseData = new ParseData();
                 final ArrayList<NoticeData> arrayList = new ArrayList<>();
                 try {
-                    JSONArray parseArray = parseData.parseJsonArray(response);
+//<<<<<<< HEAD
+                    JSONArray parseArray = parseData.parseJsonArray (response);
                     for(int i = 0 ; i < parseArray.length(); i++){
                         NoticeData noticeData = new NoticeData();
+                        noticeData.setFriendPKey(parseArray.getJSONObject(i).getString("PKey"));
+//=======
+//                    JSONArray parseArray = parseData.parseJsonArray(response);
+//                    for(int i = 0 ; i < parseArray.length(); i++){
+//                        NoticeData noticeData = new NoticeData();
+//>>>>>>> b7f7d204ecec0292e5c781017a07a02438da98a2
                         noticeData.setUserName(parseArray.getJSONObject(i).getString("Name"));
                         noticeData.setFriendStatus(parseArray.getJSONObject(i).getString("Status"));
                         noticeData.setSrFlag(parseArray.getJSONObject(i).getString("Flag"));

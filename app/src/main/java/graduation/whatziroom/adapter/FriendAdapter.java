@@ -14,6 +14,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +65,7 @@ public class FriendAdapter extends ArrayAdapter {
         TextView firendName = row.findViewById(R.id.friendListNameTxt);
         TextView blockBtn = row.findViewById(R.id.friendListBlockTxt);
 
-        FriendData data = mList.get(position);
+        final FriendData data = mList.get(position);
 
         firendName.setText(data.getUserName());
 
@@ -94,6 +97,29 @@ public class FriendAdapter extends ArrayAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(mContext, "차단 완료", Toast.LENGTH_SHORT).show();
+                        Params params = new Params();
+                        params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
+                        Log.d("FriendKey",String.valueOf(data.getUserPKey()));
+                        params.add("FriendKey", String.valueOf(data.getUserPKey()));
+
+                        new HttpNetwork("DeleteFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                                mList.remove(position);
+                                notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onFailure(String response) {
+
+                            }
+
+                            @Override
+                            public void onPreExcute() {
+
+                            }
+                        });
 
                     }
                 });

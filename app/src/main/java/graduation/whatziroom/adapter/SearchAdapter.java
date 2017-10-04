@@ -20,10 +20,6 @@ import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.room.SearchPlaceActivity;
 
-/**
- * Created by mapl0 on 2017-09-20.
- */
-
 public class SearchAdapter extends ArrayAdapter {
 
     LayoutInflater inf = null;

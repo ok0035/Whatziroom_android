@@ -6,10 +6,19 @@ package graduation.whatziroom.Data;
 
 public class NoticeData {
 
+    private String friendTablePKey;
     private String userName;
     private String srFlag;
     private String friendStatus;
-    private String firebaseStatus;
+
+
+    public String getFriendPKey() {
+        return friendTablePKey;
+    }
+
+    public void setFriendPKey(String friendPKey) {
+        this.friendTablePKey = friendPKey;
+    }
 
 
     public String getUserName() {
