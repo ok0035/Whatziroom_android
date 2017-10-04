@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#E55C6C</color>
+    <color name="mainTxtColor"> #EB9096</color>
+    <color name="colorActionBar"> #EFDAC9</color>
+    <color name="colorBeige">#c0c0c0</color>
+    <color name="sColor"> #BAB0A4 </color>
+    <color name="mTitleColor"> #d8b6ba </color>
+    <color name="indicatorColor"> #66000000 </color>
+    <color name="colorBlue"> #297299 </color>
+    <color name="colorTransparent">#00FFFF</color>
+
+    <color name="colorTxtRoomActionbar"> #FFFFFF </color>
+    <color name="colorTxtMainActionbar"> #FFFFFF </color>
+
+    <!-- dialog 색 바꿔야댐 -->
+    <color name="colorBackDialogCreateRoom"> #EB9096 </color>
+    <color name="colorBackDialogCreateRoomWhite"> #FFFFFF </color>
+    <color name="colorTxtTitleDialogCreateRoom"> #FFFFFF </color>
+    <color name="colorTxtMenuDialogCreateRoom"> #000000 </color>
+
+    <color name="colorBackDialogExitRoom"> #EB9096 </color>
+    <color name="colorTxtTitleDialogExitRoom"> #d12a10 </color>
+    <color name="colorTxtDialogExitRoom"> #000000 </color>
+    <color name="colorTxtMenuDialogExitRoom"> #000000 </color>
+
+</resources>

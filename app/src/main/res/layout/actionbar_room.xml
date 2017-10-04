@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainTxtColor"
+    android:padding="0dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:gravity="start"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/btnRoomExit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start"
+                android:textSize="14dp"
+                android:layout_marginLeft="5dp"
+                android:padding="4dp"
+                android:src="@drawable/outroom"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/btnRoomSchedule"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:padding="4dp"
+                android:src="@mipmap/btn_add_schedule"/>
+
+            <ImageView
+                android:id="@+id/btnRoomSetting"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+
+                android:padding="4dp"
+                android:textSize="14dp"
+                android:src="@mipmap/btn_setting"
+                android:layout_marginRight="5dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llChat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorActionBar"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="95dp"
+            android:background="#ccffff">
+
+            <ListView
+                android:id="@+id/lvChat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorActionBar"
+                android:cacheColorHint="#00000000"
+                android:divider="#000000"
+                android:listSelector="#00000000"
+                android:stackFromBottom="true"
+                android:transcriptMode="alwaysScroll" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorActionBar"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/edChat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.8"
+                android:background="@drawable/round_background"
+                android:layout_margin="3dp"
+                android:paddingLeft="10dp"
+                android:hint="메세지를 입력하세요"
+                android:inputType="textMultiLine"
+                android:maxLines="4" />
+
+            <TextView
+                android:id="@+id/tvSendChat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"
+                android:layout_weight="0.2"
+                android:background="@drawable/round_background_button"
+                android:gravity="center"
+                android:text="보내기"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
