@@ -18,8 +18,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import graduation.whatziroom.network.HttpNetwork;
@@ -79,45 +77,6 @@ public class LocationService extends Service {
         if(interval != 0) {
 
             getLocation();
-
-            try {
-
-                Timer CheckLocationTimer = new Timer();
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Log.d("위치 확인, 경도", longitude + "");
-                        Log.d("위치 확인, 위도", latitude + "");
-
-                        Params params = new Params();
-                        params.add("UUID", GetDevicesUUID());
-                        params.add("Longitude", longitude + "");
-                        params.add("Latitude", latitude + "");
-
-                        new HttpNetwork("UpdateUserLocation.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-                            @Override
-                            public void onSuccess(String response) {
-                                Log.d("LocationNetwork", response);
-                            }
-
-                            @Override
-                            public void onFailure(String response) {
-
-                            }
-
-                            @Override
-                            public void onPreExcute() {
-
-                            }
-                        });
-                    }
-                };
-
-                CheckLocationTimer.schedule(task, 8000, 5000);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return START_STICKY;
@@ -173,6 +132,28 @@ public class LocationService extends Service {
 
                     longitude = location.getLongitude();
                     latitude = location.getLatitude();
+
+                    Params params = new Params();
+                    params.add("UUID", GetDevicesUUID());
+                    params.add("Longitude", longitude + "");
+                    params.add("Latitude", latitude + "");
+
+                    new HttpNetwork("UpdateUserLocation.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                        @Override
+                        public void onSuccess(String response) {
+                            Log.d("LocationNetwork", response);
+                        }
+
+                        @Override
+                        public void onFailure(String response) {
+
+                        }
+
+                        @Override
+                        public void onPreExcute() {
+
+                        }
+                    });
 
                     flag = true;
 

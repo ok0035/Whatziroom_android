@@ -435,7 +435,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     traceLocationTimer = null;
                 }
 
+                llChatSchedule.setVisibility(View.VISIBLE);
                 llChatMapView.setVisibility(View.GONE);
+                chatMap.removeAllPOIItems();
                 chatMap = null;
                 flChatMap.removeAllViews();
 
@@ -534,7 +536,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             if (chatMap != null) {
 
 //            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
-
+                chatMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
                 traceUserLocation();
 
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -565,6 +567,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                 @Override
                                 public void run() {
 
+                                    chatMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
                                     traceUserLocation();
 
 //                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
@@ -638,6 +641,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude);
                             mapPointBounds.add(mapPoint);
                             poiItem.setMapPoint(mapPoint);
+//                            chatMap.addCircle(new MapCircle(mapPoint, 100000, Color.TRANSPARENT, Color.argb(0, 0, 255, 0)));
 //            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
                             poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
                             poiItem.setCustomImageResourceId(R.drawable.map_pin_red);
@@ -655,7 +659,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                 try {
 
                                     //위치가 0일때는 마커를 찍지 않고 제대로 위치를 불러왔을 때 마커를 찍어주자
-                                    if(item.getLatitude().equals("0") || item.getLongitude().equals("0")) continue;
+                                    if(item.getLatitude().equals("0") || item.getLongitude().equals("0")) {
+                                        Log.d("위도 경도 0", "체크");
+                                        continue;
+                                    }
 
                                     poiItem.setItemName(item.getName());
                                     poiItem.setTag(i + 1);
@@ -679,7 +686,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-
                             }
 
                             //최초 한번만 위치를 약속장소로 옮기고 선택해준다.

@@ -73,6 +73,7 @@ public class SplashActivity extends BaseActivity {
                     params.add("ID", user[0][0]);
                     params.add("PW", user[0][1]);
                     params.add("UUID", GetDevicesUUID(mContext));
+                    params.add("FirebaseToken", "여기에 파이어베이스 토큰");
 
                     if(user[0][2].equals("1")) {
 
