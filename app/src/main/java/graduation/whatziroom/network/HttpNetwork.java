@@ -45,8 +45,6 @@ public class HttpNetwork extends AsyncTask<String, Void, String> {
 
     }
 
-
-
     @Override
     protected void onPreExecute() {
         delegate.onPreExcute();
@@ -123,8 +121,6 @@ public class HttpNetwork extends AsyncTask<String, Void, String> {
             }
         }
     }
-
-
 
     private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
     {

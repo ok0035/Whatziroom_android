@@ -10,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,8 +43,6 @@ public class SplashActivity extends BaseActivity {
 
         hideActionBar();
 
-
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -73,7 +73,7 @@ public class SplashActivity extends BaseActivity {
                     params.add("ID", user[0][0]);
                     params.add("PW", user[0][1]);
                     params.add("UUID", GetDevicesUUID(mContext));
-                    params.add("FirebaseToken", "여기에 파이어베이스 토큰");
+                    params.add("FirebaseToken", FirebaseInstanceId.getInstance().getToken());
 
                     if(user[0][2].equals("1")) {
 

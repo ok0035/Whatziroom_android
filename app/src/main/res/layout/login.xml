@@ -151,9 +151,6 @@
                     android:textSize="15dp"
                     android:text="자동 로그인"/>
 
-
-
-
             </LinearLayout>
         </LinearLayout>
 

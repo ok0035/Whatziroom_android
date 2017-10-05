@@ -191,6 +191,7 @@ public class FriendAdapter extends ArrayAdapter {
                         @Override
                         public void onSuccess(String response) {
                             Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                            mList.get(position).setFreindStatus("send_wating");
                         }
 
                         @Override

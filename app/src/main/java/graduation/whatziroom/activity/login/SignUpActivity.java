@@ -2,12 +2,15 @@ package graduation.whatziroom.activity.login;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,75 +70,97 @@ public class SignUpActivity extends BaseActivity {
 
     public void trySignUp() {
 
-        Params params = new Params();
+        new AsyncTask<Void, Void, Void>() {
 
-        params.add("ID", edSignupID.getText().toString());
-        params.add("PW", edSignupPW.getText().toString());
-        params.add("CPW", edSignupCheckPW.getText().toString());
-        params.add("Name", edSignupName.getText().toString());
-        params.add("Email", edSignupEmail.getText().toString());
-        params.add("UUID", GetDevicesUUID(mContext));
-        params.add("FirebaseToken", "여기에 파이어베이스 토큰");
+            String fcbToken;
 
-        new HttpNetwork("SignUp.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
-            public void onSuccess(String response) {
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Params params = new Params();
 
-                Log.d("res", response);
+                params.add("ID", edSignupID.getText().toString());
+                params.add("PW", edSignupPW.getText().toString());
+                params.add("CPW", edSignupCheckPW.getText().toString());
+                params.add("Name", edSignupName.getText().toString());
+                params.add("Email", edSignupEmail.getText().toString());
+                params.add("UUID", GetDevicesUUID(mContext));
+                params.add("FirebaseToken", FirebaseInstanceId.getInstance().getToken());
 
-                switch (response) {
+//        FirebaseInstanceId.getInstance().deleteToken();
+                new HttpNetwork("SignUp.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                    @Override
+                    public void onSuccess(String response) {
 
-                    case "duplicateID":
-                        Toast.makeText(SignUpActivity.this, "아이디가 중복입니다.", Toast.LENGTH_SHORT).show();
-                        break;
+                        Log.d("res", response);
 
-                    case "duplicateEmail":
-                        Toast.makeText(SignUpActivity.this, "이메일이 중복입니다.", Toast.LENGTH_SHORT).show();
-                        break;
+                        switch (response) {
 
-                    case "duplicateName":
-                        Toast.makeText(SignUpActivity.this, "닉네임이 중복입니다.", Toast.LENGTH_SHORT).show();
-                        break;
+                            case "duplicateID":
+                                Toast.makeText(SignUpActivity.this, "아이디가 중복입니다.", Toast.LENGTH_SHORT).show();
+                                break;
 
-                    default:
+                            case "duplicateEmail":
+                                Toast.makeText(SignUpActivity.this, "이메일이 중복입니다.", Toast.LENGTH_SHORT).show();
+                                break;
 
-                        ParseData parse = new ParseData();
+                            case "duplicateName":
+                                Toast.makeText(SignUpActivity.this, "닉네임이 중복입니다.", Toast.LENGTH_SHORT).show();
+                                break;
 
-                        try {
-                            Log.d("res", response);
-                            String userDataString = parse.parseJsonArray(response).get(0).toString();
-                            JSONObject userData = new JSONObject(userDataString);
+                            default:
 
-                            DBSI db = new DBSI();
-                            db.query("delete from User");
-                            db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
-                                    + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
-                                    + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
-                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UUID") + "', " + 1 + ", '', '" + userData.getString("FirebaseToken") + "')");
+                                ParseData parse = new ParseData();
 
-                            Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                            finish();
-                            Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
-                            startActivity(intent);
+                                try {
+                                    Log.d("res", response);
+                                    String userDataString = parse.parseJsonArray(response).get(0).toString();
+                                    JSONObject userData = new JSONObject(userDataString);
+
+                                    DBSI db = new DBSI();
+                                    db.query("delete from User");
+                                    db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
+                                            + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
+                                            + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
+                                            + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UUID") + "', " + 1 + ", '', '" + userData.getString("FirebaseToken") + "')");
+
+                                    Toast.makeText(SignUpActivity.this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                    Intent intent = new Intent(getApplicationContext(), MainViewPager.class);
+                                    startActivity(intent);
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                break;
                         }
+                    }
+                    @Override
+                    public void onFailure(String response) {
 
-                        break;
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
+                });
+
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                fcbToken = FirebaseInstanceId.getInstance().getToken();
+                while (fcbToken == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+                {
+                    fcbToken = FirebaseInstanceId.getInstance().getToken();
                 }
-            }
-            @Override
-            public void onFailure(String response) {
 
+                return null;
             }
-
-            @Override
-            public void onPreExcute() {
-
-            }
-        });
+        }.execute();
     }
 
     @Override

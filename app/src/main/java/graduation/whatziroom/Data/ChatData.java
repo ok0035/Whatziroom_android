@@ -2,7 +2,7 @@ package graduation.whatziroom.Data;
 
 import java.util.ArrayList;
 
-import graduation.whatziroom.activity.room.RoomViewPager;
+import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.adapter.ChatAdapter;
 
 /**
@@ -21,7 +21,7 @@ public class ChatData {
     public ChatData() {
 
         ChatDataList = new ArrayList<ChatData>();
-        adapter = new ChatAdapter(RoomViewPager.mContext, ChatDataList);
+        adapter = new ChatAdapter(BaseActivity.mContext, ChatDataList);
 
     }
 

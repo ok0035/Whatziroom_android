@@ -1,6 +1,7 @@
 package graduation.whatziroom.activity.main;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.io.IOException;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.login.LoginActivity;
@@ -83,11 +88,36 @@ public class ProfileFragment extends Fragment {
                     CheckLocationTimer = null;
                 }
 
-                DBSI db = new DBSI();
-                db.query("delete from User");
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        DBSI db = new DBSI();
+                        db.query("delete from User");
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+
+
+                    }
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                    }
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        try {
+                            FirebaseInstanceId.getInstance().deleteInstanceId();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.execute();
+
 //                Intent intent = new Intent(getContext(), LoginActivity.class);
 //                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(),0,0).toBundle();
 //                startActivity(intent,bundle);

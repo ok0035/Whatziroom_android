@@ -40,7 +40,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     private LinearLayout layout;
     private ImageView ivRoomSearchFlag;
     private static ListView roomListView;
-    private static RoomData roomData;
+    public static RoomData roomData;
     private RoomData roomSearchData;
     private android.widget.EditText edFindRoom;
     private android.widget.ListView roomSearchListView;
@@ -71,7 +71,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     @Override
     public void setUpEvents() {
 
-        updateRoom();
+        roomListView.setAdapter(roomData.getAdapter());
 
         roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

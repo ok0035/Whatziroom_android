@@ -1,6 +1,7 @@
 package graduation.whatziroom.activity.login;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,67 +80,89 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Params params = new Params();
+                new AsyncTask<Void, Void, Void>() {
+                    String token;
 
-                params.add("ID", edloginid.getText().toString());
-                params.add("PW", edloginpw.getText().toString());
-                params.add("UUID", GetDevicesUUID(mContext));
-                params.add("FirebaseToken", "여기에 파이어베이스 토큰");
-
-                new HttpNetwork("Login.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
-                    public void onSuccess(String response) {
-                        switch (response) {
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        Params params = new Params();
 
-                            case "fail":
+                        params.add("ID", edloginid.getText().toString());
+                        params.add("PW", edloginpw.getText().toString());
+                        params.add("UUID", GetDevicesUUID(mContext));
+                        params.add("FirebaseToken", token);
 
-                                Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
-                                break;
+                        new HttpNetwork("Login.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                switch (response) {
 
-                            default:
+                                    case "fail":
 
-                                ParseData parse = new ParseData();
+                                        Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                                        break;
 
-                                try {
-                                    Log.d("res", response);
-                                    String userDataString = parse.parseJsonArray(response).get(0).toString();
-                                    JSONObject userData = new JSONObject(userDataString);
+                                    default:
 
-                                    int isAutoLogin = 1;
+                                        ParseData parse = new ParseData();
+
+                                        try {
+                                            Log.d("res", response);
+                                            String userDataString = parse.parseJsonArray(response).get(0).toString();
+                                            JSONObject userData = new JSONObject(userDataString);
+
+                                            int isAutoLogin = 1;
 //                                    if(chAutoCheckBox.isChecked())  isAutoLogin = 1;
 //                                    else isAutoLogin = 0;
 
-                                    DBSI db = new DBSI();
-                                    db.query("delete from User;");
-                                    db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
-                                            + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
-                                            + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
-                                            + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UUID") + "', " + isAutoLogin + ", '', '" + userData.getString("FirebaseToken") + "')");
+                                            DBSI db = new DBSI();
+                                            db.query("delete from User;");
+                                            db.query("insert into User values(" + userData.getInt("PKey") + ", '" + userData.getString("Name") + "', '" + userData.getString("ID") + "', '"
+                                                    + userData.getString("PW") + "', '" + userData.getString("Email") + "', '" + userData.getInt("Status") + "', '"
+                                                    + userData.getString("Acount") + "', '" + userData.getDouble("Longitude") + "', '" + userData.getDouble("Latitude") + "', '"
+                                                    + userData.getString("CreatedDate") + "', '" + userData.getString("UpdatedDate") + "', '" + userData.getString("UUID") + "', " + isAutoLogin + ", '', '" + userData.getString("FirebaseToken") + "')");
 
-                                    Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                                    Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
-                                    startActivity(successIntent);
-                                    finish();
+                                            Toast.makeText(LoginActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                                            Intent successIntent = new Intent(getApplicationContext(), MainViewPager.class);
+                                            startActivity(successIntent);
+                                            finish();
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        break;
+
                                 }
+                            }
 
-                                break;
+                            @Override
+                            public void onFailure(String response) {
 
+                            }
+
+                            @Override
+                            public void onPreExcute() {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+
+                        token = FirebaseInstanceId.getInstance().getToken();
+                        while (token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+                        {
+                            token = FirebaseInstanceId.getInstance().getToken();
                         }
+
+                        return null;
                     }
+                }.execute();
 
-                    @Override
-                    public void onFailure(String response) {
-
-                    }
-
-                    @Override
-                    public void onPreExcute() {
-
-                    }
-                });
 
             }
         });
