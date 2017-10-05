@@ -51,7 +51,6 @@ public class NoticeAdapter extends ArrayAdapter {
         final LinearLayout ll = (LinearLayout)row.findViewById(R.id.noticeSelectBeforeLL);
         final TextView noticeResultTxt = (TextView)row.findViewById(R.id.noticeResultTxt);
         TextView noticeTxt1 = (TextView)row.findViewById(R.id.noticeTxt1);
-        TextView noticeTxt2 = (TextView)row.findViewById(R.id.noticeTxt2);
         TextView okBtn = (TextView)row.findViewById(R.id.noticeOKBtn);
         TextView cancelBtn = (TextView)row.findViewById(R.id.noticeCancelBtn);
 
@@ -63,14 +62,13 @@ public class NoticeAdapter extends ArrayAdapter {
             okBtn.setVisibility(View.VISIBLE);
             cancelBtn.setText("X");
             if(mList.get(position).getFriendStatus().equals("1")){
-                noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
+                noticeResultTxt.setText(mList.get(position).getUserName()+" 님과 친구가 되었습니다.");
                 ll.setVisibility(View.GONE);
             }else if(mList.get(position).getFriendStatus().equals("2")){
-                noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+                noticeResultTxt.setText(mList.get(position).getUserName()+" 님의 친구신청을 거절했습니다.");
                 ll.setVisibility(View.GONE);
             }else{
-                noticeTxt1.setText(mList.get(position).getUserName()+"님의 친구 신청");
-
+                noticeTxt1.setText(mList.get(position).getUserName()+" 님이 친구 신청 메시지를 보내셨어요!");
                 ll.setVisibility(View.VISIBLE);
             }
         }else{
@@ -78,13 +76,13 @@ public class NoticeAdapter extends ArrayAdapter {
             okBtn.setVisibility(View.GONE);
             cancelBtn.setText("취소");
             if(mList.get(position).getFriendStatus().equals("1")){
-                noticeResultTxt.setText(mList.get(position).getUserName()+"님과 친구가 되었습니다.");
+                noticeResultTxt.setText(mList.get(position).getUserName()+" 님과 친구가 되었습니다.");
                 ll.setVisibility(View.GONE);
             }else if(mList.get(position).getFriendStatus().equals("2")){
-                noticeResultTxt.setText(mList.get(position).getUserName()+"님의 친구신청을 거절했습니다.");
+                noticeResultTxt.setText(mList.get(position).getUserName()+" 님이 친구신청을 거절하셨어요.");
                 ll.setVisibility(View.GONE);
             }else{
-                noticeTxt1.setText(mList.get(position).getUserName()+"님에게 보낸 친구 신청");
+                noticeTxt1.setText(mList.get(position).getUserName()+" 님에게 친구 신청하셨어요.\n조금만 기다려주세요.");
                 ll.setVisibility(View.VISIBLE);
             }
         }

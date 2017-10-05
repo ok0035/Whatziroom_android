@@ -764,6 +764,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         LayoutInflater inf = LayoutInflater.from(mContext);
         View customBarView = inf.inflate(R.layout.actionbar_room, null);
 
+        this.tvRoomName = customBarView.findViewById(R.id.tvRoomName);
         this.btnRoomSetting = customBarView.findViewById(R.id.btnRoomSetting);
         this.btnRoomSchedule = customBarView.findViewById(R.id.btnRoomSchedule);
         this.btnRoomExit = customBarView.findViewById(R.id.btnRoomExit);
@@ -776,7 +777,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         getSupportActionBar().setElevation(0);
 
     }
-
 
     @Override
     public void setValues() {

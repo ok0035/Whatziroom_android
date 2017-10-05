@@ -47,7 +47,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:src="@mipmap/ic_launcher_round" />
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/notice" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -65,16 +67,6 @@
                     android:textSize="16dp"
                     android:gravity="center_vertical"
                     android:text="xxx님의 친구 신청" />
-
-                <TextView
-                    android:id="@+id/noticeTxt2"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="0.5"
-                    android:textSize="15dp"
-                    android:gravity="center_vertical"
-                    android:text="안녕하세요 친구가 되고 싶어요ㅠ" />
 
 
             </LinearLayout>
