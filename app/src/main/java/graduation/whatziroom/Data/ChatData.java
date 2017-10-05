@@ -18,6 +18,15 @@ public class ChatData {
     private ArrayList<ChatData> ChatDataList;
     private ChatAdapter adapter;
 
+    public String getFBToken() {
+        return FBToken;
+    }
+
+    public void setFBToken(String FBToken) {
+        this.FBToken = FBToken;
+    }
+
+    private String FBToken;
     public ChatData() {
 
         ChatDataList = new ArrayList<ChatData>();

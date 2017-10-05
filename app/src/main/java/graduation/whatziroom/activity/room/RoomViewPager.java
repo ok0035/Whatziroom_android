@@ -614,7 +614,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                         for (int i = 0; i < jsonAttendUserList.length(); i++) {
                             JSONObject jsonUserData = new JSONObject(jsonAttendUserList.get(i).toString());
-                            attendUserList.add(new UserData(jsonUserData.getString("PKey"), jsonUserData.getString("Name"), jsonUserData.getString("Longitude"), jsonUserData.getString("Latitude")));
+                            attendUserList.add(new UserData(jsonUserData.getString("PKey"), jsonUserData.getString("Name"), jsonUserData.getString("Longitude"), jsonUserData.getString("Latitude"), jsonUserData.getString("FirebaseToken")));
                             Log.d("ATTEND_PKEY", jsonUserData.getString("PKey"));
                             Log.d("ATTEND_Name", jsonUserData.getString("Name"));
                             Log.d("ATTEND_Longtitude", jsonUserData.getString("Longitude"));

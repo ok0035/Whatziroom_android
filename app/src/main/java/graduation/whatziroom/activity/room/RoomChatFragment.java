@@ -1,6 +1,7 @@
 package graduation.whatziroom.activity.room;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,16 +14,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 
 
 /**
@@ -107,6 +113,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                                 ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
                                 databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
+
                                 edChat.setText("");
 
                             } else edChat.setText("");
@@ -125,7 +132,13 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
                 if(edChat.getText().length() != 0) {
 
                     ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
-                    databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
+                    databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            sendPostToFCM(edChat.getText().toString());
+                        }
+                    });
+
                     edChat.setText("");
                 }
             }
@@ -156,6 +169,32 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void sendPostToFCM(String msg){
+
+        Params params = new Params();
+        params.add("UserPKey", String.valueOf(MainViewPager.getUserPKey()));
+        params.add("RoomPKey", String.valueOf(RoomViewPager.getRoomPKey()));
+        params.add("ChatMsg", msg);
+
+        new HttpNetwork("SendPostToFCM.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+                Log.d("FCM", "Success"+response);
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
 
             }
         });

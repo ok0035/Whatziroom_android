@@ -33,24 +33,38 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Message data payload: " + remoteMessage.getData());
         Log.d(TAG, "Message data payload2: " + remoteMessage.getData().get("body"));
 //        remoteMessage.getData();
-        sendNotification(body);
+        String msg = (remoteMessage.getData().get("txtMsg") == null )? "" :remoteMessage.getData().get("txtMsg");
+        sendNotification(body, msg);
     }
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, SplashActivity.class);
+    private void sendNotification(String messageBody, String chatMsg) {
+        Intent intent = new Intent(this, MainViewPager.class);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        String alramTxt = messageBody;
+
+        switch (messageBody){
+            case "RequestFriend" : alramTxt = "친구 요청이 들어왔어요!";
+                break;
+            case "RequestEnterRoom" : alramTxt = "방 입장 요청이 들어왔어요!";
+                break;
+            case  "ChatMsg" : alramTxt = chatMsg;
+            default:
+                break;
+        }
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("WhatZiroom")
-                .setContentText(messageBody)
+                .setContentText(alramTxt)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setSound(defaultSoundUri);
+//                .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
