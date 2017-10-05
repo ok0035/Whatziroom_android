@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical"
+            android:gravity="center">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:src="@mipmap/block_friend_icon"/>
+
+                <TextView
+                    android:id="@+id/blockFriendTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="정말로 차단하시겠어요? T.T"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@color/colorTxtDialogRequestFriend"/>
+
+        </LinearLayout>
+
+</RelativeLayout>

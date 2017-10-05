@@ -3,8 +3,6 @@ package graduation.whatziroom.activity.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +39,9 @@ public class FriendListFragment extends Fragment {
     ImageView searchFreindBtn;
     DBSI dbsi;
 
-    private android.widget.EditText findFreindEdt;
-    private android.widget.TextView tvFriendSearchBack;
-    private android.widget.ListView friendList;
+    private EditText findFreindEdt;
+    private TextView tvFriendSearchBack;
+    private ListView friendList;
 
 
     @Nullable
@@ -53,7 +51,7 @@ public class FriendListFragment extends Fragment {
         layout = (LinearLayout) inflater.inflate(R.layout.friend_list, container, false);
         this.friendList = (ListView) layout.findViewById(R.id.friendList);
         this.tvFriendSearchBack = (TextView) layout.findViewById(R.id.tvFriendSearchBack);
-        this.searchFreindBtn = (ImageView) layout.findViewById(R.id.searchFreindBtn);
+        this.searchFreindBtn = (ImageView) layout.findViewById(R.id.searchFriendBtn);
         this.findFreindEdt = (EditText) layout.findViewById(R.id.findFreindEdt);
         friendListItem = new ArrayList<>();
         dbsi = new DBSI();
@@ -132,7 +130,7 @@ public class FriendListFragment extends Fragment {
         edittext.setHint("친구 찾기(이메일, 닉네임)");
 
         final ListView listview = getActivity().findViewById(R.id.friendList);
-        ImageView textview = getActivity().findViewById(R.id.searchFreindBtn);
+        ImageView textview = getActivity().findViewById(R.id.searchFriendBtn);
 
         listview.setAdapter(null);
 
@@ -204,7 +202,7 @@ public class FriendListFragment extends Fragment {
         EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
         edittext.setHint("친구 찾기(이름)");
 
-        ImageView textview = getActivity().findViewById(R.id.searchFreindBtn);
+        ImageView textview = getActivity().findViewById(R.id.searchFriendBtn);
         textview.setOnClickListener(null);
 
         tvFriendSearchBack.setVisibility(View.GONE);
