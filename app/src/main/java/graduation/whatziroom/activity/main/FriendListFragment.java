@@ -127,6 +127,7 @@ public class FriendListFragment extends Fragment {
 
         final EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
 
+        edittext.setText(null);
         edittext.setHint("친구 찾기(이메일, 닉네임)");
 
         final ListView listview = getActivity().findViewById(R.id.friendList);
@@ -200,6 +201,7 @@ public class FriendListFragment extends Fragment {
     public void reloadFunc() {
 
         EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
+        edittext.setText(null);
         edittext.setHint("친구 찾기(이름)");
 
         ImageView textview = getActivity().findViewById(R.id.searchFriendBtn);
