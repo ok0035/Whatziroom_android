@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="스케줄 제목"
-                    android:textSize="20dp"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -144,16 +144,13 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|center"
                     android:textStyle="bold"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#ffffff"
                     android:text="D-25"
                     android:textSize="21dp" />
 
             </LinearLayout>
 
-
-
         </LinearLayout>
-
 
     </LinearLayout>
 

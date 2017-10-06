@@ -1,39 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:id="@+id/talkToFriendET"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:textSize="20dp"
-        android:hint="친구 요청을 보냅니다. "
-        android:gravity="center"
-        />
+    android:layout_height="wrap_content"
+    android:background="@null">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="260dp"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="취소" />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/back_dialog_request_friend"/>
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvFriendRequestTxt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="친구 신청" />
+            android:gravity="center"
+            android:text="친구신청 메시지"
+            android:textSize="16dp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/colorTxtDialogRequestFriend"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/sColor" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/btnRequestFriendOk"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="네"
+                android:textColor="@color/colorTxtNoDialogRequestFriend"
+
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/sColor" />
+
+            <TextView
+                android:id="@+id/btnRequestFriendCancel"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="아니오"
+                android:textColor="@color/colorTxtNoDialogRequestFriend"
+                android:textSize="16dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>

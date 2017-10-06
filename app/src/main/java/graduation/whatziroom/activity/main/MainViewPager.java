@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -380,17 +381,31 @@ public class MainViewPager extends BaseActivity {
     public void updateFirebase() {
 
         for (int i = 0; i < roomData.getRoomArrayList().size(); i++) {
-
             final int finalI = i;
+
+            databaseReference.child("Chat").child(roomData.getRoomArrayList().get(i).getRoomPKey()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d("value.getChildrenCount", dataSnapshot.getValue() + "");
+                    Log.d("value.getChildrenCount", dataSnapshot.getChildren() + "");
+                    Log.d("value.getChildrenCount", dataSnapshot.getChildrenCount() + "");
+                    chatList.get(finalI).setChatCount(Integer.parseInt(dataSnapshot.getChildrenCount() + ""));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
             databaseReference.child("Chat").child(roomData.getRoomArrayList().get(i).getRoomPKey()).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     ChatData data = dataSnapshot.getValue(ChatData.class);
+//                    Log.d("data.getChildrenCount", dataSnapshot.getChildrenCount() + "");
 
-                    Log.d("updateFirebase", "updateFirebase");
                     if (chatList.get(finalI).getRoomPKey().equals(data.getRoomPKey())) {
 
-                        chatList.get(finalI).setChatCount(chatList.get(finalI).getChatCount() + 1);
                         chatList.get(finalI).addItem(data);
                         chatList.get(finalI).getAdapter().notifyDataSetChanged();
 
@@ -432,12 +447,27 @@ public class MainViewPager extends BaseActivity {
         chat.setRoomPKey(roomPKey);
         chatList.add(chat);
 
+        databaseReference.child("Chat").child(roomPKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("value.getChildrenCount", dataSnapshot.getValue() + "");
+                Log.d("value.getChildrenCount", dataSnapshot.getChildren() + "");
+                Log.d("value.getChildrenCount", dataSnapshot.getChildrenCount() + "");
+                chatList.get(chatList.size()-1).setChatCount(Integer.parseInt(dataSnapshot.getChildrenCount() + ""));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         databaseReference.child("Chat").child(roomPKey).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("add.getChildrenCount", dataSnapshot.getChildrenCount() + "");
 
                 ChatData data = dataSnapshot.getValue(ChatData.class);
-                chatList.get(chatList.size()-1).setChatCount(chatList.get(chatList.size()-1).getChatCount() + 1);
                 chatList.get(chatList.size()-1).addItem(data);
                 chatList.get(chatList.size()-1).getAdapter().notifyDataSetChanged();
 
@@ -493,7 +523,6 @@ public class MainViewPager extends BaseActivity {
                         Log.d("DESC", jsonRoomData.getString("Description"));
                         Log.d("ChatCount", jsonRoomData.getString("ChatCount"));
 
-
                     }
 
 
@@ -523,10 +552,12 @@ public class MainViewPager extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+
         if (CheckLocationTimer != null) {
             CheckLocationTimer.cancel();
             CheckLocationTimer = null;
         }
+
         super.onBackPressed();
     }
 

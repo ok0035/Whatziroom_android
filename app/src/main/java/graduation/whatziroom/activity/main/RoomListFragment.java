@@ -79,6 +79,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
                 RoomViewPager.setRoomPKey(MainViewPager.roomData.getRoomArrayList().get(position).getRoomPKey().toString());
+                RoomViewPager.setRoomName(MainViewPager.roomData.getRoomArrayList().get(position).getRoomName());
                 startActivity(intent);
             }
         });

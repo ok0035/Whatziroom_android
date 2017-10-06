@@ -59,6 +59,11 @@ public class RoomAdapter extends ArrayAdapter {
             for(int i =0; i< MainViewPager.chatList.size(); i++) {
                 if(roomData.getRoomPKey().equals(MainViewPager.chatList.get(i).getRoomPKey())) {
                     chatCount = MainViewPager.chatList.get(i).getChatCount() - Integer.parseInt(roomData.getChatCount());
+
+                    Log.d("chatList.getChatCount()", "...." + MainViewPager.chatList.get(i).getChatCount() + "");
+                    Log.d("roomData.getChatCount", "...." + roomData.getChatCount() + "");
+                    Log.d("chatCount", "...." + chatCount + "");
+
                     if(chatCount < 0) {
                         Log.d("chatList.getChatCount()", MainViewPager.chatList.get(i).getChatCount() + "");
                         Log.d("roomData.getChatCount()", roomData.getChatCount());

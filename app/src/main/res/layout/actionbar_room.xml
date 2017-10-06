@@ -19,14 +19,13 @@
 
             <ImageView
                 android:id="@+id/btnRoomExit"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="start"
                 android:textSize="14dp"
                 android:layout_marginLeft="5dp"
                 android:padding="4dp"
-                android:src="@drawable/outroom"/>
-
+                android:src="@mipmap/btn_outroom"/>
 
         </LinearLayout>
 
@@ -64,7 +63,6 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-
                 android:padding="4dp"
                 android:textSize="14dp"
                 android:src="@mipmap/btn_setting"

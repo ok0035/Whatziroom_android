@@ -40,6 +40,15 @@ public class FriendAdapter extends ArrayAdapter {
     int blockFlag;
     DBSI dbsi;
 
+    ImageView thumNail;
+    TextView friendName;
+    ImageView blockBtn;
+
+    // 친구 신청 다이얼로그
+    TextView tvFriendRequestTxt;
+    TextView btnRequestFriendOk;
+    TextView btnRequestFriendCancel;
+
     public FriendAdapter(Context context, ArrayList<FriendData> list, int blockFlag) {
         super(context, R.layout.friend_list_tiem, list);
         mContext = context;
@@ -61,13 +70,13 @@ public class FriendAdapter extends ArrayAdapter {
             row = inf.inflate(R.layout.friend_list_tiem, null);
         }
 
-        ImageView thumNail = row.findViewById(R.id.friendListThumbImg);
-        TextView firendName = row.findViewById(R.id.friendListNameTxt);
-        TextView blockBtn = row.findViewById(R.id.friendListBlockTxt);
+        thumNail = row.findViewById(R.id.friendListThumbImg);
+        friendName = row.findViewById(R.id.friendListNameTxt);
+        blockBtn = row.findViewById(R.id.friendListBlockTxt);
 
         final FriendData data = mList.get(position);
 
-        firendName.setText(data.getUserName());
+        friendName.setText(data.getUserName());
 
         if (this.blockFlag == 0) {
             System.out.println("어댑터 이벤트 0 작동" + blockFlag);
@@ -80,9 +89,7 @@ public class FriendAdapter extends ArrayAdapter {
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, position + "커스텀 다이얼로그", Toast.LENGTH_SHORT).show();
-                    ShowDialog(position);
-
+                    ShowRequestDialog(position);
                 }
             });
         }
@@ -90,55 +97,63 @@ public class FriendAdapter extends ArrayAdapter {
         blockBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, position + "번째 친구", Toast.LENGTH_SHORT).show();
-                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("정말로 차단하시겠습니까?");
-                builder.setPositiveButton("네 괜찮아요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(mContext, "차단 완료", Toast.LENGTH_SHORT).show();
-                        Params params = new Params();
-                        params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
-                        Log.d("FriendKey",String.valueOf(data.getUserPKey()));
-                        params.add("FriendKey", String.valueOf(data.getUserPKey()));
-
-                        new HttpNetwork("DeleteFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-                            @Override
-                            public void onSuccess(String response) {
-                                Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
-                                mList.remove(position);
-                                notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onFailure(String response) {
-
-                            }
-
-                            @Override
-                            public void onPreExcute() {
-
-                            }
-                        });
-
-                    }
-                });
-                builder.setNegativeButton("아니요. 실수로 눌렀어요!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
+                ShowBlockDialog(position, data);
             }
         });
 
         return row;
     }
 
-    private void ShowDialog(final int position) {
+    // 친구 차단 다이얼로그
+    private void ShowBlockDialog(final int position, final FriendData data) {
+        //Toast.makeText(mContext, position + "번째 친구", Toast.LENGTH_SHORT).show();
+        View view = LayoutInflater.from(mContext).inflate(R.layout.block_friend_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        builder.setView(view);
+        builder.setPositiveButton("네, 괜찮아요.", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(mContext, "차단되었습니다.", Toast.LENGTH_SHORT).show();
+                Params params = new Params();
+                params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
+                Log.d("FriendKey",String.valueOf(data.getUserPKey()));
+                params.add("FriendKey", String.valueOf(data.getUserPKey()));
+
+                new HttpNetwork("DeleteFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                        mList.remove(position);
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton("아니요. 실수로 눌렀어요!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.create().show();
+
+    }
+
+    // 친구 신청 다이얼로그
+    private void ShowRequestDialog(final int position) {
 
         LayoutInflater dialog = LayoutInflater.from(mContext);
         final View dialogLayout = dialog.inflate(R.layout.request_friend_dialog, null);
@@ -155,25 +170,28 @@ public class FriendAdapter extends ArrayAdapter {
 
         myDialog.show();
 
-        Button btn_ok = dialogLayout.findViewById(R.id.btn_ok);
-        Button btn_cancel = dialogLayout.findViewById(R.id.btn_cancel);
+        tvFriendRequestTxt = dialogLayout.findViewById(R.id.tvFriendRequestTxt);
+        btnRequestFriendCancel = dialogLayout.findViewById(R.id.btnRequestFriendCancel);
+        btnRequestFriendOk = dialogLayout.findViewById(R.id.btnRequestFriendOk);
 
-        btn_ok.setOnClickListener(new View.OnClickListener() {
+        tvFriendRequestTxt.setText(friendName.getText()+"님에게\n친구신청 메시지를 보내드릴께요!^.^");
+
+        btnRequestFriendCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDialog.cancel();
             }
         });
 
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        btnRequestFriendOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 //                Toast.makeText(mContext, "전송완료", Toast.LENGTH_SHORT).show();
                 if(mList.get(position).getFreindStatus().equals("send_wating")){
-                    Toast.makeText(mContext, "이미 친구 요청을 보낸 유저입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "이미 친구 신청이 완료되었어요.", Toast.LENGTH_SHORT).show();
                 }else if(mList.get(position).getFreindStatus().equals("receive_wating")){
-                    Toast.makeText(mContext, "상대방이 친구 요청을 요구했습니다. \n 알림창을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "상대방이 먼저 메시지를 보내셨네요. \n 알림창을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
 
@@ -190,13 +208,13 @@ public class FriendAdapter extends ArrayAdapter {
                     new HttpNetwork("AddFriend.php", params1.getParams(), new HttpNetwork.AsyncResponse() {
                         @Override
                         public void onSuccess(String response) {
-                            Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
                             mList.get(position).setFreindStatus("send_wating");
                         }
 
                         @Override
                         public void onFailure(String response) {
-                            Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

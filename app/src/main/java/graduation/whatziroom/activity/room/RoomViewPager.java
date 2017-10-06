@@ -102,6 +102,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     private static int roomPKey = 0;
     private static int schedulePKey = 0;
+    private static String roomName = "";
 
     // TimePicker, DatePicker를 위한 변수 선언
 
@@ -147,6 +148,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                 params.add("UserPKey", MainViewPager.getUserPKey() + "");
                 params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
                 params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+
+                Log.d("UserPKey", MainViewPager.getUserPKey() + "");
+                Log.d("RoomPKey", RoomViewPager.getRoomPKey() + "");
+                Log.d("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
 
                 new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -872,6 +877,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         View customBarView = inf.inflate(R.layout.actionbar_room, null);
 
         this.tvRoomName = customBarView.findViewById(R.id.tvRoomName);
+        tvRoomName.setText(RoomViewPager.getRoomName());
         this.btnRoomSetting = customBarView.findViewById(R.id.btnRoomSetting);
         this.btnRoomSchedule = customBarView.findViewById(R.id.btnRoomSchedule);
         this.btnRoomExit = customBarView.findViewById(R.id.btnRoomExit);
@@ -913,6 +919,14 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     public static void setSoonSchedulePKey(String soonSchedulePKey) {
         SoonSchedulePKey = soonSchedulePKey;
+    }
+
+    public static String getRoomName() {
+        return roomName;
+    }
+
+    public static void setRoomName(String roomName) {
+        RoomViewPager.roomName = roomName;
     }
 
     @Override
