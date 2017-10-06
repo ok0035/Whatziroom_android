@@ -135,18 +135,11 @@ public class DBSI extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS User (PKey integer(8) NOT NULL, Name varchar(20), ID varchar(20), PW varchar(60), Email varchar(30), " +
                 "Status tinyint(3), Acount varchar(30), Longitude double(10), Latitude double(10), CreatedDate timestamp, UpdatedDate timestamp, UUID varchar(200), AutoLogin integer(1), Message varchar(100), FirebaseToken varchar(250));");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS Chat (\n" +
-                "RoomPKey integer(8),\n" +
-                "UserPKey integer(8),\n" +
-                "Message varchar(250),\n" +
-                "Name varchar(20)\n" +
-                ");");
     }
 
     public void dropTable() {
 
         db.execSQL("DROP TABLE IF EXISTS User;");
-        db.execSQL("DROP TABLE IF EXISTS Chat;");
 
     }
 

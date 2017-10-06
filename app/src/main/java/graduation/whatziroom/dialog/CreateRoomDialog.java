@@ -13,10 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.base.BasicMethod;
-import graduation.whatziroom.activity.main.RoomListFragment;
+import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
@@ -65,11 +66,18 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
 
                 new HttpNetwork("CreateRoom.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
-                    public void onSuccess(String response) {
+                    public void onSuccess(final String response) {
 
                         Toast.makeText(BaseActivity.mContext, "방 개설 완료", Toast.LENGTH_SHORT).show();
                         RoomViewPager.setRoomPKey(response);
-                        RoomListFragment.updateRoom();
+                        MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                            @Override
+                            public void onPost(RoomData data) {
+
+                                MainViewPager.childAddListener(response);
+
+                            }
+                        });
                         Intent intent = new Intent(BaseActivity.mContext, RoomViewPager.class);
                         BaseActivity.mContext.startActivity(intent);
                         dismiss();

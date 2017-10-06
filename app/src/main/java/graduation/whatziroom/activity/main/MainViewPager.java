@@ -1,6 +1,7 @@
 package graduation.whatziroom.activity.main;
 
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import graduation.whatziroom.Data.ChatData;
+import graduation.whatziroom.Data.FirebaseNoticeData;
 import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
@@ -75,15 +77,23 @@ public class MainViewPager extends BaseActivity {
     //채팅데이터를 받는 리스트
     public static ArrayList<ChatData> chatList = new ArrayList<ChatData>();
 
+    //방정보
+    public static RoomData roomData;
     private static int UserPKey;
     private static String UserName;
 
     private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private static DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+    ProgressDialog mProgressDialog;
+
     private LocationService locationService;
     private boolean isBind = false;
     public static Timer CheckLocationTimer;
+
+    public static interface AfterUpdate {
+        public void onPost(RoomData data);
+    }
 
     ServiceConnection sconn = new ServiceConnection() {
         @Override //서비스가 실행될 때 호출
@@ -111,6 +121,8 @@ public class MainViewPager extends BaseActivity {
         scheduleListView = new ScheduleListFragment();
         notificationListView = new NotificationListFragment();
         profileView = new ProfileFragment();
+        MainViewPager.roomData = new RoomData();
+
 
     }
 
@@ -145,7 +157,6 @@ public class MainViewPager extends BaseActivity {
         String UserInfo[][] = db.selectQuery("select PKey, Name from User");
         UserPKey = Integer.parseInt(UserInfo[0][0]);
         UserName = UserInfo[0][1];
-
 
         Log.d("UserPKeyMain", UserPKey + "");
 
@@ -214,7 +225,12 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("편집");
                         break;
                     case 1:
-                        RoomListFragment.updateRoom();
+                        MainViewPager.updateRoom(new AfterUpdate() {
+                            @Override
+                            public void onPost(RoomData data) {
+
+                            }
+                        });
                         titleTxt.setText("방 목록");
                         backBtn.setVisibility(View.INVISIBLE);
                         configTxt1.setVisibility(View.VISIBLE);
@@ -266,7 +282,12 @@ public class MainViewPager extends BaseActivity {
 
                     switch (position) {
                         case 1:
-                            RoomListFragment.updateRoom();
+                            MainViewPager.updateRoom(new AfterUpdate() {
+                                @Override
+                                public void onPost(RoomData data) {
+
+                                }
+                            });
                             break;
                         case 2:
                             ScheduleListFragment.updateSchedule();
@@ -281,13 +302,223 @@ public class MainViewPager extends BaseActivity {
             }
         });
 
-        updateRoom();
 
+        databaseReference.child("Notice").child(MainViewPager.getUserPKey() + "").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                final FirebaseNoticeData data = dataSnapshot.getValue(FirebaseNoticeData.class);
+
+                boolean flag = false;
+                for(int i = 0; i< roomData.getRoomArrayList().size(); i++) {
+                    if(roomData.getRoomArrayList().get(i).getRoomPKey().equals(data.getRoomKey())) {
+                        flag = true;
+                    }
+                }
+
+                if(!flag) {
+
+                    switch (data.getStatus()) {
+
+                        case 1:
+
+                            updateRoom(new AfterUpdate() {
+                                @Override
+                                public void onPost(RoomData roomData) {
+                                    MainViewPager.childAddListener(data.getRoomKey());
+                                }
+                            });
+
+                            Log.d("NoticeTest", "Notice");
+                            break;
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        updateRoom(new AfterUpdate() {
+            @Override
+            public void onPost(RoomData data) {
+
+                for(int i=0; i<data.getRoomArrayList().size(); i++) {
+                    ChatData initData = new ChatData();
+                    initData.setRoomPKey(data.getRoomArrayList().get(i).getRoomPKey());
+                    chatList.add(initData);
+                }
+
+                updateFirebase();
+            }
+        });
 
         //현재 위치 추적이 필요한 상황인지를 체크해서 시작해주면 될 듯 하다.
         //이 서비스가 실행되면 앱이 종료되지 않는다.
         startLocationService();
 
+    }
+
+    public void updateFirebase() {
+
+        for (int i = 0; i < roomData.getRoomArrayList().size(); i++) {
+
+            final int finalI = i;
+            databaseReference.child("Chat").child(roomData.getRoomArrayList().get(i).getRoomPKey()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    ChatData data = dataSnapshot.getValue(ChatData.class);
+
+                    Log.d("updateFirebase", "updateFirebase");
+                    if (chatList.get(finalI).getRoomPKey().equals(data.getRoomPKey())) {
+
+                        chatList.get(finalI).setChatCount(chatList.get(finalI).getChatCount() + 1);
+                        chatList.get(finalI).addItem(data);
+                        chatList.get(finalI).getAdapter().notifyDataSetChanged();
+
+                        RoomListFragment.roomListView.setAdapter(roomData.getAdapter());
+                        roomData.getAdapter().notifyDataSetChanged();
+
+                        Log.d("message", data.getMessage());
+                    }
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    Log.d("onChildChanged", "onChildChanged");
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+    }
+
+    public static void childAddListener(String roomPKey) {
+        ChatData chat = new ChatData();
+        chat.setRoomPKey(roomPKey);
+        chatList.add(chat);
+
+        databaseReference.child("Chat").child(roomPKey).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                ChatData data = dataSnapshot.getValue(ChatData.class);
+                chatList.get(chatList.size()-1).setChatCount(chatList.get(chatList.size()-1).getChatCount() + 1);
+                chatList.get(chatList.size()-1).addItem(data);
+                chatList.get(chatList.size()-1).getAdapter().notifyDataSetChanged();
+
+                RoomListFragment.roomListView.setAdapter(roomData.getAdapter());
+                roomData.getAdapter().notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    public static void updateRoom(final AfterUpdate delegate) {
+
+        Params params = new Params();
+        params.add("UserPKey", MainViewPager.getUserPKey() + "");
+
+        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+
+                try {
+                    ParseData parse = new ParseData();
+                    final JSONArray roomList = parse.parseJsonArray(response);
+                    MainViewPager.roomData = new RoomData();
+
+                    for (int i = 0; i < roomList.length(); i++) {
+                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
+                        MainViewPager.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
+
+                        Log.d("roomPKey", jsonRoomData.getString("PKey"));
+                        Log.d("Name", jsonRoomData.getString("Name"));
+                        Log.d("DESC", jsonRoomData.getString("Description"));
+                        Log.d("ChatCount", jsonRoomData.getString("ChatCount"));
+
+
+                    }
+
+
+
+                    RoomListFragment.roomListView.setAdapter(MainViewPager.roomData.getAdapter());
+                    MainViewPager.roomData.getAdapter().notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                delegate.onPost(roomData);
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
     }
 
     @Override
@@ -420,6 +651,7 @@ public class MainViewPager extends BaseActivity {
 
     @Override
     public void setValues() {
+
         super.setValues();
 
 
@@ -499,95 +731,6 @@ public class MainViewPager extends BaseActivity {
         }
     };
 
-    public static void updateRoom() {
-
-        Params params = new Params();
-        params.add("UserPKey", MainViewPager.getUserPKey() + "");
-
-        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-            @Override
-            public void onSuccess(String response) {
-
-                try {
-                    ParseData parse = new ParseData();
-                    JSONArray roomList = parse.parseJsonArray(response);
-                    RoomListFragment.roomData = new RoomData();
-
-                    for (int i = 0; i < roomList.length(); i++) {
-                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-                        //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-                        RoomListFragment.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"));
-                    }
-
-                    final ArrayList<RoomData> RoomListData = RoomListFragment.roomData.getRoomArrayList();
-                    //여기에 본인의 UserPKey로 데이터가 추가되면 리스트갱신 등의 이벤트를 줄 수 있을 듯
-
-                    System.out.println("ffffffffffffffffffff     ...." + RoomListData.size());
-
-                    for(int i = 0; i<RoomListData.size(); i++) {
-                        ChatData data = new ChatData();
-                        data.setRoomPKey(RoomListData.get(i).getRoomPKey());
-                        chatList.add(data);
-                    }
-
-                    for (int i = 0; i < RoomListData.size(); i++) {
-                        Log.d("firebase", "fffffffffffffffff");
-                        databaseReference.child("Chat").child(RoomListData.get(i).getRoomPKey() + "").addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                ChatData data = dataSnapshot.getValue(ChatData.class);
-
-                                for(int k = 0; k < RoomListData.size(); k++) {
-                                    if(chatList.get(k).getRoomPKey().equals(data.getRoomPKey())) {
-                                        chatList.get(k).addItem(data);
-                                        chatList.get(k).getAdapter().notifyDataSetChanged();
-                                        Log.d("firebase", "fffffffffffffffff");
-                                    }
-                                }
-
-                            }
-
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-
-                    RoomListFragment.roomData.getAdapter().notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String response) {
-
-            }
-
-            @Override
-            public void onPreExcute() {
-
-            }
-        });
-    }
-
 
     @Override
     public void bindView() {
@@ -614,6 +757,7 @@ public class MainViewPager extends BaseActivity {
     public static int getUserPKey() {
         return UserPKey;
     }
+
     public static String getUserName() {
         return UserName;
     }
@@ -630,4 +774,10 @@ public class MainViewPager extends BaseActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onResume() {
+
+        Log.d("onResume", "Here");
+        super.onResume();
+    }
 }

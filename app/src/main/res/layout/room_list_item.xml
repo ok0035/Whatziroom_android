@@ -75,17 +75,18 @@
                 android:text="설명"
                 android:textColor="#7f7f7f" />
 
-            <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="0.2"-->
-                <!--android:background="@drawable/round_background_button"-->
-                <!--android:padding="5dp"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="25dp"-->
-                <!--android:textColor="#FFFFFF"-->
-                <!--android:textStyle="bold"-->
-                <!--android:text="5"/>-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:id="@+id/tvChatCount"
+                android:background="@drawable/round_background_button"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textSize="25dp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:text="5"/>
 
         </LinearLayout>
 

@@ -99,7 +99,6 @@ public class ProfileFragment extends Fragment {
                         startActivity(intent);
                         getActivity().finish();
 
-
                     }
 
                     @Override

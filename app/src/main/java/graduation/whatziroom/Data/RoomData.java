@@ -16,6 +16,7 @@ public class RoomData {
     private String roomUserNumber;
     private String roomDate;
     private String roomPKey;
+    private String chatCount;
 
     private RoomAdapter adapter;
 
@@ -24,7 +25,15 @@ public class RoomData {
     public RoomData() {
         super();
         roomArrayList = new ArrayList<>();
-        adapter = new RoomAdapter(BaseActivity.mContext, roomArrayList);
+    }
+
+    public RoomData(String PKey, String name, String date, String count) {
+
+        setRoomPKey(PKey);
+        setRoomName(name);
+        setRoomDate(date);
+        setChatCount(count);
+
     }
 
     public RoomData(String PKey, String name, String date) {
@@ -32,6 +41,7 @@ public class RoomData {
         setRoomPKey(PKey);
         setRoomName(name);
         setRoomDate(date);
+
     }
 
     public ArrayList<RoomData> getRoomArrayList() {
@@ -70,7 +80,21 @@ public class RoomData {
         this.roomDate = roomDate;
     }
 
+    public String getChatCount() {
+        return chatCount;
+    }
 
+    public void setChatCount(String chatCount) {
+        this.chatCount = chatCount;
+    }
+
+
+
+    public void addItem(String roomPKey, String name, String date, String count) {
+
+        roomArrayList.add(new RoomData(roomPKey ,name, date, count));
+
+    }
 
     public void addItem(String roomPKey, String name, String date) {
 
@@ -79,7 +103,7 @@ public class RoomData {
     }
 
     public RoomAdapter getAdapter() {
-
+        adapter = new RoomAdapter(BaseActivity.mContext, roomArrayList);
         return adapter;
     }
 

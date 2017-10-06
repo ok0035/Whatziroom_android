@@ -39,14 +39,14 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
     private LinearLayout layout;
     private ImageView ivRoomSearchFlag;
-    private static ListView roomListView;
+    public static ListView roomListView;
     public static RoomData roomData;
     private RoomData roomSearchData;
     private android.widget.EditText edFindRoom;
     private android.widget.ListView roomSearchListView;
     private android.widget.ImageView searchRoom;
     private ImageView ivBtnSearch;
-    private android.widget.TextView tvRoomSearchBack;
+    private android.widget.TextView tvRoomSearchBack, tvChatCount;
     private android.widget.LinearLayout llRooomSearch;
 
 
@@ -71,14 +71,14 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     @Override
     public void setUpEvents() {
 
-        roomListView.setAdapter(roomData.getAdapter());
-
+//        roomListView.setAdapter(MainViewPager.roomData.getAdapter());
+        Log.d("tqefef","fxcvras.........");
         roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
-                RoomViewPager.setRoomPKey(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
+                RoomViewPager.setRoomPKey(MainViewPager.roomData.getRoomArrayList().get(position).getRoomPKey().toString());
                 startActivity(intent);
             }
         });
@@ -117,45 +117,45 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         });
     }
 
-    public static void updateRoom() {
-
-        Params params = new Params();
-        params.add("UserPKey", MainViewPager.getUserPKey() + "");
-
-        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-            @Override
-            public void onSuccess(String response) {
-
-                try {
-                    ParseData parse = new ParseData();
-                    JSONArray roomList = parse.parseJsonArray(response);
-                    roomData = new RoomData();
-
-                    for (int i = 0; i < roomList.length(); i++) {
-                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-                        //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-                        roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"));
-                    }
-
-                    roomListView.setAdapter(roomData.getAdapter());
-                    roomData.getAdapter().notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String response) {
-
-            }
-
-            @Override
-            public void onPreExcute() {
-
-            }
-        });
-    }
+//    public static void updateRoom() {
+//
+//        Params params = new Params();
+//        params.add("UserPKey", MainViewPager.getUserPKey() + "");
+//
+//        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+//            @Override
+//            public void onSuccess(String response) {
+//
+//                try {
+//                    ParseData parse = new ParseData();
+//                    JSONArray roomList = parse.parseJsonArray(response);
+//                    MainViewPager.roomData = new RoomData();
+//
+//                    for (int i = 0; i < roomList.length(); i++) {
+//                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
+//                        //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
+//                        MainViewPager.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
+//                    }
+//
+//                    roomListView.setAdapter(MainViewPager.roomData.getAdapter());
+//                    MainViewPager.roomData.getAdapter().notifyDataSetChanged();
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(String response) {
+//
+//            }
+//
+//            @Override
+//            public void onPreExcute() {
+//
+//            }
+//        });
+//    }
 
     public void updateSearchList() {
 
@@ -216,6 +216,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         this.ivBtnSearch = (ImageView) layout.findViewById(R.id.ivBtnSearch);
         this.tvRoomSearchBack = (TextView) layout.findViewById(R.id.tvRoomSearchBack);
         this.llRooomSearch = (LinearLayout) layout.findViewById(R.id.llRooomSearch);
+        this.tvChatCount = (TextView) layout.findViewById(R.id.tvChatCount);
     }
 
     @Override

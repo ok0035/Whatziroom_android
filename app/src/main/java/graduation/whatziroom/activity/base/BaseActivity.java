@@ -42,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
     public ImageView btnRoomExit;
     public ImageView btnRoomSchedule;
     public ImageView btnRoomSetting;
+    public TextView tvRoomName;
 
     private static Resources r;
 

@@ -14,14 +14,24 @@ public class ChatData {
     private String UserPKey;
     private String RoomPKey;
     private String Name;
-    private String Message;
-    private ArrayList<ChatData> ChatDataList;
+    private String message;
+    private ArrayList<ChatData> chatDataList;
     private ChatAdapter adapter;
+    private int chatCount = 0;
 
+    public String getFBToken() {
+        return FBToken;
+    }
+
+    public void setFBToken(String FBToken) {
+        this.FBToken = FBToken;
+    }
+
+    private String FBToken;
     public ChatData() {
 
-        ChatDataList = new ArrayList<ChatData>();
-        adapter = new ChatAdapter(BaseActivity.mContext, ChatDataList);
+        chatDataList = new ArrayList<ChatData>();
+        adapter = new ChatAdapter(BaseActivity.mContext, chatDataList);
 
     }
 
@@ -30,8 +40,16 @@ public class ChatData {
         RoomPKey = roomPKey;
         UserPKey = userPKey;
         Name = name;
-        Message = message;
+        this.message = message;
 
+    }
+
+    public int getChatCount() {
+        return chatCount;
+    }
+
+    public void setChatCount(int chatCount) {
+        this.chatCount = chatCount;
     }
 
     public String getUserPKey() {
@@ -51,11 +69,11 @@ public class ChatData {
     }
 
     public String getMessage() {
-        return Message;
+        return message;
     }
 
     public void setMessage(String message) {
-        Message = message;
+        this.message = message;
     }
 
     public String getName() {
@@ -67,11 +85,11 @@ public class ChatData {
     }
 
     public ArrayList<ChatData> getChatDataList() {
-        return ChatDataList;
+        return chatDataList;
     }
 
     public void setChatDataList(ArrayList<ChatData> chatDataList) {
-        ChatDataList = chatDataList;
+        this.chatDataList = chatDataList;
     }
 
     public ChatAdapter getAdapter() {
@@ -86,13 +104,13 @@ public class ChatData {
 
     public void addItem(String roomPKey, String userPKey, String name, String message) {
 
-        ChatDataList.add(new ChatData(roomPKey, userPKey, name, message));
+        chatDataList.add(new ChatData(roomPKey, userPKey, name, message));
 
     }
 
     public void addItem(ChatData data) {
 
-        ChatDataList.add(data);
+        chatDataList.add(data);
 
     }
 }

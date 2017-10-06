@@ -29,6 +29,9 @@ public class HttpNetwork extends AsyncTask<String, Void, String> {
     private List<NameValuePair> params;
     private String response = "";
 
+
+
+
     public interface AsyncResponse {
         void onSuccess(String response);
         void onFailure(String response);

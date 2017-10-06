@@ -12,10 +12,10 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.main.RoomListFragment;
 import graduation.whatziroom.activity.main.ScheduleListFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
@@ -66,7 +66,12 @@ public class ExitRoomDialog extends Dialog implements BasicMethod {
                         switch(response) {
                             case "success":
                                 RoomViewPager.mActivity.finish();
-                                RoomListFragment.updateRoom();
+                                MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                                    @Override
+                                    public void onPost(RoomData data) {
+
+                                    }
+                                });
                                 ScheduleListFragment.updateSchedule();
                                 Toast.makeText(getContext(), "방이 목록에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                 break;

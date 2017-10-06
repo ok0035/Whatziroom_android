@@ -10,13 +10,19 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
+import graduation.whatziroom.Data.FirebaseNoticeData;
+import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.Data.RoomUserData;
 import graduation.whatziroom.R;
-import graduation.whatziroom.activity.main.RoomListFragment;
+import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.activity.main.ScheduleListFragment;
 import graduation.whatziroom.activity.room.RoomUserList;
+import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -34,7 +40,10 @@ public class RequestUserAdapter extends ArrayAdapter {
     private android.widget.TextView tvRoomRequestYes;
     private android.widget.TextView tvRoomRequestNo;
 
-    private RoomUserData data;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+    private RoomUserData requestData;
 
     public RequestUserAdapter(@NonNull Context context, ArrayList<RoomUserData> list) {
         super(context, R.layout.request_room_user_item, list);
@@ -53,14 +62,14 @@ public class RequestUserAdapter extends ArrayAdapter {
             parentLayout = inflater.inflate(R.layout.request_room_user_item, null);
         }
 
-        data = requestRoomUserList.get(position);
+        requestData = requestRoomUserList.get(position);
 
         this.tvRoomRequestNo = (TextView) parentLayout.findViewById(R.id.tvRoomRequestNo);
         this.tvRoomRequestYes = (TextView) parentLayout.findViewById(R.id.tvRoomRequestYes);
         this.tvRoomRequestName = (TextView) parentLayout.findViewById(R.id.tvRoomRequestName);
 
-        tvRoomRequestName.setText(data.getName() + " 님이 입장을 신청하였습니다.");
-//        Log.d("requestAdapterName", data.getName());
+        tvRoomRequestName.setText(requestData.getName() + " 님이 입장을 신청하였습니다.");
+//        Log.d("requestAdapterName", requestData.getName());
 
         setUpEvents();
 
@@ -75,8 +84,8 @@ public class RequestUserAdapter extends ArrayAdapter {
 
                 Params params = new Params();
 
-                params.add("UserPKey", data.getUserPKey() + "");
-                params.add("RoomPKey", data.getRoomPKey() + "");
+                params.add("UserPKey", requestData.getUserPKey() + "");
+                params.add("RoomPKey", requestData.getRoomPKey() + "");
 
 
                 new HttpNetwork("AcceptUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
@@ -88,8 +97,14 @@ public class RequestUserAdapter extends ArrayAdapter {
 
                                 RoomUserList.updateRequestList();
                                 RoomUserList.updateRoomUserList();
-                                RoomListFragment.updateRoom();
-                                ScheduleListFragment.updateSchedule();
+                                MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                                    @Override
+                                    public void onPost(RoomData data) {
+                                        FirebaseNoticeData notice = new FirebaseNoticeData(1, RoomViewPager.getRoomPKey() + "");
+                                        databaseReference.child("Notice").child(requestData.getUserPKey() + "").push().setValue(notice);
+                                        ScheduleListFragment.updateSchedule();
+                                    }
+                                });
 
                                 Toast.makeText(mContext, "수락하였습니다.", Toast.LENGTH_SHORT).show();
                                 break;
@@ -121,8 +136,8 @@ public class RequestUserAdapter extends ArrayAdapter {
             public void onClick(View view) {
 
                 Params params = new Params();
-                params.add("UserPKey", data.getUserPKey() + "");
-                params.add("RoomPKey", data.getRoomPKey() + "");
+                params.add("UserPKey", requestData.getUserPKey() + "");
+                params.add("RoomPKey", requestData.getRoomPKey() + "");
 
                 new HttpNetwork("RefuseUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override

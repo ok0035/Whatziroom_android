@@ -21,14 +21,14 @@ public class UserData {
     private String Message;
     private String FirebaseToken;
 
-    public UserData(String pkey, String name, String longitude, String latitude) {
+    public UserData(String pkey, String name, String longitude, String latitude, String FBToken) {
 
         //위치 추적을 위해서 사용, 필요에 따라 생성자로 만들어서 사용하면 될듯, 명시는 해주고.
         setPKey(pkey);
         setName(name);
         setLongitude(longitude);
         setLatitude(latitude);
-
+        setFirebaseToken(FBToken);
     }
 
     public String getPKey() {

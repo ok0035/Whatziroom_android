@@ -1,6 +1,7 @@
 package graduation.whatziroom.activity.room;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,6 +23,8 @@ import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 
 
 /**
@@ -29,7 +34,7 @@ import graduation.whatziroom.activity.main.MainViewPager;
 public class RoomChatFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
-    private ListView lvChat;
+    public static ListView lvChat;
     private ChatData chatData;
 
     private EditText edChat;
@@ -38,6 +43,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
 
     @Nullable
     @Override
@@ -55,20 +61,43 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
     @Override
     public void setUpEvents() {
 
-//        채팅 구현 예상
-//        파이어베이스에 유저키, 룸키, 메시지를 저장한다.
-//        저장 후 보낼때는 무조건 오른쪽에(flag를 ChatData에 추가한다.) 받을 때는 UserPKey를 비교해서 자신이면 오른쪽에 뿌려주도록 한다.
-
         // ListView에 어댑터 연결
+
         for(int i=0; i<MainViewPager.chatList.size(); i++) {
             if(MainViewPager.chatList.get(i).getRoomPKey().equals(RoomViewPager.getRoomPKey() + "")) {
                 lvChat.setAdapter(MainViewPager.chatList.get(i).getAdapter());
+                MainViewPager.chatList.get(i).getAdapter().notifyDataSetChanged();
+
+                Params params = new Params();
+                params.add("UserPKey", MainViewPager.getUserPKey() + "");
+                params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
+                params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+
+                new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.d("UpdateChatCount", response);
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
+                });
+
                 Log.d("여기를", "들어와야되!");
+                break;
+
             }
             Log.d("여길봐!", MainViewPager.chatList.get(i).getRoomPKey() + "..");
         }
 
-
+//        lvChat.setAdapter(chatData.getAdapter());
 
 //        PC에서 안드로이드 가상머신으로 테스트할때 편함 ㅎ
 //        엔터키로 채팅 할 수 있음
@@ -113,6 +142,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                                 ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
                                 databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
+
                                 edChat.setText("");
 
                             } else edChat.setText("");
@@ -131,7 +161,15 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
                 if(edChat.getText().length() != 0) {
 
                     ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
-                    databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data);
+                    databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            sendPostToFCM(edChat.getText().toString());
+                        }
+                    });
+
+                    Log.d("채팅 보내기...", "...");
+
                     edChat.setText("");
                 }
             }
@@ -165,6 +203,32 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 //
 //            }
 //        });
+
+    }
+
+    private void sendPostToFCM(String msg){
+
+        Params params = new Params();
+        params.add("UserPKey", String.valueOf(MainViewPager.getUserPKey()));
+        params.add("RoomPKey", String.valueOf(RoomViewPager.getRoomPKey()));
+        params.add("ChatMsg", msg);
+
+        new HttpNetwork("SendPostToFCM.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+                Log.d("FCM", "Success"+response);
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
 
     }
 
