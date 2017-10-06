@@ -543,7 +543,15 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                     llChatSchedule.setVisibility(View.VISIBLE);
                     llChatMapView.setVisibility(View.GONE);
-                    chatMap.removeAllPOIItems();
+
+                    try{
+                        if(chatMap.getPOIItems().length > 0) {
+                            chatMap.removeAllPOIItems();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     chatMap = null;
                     flChatMap.removeAllViews();
 
