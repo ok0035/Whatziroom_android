@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:gravity="center"
             android:textColor="#FFFFFF"
             android:text="스케줄이 없어요!!\n\n스케줄을 등록해주세요."/>

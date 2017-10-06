@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,7 +49,9 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
     private android.widget.ImageView searchRoom;
     private ImageView ivBtnSearch;
     private android.widget.TextView tvRoomSearchBack, tvChatCount;
-    private android.widget.LinearLayout llRooomSearch;
+    private android.widget.LinearLayout llSearchRoom;
+
+    private ImageView btnResetRoom;
 
 
     @Nullable
@@ -97,7 +101,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             @Override
             public void onClick(View view) {
                 roomListView.setVisibility(View.GONE);
-                llRooomSearch.setVisibility(View.VISIBLE);
+                llSearchRoom.setVisibility(View.VISIBLE);
                 updateSearchList();
             }
         });
@@ -109,13 +113,41 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
                 if (roomListView.getVisibility() == View.GONE)
                     roomListView.setVisibility(View.VISIBLE);
-                else
-                    roomListView.setVisibility(View.GONE);
-
-                llRooomSearch.setVisibility(View.GONE);
+                edFindRoom.setText(null);
+                llSearchRoom.setVisibility(View.GONE);
 
             }
         });
+
+        edFindRoom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = charSequence.toString();
+                if (text.length() > 0) {
+                    btnResetRoom.setVisibility(View.VISIBLE);
+                } else {
+                    btnResetRoom.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        btnResetRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edFindRoom.setText(null);
+                btnResetRoom.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
 //    public static void updateRoom() {
@@ -166,11 +198,12 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         new HttpNetwork("SearchRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
-                Log.d("re", response);
+                //Log.d("re", response);
 
-                if (response.equals("[]"))
+                if (response.equals("[]")) {
+                    llSearchRoom.setVisibility(View.GONE);
                     Toast.makeText(BaseActivity.mContext, "검색 결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-
+                }
                 else {
                     try {
                         ParseData parse = new ParseData();
@@ -216,14 +249,15 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         this.edFindRoom = (EditText) layout.findViewById(R.id.edFindRoom);
         this.ivBtnSearch = (ImageView) layout.findViewById(R.id.ivBtnSearch);
         this.tvRoomSearchBack = (TextView) layout.findViewById(R.id.tvRoomSearchBack);
-        this.llRooomSearch = (LinearLayout) layout.findViewById(R.id.llRooomSearch);
+        this.llSearchRoom = (LinearLayout) layout.findViewById(R.id.llRooomSearch);
         this.tvChatCount = (TextView) layout.findViewById(R.id.tvChatCount);
+        this.btnResetRoom = (ImageView) layout.findViewById(R.id.btnResetRoom);
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-        Log.d("TouchTest", "TOuch");
+        //Log.d("TouchTest", "TOuch");
         return false;
     }
 }

@@ -40,8 +40,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     public static View infoLayout;
     private ImageView[] ivAttendee;
     private LinearLayout linAttendee;
-    private static String isEmpty;
-    private String result = "notEmpty";
+    private static String isEmpty = "notEmpty";
 
     public static TextView tvNeedCreateSchedule;
 
@@ -120,7 +119,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                 ParseData parse = new ParseData();
                 try {
 
-                    Log.d("asdf", parse.parseJsonArray(response).get(0) + "");
+                    //Log.d("asdf", parse.parseJsonArray(response).get(0) + "");
 
                     JSONArray roomInfoArray = parse.parseJsonArray(response);
                     RoomInfoData roomInfoData = new RoomInfoData();
@@ -130,18 +129,18 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                     for (int i = 0; i < roomInfoArray.length(); i++) {
                         JSONObject roomInfo = new JSONObject(roomInfoArray.get(i).toString());
 
-                        Log.d("Title", roomInfo.getString("Title"));
+                        //Log.d("Title", roomInfo.getString("Title"));
 
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         try {
                             Date date = transFormat.parse(roomInfo.getString("Time"));
 
-                            Log.d("Title", roomInfo.getString("Title"));
-                            Log.d("Time", (date.getYear() + 1900) + "");
-                            Log.d("Time", (date.getMonth() + 1) + "");
-                            Log.d("Time", date.getDate() + "");
-                            Log.d("Time", date.getHours() + "");
-                            Log.d("Time", date.getMinutes() + "");
+//                            Log.d("Title", roomInfo.getString("Title"));
+//                            Log.d("Time", (date.getYear() + 1900) + "");
+//                            Log.d("Time", (date.getMonth() + 1) + "");
+//                            Log.d("Time", date.getDate() + "");
+//                            Log.d("Time", date.getHours() + "");
+//                            Log.d("Time", date.getMinutes() + "");
 
                             parseTime =  (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
 

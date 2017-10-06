@@ -3,6 +3,8 @@ package graduation.whatziroom.activity.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +41,10 @@ public class FriendListFragment extends Fragment {
     ImageView searchFreindBtn;
     DBSI dbsi;
 
-    private EditText findFreindEdt;
+    private EditText edFindFriend;
     private TextView tvFriendSearchBack;
     private ListView friendList;
-
+    private ImageView btnResetFriend;
 
     @Nullable
     @Override
@@ -52,33 +54,12 @@ public class FriendListFragment extends Fragment {
         this.friendList = (ListView) layout.findViewById(R.id.friendList);
         this.tvFriendSearchBack = (TextView) layout.findViewById(R.id.tvFriendSearchBack);
         this.searchFreindBtn = (ImageView) layout.findViewById(R.id.searchFriendBtn);
-        this.findFreindEdt = (EditText) layout.findViewById(R.id.findFreindEdt);
+        this.edFindFriend = (EditText) layout.findViewById(R.id.edFindFriend);
+        this.btnResetFriend = (ImageView) layout.findViewById(R.id.btnResetFriend);
         friendListItem = new ArrayList<>();
         dbsi = new DBSI();
 
-//        findFreindEdt.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                String filterText = editable.toString();
-//                if (filterText.length() > 0) {
-//                    friendList.setFilterText(filterText);
-//                } else {
-//                    friendList.clearTextFilter();
-//                }
-//
-//
-//            }
-//        });
+        setUpEvents();
 
         final Params params = new Params();
         params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
@@ -121,11 +102,43 @@ public class FriendListFragment extends Fragment {
         return layout;
     }
 
+    public void setUpEvents() {
+
+        edFindFriend.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = charSequence.toString();
+                if (text.length() > 0) {
+                    btnResetFriend.setVisibility(View.VISIBLE);
+                } else {
+                    btnResetFriend.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        btnResetFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edFindFriend.setText(null);
+                btnResetFriend.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
 
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
     public void findFriendFunc() {
 
-        final EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
+        final EditText edittext = getActivity().findViewById(R.id.edFindFriend);
 
         edittext.setText(null);
         edittext.setHint("친구 찾기(이메일, 닉네임)");
@@ -200,7 +213,7 @@ public class FriendListFragment extends Fragment {
     // 친구 추가 끝나고 완료 버튼 클릭시 실행되는 함수
     public void reloadFunc() {
 
-        EditText edittext = getActivity().findViewById(R.id.findFreindEdt);
+        EditText edittext = getActivity().findViewById(R.id.edFindFriend);
         edittext.setText(null);
         edittext.setHint("친구 찾기(이름)");
 

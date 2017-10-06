@@ -56,6 +56,8 @@ import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
 import me.relex.circleindicator.CircleIndicator;
 
+import static graduation.whatziroom.activity.room.RoomInfoFragment.getIsEmpty;
+
 
 /**
  * Created by heronation on 2017-05-22.
@@ -221,7 +223,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                 @Override
                 public void onSuccess(String response) {
-                    Log.d("re", response);
+                    //Log.d("re", response);
                     result = response;
 
                     // 프래그먼트 어댑터
@@ -234,6 +236,16 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         public Fragment getItem(int position) {
                             switch (position) {
                                 case 0:
+                                    /* //스케쥴 바로 등록하고나서 방 보면 스케쥴 empty 나옴
+                                    if (result.equals("empty")) {
+                                        if(RoomInfoFragment.getIsEmpty().equals("empty")) {
+                                            roomInfoView.setIsEmpty("notEmpty");
+                                        } else {
+                                            roomInfoView.setIsEmpty("empty");
+                                        }
+                                    } else {
+                                        roomInfoView.setIsEmpty("notEmpty");
+                                    }*/
                                     roomInfoView.setIsEmpty(result);
                                     return roomInfoView;
 
@@ -272,7 +284,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     vp.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
-
                             return false;
                         }
                     });
@@ -296,7 +307,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                     btnRoomSchedule.setVisibility(View.VISIBLE);
                                     btnRoomSetting.setVisibility(View.VISIBLE);
                                     btnRoomSetting.setImageResource(R.mipmap.btn_setting);
-
                                     scChatInfoParent.setVisibility(View.GONE);
                                     llChatSchedule.setVisibility(View.GONE);
                                     llChatMapView.setVisibility(View.GONE);
@@ -451,11 +461,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                 }
                             });
 
-                            Log.d("여기를", "들어와야되!");
+                            //Log.d("여기를", "들어와야되!");
                             break;
 
                         }
-                        Log.d("여길봐!", MainViewPager.chatList.get(i).getRoomPKey() + "..");
+                        //Log.d("여길봐!", MainViewPager.chatList.get(i).getRoomPKey() + "..");
                     }
 
                     new Handler().postDelayed(new Runnable() {
@@ -499,16 +509,16 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
                 @Override
                 public void onPositiveButtonClick(Date date) {
-                    Log.d("Time", date.getYear() + "");
-                    Log.d("Time", (date.getMonth() + 1) + "");
-                    Log.d("Time", date.getDay() + "");
-                    Log.d("Time", date.getDate() + "");
-                    Log.d("Time", date.getHours() + "");
-                    Log.d("Time", date.getMinutes() + "");
+//                    Log.d("Time", date.getYear() + "");
+//                    Log.d("Time", (date.getMonth() + 1) + "");
+//                    Log.d("Time", date.getDay() + "");
+//                    Log.d("Time", date.getDate() + "");
+//                    Log.d("Time", date.getHours() + "");
+//                    Log.d("Time", date.getMinutes() + "");
 
                     Intent intent = new Intent(getApplicationContext(), SearchPlaceActivity.class);
 
-                    Log.d("dialogRoomPKey", roomPKey + "");
+//                    Log.d("dialogRoomPKey", roomPKey + "");
 
                     intent.putExtra("roomPKey", Integer.parseInt(roomPKey + ""));
                     intent.putExtra("date", date.toString());
@@ -543,7 +553,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                     llChatSchedule.setVisibility(View.VISIBLE);
                     llChatMapView.setVisibility(View.GONE);
-                    chatMap.removeAllPOIItems();
+                    try {
+                        if (chatMap.getPOIItems().length > 0) {
+                            chatMap.removeAllPOIItems();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     chatMap = null;
                     flChatMap.removeAllViews();
 

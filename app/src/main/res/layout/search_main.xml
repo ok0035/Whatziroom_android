@@ -3,36 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@drawable/search_background">
 
         <EditText
             android:id="@+id/edSearchQuery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.8"
+            android:layout_marginLeft="10dp"
             android:background="@null"
             android:ems="10"
-            android:hint="장소를 검색하세요."
-            android:text="">
+            android:textColor="#000000"
+            android:textColorHint="@color/indicatorColor"
+            android:textSize="16dp"
+            android:hint="장소를 검색하세요." >
 
             <requestFocus />
 
         </EditText>
 
+
+        <ImageView
+            android:id="@+id/btnResetSearch"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@mipmap/search_cancle_icon"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp"
+            android:visibility="invisible"/>
+
         <TextView
             android:id="@+id/btnSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:background="@color/colorPrimary"
+            android:layout_weight="0.15"
+            android:background="@drawable/search_ed_btn"
             android:gravity="center"
             android:padding="10dp"
+            android:textSize="16dp"
             android:text="검색"
             android:textColor="#FFFFFF" />
 
@@ -41,13 +56,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="90dp"
+        android:orientation="vertical"
+        android:background="#fff">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.8">
+            android:layout_height="match_parent">
 
             <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/slidingLayout"
@@ -65,43 +81,42 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/llBtnSelectPlace"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llBtnSelectPlace"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/tvBtnSearchCancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
             android:layout_gravity="center"
-            android:layout_weight="0.1"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/search_cancle_btn"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:text="취소"
+            android:textColor="#000"
+            android:textSize="17dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_gravity="center"
-                android:layout_marginRight="3dp"
-                android:background="@color/colorPrimary"
-                android:id="@+id/tvBtnSearchCancel"
-                android:gravity="center"
-                android:text="취소"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:layout_marginLeft="3dp"
-                android:background="@color/colorPrimary"
-                android:id="@+id/tvBtnSearchSelect"
-                android:gravity="center"
-                android:text="선택"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvBtnSearchSelect"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/search_ok_btn"
+            android:gravity="center"
+            android:text="선택"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp" />
 
     </LinearLayout>
 
