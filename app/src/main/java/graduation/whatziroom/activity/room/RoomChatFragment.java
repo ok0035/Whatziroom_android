@@ -90,11 +90,11 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
                     }
                 });
 
-                Log.d("여기를", "들어와야되!");
+                //Log.d("여기를", "들어와야되!");
                 break;
 
             }
-            Log.d("여길봐!", MainViewPager.chatList.get(i).getRoomPKey() + "..");
+            //Log.d("여길봐!", MainViewPager.chatList.get(i).getRoomPKey() + "..");
         }
 
 //        lvChat.setAdapter(chatData.getAdapter());
