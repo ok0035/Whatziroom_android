@@ -48,7 +48,7 @@ public class ProfilUpdateActivity extends BaseActivity {
     @Override
     public void setMainActionBar() {
         super.setMainActionBar();
-        titleTxt.setText("내 정보 수정");
+        titleTxt.setText("비밀번호 변경");
         backBtn.setVisibility(View.VISIBLE);
         configTxt1.setVisibility(View.INVISIBLE);
         configTxt2.setVisibility(View.VISIBLE);

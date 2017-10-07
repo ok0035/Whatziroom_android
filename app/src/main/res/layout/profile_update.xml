@@ -19,29 +19,13 @@
             android:layout_height="0dp"
             android:layout_weight="0.3"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/bread"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/star_icon"
-                android:layout_marginTop="-10dp"
-                android:layout_marginLeft="60dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="admin"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:layout_marginTop="-15dp"/>
+                android:src="@mipmap/password_icon"/>
 
         </LinearLayout>
 
@@ -50,102 +34,14 @@
             android:layout_height="0dp"
             android:layout_weight="0.6"
             android:orientation="vertical"
-            android:background="@drawable/dialog_background"
-            android:padding="10dp">
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
-                android:paddingLeft="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:paddingLeft="5dp"
-                    android:gravity="end|center_vertical"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="아이디 : " />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.75"
-                    android:paddingLeft="15dp"
-                    android:gravity="center_vertical"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:text="admin"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="　이름 : " />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.75"
-                    android:background="@null"
-                    android:gravity="start|center_vertical"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
-                android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="이메일 : " />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.75"
-                    android:background="@null"
-                    android:gravity="start|center_vertical"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
-                android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
+                android:background="@drawable/profile_update_pw">
 
                 <EditText
                     android:layout_width="0dp"
@@ -155,18 +51,18 @@
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
                     android:hint="현재 비밀번호"
-                    android:textColorHint="@color/colorBeige"
+                    android:textSize="15dp"
+                    android:textColorHint="@color/sColor"
                     android:singleLine="true"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
+                android:background="@drawable/profile_update_pw">
 
                 <EditText
                     android:layout_width="0dp"
@@ -176,18 +72,18 @@
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
                     android:hint="새 비밀번호"
-                    android:textColorHint="@color/colorBeige"
+                    android:textSize="15dp"
+                    android:textColorHint="@color/sColor"
                     android:singleLine="true"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
+                android:background="@drawable/profile_update_pw">
 
                 <EditText
                     android:layout_width="0dp"
@@ -197,7 +93,8 @@
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
                     android:hint="새 비밀번호 확인"
-                    android:textColorHint="@color/colorBeige"
+                    android:textSize="15dp"
+                    android:textColorHint="@color/sColor"
                     android:singleLine="true"/>
 
             </LinearLayout>

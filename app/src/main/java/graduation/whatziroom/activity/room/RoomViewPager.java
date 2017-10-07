@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -75,11 +79,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     public android.widget.FrameLayout flChatSchedule;
     public android.widget.LinearLayout llChatMapView;
+    private TextView tvChatMapCheck;
+    private ImageView ivChatMapCheck;
+    private boolean isClose;
 
     public android.widget.FrameLayout flChatMap;
     public android.widget.ScrollView scChatInfoParent;
 
-    public android.widget.TextView tvChatCloseMap;
     public android.widget.TextView tvRoomChatDDay;
     private android.widget.TextView tvRoomChatPlace;
     private android.widget.TextView tvRoomChatTime;
@@ -276,9 +282,19 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View view) {
 
-                if (llChatMapView.getVisibility() == View.GONE) {
+                //지도 안열려있으면
+                if (!isClose) {
+                    isClose = true;
                     llChatMapView.setVisibility(View.VISIBLE);
-                    flChatSchedule.setVisibility(View.GONE);
+                    tvChatMapCheck.setText("지도 닫기");
+
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.arrow_icon);
+
+                    Matrix sideInversion = new Matrix();
+                    sideInversion.setScale(1, -1);
+
+                    ivChatMapCheck.setImageBitmap(Bitmap.createBitmap(bitmap, 0, 0,
+                            bitmap.getWidth(), bitmap.getHeight(), sideInversion, false));
 
                     mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
                             "지도 활성화중...", true);
@@ -291,8 +307,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     });
 
                 } else {
+                    isClose = false;
                     llChatMapView.setVisibility(View.GONE);
-                    flChatSchedule.setVisibility(View.VISIBLE);
+                    tvChatMapCheck.setText("지도 보기");
+                    ivChatMapCheck.setImageResource(R.mipmap.arrow_icon);
+
                     if (traceLocationTimer != null) {
                         traceLocationTimer.cancel();
                         traceLocationTimer = null;
@@ -311,14 +330,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
 
                 }
-            }
-        });
-
-        tvChatCloseMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                llChatMapView.setVisibility(View.GONE);
-                flChatSchedule.setVisibility(View.VISIBLE);
             }
         });
 
@@ -550,7 +561,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //                        Log.d("Latitude", ScheduleLatitude + "");
 
                         final TextView tvRoomChatTime = mActivity.findViewById(R.id.tvRoomChatTime);
-                        final TextView tvRoomChatPlace = mActivity.findViewById(R.id.tvRoomChatPlace);
+                        //final TextView tvRoomChatPlace = mActivity.findViewById(R.id.tvRoomChatPlace);
                         final TextView tvRoomChatDDay = mActivity.findViewById(R.id.tvRoomChatDDay);
                         final TextView tvRoomChatLocation = mActivity.findViewById(R.id.tvRoomChatLocation);
                         final Calendar CalculateDate = Calendar.getInstance();
@@ -569,11 +580,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         long hour = min / 60;
                         final long day = hour / 24;
 
-                        Log.d("sec", sec + "");
-                        Log.d("min", min + "");
-                        Log.d("hour", hour + "");
-                        Log.d("day", day + "");
-
                         if (day == 0 && min > 0) {
                             tvRoomChatDDay.setText(min + "min");
                         } else if (day > 0) {
@@ -583,7 +589,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         }
 
                         tvRoomChatTime.setText(ScheduleTime);
-                        tvRoomChatPlace.setText(SchedulePlace);
+                        //tvRoomChatPlace.setText(SchedulePlace);
 
                         if (day > 0) {
                             isTracing = false;
@@ -611,11 +617,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                             final long min = sec / 60;
                                             long hour = min / 60;
                                             final long day = hour / 24;
-
-                                            Log.d("sec", sec + "");
-                                            Log.d("min", min + "");
-                                            Log.d("hour", hour + "");
-                                            Log.d("day", day + "");
 
                                             if (day == 0 && sec >= 0 && min < 60) {
 
@@ -1034,19 +1035,20 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public void bindView() {
         super.bindView();
 
-        this.flRoom = (FrameLayout) findViewById(R.id.flRoom);
-        this.indicator = (CircleIndicator) findViewById(R.id.indicator);
-        this.scChatInfoParent = (ScrollView) findViewById(R.id.scChatInfoParent);
-        this.llChatMapView = (LinearLayout) findViewById(R.id.llChatMapView);
-        this.flChatMap = (FrameLayout) findViewById(R.id.flChatMap);
-        this.flChatSchedule = (FrameLayout) findViewById(R.id.flChatSchedule);
-        this.vp = (ViewPager) findViewById(R.id.vp);
-        this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
-        this.tvRoomChatTime = (TextView) findViewById(R.id.tvRoomChatTime);
-        this.tvRoomChatPlace = (TextView) findViewById(R.id.tvRoomChatPlace);
-        this.tvRoomChatDDay = (TextView) findViewById(R.id.tvRoomChatDDay);
-        this.llRoomChatLayout = (LinearLayout) findViewById(R.id.llRoomChatLayout);
-        this.tvRoomChatNoSchedule = (TextView) findViewById(R.id.tvRoomChatNoSchedule);
+        this.flRoom = findViewById(R.id.flRoom);
+        this.indicator = findViewById(R.id.indicator);
+        this.scChatInfoParent = findViewById(R.id.scChatInfoParent);
+        this.llChatMapView = findViewById(R.id.llChatMapView);
+        this.flChatMap = findViewById(R.id.flChatMap);
+        this.flChatSchedule = findViewById(R.id.flChatSchedule);
+        this.vp = findViewById(R.id.vp);
+        this.tvRoomChatTime = findViewById(R.id.tvRoomChatTime);
+        //this.tvRoomChatPlace = findViewById(R.id.tvRoomChatPlace);
+        this.tvRoomChatDDay = findViewById(R.id.tvRoomChatDDay);
+        this.llRoomChatLayout = findViewById(R.id.llRoomChatLayout);
+        this.tvRoomChatNoSchedule = findViewById(R.id.tvRoomChatNoSchedule);
+        this.tvChatMapCheck = findViewById(R.id.tvChatMapCheck);
+        this.ivChatMapCheck = findViewById(R.id.ivChatMapCheck);
 
     }
 
