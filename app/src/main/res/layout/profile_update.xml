@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorActionBar"
     tools:context="com.graduation.project.whatziroom.activity.main.ProfilUpdateActivity">
 
     <LinearLayout
@@ -16,34 +17,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.9"
-                android:src="@mipmap/ic_launcher_round" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bread"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/star_icon"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="60dp"/>
 
             <TextView
-                android:id="@+id/updateProfilePic"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18dp"
+                android:text="admin"
+                android:textSize="20dp"
                 android:textStyle="bold"
-                android:text="변경" />
+                android:textColor="#000000"
+                android:layout_marginTop="-15dp"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
+            android:layout_weight="0.6"
+            android:orientation="vertical"
+            android:background="@drawable/dialog_background"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,15 +147,6 @@
                 android:paddingLeft="10dp"
                 android:background="@drawable/button_border">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="비밀번호 : " />
-
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -155,6 +154,8 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
+                    android:hint="현재 비밀번호"
+                    android:textColorHint="@color/colorBeige"
                     android:singleLine="true"/>
 
             </LinearLayout>
@@ -167,14 +168,26 @@
                 android:paddingLeft="10dp"
                 android:background="@drawable/button_border">
 
-                <TextView
+                <EditText
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="비밀번호 확인 : " />
+                    android:layout_weight="0.75"
+                    android:background="@null"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:hint="새 비밀번호"
+                    android:textColorHint="@color/colorBeige"
+                    android:singleLine="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.16"
+                android:paddingLeft="10dp"
+                android:background="@drawable/button_border">
 
                 <EditText
                     android:layout_width="0dp"
@@ -183,6 +196,8 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
+                    android:hint="새 비밀번호 확인"
+                    android:textColorHint="@color/colorBeige"
                     android:singleLine="true"/>
 
             </LinearLayout>

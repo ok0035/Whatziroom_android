@@ -4,38 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorActionBar"
+    android:padding="10dp"
+    android:orientation="vertical"
     tools:context="com.graduation.project.whatziroom.activity.main.ProfilUserSettingActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.3"
             android:layout_marginTop="10dp"
             android:orientation="vertical">
             
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
                 android:text="알림"
                 android:gravity="center_vertical"
-                android:textSize="20dp"
-                />
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/sColor" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -43,36 +43,35 @@
                     android:layout_weight="0.4"
                     android:text="알림받기"
                     android:gravity="center_vertical"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:paddingLeft="20dp"/>
-            <RadioGroup
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/noticeOnRadioBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="ON"
-                    android:layout_marginRight="70dp"/>
 
-                <RadioButton
-                    android:id="@+id/noticeOffRadioBtn"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="OFF"/>
+                    android:layout_weight="0.6"
+                    android:orientation="horizontal">
 
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/noticeOnRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="ON"
+                        android:layout_marginRight="70dp"/>
+
+                    <RadioButton
+                        android:id="@+id/noticeOffRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="OFF"/>
+
+                </RadioGroup>
 
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -81,7 +80,7 @@
                     android:layout_weight="0.4"
                     android:text="알림형태"
                     android:gravity="center_vertical"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:paddingLeft="20dp"/>
 
                 <Spinner
@@ -99,11 +98,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6">
+            android:layout_weight="0.7">
 
         </LinearLayout>
-
-        </LinearLayout>
-
 
 </LinearLayout>

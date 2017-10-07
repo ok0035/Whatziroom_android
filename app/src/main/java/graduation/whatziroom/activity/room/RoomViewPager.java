@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
@@ -50,6 +51,7 @@ import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.Data.UserData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.activity.login.LoginActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
@@ -544,8 +546,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         btnRoomSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RoomSettingActivity.class);
-                startActivity(intent);
+                Toast.makeText(RoomViewPager.this, "모임별 옵션 준비 중입니다.", Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(getApplicationContext(), RoomSettingActivity.class);
+                //startActivity(intent);
             }
         });
 
