@@ -27,8 +27,8 @@ import graduation.whatziroom.network.Params;
 
 public class ExitRoomDialog extends Dialog implements BasicMethod {
 
-    private android.widget.TextView tvRoomExitYes;
-    private android.widget.TextView tvRoomExitNo;
+    private TextView tvRoomExitYes;
+    private TextView tvRoomExitNo;
 
     public ExitRoomDialog(@NonNull Context context) {
         super(context);

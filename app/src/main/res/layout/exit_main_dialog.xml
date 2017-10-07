@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/back_dialog_exit_room"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="정말로 나가시겠어요?\n로그인 상태는 유지됩니다.\n(로그아웃은 프로필에서 할 수 있어요!)"
+            android:textSize="16dp"
+            android:layout_marginBottom="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTxtDialogExitRoom"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/sColor" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tvMainExitNo"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="아니오"
+                android:textColor="@color/colorTxtDialogExitRoom"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/sColor" />
+
+            <TextView
+                android:id="@+id/tvMainExitYes"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="네"
+                android:textColor="@color/colorTxtDialogExitRoom"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

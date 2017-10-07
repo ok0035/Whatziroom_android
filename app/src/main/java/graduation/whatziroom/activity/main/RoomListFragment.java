@@ -260,4 +260,7 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         //Log.d("TouchTest", "TOuch");
         return false;
     }
+
+
+
 }
