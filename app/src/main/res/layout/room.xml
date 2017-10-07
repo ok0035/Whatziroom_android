@@ -18,6 +18,22 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom"
+        android:background="@null">
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:ci_drawable="@color/indicatorColor" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/scChatInfoParent"
         android:layout_width="match_parent"
@@ -32,78 +48,140 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/llChatSchedule"
+            <FrameLayout
+                android:id="@+id/flChatSchedule"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:background="@drawable/round_background_button"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:weightSum="1">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:id="@+id/llRoomChatLayout"
                     android:background="@drawable/round_background_button"
-                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical"
                     android:weightSum="1">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="장소"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/round_background_button"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
-                    <TextView
-                        android:id="@+id/tvRoomChatPlace"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.8"
-                        android:text=""
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvRoomChatLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="위치공유가 시작되었습니다!"
+                            android:textColor="#ffff00"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            android:visibility="invisible"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvRoomChatDDay"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textSize="14dp"
+                            android:textColor="#FFFF00"
+                            android:textStyle="bold"
+                            android:text="D - 15"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/round_background_button"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="장소"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvRoomChatPlace"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.8"
+                            android:text=""
+                            android:textColor="#FFFFFF"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/round_background_button"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="일시"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvRoomChatTime"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.8"
+                            android:text=""
+                            android:textColor="#FFFFFF"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/round_background_button"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="일시"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvRoomChatTime"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.8"
-                        android:text=""
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvRoomChatNoSchedule"
+                    android:gravity="center"
+                    android:textColor="#FFFF00"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:text="등록된 스케줄이 없습니다."
+                    android:visibility="gone"/>
 
 
-            </LinearLayout>
+            </FrameLayout>
+
+
 
             <LinearLayout
                 android:id="@+id/llChatMapView"
@@ -148,21 +226,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_gravity="bottom"
-        android:background="@null">
-
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            app:ci_drawable="@color/indicatorColor" />
-
-    </LinearLayout>
 
 </FrameLayout>

@@ -105,11 +105,11 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                             JSONObject jsonScheduleData = new JSONObject(roomList.get(i).toString());
 
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Date date = transFormat.parse(jsonScheduleData.getString("Time"));
+                            Date scheduleDate = transFormat.parse(jsonScheduleData.getString("Time"));
 
                             Calendar CalculateDate= Calendar.getInstance();
 
-                            CalculateDate.setTime(date);
+                            CalculateDate.setTime(scheduleDate);
                             long goalTime = CalculateDate.getTimeInMillis();
 
                             CalculateDate.setTime(Calendar.getInstance().getTime());
@@ -120,16 +120,14 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
                             //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
                             dDay = dDay / 1000 / 60 / 60 / 24;
 
-                            Log.d("SListDate", date.getDate() + "");
-
-                            String parseTime =  (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
+                            String parseTime =  (scheduleDate.getYear() + 1900) + "년 " + (scheduleDate.getMonth() + 1) + "월 " + scheduleDate.getDate() + "일 " + scheduleDate.getHours() + "시 " + scheduleDate.getMinutes() + "분";
 
                             Date nowDate = new Date();
                             nowDate.getDate();
 
-                            data.addItem(jsonScheduleData.getString("RoomPKey"), jsonScheduleData.getString("SchedulePKey"), jsonScheduleData.getString("Name"),
-                                    jsonScheduleData.getString("Place"), parseTime, String.valueOf(dDay));
+                            Log.d("SListDate", scheduleDate.getDate() + "");
 
+                            data.addItem(jsonScheduleData.getString("RoomPKey"), jsonScheduleData.getString("SchedulePKey"), jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), parseTime, String.valueOf(dDay));
                             Log.d("RoomPKey...", jsonScheduleData.getString("RoomPKey"));
                         }
 

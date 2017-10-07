@@ -82,11 +82,10 @@ public class MainViewPager extends BaseActivity {
     public static RoomData roomData;
     private static int UserPKey;
     private static String UserName;
+    ProgressDialog mProgressDialog;
 
     private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private static DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-    ProgressDialog mProgressDialog;
 
     public static LocationService locationService;
     private boolean isBind = false;
@@ -116,7 +115,6 @@ public class MainViewPager extends BaseActivity {
             Log.e("LOG", "onServiceDisconnected()");
         }
     };
-
 
     public MainViewPager() {
 
@@ -416,9 +414,8 @@ public class MainViewPager extends BaseActivity {
                         RoomListFragment.roomListView.setAdapter(roomData.getAdapter());
                         roomData.getAdapter().notifyDataSetChanged();
 
-                        Log.d("message", data.getMessage());
+//                        Log.d("message", data.getMessage());
                     }
-
                 }
 
                 @Override
@@ -529,8 +526,6 @@ public class MainViewPager extends BaseActivity {
 
                     }
 
-
-
                     RoomListFragment.roomListView.setAdapter(MainViewPager.roomData.getAdapter());
                     MainViewPager.roomData.getAdapter().notifyDataSetChanged();
 
@@ -574,18 +569,10 @@ public class MainViewPager extends BaseActivity {
 
 //            Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
 
-            startService(new Intent(MainViewPager.this, LocationService.class));
+            startService(new Intent(MainViewPager.this, LocationService.class).putExtra("UserPKey", getUserPKey() + ""));
             bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);
             isBind = true;
         }
-
-//        //서비스에서 객체를 받는데 시간이 걸리므로 postDelayed로 실행해주고 timer로 지속적으로 위치를 업데이트해준다.
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        },3000);
 
     }
 
@@ -595,7 +582,6 @@ public class MainViewPager extends BaseActivity {
         ll.findViewWithTag(position).setBackgroundResource(R.drawable.round_background_main);
 
         for (int i = 0; i < 5; i++) {
-
 
             LinearLayout layout = ll.findViewWithTag(i);
             TextView textView = (TextView) layout.getChildAt(0);

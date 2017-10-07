@@ -24,17 +24,13 @@ public class GPSTracer {
     private android.location.LocationManager locationManager;
 
     public static GPSTracer sTracer;
-    private static boolean flag = false;
+    private static boolean locationFlag = false;
 
     public static double longitude;
     public static double latitude;
 
     public GPSTracer() {
 
-    }
-
-    public static Boolean getIsInit() {
-        return flag;
     }
 
     public static GPSTracer getInstance() {
@@ -46,9 +42,17 @@ public class GPSTracer {
         return sTracer;
     }
 
+    public void stopLocation() {
+        locationListener = null;
+        locationFlag = true;
+    }
 
+    public void startLocation(int interval, int distance) {
+        locationFlag = false;
+        getLocation(interval, distance);
+    }
 
-    public void getLocation() {
+    public void getLocation(int interval, int distance) {
 
         locationManager = (android.location.LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
@@ -68,8 +72,6 @@ public class GPSTracer {
 
                     longitude = location.getLongitude();
                     latitude = location.getLatitude();
-
-                    flag = true;
 
                     Log.d("경도 : ", location.getLongitude() + "\n 위도 : " + location.getLatitude());
                 }

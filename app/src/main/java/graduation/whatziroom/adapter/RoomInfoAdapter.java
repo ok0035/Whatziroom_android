@@ -46,6 +46,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
     private TextView tvInfoTel;
     private TextView tvInfoSite;
     private TextView tvInfoDesc;
+    private TextView tvInfoDDay;
 
     private RoomInfoData data;
 
@@ -76,8 +77,9 @@ public class RoomInfoAdapter extends ArrayAdapter {
         this.tvInfoTime = (TextView) roomInfoLayout.findViewById(R.id.tvInfoTime);
         this.tvInfoMaker = (TextView) roomInfoLayout.findViewById(R.id.tvInfoMaker);
         this.tvInfoGoing = (TextView) roomInfoLayout.findViewById(R.id.tvInfoGoing);
-        this.textTitle = (TextView) roomInfoLayout.findViewById(R.id.textTitle);
+        this.textTitle = (TextView) roomInfoLayout.findViewById(R.id.tvTitle);
         this.ivInformation = (ImageView) roomInfoLayout.findViewById(R.id.ivInformation);
+        this.tvInfoDDay = (TextView) roomInfoLayout.findViewById(R.id.tvInfoDDay);
 
         data = roomInfoList.get(position);
 
@@ -118,6 +120,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
         tvInfoNewAdd.setText(data.getNewAddress().equals("null") ? "" : data.getNewAddress());
         tvInfoTel.setText(data.getTEL().equals("null") ? "" : data.getTEL());
         tvInfoSite.setText(data.getWebURL().equals("null") ? "" : data.getWebURL());
+        tvInfoDDay.setText("D - " + data.getDDay());
 
         setUpEvents();
 

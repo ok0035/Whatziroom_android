@@ -53,6 +53,7 @@ import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
+import graduation.whatziroom.util.GPSTracer;
 import graduation.whatziroom.util.ParseData;
 import me.relex.circleindicator.CircleIndicator;
 
@@ -70,13 +71,19 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public static RoomChatFragment roomChatView;
     public static RoomUserList roomFriendList;
 
-    public android.widget.LinearLayout llChatSchedule;
+    public android.widget.FrameLayout flChatSchedule;
     public android.widget.LinearLayout llChatMapView;
-    public android.widget.ScrollView scChatInfoParent;
-    public android.widget.TextView tvChatCloseMap;
+
     public android.widget.FrameLayout flChatMap;
+    public android.widget.ScrollView scChatInfoParent;
+
+    public android.widget.TextView tvChatCloseMap;
+    public android.widget.TextView tvRoomChatDDay;
     private android.widget.TextView tvRoomChatPlace;
     private android.widget.TextView tvRoomChatTime;
+    private static android.widget.TextView tvRoomChatNoSchedule;
+    private static android.widget.LinearLayout llRoomChatLayout;
+
     private HashMap<Integer, UserData> mTagItemMap = new HashMap<Integer, UserData>();
 
     private static double ScheduleLongitude;
@@ -87,6 +94,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private ArrayList<UserData> attendUserList;
     private Timer traceLocationTimer;
     private boolean isMove = false;
+    private static boolean isTracing = false;
 
     private ProgressDialog mProgressDialog;
 
@@ -133,71 +141,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         setValues();
         bindView();
         setUpEvents();
-
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        for (int i = 0; i < MainViewPager.chatList.size(); i++) {
-            if (MainViewPager.chatList.get(i).getRoomPKey().equals(RoomViewPager.getRoomPKey() + "")) {
-                RoomChatFragment.lvChat.setAdapter(MainViewPager.chatList.get(i).getAdapter());
-                MainViewPager.chatList.get(i).getAdapter().notifyDataSetChanged();
-
-                Params params = new Params();
-                params.add("UserPKey", MainViewPager.getUserPKey() + "");
-                params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
-                params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
-
-                Log.d("UserPKey", MainViewPager.getUserPKey() + "");
-                Log.d("RoomPKey", RoomViewPager.getRoomPKey() + "");
-                Log.d("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
-
-                new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-                    @Override
-                    public void onSuccess(String response) {
-                        Log.d("UpdateChatCount", response);
-
-                        MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
-                            @Override
-                            public void onPost(RoomData data) {
-
-                            }
-                        });
-
-                        if (traceLocationTimer != null) {
-                            traceLocationTimer.cancel();
-                            traceLocationTimer = null;
-                        }
-
-                        flChatMap.removeAllViews();
-                        chatMap = null;
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(String response) {
-
-                    }
-
-                    @Override
-                    public void onPreExcute() {
-
-                    }
-                });
-
-                break;
-            }
-        }
-
-        //통신에 실패해서 채팅 수를 못읽었을 경우 자동 종료
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!isFinishing()) finish();
-            }
-        }, 1500);
-
 
     }
 
@@ -287,7 +230,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         btnRoomSetting.setVisibility(View.VISIBLE);
                         btnRoomSetting.setImageResource(R.mipmap.btn_setting);
                         scChatInfoParent.setVisibility(View.GONE);
-                        llChatSchedule.setVisibility(View.GONE);
+                        flChatSchedule.setVisibility(View.GONE);
                         llChatMapView.setVisibility(View.GONE);
 
                         break;
@@ -295,7 +238,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     case 1:
 
                         scChatInfoParent.setVisibility(View.VISIBLE);
-                        llChatSchedule.setVisibility(View.VISIBLE);
+                        flChatSchedule.setVisibility(View.VISIBLE);
                         btnRoomSchedule.setVisibility(View.VISIBLE);
                         btnRoomSetting.setVisibility(View.VISIBLE);
                         llChatMapView.setVisibility(View.GONE);
@@ -306,7 +249,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         btnRoomSchedule.setVisibility(View.GONE);
                         btnRoomSetting.setVisibility(View.GONE);
                         scChatInfoParent.setVisibility(View.GONE);
-                        llChatSchedule.setVisibility(View.GONE);
+                        flChatSchedule.setVisibility(View.GONE);
                         llChatMapView.setVisibility(View.GONE);
 
                         RoomUserList.updateRoomUserList();
@@ -327,13 +270,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 //                mProgressDialog.dismiss();
 //                Log.d("onPost", mProgressDialog.isShowing() + "");
 
-        llChatSchedule.setOnClickListener(new View.OnClickListener() {
+        flChatSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (llChatMapView.getVisibility() == View.GONE) {
                     llChatMapView.setVisibility(View.VISIBLE);
-                    llChatSchedule.setVisibility(View.GONE);
+                    flChatSchedule.setVisibility(View.GONE);
 
                     mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
                             "지도 활성화중...", true);
@@ -347,7 +290,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                 } else {
                     llChatMapView.setVisibility(View.GONE);
-                    llChatSchedule.setVisibility(View.VISIBLE);
+                    flChatSchedule.setVisibility(View.VISIBLE);
                     if (traceLocationTimer != null) {
                         traceLocationTimer.cancel();
                         traceLocationTimer = null;
@@ -373,7 +316,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View view) {
                 llChatMapView.setVisibility(View.GONE);
-                llChatSchedule.setVisibility(View.VISIBLE);
+                flChatSchedule.setVisibility(View.VISIBLE);
             }
         });
 
@@ -513,12 +456,15 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View v) {
 
+                flChatMap.removeAllViews();
+                chatMap = null;
+
                 if (traceLocationTimer != null) {
                     traceLocationTimer.cancel();
                     traceLocationTimer = null;
                 }
 
-                llChatSchedule.setVisibility(View.VISIBLE);
+                flChatSchedule.setVisibility(View.VISIBLE);
                 llChatMapView.setVisibility(View.GONE);
 
                 try {
@@ -529,14 +475,23 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     e.printStackTrace();
                 }
 
-                chatMap = null;
-                flChatMap.removeAllViews();
+                mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
+                        "잠시만 기다려주세요...", true);
 
-                dateTimeFragment.startAtCalendarView();
-                dateTimeFragment.setDefaultDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
-                        Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
-                        Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE)).getTime());
-                dateTimeFragment.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT);
+                GPSTracer.getInstance().startLocation(1000, 0);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dateTimeFragment.startAtCalendarView();
+                        dateTimeFragment.setDefaultDateTime(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
+                                Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                                Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE)).getTime());
+                        dateTimeFragment.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT);
+                        mProgressDialog.dismiss();
+                    }
+                }, 1000);
+
 
             }
         });
@@ -566,10 +521,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                 Log.d("LIMIT", response);
 
                 if (!response.equals("[]")) {
-
+                    tvRoomChatNoSchedule.setVisibility(View.GONE);
+                    llRoomChatLayout.setVisibility(View.VISIBLE);
                     ParseData parse = new ParseData();
 
                     SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    long dDay;
+
                     try {
 
                         JSONArray roomInfoArray = parse.parseJsonArray(response);
@@ -580,24 +538,111 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         ScheduleTime = (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
                         SchedulePlace = roomInfo.getString("Place");
 
+//                        dDay = dDay / 1000 / 60 / 60 / 24;
+
                         ScheduleLongitude = Double.parseDouble(roomInfo.getString("Longitude"));
                         ScheduleLatitude = Double.parseDouble(roomInfo.getString("Latitude"));
 
 //                        Log.d("Longitude", ScheduleLongitude + "");
 //                        Log.d("Latitude", ScheduleLatitude + "");
 
-                        TextView tvRoomChatTime = mActivity.findViewById(R.id.tvRoomChatTime);
-                        TextView tvRoomChatPlace = mActivity.findViewById(R.id.tvRoomChatPlace);
+                        final TextView tvRoomChatTime = mActivity.findViewById(R.id.tvRoomChatTime);
+                        final TextView tvRoomChatPlace = mActivity.findViewById(R.id.tvRoomChatPlace);
+                        final TextView tvRoomChatDDay = mActivity.findViewById(R.id.tvRoomChatDDay);
+                        final TextView tvRoomChatLocation = mActivity.findViewById(R.id.tvRoomChatLocation);
+                        final Calendar CalculateDate = Calendar.getInstance();
+
+                        CalculateDate.setTime(date);
+                        final long goalTime = CalculateDate.getTimeInMillis();
+
+                        CalculateDate.setTime(Calendar.getInstance().getTime());
+                        long nowTime = CalculateDate.getTimeInMillis();
+
+                        dDay = (goalTime - nowTime);
+
+                        //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
+                        long sec = dDay / 1000;
+                        final long min = sec / 60;
+                        long hour = min / 60;
+                        final long day = hour / 24;
+
+                        Log.d("sec", sec + "");
+                        Log.d("min", min + "");
+                        Log.d("hour", hour + "");
+                        Log.d("day", day + "");
+
+                        if (day == 0 && min > 0) {
+                            tvRoomChatDDay.setText(min + "min");
+                        } else if (day > 0) {
+                            tvRoomChatDDay.setText("D - " + day);
+                        } else {
+                            tvRoomChatDDay.setText("");
+                        }
 
                         tvRoomChatTime.setText(ScheduleTime);
                         tvRoomChatPlace.setText(SchedulePlace);
+
+                        if (day > 0) {
+                            isTracing = false;
+                            tvRoomChatLocation.setVisibility(View.INVISIBLE);
+                            tvRoomChatDDay.setText("D - " + day);
+                        } else if (day == 0 && hour > 0) {
+                            isTracing = false;
+                            tvRoomChatLocation.setVisibility(View.INVISIBLE);
+                            tvRoomChatDDay.setText(hour + "hour");
+                        } else {
+
+                            Timer timer = new Timer();
+                            TimerTask task = new TimerTask() {
+                                @Override
+                                public void run() {
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            CalculateDate.setTime(Calendar.getInstance().getTime());
+                                            long nowTime = CalculateDate.getTimeInMillis();
+                                            long dDay = (goalTime - nowTime);
+
+                                            //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
+                                            long sec = dDay / 1000;
+                                            final long min = sec / 60;
+                                            long hour = min / 60;
+                                            final long day = hour / 24;
+
+                                            Log.d("sec", sec + "");
+                                            Log.d("min", min + "");
+                                            Log.d("hour", hour + "");
+                                            Log.d("day", day + "");
+
+                                            if (day == 0 && sec >= 0 && min < 60) {
+
+                                                tvRoomChatLocation.setVisibility(View.VISIBLE);
+                                                tvRoomChatDDay.setText(min + "min");
+                                                isTracing = true;
+
+                                            } else {
+                                                tvRoomChatLocation.setVisibility(View.INVISIBLE);
+                                                tvRoomChatDDay.setText("-");
+                                                isTracing = false;
+                                                updateChatMapInfo();
+
+                                            }
+                                        }
+                                    });
+                                }
+                            };
+                            timer.schedule(task, 0, 60000);
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+
                 } else {
+                    tvRoomChatNoSchedule.setVisibility(View.VISIBLE);
+                    llRoomChatLayout.setVisibility(View.INVISIBLE);
                     Log.d("Longitude", ScheduleLongitude + "");
                     Log.d("Latitude", ScheduleLatitude + "");
                 }
@@ -627,9 +672,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
             if (chatMap != null) {
 
-//            chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
                 chatMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                traceUserLocation();
+                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
+
+                if(isTracing)
+                    traceUserLocation();
 
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
@@ -660,9 +707,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                 public void run() {
 
                                     chatMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                                    traceUserLocation();
 
-//                                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
+                                    if(isTracing)
+                                        traceUserLocation();
+
+                                    chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
                                     mProgressDialog.dismiss();
 
                                 }
@@ -881,6 +930,70 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         super.setValues();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        for (int i = 0; i < MainViewPager.chatList.size(); i++) {
+            if (MainViewPager.chatList.get(i).getRoomPKey().equals(RoomViewPager.getRoomPKey() + "")) {
+                RoomChatFragment.lvChat.setAdapter(MainViewPager.chatList.get(i).getAdapter());
+                MainViewPager.chatList.get(i).getAdapter().notifyDataSetChanged();
+
+                Params params = new Params();
+                params.add("UserPKey", MainViewPager.getUserPKey() + "");
+                params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
+                params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+
+                Log.d("UserPKey", MainViewPager.getUserPKey() + "");
+                Log.d("RoomPKey", RoomViewPager.getRoomPKey() + "");
+                Log.d("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+
+                new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.d("UpdateChatCount", response);
+
+                        MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                            @Override
+                            public void onPost(RoomData data) {
+
+                            }
+                        });
+
+                        if (traceLocationTimer != null) {
+                            traceLocationTimer.cancel();
+                            traceLocationTimer = null;
+                        }
+
+                        flChatMap.removeAllViews();
+                        chatMap = null;
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+
+                    }
+                });
+
+                break;
+            }
+        }
+
+        //통신에 실패해서 채팅 수를 못읽었을 경우 자동 종료
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isFinishing()) finish();
+            }
+        }, 1500);
+
+    }
+
     public static int getRoomPKey() {
         return roomPKey;
     }
@@ -923,11 +1036,14 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         this.scChatInfoParent = (ScrollView) findViewById(R.id.scChatInfoParent);
         this.llChatMapView = (LinearLayout) findViewById(R.id.llChatMapView);
         this.flChatMap = (FrameLayout) findViewById(R.id.flChatMap);
-        this.llChatSchedule = (LinearLayout) findViewById(R.id.llChatSchedule);
+        this.flChatSchedule = (FrameLayout) findViewById(R.id.flChatSchedule);
         this.vp = (ViewPager) findViewById(R.id.vp);
         this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
         this.tvRoomChatTime = (TextView) findViewById(R.id.tvRoomChatTime);
         this.tvRoomChatPlace = (TextView) findViewById(R.id.tvRoomChatPlace);
+        this.tvRoomChatDDay = (TextView) findViewById(R.id.tvRoomChatDDay);
+        this.llRoomChatLayout = (LinearLayout) findViewById(R.id.llRoomChatLayout);
+        this.tvRoomChatNoSchedule = (TextView) findViewById(R.id.tvRoomChatNoSchedule);
 
     }
 
