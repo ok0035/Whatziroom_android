@@ -1,6 +1,7 @@
 package graduation.whatziroom.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,12 +84,13 @@ public class ChatAdapter extends ArrayAdapter {
         switch (flag) {
 
             case 0:
-                tvChatMessage.setBackgroundResource(R.drawable.inbox2);
+                tvChatMessage.setBackgroundResource(R.drawable.inbox);
+                tvChatMessage.setTextColor(Color.parseColor("#000000"));
 
                 //만약 전 대화 기록이 본인일 경우 이름을 출력하지 않음!!
                 if(position == 0 || !mList.get(position - 1).getUserPKey().equals(data.getUserPKey())) {
 
-                    ChatNameParams.setMargins(BaseActivity.convertDPtoPX(20), 0, 0, 0);
+                    ChatNameParams.setMargins(BaseActivity.convertDPtoPX(10), 0, 0, 5);
                     ChatNameParams.gravity = Gravity.LEFT;
                     tvChatName.setLayoutParams(ChatNameParams);
                     tvChatName.setVisibility(View.VISIBLE);
@@ -102,8 +104,8 @@ public class ChatAdapter extends ArrayAdapter {
                 break;
 
             case 1:
-                tvChatMessage.setBackgroundResource(R.drawable.outbox2);
-
+                tvChatMessage.setBackgroundResource(R.drawable.outbox);
+                tvChatMessage.setTextColor(Color.parseColor("#ffffff"));
 
 //                ChatNameParams.setMargins(0, 0, BaseActivity.convertDPtoPX(20), 0);
 //                ChatNameParams.gravity = Gravity.RIGHT;

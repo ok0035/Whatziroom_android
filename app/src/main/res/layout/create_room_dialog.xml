@@ -32,6 +32,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="-40dp"
+            android:layout_marginBottom="20dp"
             android:background="@null"
             android:src="@mipmap/back_dialog_create_room"/>
 
@@ -47,7 +48,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -64,11 +65,9 @@
                     android:layout_weight="0.7"
                     android:id="@+id/edCreateRoomNmae"
                     android:gravity="center_vertical"
-                    android:hint="입력해주세요."
+                    android:hint="방이름을 입력해주세요."
                     android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:background="@null"
-                    android:layout_marginRight="20dp"/>
+                    android:background="@null"/>
 
 
             </LinearLayout>
@@ -76,7 +75,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="30dp">
 
                 <TextView
@@ -95,9 +93,8 @@
                     android:id="@+id/edCreateRoomDesc"
                     android:gravity="center_vertical"
                     android:textSize="15dp"
-                    android:hint="입력해주세요."
-                    android:background="@null"
-                    android:textStyle="bold"/>
+                    android:hint="방설명을 입력해주세요."
+                    android:background="@null"/>
 
             </LinearLayout>
 

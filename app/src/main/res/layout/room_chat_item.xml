@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:orientation="horizontal"
-    android:paddingBottom="15dp"
+    android:paddingBottom="5dp"
     android:id="@+id/llParent"
     android:gravity="center">
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:text ="text"/>
+            android:text ="ChatName"/>
 
         <TextView
             android:id="@+id/tvChatMessage"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="#000000"
-            android:text ="text"/>
+            android:text ="ChatMessage"/>
 
     </LinearLayout>
 
@@ -75,4 +75,5 @@
         android:background="#888888"
         android:layout_weight="1"
         android:layout_margin="10dp" />
+
 </LinearLayout>
