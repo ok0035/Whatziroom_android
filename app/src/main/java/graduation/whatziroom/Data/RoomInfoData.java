@@ -25,6 +25,7 @@ public class RoomInfoData {
     private String TEL;
     private String WebURL;
     private String SchedulePKey;
+    private String DDay;
 
     private ArrayList<RoomInfoData> RoomInfoList;
 
@@ -39,7 +40,7 @@ public class RoomInfoData {
 
     private RoomInfoAdapter adapter;
 
-    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl, String dDay) {
         super();
 
         SchedulePKey = schedulePKey;
@@ -55,6 +56,7 @@ public class RoomInfoData {
         NewAddress = newAddress;
         TEL = tel;
         WebURL = webUrl;
+        DDay = dDay;
 
     }
 
@@ -64,9 +66,9 @@ public class RoomInfoData {
 
     }
 
-    public void addItem(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl) {
+    public void addItem(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl, String dDay) {
 
-        RoomInfoList.add(new RoomInfoData(schedulePKey, imageURL, title, place, longitude, latitude, time, description, name, oldAddress, newAddress, tel, webUrl));
+        RoomInfoList.add(new RoomInfoData(schedulePKey, imageURL, title, place, longitude, latitude, time, description, name, oldAddress, newAddress, tel, webUrl, dDay));
     }
 
     public String getSchedulePKey() {
@@ -164,8 +166,5 @@ public class RoomInfoData {
     public void setRoomInfoList(ArrayList<RoomInfoData> roomInfoList) {
         RoomInfoList = roomInfoList;
     }
-
-
-
 
 }

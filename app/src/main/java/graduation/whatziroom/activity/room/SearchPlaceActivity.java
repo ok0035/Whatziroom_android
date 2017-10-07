@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,6 +73,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private android.widget.LinearLayout llSlideSub;
     private com.sothree.slidinguppanel.SlidingUpPanelLayout slidingLayout;
     private EditText edSearchQuery;
+    private ImageView btnResetSearch;
     private TextView btnSearch;
     private TextView tvSearchResultTitle;
     private TextView tvSearchResultAddress;
@@ -129,6 +132,36 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             @Override
             public void onClick(View view) {
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            }
+        });
+
+        //btnResetSearch 표시
+        edSearchQuery.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = charSequence.toString();
+                if (text.length() > 0) {
+                    btnResetSearch.setVisibility(View.VISIBLE);
+                } else {
+                    btnResetSearch.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        btnResetSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edSearchQuery.setText(null);
+                btnResetSearch.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -239,15 +272,11 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         });
 
 
-        tvBtnSearchCancel.setOnClickListener(new View.OnClickListener()
-
-        {
+        tvBtnSearchCancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
                 finish();
-
             }
 
         });
@@ -258,10 +287,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
             @Override
             public void onClick(View view) {
-
                 RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
                 dialog.show();
-
             }
 
         });
@@ -549,6 +576,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         this.llSlideMain = (LinearLayout) findViewById(R.id.llSlideMain);
         this.mMapView = (MapView) findViewById(R.id.mMapView);
         this.lvSearchList = (ListView) findViewById(R.id.lvSearchList);
+        this.btnResetSearch = (ImageView) findViewById(R.id.btnResetSearch);
         this.btnSearch = (TextView) findViewById(R.id.btnSearch);
         this.edSearchQuery = (EditText) findViewById(R.id.edSearchQuery);
         this.wbSearchResult = (WebView) findViewById(R.id.wbSearchResult);

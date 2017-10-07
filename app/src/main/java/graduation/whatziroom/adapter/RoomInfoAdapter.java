@@ -3,9 +3,7 @@ package graduation.whatziroom.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import graduation.whatziroom.R;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.AttendScheduleDialog;
-
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -98,17 +95,6 @@ public class RoomInfoAdapter extends ArrayAdapter {
                 if(response.equals("1")) {
                     tvInfoGoing.setText("참석 확정");
                 }
-
-                Glide.with(RoomViewPager.mContext).load(data.getImageURL()).into(ivInformation);
-                textTitle.setText(data.getTitle().equals("null") ? "" : data.getTitle());
-                tvInfoPlace.setText(data.getPlace().equals("null") ? "" : data.getPlace());
-                tvInfoTime.setText(data.getTime().equals("null") ? "" : data.getTime());
-                tvInfoDesc.setText(data.getDescription().equals("null") ? "" : data.getDescription());
-                tvInfoMaker.setText(data.getName().equals("null") ? "" : data.getName());
-                tvInfoOldAdd.setText(data.getOldAddress().equals("null") ? "" : data.getOldAddress());
-                tvInfoNewAdd.setText(data.getNewAddress().equals("null") ? "" : data.getNewAddress());
-                tvInfoTel.setText(data.getTEL().equals("null") ? "" : data.getTEL());
-                tvInfoSite.setText(data.getWebURL().equals("null") ? "" : data.getWebURL());
             }
 
             @Override
@@ -122,6 +108,16 @@ public class RoomInfoAdapter extends ArrayAdapter {
             }
         });
 
+        Glide.with(RoomViewPager.mContext).load(data.getImageURL()).into(ivInformation);
+        textTitle.setText(data.getTitle().equals("null") ? "" : data.getTitle());
+        tvInfoPlace.setText(data.getPlace().equals("null") ? "" : data.getPlace());
+        tvInfoTime.setText(data.getTime().equals("null") ? "" : data.getTime());
+        tvInfoDesc.setText(data.getDescription().equals("null") ? "" : data.getDescription());
+        tvInfoMaker.setText(data.getName().equals("null") ? "" : data.getName());
+        tvInfoOldAdd.setText(data.getOldAddress().equals("null") ? "" : data.getOldAddress());
+        tvInfoNewAdd.setText(data.getNewAddress().equals("null") ? "" : data.getNewAddress());
+        tvInfoTel.setText(data.getTEL().equals("null") ? "" : data.getTEL());
+        tvInfoSite.setText(data.getWebURL().equals("null") ? "" : data.getWebURL());
 
         setUpEvents();
 

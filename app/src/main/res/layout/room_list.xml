@@ -28,6 +28,15 @@
                 android:background="@null"/>
 
             <ImageView
+                android:id="@+id/btnResetRoom"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/search_cancle_icon"
+                android:layout_gravity="center"
+                android:layout_marginRight="12dp"
+                android:visibility="invisible"/>
+
+            <ImageView
                 android:id="@+id/ivBtnSearch"
                 android:layout_width="37dp"
                 android:layout_height="37dp"
@@ -84,12 +93,12 @@
                 android:gravity="end">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:id="@+id/ivRoomSearchFlag"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:src="@mipmap/btn_search2" />
+                    android:src="@mipmap/btn_room_search_flag" />
 
             </LinearLayout>
 

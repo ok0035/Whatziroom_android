@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
-    android:weightSum="1"
+    android:layout_height="120dp"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:background="@drawable/search_background"
+    android:padding="10dp"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -30,52 +31,36 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_weight="0.45"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvSearchTitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvSearchTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="장소"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:gravity="center_vertical"
+                android:text="장소"
+                android:textSize="17dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.02"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#afafaf"
-                android:gravity="center" />
-
-
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:background="@color/colorBeige"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.5"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -99,7 +84,7 @@
                         android:layout_weight="0.2"
                         android:gravity="center_vertical"
                         android:text="주소   : "
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -110,7 +95,7 @@
                         android:gravity="center_vertical"
                         android:singleLine="true"
                         android:text="경기도 성남시 중원구 하대원동"
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -129,7 +114,7 @@
                         android:layout_weight="0.2"
                         android:gravity="center_vertical"
                         android:text="TEL   : "
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -139,19 +124,15 @@
                         android:layout_weight="0.8"
                         android:gravity="center_vertical"
                         android:text="010-1111-1111"
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-
             </LinearLayout>
-
 
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </LinearLayout>

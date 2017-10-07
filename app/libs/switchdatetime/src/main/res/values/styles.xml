@@ -5,7 +5,7 @@
 
     <!-- Header Background -->
     <style name="Theme.SwitchDateTime.HeaderBackground">
-        <item name="android:background">#32b3e3</item>
+        <item name="android:background">#EB9096</item>
     </style>
 
     <!-- Content Background -->
@@ -29,11 +29,11 @@
     <!-- Time  -->
     <style name="Theme.SwitchDateTime.Time">
         <item name="timeCircleColor">#e1e1e1</item>
-        <item name="timeCenterColor">#32b3e3</item>
-        <item name="timeAmPmBackgroundColor">#32b3e3</item>
-        <item name="timeAmPmSelectBackgroundColor">#32b3e3</item> <!-- Alpha is apply-->
+        <item name="timeCenterColor">#EB9096</item>
+        <item name="timeAmPmBackgroundColor">#EB9096</item>
+        <item name="timeAmPmSelectBackgroundColor">#EB9096</item> <!-- Alpha is apply-->
         <item name="timeAmPmTextColor">#c2c2c2</item>
-        <item name="timeSelectorColor">#32b3e3</item>
+        <item name="timeSelectorColor">#EB9096</item>
         <item name="timeCircularNumbersColor">#494949</item>
     </style>
 
@@ -51,7 +51,7 @@
 
     <!-- Date -->
     <style name="Theme.SwitchDateTime.Date">
-        <item name="mcv_selectionColor">#32b3e3</item>
+        <item name="mcv_selectionColor">#EB9096</item>
     </style>
 
     <!-- Date Label -->
@@ -62,7 +62,7 @@
 
     <!-- Year Selected-->
     <style name="Theme.SwitchDateTime.Year">
-        <item name="colorCircleIndicator">#32b3e3</item>
+        <item name="colorCircleIndicator">#EB9096</item>
         <item name="android:textColor">#e6e6e6</item>
     </style>
 
