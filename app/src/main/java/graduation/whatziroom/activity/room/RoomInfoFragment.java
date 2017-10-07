@@ -49,10 +49,10 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
 //    private ProgressDialog mProgressDialog;
 
-    public static String getIsEmpty() {
+    public String getIsEmpty() {
         return isEmpty;
     }
-    public static void setIsEmpty(String isEmpty) {
+    public void setIsEmpty(String isEmpty) {
         RoomInfoFragment.isEmpty = isEmpty;
     }
 

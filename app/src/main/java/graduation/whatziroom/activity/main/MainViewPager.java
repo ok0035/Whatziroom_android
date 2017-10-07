@@ -88,12 +88,12 @@ public class MainViewPager extends BaseActivity {
 
     ProgressDialog mProgressDialog;
 
-    private LocationService locationService;
+    public static LocationService locationService;
     private boolean isBind = false;
     public static Timer CheckLocationTimer;
 
-    public static interface AfterUpdate {
-        public void onPost(RoomData data);
+    public interface AfterUpdate {
+        void onPost(RoomData data);
     }
 
     ServiceConnection sconn = new ServiceConnection() {
@@ -368,7 +368,7 @@ public class MainViewPager extends BaseActivity {
                     chatList.add(initData);
                 }
 
-                updateFirebase();
+                initFirebase();
             }
         });
 
@@ -378,7 +378,7 @@ public class MainViewPager extends BaseActivity {
 
     }
 
-    public void updateFirebase() {
+    public void initFirebase() {
 
         for (int i = 0; i < roomData.getRoomArrayList().size(); i++) {
             final int finalI = i;

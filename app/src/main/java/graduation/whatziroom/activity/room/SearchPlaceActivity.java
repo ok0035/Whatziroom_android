@@ -55,7 +55,6 @@ import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.dialog.RegisterScheduleDialog;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
-import graduation.whatziroom.util.GPSTracer;
 
 public class SearchPlaceActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener, BasicMethod {
 
@@ -179,8 +178,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 }
                 hideSoftKeyboard(); // 키보드 숨김
 //                MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
-                double latitude = GPSTracer.latitude;
-                double longitude = GPSTracer.longitude;
+                double latitude = MainViewPager.locationService.latitude;
+                double longitude = MainViewPager.locationService.longitude;
 //		        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
 //		        int page = 1; // 페이지 번호 (1 ~ 3). 한페이지에 15개
                 String apikey = getResources().getString(R.string.APIKEY);
@@ -374,8 +373,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                     Searcher searcher = new Searcher();
                     String query = edSearchQuery.getText().toString();
 
-                    double latitude = GPSTracer.latitude;
-                    double longitude = GPSTracer.longitude;
+                    double latitude = MainViewPager.locationService.latitude;
+                    double longitude = MainViewPager.locationService.longitude;
 
                     String apikey = getResources().getString(R.string.APIKEY);
 
