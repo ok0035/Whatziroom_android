@@ -163,6 +163,14 @@ public class RoomInfoData {
         return RoomInfoList;
     }
 
+    public String getDDay() {
+        return DDay;
+    }
+
+    public void setDDay(String DDay) {
+        this.DDay = DDay;
+    }
+
     public void setRoomInfoList(ArrayList<RoomInfoData> roomInfoList) {
         RoomInfoList = roomInfoList;
     }

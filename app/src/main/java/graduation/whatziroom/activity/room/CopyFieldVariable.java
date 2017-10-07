@@ -40,7 +40,7 @@ public class CopyFieldVariable extends BaseActivity {
         this.llChatMapView = (LinearLayout) findViewById(R.id.llChatMapView);
         this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
         this.flChatMap = (FrameLayout) findViewById(R.id.flChatMap);
-        this.llChatSchedule = (LinearLayout) findViewById(R.id.llChatSchedule);
+        this.llChatSchedule = (LinearLayout) findViewById(R.id.flChatSchedule);
         this.tvRoomChatTime = (TextView) findViewById(R.id.tvRoomChatTime);
         this.tvRoomChatPlace = (TextView) findViewById(R.id.tvRoomChatPlace);
         this.vp = (ViewPager) findViewById(R.id.vp);

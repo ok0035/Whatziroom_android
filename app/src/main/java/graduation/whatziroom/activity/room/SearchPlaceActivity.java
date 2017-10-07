@@ -55,6 +55,7 @@ import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.dialog.RegisterScheduleDialog;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
+import graduation.whatziroom.util.GPSTracer;
 
 public class SearchPlaceActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener, BasicMethod {
 
@@ -178,8 +179,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 }
                 hideSoftKeyboard(); // 키보드 숨김
 //                MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
-                double latitude = MainViewPager.locationService.latitude;
-                double longitude = MainViewPager.locationService.longitude;
+                double latitude = GPSTracer.latitude;
+                double longitude = GPSTracer.longitude;
 //		        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
 //		        int page = 1; // 페이지 번호 (1 ~ 3). 한페이지에 15개
                 String apikey = getResources().getString(R.string.APIKEY);
@@ -275,17 +276,17 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
             @Override
             public void onClick(View view) {
+                GPSTracer.getInstance().stopLocation();
                 finish();
             }
 
         });
 
-        tvBtnSearchSelect.setOnClickListener(new View.OnClickListener()
-
-        {
+        tvBtnSearchSelect.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                GPSTracer.getInstance().stopLocation();
                 RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
                 dialog.show();
             }
@@ -351,16 +352,16 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing() && GPSTracer.latitude != 0 && GPSTracer.longitude != 0) {
 
-//                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 2, true);
+                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 3, true);
 
                     //이 모드는 현재위치로 이동시켜주지만 다른 곳으로 이동을 할 수 없고 오직 본인 위치에만 머무른다.
                     mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
 
                     //그래서 현재 위치를 찾은 다음 맵 이동을 중지해주어야 하는데, 곧바로 하면 충돌이 나기 때문에 시간차를 두고 모드를 변경해준다.
                     //이렇게 하는 이유는 GPSTracer를 더이상 사용하지 않고 위치 추적을 할 때에는 LocationService를 이용할 것이기 때문이다.
-                    //즉 GPSTracer를 사용하는 곳을 안 쓰도록 수정중
+                    //즉 GPSTracer를 사용하는 곳을 안 쓰도록 수정중 ==> 로케이션 서비스를 1시간 전부터 활성화하게 해서 여기서만 GPSTracer를 사용함
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -373,8 +374,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                     Searcher searcher = new Searcher();
                     String query = edSearchQuery.getText().toString();
 
-                    double latitude = MainViewPager.locationService.latitude;
-                    double longitude = MainViewPager.locationService.longitude;
+                    double latitude = GPSTracer.latitude;
+                    double longitude = GPSTracer.longitude;
 
                     String apikey = getResources().getString(R.string.APIKEY);
 
@@ -410,7 +411,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 }
             }
         };
-        timer.schedule(task, 0, 2000);
+        timer.schedule(task, 0, 1500);
 
     }
 

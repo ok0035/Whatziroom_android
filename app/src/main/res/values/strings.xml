@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Whatziroom</string>
+    <string name="app_name">와찌룸</string>
     <!--Login Activity-->
     <string name="login_wrong_idpw">아이디나 패스워드가 틀렸습니다. 다시 입력해주세요.</string>
     <string name="login_welcome_message">로그인에 성공했습니다.</string>
