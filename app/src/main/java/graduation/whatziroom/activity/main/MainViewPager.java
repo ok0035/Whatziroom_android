@@ -40,6 +40,7 @@ import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.dialog.CreateRoomDialog;
+import graduation.whatziroom.dialog.ExitMainDialog;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
@@ -52,7 +53,6 @@ import graduation.whatziroom.util.ParseData;
  */
 
 public class MainViewPager extends BaseActivity {
-
 
     private pagerAdapter vpAdapter;
     private ViewPager vp;
@@ -91,6 +91,9 @@ public class MainViewPager extends BaseActivity {
     public static LocationService locationService;
     private boolean isBind = false;
     public static Timer CheckLocationTimer;
+
+    private TextView tvMainExitYes;
+    private TextView tvMainExitNo;
 
     public interface AfterUpdate {
         void onPost(RoomData data);
@@ -148,6 +151,7 @@ public class MainViewPager extends BaseActivity {
         configTxt1.setOnClickListener(addFriendClickListner);
         configTxt2.setOnClickListener(editFriendClickListener);
     }
+
 
     @Override
     public void setUpEvents() {
@@ -558,7 +562,9 @@ public class MainViewPager extends BaseActivity {
             CheckLocationTimer = null;
         }
 
-        super.onBackPressed();
+        new ExitMainDialog(BaseActivity.mContext).show();
+        //super.onBackPressed();
+
     }
 
     public void startLocationService() {
@@ -578,16 +584,12 @@ public class MainViewPager extends BaseActivity {
 //            @Override
 //            public void run() {
 //
-//
-//
-//
 //            }
 //        },3000);
 
     }
 
     private void changeTabColor(int position) {
-
 
         ll.findViewWithTag(position).setSelected(true);
         ll.findViewWithTag(position).setBackgroundResource(R.drawable.round_background_main);
@@ -609,6 +611,29 @@ public class MainViewPager extends BaseActivity {
 
         }
 
+    }
+
+
+    @Override
+    public void setValues() {
+
+        super.setValues();
+
+        // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
+//        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
+//        getSupportFragmentManager().beginTransaction().add(roomListView, "2").commit();
+//        getSupportFragmentManager().beginTransaction().add(scheduleListView, "3").commit();
+//        getSupportFragmentManager().beginTransaction().add(notificationListView, "4").commit();
+//        getSupportFragmentManager().beginTransaction().add(profileView, "5").commit();
+    }
+
+    @Override
+    public void setMainActionBar() {
+        super.setMainActionBar();
+        titleTxt.setText("친구목록");
+        backBtn.setVisibility(View.INVISIBLE);
+        configTxt1.setImageResource(R.mipmap.btn_add_friend);
+        configTxt2.setImageResource(R.mipmap.btn_edit);
     }
 
     // 프래그먼트간 페이지 이동
@@ -680,32 +705,6 @@ public class MainViewPager extends BaseActivity {
 
     }
 
-    @Override
-    public void setValues() {
-
-        super.setValues();
-
-
-        // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
-//        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
-//        getSupportFragmentManager().beginTransaction().add(roomListView, "2").commit();
-//        getSupportFragmentManager().beginTransaction().add(scheduleListView, "3").commit();
-//        getSupportFragmentManager().beginTransaction().add(notificationListView, "4").commit();
-//        getSupportFragmentManager().beginTransaction().add(profileView, "5").commit();
-    }
-
-    @Override
-    public void setMainActionBar() {
-        super.setMainActionBar();
-        titleTxt.setText("친구목록");
-        backBtn.setVisibility(View.INVISIBLE);
-        configTxt1.setImageResource(R.mipmap.btn_add_friend);
-        configTxt2.setImageResource(R.mipmap.btn_edit);
-//        configTxt2.setText("편집");
-
-    }
-
-
     // 상황에 따른 customActionbar 클릭 이벤트 리스너 클래스 모음//
 
     View.OnClickListener addFriendClickListner = new View.OnClickListener() {
@@ -762,7 +761,6 @@ public class MainViewPager extends BaseActivity {
         }
     };
 
-
     @Override
     public void bindView() {
         super.bindView();
@@ -782,6 +780,9 @@ public class MainViewPager extends BaseActivity {
         this.tvRoom = findViewById(R.id.tvRoom);
         this.linFriend = findViewById(R.id.linFriend);
         this.tvFriend = findViewById(R.id.tvFriend);
+
+        this.tvMainExitNo = (TextView) findViewById(R.id.tvMainExitNo);
+        this.tvMainExitYes = (TextView) findViewById(R.id.tvMainExitYes);
 
     }
 
@@ -811,4 +812,5 @@ public class MainViewPager extends BaseActivity {
         Log.d("onResume", "Here");
         super.onResume();
     }
+
 }

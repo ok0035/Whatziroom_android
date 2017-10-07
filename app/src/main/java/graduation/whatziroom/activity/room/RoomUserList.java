@@ -64,9 +64,7 @@ public class RoomUserList extends Fragment implements BasicMethod{
         tvRoomExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 new ExitRoomDialog(BaseActivity.mContext).show();
-
             }
         });
 
