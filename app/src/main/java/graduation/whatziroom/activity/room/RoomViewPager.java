@@ -81,6 +81,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public android.widget.LinearLayout llChatMapView;
     private TextView tvChatMapCheck;
     private ImageView ivChatMapCheck;
+    private ImageView ivRoomChatNoScheduleDelete;
+    private static boolean isDelete;
 
     public android.widget.FrameLayout flChatMap;
     public android.widget.ScrollView scChatInfoParent;
@@ -88,7 +90,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public android.widget.TextView tvRoomChatDDay;
     private android.widget.TextView tvRoomChatPlace;
     private android.widget.TextView tvRoomChatTime;
-    private static android.widget.TextView tvRoomChatNoSchedule;
+    private static android.widget.LinearLayout llRoomChatNoSchedule;
     private static android.widget.LinearLayout llRoomChatLayout;
 
     private HashMap<Integer, UserData> mTagItemMap = new HashMap<Integer, UserData>();
@@ -280,8 +282,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View view) {
 
+                if(llChatMapView.getVisibility() == View.GONE) {
+
+                }
                 //지도 안열려있으면
-                if (llChatMapView.getVisibility() == View.GONE) {
+                else if (llChatMapView.getVisibility() == View.GONE) {
                     llChatMapView.setVisibility(View.VISIBLE);
                     tvChatMapCheck.setText("지도 닫기");
 
@@ -516,6 +521,14 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             }
         });
 
+        ivRoomChatNoScheduleDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llRoomChatNoSchedule.setVisibility(View.GONE);
+                //isDelete = true;
+            }
+        });
+
     }
 
     //스케줄을 생성했을때 다시 정보를 불러와야 하는데 이 작업은 RegisterScheduleDialog에서 하기 때문에 스태틱으로 할 수 밖에 없었음
@@ -533,7 +546,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                 Log.d("LIMIT", response);
 
                 if (!response.equals("[]")) {
-                    tvRoomChatNoSchedule.setVisibility(View.GONE);
+                    llRoomChatNoSchedule.setVisibility(View.GONE);
                     llRoomChatLayout.setVisibility(View.VISIBLE);
                     ParseData parse = new ParseData();
 
@@ -591,13 +604,16 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                         if (day > 0) {
                             isTracing = false;
+                            tvRoomChatTime.setVisibility(View.VISIBLE);
                             tvRoomChatLocation.setVisibility(View.INVISIBLE);
                             tvRoomChatDDay.setText("D - " + day);
                         } else if (day == 0 && hour > 0) {
                             isTracing = false;
+                            tvRoomChatTime.setVisibility(View.VISIBLE);
                             tvRoomChatLocation.setVisibility(View.INVISIBLE);
-                            tvRoomChatDDay.setText(hour + "hour");
+                            tvRoomChatDDay.setText("D - "+ hour + "시간");
                         } else {
+                            tvRoomChatTime.setVisibility(View.GONE);
 
                             Timer timer = new Timer();
                             TimerTask task = new TimerTask() {
@@ -617,9 +633,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                             final long day = hour / 24;
 
                                             if (day == 0 && sec >= 0 && min < 60) {
-
                                                 tvRoomChatLocation.setVisibility(View.VISIBLE);
-                                                tvRoomChatDDay.setText(min + "min");
+                                                tvRoomChatDDay.setText("D - "+ min + "분");
                                                 isTracing = true;
 
                                             } else {
@@ -643,7 +658,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     }
 
                 } else {
-                    tvRoomChatNoSchedule.setVisibility(View.VISIBLE);
+                    /*
+                    if(isDelete) {
+                        llRoomChatNoSchedule.setVisibility(View.GONE);
+                    } else {
+                        llRoomChatNoSchedule.setVisibility(View.VISIBLE);
+                    }
+                    */
                     llRoomChatLayout.setVisibility(View.INVISIBLE);
                     Log.d("Longitude", ScheduleLongitude + "");
                     Log.d("Latitude", ScheduleLatitude + "");
@@ -1044,7 +1065,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         //this.tvRoomChatPlace = findViewById(R.id.tvRoomChatPlace);
         this.tvRoomChatDDay = findViewById(R.id.tvRoomChatDDay);
         this.llRoomChatLayout = findViewById(R.id.llRoomChatLayout);
-        this.tvRoomChatNoSchedule = findViewById(R.id.tvRoomChatNoSchedule);
+        this.llRoomChatNoSchedule = findViewById(R.id.llRoomChatNoSchedule);
+        this.ivRoomChatNoScheduleDelete = findViewById(R.id.ivRoomChatNoScheduleDelete);
         this.tvChatMapCheck = findViewById(R.id.tvChatMapCheck);
         this.ivChatMapCheck = findViewById(R.id.ivChatMapCheck);
 

@@ -59,9 +59,9 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/llRoomChatLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/llRoomChatLayout"
                     android:background="@drawable/button_border_fill"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -79,9 +79,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="위치공유가 시작되었습니다!"
-                            android:textColor="#ffff00"
-                            android:textSize="14dp"
+                            android:text="위치 공유 중"
+                            android:textColor="#000000"
+                            android:textSize="17dp"
                             android:textStyle="bold"
                             android:visibility="invisible"/>
 
@@ -134,85 +134,34 @@
 
                     </FrameLayout>
 
-                    <!--<LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginTop="3dp"
-                        android:background="@drawable/round_background_button"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.2"
-                            android:text="장소"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvRoomChatPlace"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.8"
-                            android:text=""
-                            android:textColor="#FFFFFF"
-                            android:textSize="14dp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="3dp"
-                        android:background="@drawable/round_background_button"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.2"
-                            android:text="일시"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14dp"
-                            android:textStyle="bold" />
-
-                        &lt;!&ndash;
-                        <TextView
-                            android:id="@+id/tvRoomChatTime"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.8"
-                            android:text=""
-                            android:textColor="#FFFFFF"
-                            android:textSize="14dp"
-                            android:textStyle="bold" />
-
-                            &ndash;&gt;
-
-                    </LinearLayout>-->
-
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/tvRoomChatNoSchedule"
-                    android:gravity="center"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="등록된 스케줄이 없습니다."
-                    android:visibility="gone"/>
+                    android:id="@+id/llRoomChatNoSchedule"
+                    android:background="@drawable/button_border_fill"
+                    android:padding="20dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:text="등록된 스케줄이 없습니다." />
+
+                    <ImageView
+                        android:id="@+id/ivRoomChatNoScheduleDelete"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@mipmap/btn_delete"
+                        android:layout_gravity="right"/>
+
+                </LinearLayout>
 
             </FrameLayout>
 
