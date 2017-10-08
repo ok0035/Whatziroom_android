@@ -215,7 +215,8 @@ public class LocationService extends Service {
                                             .setSmallIcon(R.drawable.logo)
                                             .setContentTitle(message)
                                             .setContentIntent(mPendingIntent)
-                                            .setContentText("와찌룸으로 이동하려면 여기를 누르세요.");
+                                            .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
+                                            .setOngoing(true);
 
                             NotificationManager mNotifyMgr =
                                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -238,7 +239,8 @@ public class LocationService extends Service {
                                     .setSmallIcon(R.drawable.logo)
                                     .setContentTitle("잊어버린 약속은 없으신가요?")
                                     .setContentIntent(mPendingIntent)
-                                    .setContentText("와찌룸으로 이동하려면 여기를 누르세요.");
+                                    .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
+                                    .setOngoing(true);
 
                     NotificationManager mNotifyMgr =
                             (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -279,7 +281,8 @@ public class LocationService extends Service {
                         .setSmallIcon(R.drawable.logo)
                         .setContentTitle(message)
                         .setContentIntent(mPendingIntent)
-                        .setContentText("위치공유가 시작되었습니다. 친구들의 위치를 확인하세요!");
+                        .setContentText("위치공유가 시작되었습니다. 친구들의 위치를 확인하세요!")
+                        .setOngoing(true);
 
         NotificationManager mNotifyMgr =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
