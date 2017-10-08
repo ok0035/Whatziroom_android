@@ -557,7 +557,9 @@ public class MainViewPager extends BaseActivity {
             CheckLocationTimer = null;
         }
 
-        new ExitMainDialog(BaseActivity.mContext).show();
+        ExitMainDialog emd = new ExitMainDialog(this);
+        if(!isFinishing())
+            emd.show();
         //super.onBackPressed();
 
     }
