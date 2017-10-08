@@ -604,7 +604,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             isTracing = false;
                             tvRoomChatTime.setVisibility(View.VISIBLE);
                             tvRoomChatLocation.setVisibility(View.INVISIBLE);
-                            tvRoomChatDDay.setText("D - "+ hour + "시간");
+                            tvRoomChatDDay.setText("D - "+ hour + "H");
                         } else {
                             tvRoomChatTime.setVisibility(View.GONE);
 
@@ -627,7 +627,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                                             if (day == 0 && sec >= 0 && min < 60) {
                                                 tvRoomChatLocation.setVisibility(View.VISIBLE);
-                                                tvRoomChatDDay.setText("D - "+ min + "분");
+                                                tvRoomChatDDay.setText("D - "+ min + "M");
                                                 isTracing = true;
 
                                             } else {

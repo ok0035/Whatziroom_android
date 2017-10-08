@@ -6,46 +6,67 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/round_background_button"
+        android:layout_height="270dp"
+        android:background="@drawable/dialog_background"
         android:orientation="vertical"
         android:gravity="center">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="100dp"
             android:layout_height="100dp"
+            android:src="@mipmap/usesr5_icon"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/tvRoomRequestTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="방 입장을 신청하시겠습니까?"
-            android:textSize="15dp"
+            android:text="와찌룸\n방에 가입 신청서를 보내드릴까요?"
+            android:textSize="17dp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#000000"
+            android:layout_marginBottom="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/sColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="right"
-            android:paddingRight="30dp">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/tvDialogApplyYes"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="네"
-                android:textColor="#FFFFFF"
-                android:textSize="14dp"
+                android:layout_gravity="center"
+                android:text="네, 신청할게요."
+                android:textColor="@color/colorTxtDialogExitRoom"
+                android:textSize="16dp"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/sColor" />
 
             <TextView
                 android:id="@+id/tvDialogApplyNo"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="아니오"
-                android:textColor="#FFFFFF"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:text="아니요, 나중에 할게요."
+                android:textColor="@color/colorTxtDialogExitRoom"
+                android:textSize="16dp" />
 
         </LinearLayout>
 

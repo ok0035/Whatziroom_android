@@ -194,9 +194,20 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                             parseTime = roomInfo.getString("Time");
                         }
 
-                        roomInfoData.addItem(roomInfo.getString("SchedulePKey"), roomInfo.getString("ImageURL"), roomInfo.getString("Title"), roomInfo.getString("Place"),
-                                roomInfo.getString("Longitude"), roomInfo.getString("Latitude"), parseTime, roomInfo.getString("Description"), roomInfo.getString("Name"), roomInfo.getString("OldAddress"),
-                                roomInfo.getString("NewAddress"), roomInfo.getString("TEL"), roomInfo.getString("WURL"), dDay + "");
+                        roomInfoData.addItem(
+                                roomInfo.getString("SchedulePKey"),
+                                roomInfo.getString("ImageURL"),
+                                roomInfo.getString("Title"),
+                                roomInfo.getString("Place"),
+                                roomInfo.getString("Longitude"),
+                                roomInfo.getString("Latitude"), parseTime,
+                                roomInfo.getString("Description"),
+                                roomInfo.getString("Name"),
+                                roomInfo.getString("OldAddress"),
+                                roomInfo.getString("NewAddress"),
+                                roomInfo.getString("TEL"),
+                                roomInfo.getString("WURL"),
+                                dDay + "");
 
                     }
 
