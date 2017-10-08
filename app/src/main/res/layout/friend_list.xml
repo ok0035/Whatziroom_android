@@ -63,15 +63,29 @@
                 android:id="@+id/tvFriendSearchBack"
                 android:text="친구 검색 결과입니다."
                 android:visibility="gone"/>
-
-            <ListView
-                android:id="@+id/friendList"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:textFilterEnabled="true">
+                android:layout_height="match_parent">
+                <ListView
+                    android:id="@+id/friendList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:textFilterEnabled="true">
 
-            </ListView>
+                </ListView>
+
+                <ListView
+                    android:id="@+id/findfriendList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:textFilterEnabled="true"
+                    android:visibility="gone">
+
+                </ListView>
+            </FrameLayout>
+
 
         </LinearLayout>
 

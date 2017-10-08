@@ -35,6 +35,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        remoteMessage.getData();
         String msg = (remoteMessage.getData().get("txtMsg") == null )? "" :remoteMessage.getData().get("txtMsg");
         sendNotification(body, msg);
+
+
     }
 
     private void sendNotification(String messageBody, String chatMsg) {

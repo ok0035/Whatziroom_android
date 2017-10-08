@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import graduation.whatziroom.Data.FriendData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.adapter.FriendAdapter;
+import graduation.whatziroom.adapter.LocalFriendAdapter;
 import graduation.whatziroom.network.DBSI;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
@@ -37,6 +39,7 @@ public class FriendListFragment extends Fragment {
     boolean blockFlag = false; // true면 차단 버튼 보이게, false면 안보임
     FriendAdapter mFriendAdapter;
     ArrayList<FriendData> friendListItem;
+    ArrayList<FriendData> findfriendLitsItem;
 
     ImageView searchFreindBtn;
     DBSI dbsi;
@@ -45,18 +48,26 @@ public class FriendListFragment extends Fragment {
     private TextView tvFriendSearchBack;
     private ListView friendList;
     private ImageView btnResetFriend;
+    private ListView findFriendList;
+
+    private LocalFriendAdapter localFriendAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         layout = (LinearLayout) inflater.inflate(R.layout.friend_list, container, false);
-        this.friendList = (ListView) layout.findViewById(R.id.friendList);
         this.tvFriendSearchBack = (TextView) layout.findViewById(R.id.tvFriendSearchBack);
         this.searchFreindBtn = (ImageView) layout.findViewById(R.id.searchFriendBtn);
         this.edFindFriend = (EditText) layout.findViewById(R.id.edFindFriend);
         this.btnResetFriend = (ImageView) layout.findViewById(R.id.btnResetFriend);
+        this.friendList = (ListView) layout.findViewById(R.id.friendList);
+        localFriendAdapter = new LocalFriendAdapter();
+
+        this.findFriendList = (ListView) layout.findViewById(R.id.findfriendList);
         friendListItem = new ArrayList<>();
+
+        findfriendLitsItem = new ArrayList<>();
         dbsi = new DBSI();
 
         setUpEvents();
@@ -74,16 +85,19 @@ public class FriendListFragment extends Fragment {
                     parseArray = parseData.parseJsonArray(response);
                     for (int i = 0; i < parseArray.length(); i++) {
 
-                        FriendData friendData = new FriendData();
-                        friendData.setUserName(parseArray.getJSONObject(i).getString("Name"));
-                        friendData.setUserPKey(parseArray.getJSONObject(i).getInt("PKey"));
-                        friendListItem.add(friendData);
+
+//                        FriendData friendData = new FriendData();
+//                        friendData.setUserName(parseArray.getJSONObject(i).getString("Name"));
+//                        friendData.setUserPKey(parseArray.getJSONObject(i).getInt("PKey"));
+//                        friendListItem.add(friendData);
+                        localFriendAdapter.addItem(parseArray.getJSONObject(i).getString("Name"), parseArray.getJSONObject(i).getInt("PKey"));
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mFriendAdapter = new FriendAdapter(getActivity(), friendListItem, 0);
-                friendList.setAdapter(mFriendAdapter);
+//                mFriendAdapter = new FriendAdapter(getActivity(), friendListItem, 0);
+                friendList.setAdapter(localFriendAdapter);
 
 
             }
@@ -122,6 +136,16 @@ public class FriendListFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+                String filterText = editable.toString();
+//                if (filterText.length() > 0) {
+//                    friendList.setFilterText(filterText);
+//                } else {
+//                    friendList.clearTextFilter();
+//                }
+                ((LocalFriendAdapter)friendList.getAdapter()).getFilter().filter(filterText) ;
+
+
             }
         });
 
@@ -138,20 +162,19 @@ public class FriendListFragment extends Fragment {
     // 친구 목록에서 친구 추가 눌렀을 경우 실행되는 함수
     public void findFriendFunc() {
 
-        final EditText edittext = getActivity().findViewById(R.id.edFindFriend);
 
-        edittext.setText(null);
-        edittext.setHint("친구 찾기(이메일, 닉네임)");
+        edFindFriend.setText(null);
+        edFindFriend.setHint("친구 찾기(이메일, 닉네임)");
 
-        final ListView listview = getActivity().findViewById(R.id.friendList);
-        ImageView textview = getActivity().findViewById(R.id.searchFriendBtn);
+        friendList.setVisibility(View.GONE);
+        findFriendList.setVisibility(View.VISIBLE);
 
-        listview.setAdapter(null);
+//        listview.setAdapter(null);
 
-        textview.setOnClickListener(new View.OnClickListener() {
+        searchFreindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listview.setAdapter(null);
+                findFriendList.setAdapter(null);
 //                friendListItem.clear();
                 // 서버 연결되면 검색하는 함수로 변경 지금은 임시
 
@@ -159,7 +182,7 @@ public class FriendListFragment extends Fragment {
 
                 final Params params = new Params();
                 params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
-                params.add("FindText", edittext.getText().toString());
+                params.add("FindText", edFindFriend.getText().toString());
                 final ArrayList<FriendData> list = new ArrayList<FriendData>();
                 new HttpNetwork("FindFriend.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -177,7 +200,7 @@ public class FriendListFragment extends Fragment {
 
                                 list.add(friendData);
                             }
-                            listview.setAdapter(new FriendAdapter(getActivity(), list, 2));
+                            findFriendList.setAdapter(new FriendAdapter(getActivity(), list, 2));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -213,18 +236,20 @@ public class FriendListFragment extends Fragment {
     // 친구 추가 끝나고 완료 버튼 클릭시 실행되는 함수
     public void reloadFunc() {
 
-        EditText edittext = getActivity().findViewById(R.id.edFindFriend);
-        edittext.setText(null);
-        edittext.setHint("친구 찾기(이름)");
+        edFindFriend.setText(null);
+        edFindFriend.setHint("친구 찾기(이름)");
 
-        ImageView textview = getActivity().findViewById(R.id.searchFriendBtn);
-        textview.setOnClickListener(null);
+
+        searchFreindBtn.setOnClickListener(null);
 
         tvFriendSearchBack.setVisibility(View.GONE);
 
-        ListView listview = getActivity().findViewById(R.id.friendList);
-        listview.setAdapter(null);
-        listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
+//        ListView listview = getActivity().findViewById(R.id.friendList);
+//        listview.setAdapter(null);
+//        listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
+        findFriendList.setVisibility(View.GONE);
+        friendList.setVisibility(View.VISIBLE);
+
 
     }
 
@@ -235,16 +260,20 @@ public class FriendListFragment extends Fragment {
 
         if (!blockFlag) {
             blockFlag = true;
-            ListView listview = getActivity().findViewById(R.id.friendList);
-            listview.setAdapter(null);
+//            ListView listview = getActivity().findViewById(R.id.friendList);
+            friendList.setAdapter(null);
             tvFriendSearchBack.setVisibility(View.GONE);
-            listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 1));
+//            friendList.setAdapter(new FriendAdapter(getActivity(), friendListItem, 1));
+            localFriendAdapter.setBlockFlag(1);
+            friendList.setAdapter(localFriendAdapter);
         } else {
             blockFlag = false;
-            ListView listview = getActivity().findViewById(R.id.friendList);
-            listview.setAdapter(null);
+//            ListView listview = getActivity().findViewById(R.id.friendList);
+            friendList.setAdapter(null);
             tvFriendSearchBack.setVisibility(View.GONE);
-            listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
+//            friendList.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
+            localFriendAdapter.setBlockFlag(0);
+            friendList.setAdapter(localFriendAdapter);
         }
 
     }

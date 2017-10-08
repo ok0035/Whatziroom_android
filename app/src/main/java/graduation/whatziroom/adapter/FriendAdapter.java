@@ -67,7 +67,7 @@ public class FriendAdapter extends ArrayAdapter {
         View row = convertView;
 
         if (row == null) {
-            row = inf.inflate(R.layout.friend_list_tiem, null);
+            row = inf.inflate(R.layout.find_friend_list_item, null);
         }
 
         thumNail = row.findViewById(R.id.friendListThumbImg);
