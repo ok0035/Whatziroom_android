@@ -81,7 +81,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public android.widget.LinearLayout llChatMapView;
     private TextView tvChatMapCheck;
     private ImageView ivChatMapCheck;
-    private boolean isClose;
 
     public android.widget.FrameLayout flChatMap;
     public android.widget.ScrollView scChatInfoParent;
@@ -240,7 +239,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         scChatInfoParent.setVisibility(View.GONE);
                         flChatSchedule.setVisibility(View.GONE);
                         llChatMapView.setVisibility(View.GONE);
-
                         break;
 
                     case 1:
@@ -250,7 +248,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         btnRoomSchedule.setVisibility(View.VISIBLE);
                         btnRoomSetting.setVisibility(View.VISIBLE);
                         llChatMapView.setVisibility(View.GONE);
-
+                        tvChatMapCheck.setText("지도 보기");
+                        ivChatMapCheck.setImageResource(R.mipmap.arrow_icon);
                         break;
 
                     case 2:
@@ -259,7 +258,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         scChatInfoParent.setVisibility(View.GONE);
                         flChatSchedule.setVisibility(View.GONE);
                         llChatMapView.setVisibility(View.GONE);
-
                         RoomUserList.updateRoomUserList();
                         RoomUserList.updateRequestList();
 
@@ -283,8 +281,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             public void onClick(View view) {
 
                 //지도 안열려있으면
-                if (!isClose) {
-                    isClose = true;
+                if (llChatMapView.getVisibility() == View.GONE) {
                     llChatMapView.setVisibility(View.VISIBLE);
                     tvChatMapCheck.setText("지도 닫기");
 
@@ -307,7 +304,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     });
 
                 } else {
-                    isClose = false;
                     llChatMapView.setVisibility(View.GONE);
                     tvChatMapCheck.setText("지도 보기");
                     ivChatMapCheck.setImageResource(R.mipmap.arrow_icon);
@@ -479,6 +475,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                 flChatSchedule.setVisibility(View.VISIBLE);
                 llChatMapView.setVisibility(View.GONE);
+                tvChatMapCheck.setText("지도 보기");
+                ivChatMapCheck.setImageResource(R.mipmap.arrow_icon);
 
                 try {
                     if (chatMap.getPOIItems().length > 0) {
