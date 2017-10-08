@@ -21,10 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,13 +53,11 @@ import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.Data.UserData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
-import graduation.whatziroom.activity.login.LoginActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.GPSTracer;
 import graduation.whatziroom.util.ParseData;
-import me.relex.circleindicator.CircleIndicator;
 
 
 /**
@@ -78,11 +74,11 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public static RoomUserList roomFriendList;
 
     public android.widget.FrameLayout flChatSchedule;
-    public android.widget.LinearLayout llChatMapView;
+    public static android.widget.LinearLayout llChatMapView;
     private TextView tvChatMapCheck;
     private ImageView ivChatMapCheck;
     private ImageView ivRoomChatNoScheduleDelete;
-    private static boolean isDelete;
+    private static boolean haveSchedule = false;
 
     public android.widget.FrameLayout flChatMap;
     public android.widget.ScrollView scChatInfoParent;
@@ -282,11 +278,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View view) {
 
-                if(llChatMapView.getVisibility() == View.GONE) {
-
-                }
                 //지도 안열려있으면
-                else if (llChatMapView.getVisibility() == View.GONE) {
+                if (llChatMapView.getVisibility() == View.GONE && haveSchedule) {
                     llChatMapView.setVisibility(View.VISIBLE);
                     tvChatMapCheck.setText("지도 닫기");
 
@@ -546,6 +539,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                 Log.d("LIMIT", response);
 
                 if (!response.equals("[]")) {
+                    haveSchedule = true;
                     llRoomChatNoSchedule.setVisibility(View.GONE);
                     llRoomChatLayout.setVisibility(View.VISIBLE);
                     ParseData parse = new ParseData();
@@ -642,6 +636,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                                 tvRoomChatDDay.setText("-");
                                                 isTracing = false;
                                                 updateChatMapInfo();
+                                                roomInfoView.updateRoomInfo();
 
                                             }
                                         }
@@ -665,7 +660,12 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         llRoomChatNoSchedule.setVisibility(View.VISIBLE);
                     }
                     */
-                    llRoomChatLayout.setVisibility(View.INVISIBLE);
+                    haveSchedule = false;
+                    llChatMapView.setVisibility(View.GONE);
+                    llRoomChatLayout.setVisibility(View.GONE);
+                    llRoomChatNoSchedule.setVisibility(View.VISIBLE);
+                    roomInfoView.updateRoomInfo();
+
                     Log.d("Longitude", ScheduleLongitude + "");
                     Log.d("Latitude", ScheduleLatitude + "");
                 }
