@@ -21,6 +21,7 @@ import graduation.whatziroom.R;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.AttendScheduleDialog;
+import graduation.whatziroom.dialog.RoomInfoGoingDialog;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -132,8 +133,10 @@ public class RoomInfoAdapter extends ArrayAdapter {
         tvInfoGoing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tvInfoGoing.getText().toString().equals("참석 확정"))
-                    Toast.makeText(mContext, "이미 참석을 확정하였습니다.", Toast.LENGTH_SHORT).show();
+                if (tvInfoGoing.getText().toString().equals("참석 확정")) {
+                    //Toast.makeText(mContext, "이미 참석을 확정하였습니다.", Toast.LENGTH_SHORT).show();
+                    new RoomInfoGoingDialog(getContext()).show();
+                }
                 else
                     new AttendScheduleDialog(getContext(), MainViewPager.getUserPKey() + "", data.getSchedulePKey()).show();
 
