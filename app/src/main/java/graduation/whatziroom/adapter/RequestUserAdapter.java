@@ -86,6 +86,7 @@ public class RequestUserAdapter extends ArrayAdapter {
 
                 params.add("UserPKey", requestData.getUserPKey() + "");
                 params.add("RoomPKey", requestData.getRoomPKey() + "");
+                params.add("RoomName", RoomViewPager.getRoomName());
 
 
                 new HttpNetwork("AcceptUser.php", params.getParams(), new HttpNetwork.AsyncResponse() {

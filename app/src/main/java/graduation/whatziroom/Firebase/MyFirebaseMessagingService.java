@@ -27,46 +27,61 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        String body = remoteMessage.getData().get("body");
+//        String body = remoteMessage.getData().get("body");
 //        Log.d("remoteMessageBody..",body );
-
+//
         Log.d(TAG, "Message data payload: " + remoteMessage.getData());
         Log.d(TAG, "Message data payload2: " + remoteMessage.getData().get("body"));
 //        remoteMessage.getData();
-        String msg = (remoteMessage.getData().get("txtMsg") == null )? "" :remoteMessage.getData().get("txtMsg");
-        sendNotification(body, msg);
+
+
+        sendNotification(remoteMessage);
 
 
     }
 
-    private void sendNotification(String messageBody, String chatMsg) {
-        Intent intent = new Intent(this, MainViewPager.class);
+    private void sendNotification(RemoteMessage remoteMessage) {
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        String msg = (remoteMessage.getData().get("txtMsg") == null )? "" :remoteMessage.getData().get("txtMsg");
+        Log.d(TAG,"txtMSG.."+msg );
+
+//        Intent intent = new Intent(this, MainViewPager.class);
+//
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+//                PendingIntent.FLAG_ONE_SHOT);
+
+        Intent dummyIntent = new Intent();
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, dummyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        String alramTxt = messageBody;
+        String alramTitleTxt = "와찌룸";
+        String messageBody = remoteMessage.getData().get("body");
+        String alramContentTxt = remoteMessage.getData().get("body");
 
         switch (messageBody){
-            case "RequestFriend" : alramTxt = "친구 요청이 들어왔어요!";
+            case "RequestFriend" :
+                alramContentTxt = "친구 요청이 들어왔어요!";
                 break;
-            case "RequestEnterRoom" : alramTxt = "방 입장 요청이 들어왔어요!";
+            case "RequestEnterRoom" : alramContentTxt = "방 입장 요청이 들어왔어요!";
                 break;
-            case  "ChatMsg" : alramTxt = chatMsg;
+            case "AcceptEnterRoom" : alramContentTxt = remoteMessage.getData().get("roomName") + "에 입장했습니다";
+                break;
+            case  "ChatMsg" :
+                alramTitleTxt = remoteMessage.getData().get("sender") + " / " + remoteMessage.getData().get("roomName") ;
+                alramContentTxt = remoteMessage.getData().get("txtMsg");
             default:
                 break;
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("WhatZiroom")
-                .setContentText(alramTxt)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(alramTitleTxt)
+                .setContentText(alramContentTxt )
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri);
-//                .setContentIntent(pendingIntent);
+                .setSound(defaultSoundUri)
+                .setContentIntent(pIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

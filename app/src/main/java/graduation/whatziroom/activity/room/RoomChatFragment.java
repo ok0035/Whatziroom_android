@@ -159,12 +159,13 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
             public void onClick(View v) {
 
                 if(edChat.getText().length() != 0) {
-
+                    final String edchat = edChat.getText().toString();
                     ChatData data = new ChatData(RoomViewPager.getRoomPKey() + "", MainViewPager.getUserPKey() + "", MainViewPager.getUserName(), edChat.getText().toString());
+
                     databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").push().setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            sendPostToFCM(edChat.getText().toString());
+                            sendPostToFCM(edchat);
                         }
                     });
 
@@ -210,7 +211,10 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
         Params params = new Params();
         params.add("UserPKey", String.valueOf(MainViewPager.getUserPKey()));
+        params.add("UserName", MainViewPager.getUserName());
         params.add("RoomPKey", String.valueOf(RoomViewPager.getRoomPKey()));
+        params.add("RoomName", RoomViewPager.getRoomName());
+        Log.d("CHATMSG+",msg+"0");
         params.add("ChatMsg", msg);
 
         new HttpNetwork("SendPostToFCM.php", params.getParams(), new HttpNetwork.AsyncResponse() {

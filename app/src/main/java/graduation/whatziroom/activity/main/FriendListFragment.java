@@ -51,6 +51,7 @@ public class FriendListFragment extends Fragment {
     private ListView findFriendList;
 
     private LocalFriendAdapter localFriendAdapter;
+    private TextWatcher edFindFriendTextWatch;
 
     @Nullable
     @Override
@@ -85,19 +86,14 @@ public class FriendListFragment extends Fragment {
                     parseArray = parseData.parseJsonArray(response);
                     for (int i = 0; i < parseArray.length(); i++) {
 
-
-//                        FriendData friendData = new FriendData();
-//                        friendData.setUserName(parseArray.getJSONObject(i).getString("Name"));
-//                        friendData.setUserPKey(parseArray.getJSONObject(i).getInt("PKey"));
-//                        friendListItem.add(friendData);
                         localFriendAdapter.addItem(parseArray.getJSONObject(i).getString("Name"), parseArray.getJSONObject(i).getInt("PKey"));
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                mFriendAdapter = new FriendAdapter(getActivity(), friendListItem, 0);
                 friendList.setAdapter(localFriendAdapter);
+                edFindFriend.addTextChangedListener(edFindFriendTextWatch);
 
 
             }
@@ -118,7 +114,7 @@ public class FriendListFragment extends Fragment {
 
     public void setUpEvents() {
 
-        edFindFriend.addTextChangedListener(new TextWatcher() {
+        edFindFriendTextWatch = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -143,11 +139,14 @@ public class FriendListFragment extends Fragment {
 //                } else {
 //                    friendList.clearTextFilter();
 //                }
+
                 ((LocalFriendAdapter)friendList.getAdapter()).getFilter().filter(filterText) ;
 
 
             }
-        });
+        };
+
+
 
         btnResetFriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,17 +168,11 @@ public class FriendListFragment extends Fragment {
         friendList.setVisibility(View.GONE);
         findFriendList.setVisibility(View.VISIBLE);
 
-//        listview.setAdapter(null);
-
         searchFreindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 findFriendList.setAdapter(null);
-//                friendListItem.clear();
-                // 서버 연결되면 검색하는 함수로 변경 지금은 임시
-
                 tvFriendSearchBack.setVisibility(View.VISIBLE);
-
                 final Params params = new Params();
                 params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
                 params.add("FindText", edFindFriend.getText().toString());
@@ -221,12 +214,6 @@ public class FriendListFragment extends Fragment {
                     }
                 });
 
-//
-//                FriendData fd = new FriendData();
-//                fd.setUserName("김종록");
-//                ArrayList<FriendData> list = new ArrayList<FriendData>();
-//                list.add(fd);
-//                listview.setAdapter(new FriendAdapter(getActivity(), list, 2));
 
             }
         });
@@ -244,9 +231,6 @@ public class FriendListFragment extends Fragment {
 
         tvFriendSearchBack.setVisibility(View.GONE);
 
-//        ListView listview = getActivity().findViewById(R.id.friendList);
-//        listview.setAdapter(null);
-//        listview.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
         findFriendList.setVisibility(View.GONE);
         friendList.setVisibility(View.VISIBLE);
 
@@ -256,22 +240,18 @@ public class FriendListFragment extends Fragment {
 
     // 친구 목록에서 편집 눌렀을 경우 실행되는 함수
     public void showBlockBtn() {
-//        Toast.makeText(getActivity(), "버튼 클릭!!", Toast.LENGTH_SHORT).show();
 
         if (!blockFlag) {
             blockFlag = true;
-//            ListView listview = getActivity().findViewById(R.id.friendList);
+
             friendList.setAdapter(null);
             tvFriendSearchBack.setVisibility(View.GONE);
-//            friendList.setAdapter(new FriendAdapter(getActivity(), friendListItem, 1));
             localFriendAdapter.setBlockFlag(1);
             friendList.setAdapter(localFriendAdapter);
         } else {
             blockFlag = false;
-//            ListView listview = getActivity().findViewById(R.id.friendList);
             friendList.setAdapter(null);
             tvFriendSearchBack.setVisibility(View.GONE);
-//            friendList.setAdapter(new FriendAdapter(getActivity(), friendListItem, 0));
             localFriendAdapter.setBlockFlag(0);
             friendList.setAdapter(localFriendAdapter);
         }
