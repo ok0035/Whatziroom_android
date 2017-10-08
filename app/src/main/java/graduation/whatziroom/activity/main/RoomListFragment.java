@@ -93,7 +93,9 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("roomPKey", roomSearchData.getRoomArrayList().get(i).getRoomPKey());
                 MainViewPager.getUserPKey();
-                new RequestRoomDialog(getContext(), MainViewPager.getUserPKey(), Integer.parseInt(roomSearchData.getRoomArrayList().get(i).getRoomPKey())).show();
+                new RequestRoomDialog(getContext(), MainViewPager.getUserPKey(),
+                        Integer.parseInt(roomSearchData.getRoomArrayList().get(i).getRoomPKey()),
+                        roomSearchData.getRoomArrayList().get(i).getRoomName()).show();
             }
         });
 

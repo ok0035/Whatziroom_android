@@ -2,15 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@color/colorActionBar">
+    android:paddingTop="15dp"
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_background_button"
+        android:background="@drawable/button_border_fill"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,51 +17,66 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/llRequestRoomUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp">
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="20dp">
 
                 <TextView
                     android:id="@+id/tvRoomRequestName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:layout_gravity="left"
                     android:text="~님이 입장을 신청하였습니다."
-                    android:textColor="#FFFFFF"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:id="@+id/ivRoomRequestCheck"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/arrow_icon"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llRoomRequestResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_margin="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvRoomRequestYes"
                     android:layout_width="40dp"
                     android:layout_height="20dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:text="승낙"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/sColor" />
 
                 <TextView
                     android:id="@+id/tvRoomRequestNo"
                     android:layout_width="40dp"
                     android:layout_height="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
                     android:gravity="center"
                     android:text="거절"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
 
             </LinearLayout>
 

@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
+import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -22,15 +24,19 @@ import graduation.whatziroom.network.Params;
 
 public class RequestRoomDialog extends Dialog implements BasicMethod {
 
+    private android.widget.TextView tvRoomRequestTxt;
     private android.widget.TextView tvApplyYes;
     private android.widget.TextView tvApplyNo;
-    private int UserPKey, RoomPKey;
+    private int userPKey;
+    private int roomPKey;
+    private String roomName;
 
-    public RequestRoomDialog(@NonNull Context context, int userPKey, int roomPKey) {
+    public RequestRoomDialog(@NonNull Context context, int userPKey, int roomPKey, String roomName) {
         super(context);
 
-        UserPKey = userPKey;
-        RoomPKey = roomPKey;
+        this.userPKey = userPKey;
+        this.roomPKey = roomPKey;
+        this.roomName = roomName;
     }
 
     @Override
@@ -53,9 +59,9 @@ public class RequestRoomDialog extends Dialog implements BasicMethod {
             @Override
             public void onClick(View view) {
 
-                Params params = new Params();
-                params.add("UserPKey", UserPKey + "");
-                params.add("RoomPKey", RoomPKey + "");
+                final Params params = new Params();
+                params.add("UserPKey", userPKey + "");
+                params.add("RoomPKey", roomPKey + "");
 
                 new HttpNetwork("RequestRoom.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -102,11 +108,12 @@ public class RequestRoomDialog extends Dialog implements BasicMethod {
 
     @Override
     public void setValues() {
-
+        tvRoomRequestTxt.setText(roomName+"\n방에 가입 신청서를 보내드릴까요?");
     }
 
     @Override
     public void bindView() {
+        this.tvRoomRequestTxt = (TextView) findViewById(R.id.tvRoomRequestTxt);
         this.tvApplyNo = (TextView) findViewById(R.id.tvDialogApplyNo);
         this.tvApplyYes = (TextView) findViewById(R.id.tvDialogApplyYes);
     }
