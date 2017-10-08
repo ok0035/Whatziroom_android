@@ -14,9 +14,10 @@ import android.widget.Toast;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.ScheduleListFragment;
-import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
+
+import static graduation.whatziroom.activity.room.RoomViewPager.roomInfoFragment;
 
 /**
  * Created by mapl0 on 2017-10-01.
@@ -69,7 +70,7 @@ public class AttendScheduleDialog extends Dialog implements BasicMethod {
 
                             case "success":
 
-                                RoomInfoFragment.updateRoomInfo();
+                                roomInfoFragment.updateRoomInfo();
                                 ScheduleListFragment.updateSchedule();
                                 Toast.makeText(mContext, "참석이 확정되었습니다.", Toast.LENGTH_SHORT).show();
                                 break;

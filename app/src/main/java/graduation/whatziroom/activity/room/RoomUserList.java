@@ -26,7 +26,6 @@ import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
 
-
 /**
  * Created by ATIV on 2017-06-25.
  */

@@ -19,13 +19,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
-
 
 /**
  * Created by ATIV on 2017-06-25.
@@ -34,6 +35,7 @@ import graduation.whatziroom.network.Params;
 public class RoomChatFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
+    public ArrayList<ChatData> chatList = new ArrayList<ChatData>();
     public static ListView lvChat;
     private ChatData chatData;
 
@@ -63,15 +65,15 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
         // ListView에 어댑터 연결
 
-        for(int i=0; i<MainViewPager.chatList.size(); i++) {
-            if(MainViewPager.chatList.get(i).getRoomPKey().equals(RoomViewPager.getRoomPKey() + "")) {
-                lvChat.setAdapter(MainViewPager.chatList.get(i).getAdapter());
-                MainViewPager.chatList.get(i).getAdapter().notifyDataSetChanged();
+        for(int i=0; i<chatList.size(); i++) {
+            if(chatList.get(i).getRoomPKey().equals(RoomViewPager.getRoomPKey() + "")) {
+                lvChat.setAdapter(chatList.get(i).getAdapter());
+                chatList.get(i).getAdapter().notifyDataSetChanged();
 
                 Params params = new Params();
                 params.add("UserPKey", MainViewPager.getUserPKey() + "");
                 params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
-                params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+                params.add("ChatCount", chatList.get(i).getChatCount() + "");
 
                 new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override

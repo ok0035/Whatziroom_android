@@ -31,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Timer;
 
 import graduation.whatziroom.Data.ChatData;
@@ -39,6 +38,7 @@ import graduation.whatziroom.Data.FirebaseNoticeData;
 import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BaseActivity;
+import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.dialog.ExitMainDialog;
 import graduation.whatziroom.network.DBSI;
@@ -69,25 +69,21 @@ public class MainViewPager extends BaseActivity {
     private LinearLayout linProfile;
 
     // 각 프래그먼트 별로 태그 값 설정하기 위해 선언
-    private FriendListFragment friendListView;
-    private RoomListFragment roomListView;
-    private ScheduleListFragment scheduleListView;
-    private NotificationListFragment notificationListView;
-    private ProfileFragment profileView;
-
-    //채팅데이터를 받는 리스트
-    public static ArrayList<ChatData> chatList = new ArrayList<ChatData>();
+    public static FriendListFragment friendListFragmnet = new FriendListFragment();
+    public static RoomListFragment roomListFragment = new RoomListFragment();
+    public static ScheduleListFragment scheduleListFragmnet = new ScheduleListFragment();
+    public static NotificationListFragment notificationListFragment = new NotificationListFragment();
+    public ProfileFragment profileFragment = new ProfileFragment();
 
     //방정보
-    public static RoomData roomData;
     private static int UserPKey;
     private static String UserName;
     ProgressDialog mProgressDialog;
 
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private static DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    public static LocationService locationService;
+    public LocationService locationService;
     private boolean isBind = false;
     public static Timer CheckLocationTimer;
 
@@ -117,13 +113,6 @@ public class MainViewPager extends BaseActivity {
     };
 
     public MainViewPager() {
-
-        friendListView = new FriendListFragment();
-        roomListView = new RoomListFragment();
-        scheduleListView = new ScheduleListFragment();
-        notificationListView = new NotificationListFragment();
-        profileView = new ProfileFragment();
-        MainViewPager.roomData = new RoomData();
 
 
     }
@@ -223,12 +212,12 @@ public class MainViewPager extends BaseActivity {
                         configTxt1.setOnClickListener(addFriendClickListner);
                         configTxt2.setImageResource(R.mipmap.btn_edit);
                         configTxt2.setOnClickListener(editFriendClickListener);
-                        friendListView.reloadFunc();
-//                        friendListView.testFunc();
+                        friendListFragmnet.reloadFunc();
+//                        friendListFragmnet.testFunc();
 //                        configTxt2.setText("편집");
                         break;
                     case 1:
-                        MainViewPager.updateRoom(new AfterUpdate() {
+                        updateRoom(new AfterUpdate() {
                             @Override
                             public void onPost(RoomData data) {
 
@@ -285,7 +274,7 @@ public class MainViewPager extends BaseActivity {
 
                     switch (position) {
                         case 1:
-                            MainViewPager.updateRoom(new AfterUpdate() {
+                            updateRoom(new AfterUpdate() {
                                 @Override
                                 public void onPost(RoomData data) {
 
@@ -306,14 +295,14 @@ public class MainViewPager extends BaseActivity {
         });
 
 
-        databaseReference.child("Notice").child(MainViewPager.getUserPKey() + "").addChildEventListener(new ChildEventListener() {
+        databaseReference.child("Notice").child(getUserPKey() + "").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final FirebaseNoticeData data = dataSnapshot.getValue(FirebaseNoticeData.class);
 
                 boolean flag = false;
-                for(int i = 0; i< roomData.getRoomArrayList().size(); i++) {
-                    if(roomData.getRoomArrayList().get(i).getRoomPKey().equals(data.getRoomKey())) {
+                for(int i = 0; i< roomListFragment.roomData.getRoomArrayList().size(); i++) {
+                    if(roomListFragment.roomData.getRoomArrayList().get(i).getRoomPKey().equals(data.getRoomKey())) {
                         flag = true;
                     }
                 }
@@ -327,7 +316,7 @@ public class MainViewPager extends BaseActivity {
                             updateRoom(new AfterUpdate() {
                                 @Override
                                 public void onPost(RoomData roomData) {
-                                    MainViewPager.childAddListener(data.getRoomKey());
+                                    childAddListener(data.getRoomKey());
                                 }
                             });
 
@@ -367,7 +356,7 @@ public class MainViewPager extends BaseActivity {
                 for(int i=0; i<data.getRoomArrayList().size(); i++) {
                     ChatData initData = new ChatData();
                     initData.setRoomPKey(data.getRoomArrayList().get(i).getRoomPKey());
-                    chatList.add(initData);
+                    RoomViewPager.roomChatFragment.chatList.add(initData);
                 }
 
                 initFirebase();
@@ -382,16 +371,16 @@ public class MainViewPager extends BaseActivity {
 
     public void initFirebase() {
 
-        for (int i = 0; i < roomData.getRoomArrayList().size(); i++) {
+        for (int i = 0; i < roomListFragment.roomData.getRoomArrayList().size(); i++) {
             final int finalI = i;
 
-            databaseReference.child("Chat").child(roomData.getRoomArrayList().get(i).getRoomPKey()).addValueEventListener(new ValueEventListener() {
+            databaseReference.child("Chat").child(roomListFragment.roomData.getRoomArrayList().get(i).getRoomPKey()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d("value.getChildrenCount", dataSnapshot.getValue() + "");
                     Log.d("value.getChildrenCount", dataSnapshot.getChildren() + "");
                     Log.d("value.getChildrenCount", dataSnapshot.getChildrenCount() + "");
-                    chatList.get(finalI).setChatCount(Integer.parseInt(dataSnapshot.getChildrenCount() + ""));
+                    RoomViewPager.roomChatFragment.chatList.get(finalI).setChatCount(Integer.parseInt(dataSnapshot.getChildrenCount() + ""));
                 }
 
                 @Override
@@ -400,19 +389,19 @@ public class MainViewPager extends BaseActivity {
                 }
             });
 
-            databaseReference.child("Chat").child(roomData.getRoomArrayList().get(i).getRoomPKey()).addChildEventListener(new ChildEventListener() {
+            databaseReference.child("Chat").child(roomListFragment.roomData.getRoomArrayList().get(i).getRoomPKey()).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     ChatData data = dataSnapshot.getValue(ChatData.class);
 //                    Log.d("data.getChildrenCount", dataSnapshot.getChildrenCount() + "");
 
-                    if (chatList.get(finalI).getRoomPKey().equals(data.getRoomPKey())) {
+                    if (RoomViewPager.roomChatFragment.chatList.get(finalI).getRoomPKey().equals(data.getRoomPKey())) {
 
-                        chatList.get(finalI).addItem(data);
-                        chatList.get(finalI).getAdapter().notifyDataSetChanged();
+                        RoomViewPager.roomChatFragment.chatList.get(finalI).addItem(data);
+                        RoomViewPager.roomChatFragment.chatList.get(finalI).getAdapter().notifyDataSetChanged();
 
-                        RoomListFragment.roomListView.setAdapter(roomData.getAdapter());
-                        roomData.getAdapter().notifyDataSetChanged();
+                        roomListFragment.roomListView.setAdapter(roomListFragment.roomData.getAdapter());
+                        roomListFragment.roomData.getAdapter().notifyDataSetChanged();
 
 //                        Log.d("message", data.getMessage());
                     }
@@ -443,10 +432,10 @@ public class MainViewPager extends BaseActivity {
         }
     }
 
-    public static void childAddListener(String roomPKey) {
+    public void childAddListener(String roomPKey) {
         ChatData chat = new ChatData();
         chat.setRoomPKey(roomPKey);
-        chatList.add(chat);
+        RoomViewPager.roomChatFragment.chatList.add(chat);
 
         databaseReference.child("Chat").child(roomPKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -454,7 +443,7 @@ public class MainViewPager extends BaseActivity {
                 Log.d("value.getChildrenCount", dataSnapshot.getValue() + "");
                 Log.d("value.getChildrenCount", dataSnapshot.getChildren() + "");
                 Log.d("value.getChildrenCount", dataSnapshot.getChildrenCount() + "");
-                chatList.get(chatList.size()-1).setChatCount(Integer.parseInt(dataSnapshot.getChildrenCount() + ""));
+                RoomViewPager.roomChatFragment.chatList.get(RoomViewPager.roomChatFragment.chatList.size()-1).setChatCount(Integer.parseInt(dataSnapshot.getChildrenCount() + ""));
             }
 
             @Override
@@ -469,11 +458,11 @@ public class MainViewPager extends BaseActivity {
                 Log.d("add.getChildrenCount", dataSnapshot.getChildrenCount() + "");
 
                 ChatData data = dataSnapshot.getValue(ChatData.class);
-                chatList.get(chatList.size()-1).addItem(data);
-                chatList.get(chatList.size()-1).getAdapter().notifyDataSetChanged();
+                RoomViewPager.roomChatFragment.chatList.get(RoomViewPager.roomChatFragment.chatList.size()-1).addItem(data);
+                RoomViewPager.roomChatFragment.chatList.get(RoomViewPager.roomChatFragment.chatList.size()-1).getAdapter().notifyDataSetChanged();
 
-                RoomListFragment.roomListView.setAdapter(roomData.getAdapter());
-                roomData.getAdapter().notifyDataSetChanged();
+                roomListFragment.roomListView.setAdapter(roomListFragment.roomData.getAdapter());
+                roomListFragment.roomData.getAdapter().notifyDataSetChanged();
 
             }
 
@@ -504,7 +493,7 @@ public class MainViewPager extends BaseActivity {
     public static void updateRoom(final AfterUpdate delegate) {
 
         Params params = new Params();
-        params.add("UserPKey", MainViewPager.getUserPKey() + "");
+        params.add("UserPKey", getUserPKey() + "");
 
         new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -513,11 +502,11 @@ public class MainViewPager extends BaseActivity {
                 try {
                     ParseData parse = new ParseData();
                     final JSONArray roomList = parse.parseJsonArray(response);
-                    MainViewPager.roomData = new RoomData();
+                    roomListFragment.roomData = new RoomData();
 
                     for (int i = 0; i < roomList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-                        MainViewPager.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
+                        roomListFragment.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
 
                         Log.d("roomPKey", jsonRoomData.getString("PKey"));
                         Log.d("Name", jsonRoomData.getString("Name"));
@@ -526,14 +515,14 @@ public class MainViewPager extends BaseActivity {
 
                     }
 
-                    RoomListFragment.roomListView.setAdapter(MainViewPager.roomData.getAdapter());
-                    MainViewPager.roomData.getAdapter().notifyDataSetChanged();
+                    roomListFragment.roomListView.setAdapter(roomListFragment.roomData.getAdapter());
+                    roomListFragment.roomData.getAdapter().notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                delegate.onPost(roomData);
+                delegate.onPost(roomListFragment.roomData);
 
             }
 
@@ -608,11 +597,11 @@ public class MainViewPager extends BaseActivity {
         super.setValues();
 
         // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
-//        getSupportFragmentManager().beginTransaction().add(friendListView, "1").commit();
-//        getSupportFragmentManager().beginTransaction().add(roomListView, "2").commit();
-//        getSupportFragmentManager().beginTransaction().add(scheduleListView, "3").commit();
-//        getSupportFragmentManager().beginTransaction().add(notificationListView, "4").commit();
-//        getSupportFragmentManager().beginTransaction().add(profileView, "5").commit();
+//        getSupportFragmentManager().beginTransaction().add(friendListFragmnet, "1").commit();
+//        getSupportFragmentManager().beginTransaction().add(roomListFragment, "2").commit();
+//        getSupportFragmentManager().beginTransaction().add(scheduleListFragmnet, "3").commit();
+//        getSupportFragmentManager().beginTransaction().add(notificationListFragment, "4").commit();
+//        getSupportFragmentManager().beginTransaction().add(profileFragment, "5").commit();
     }
 
     @Override
@@ -666,15 +655,15 @@ public class MainViewPager extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return friendListView;
+                    return friendListFragmnet;
                 case 1:
-                    return roomListView;
+                    return roomListFragment;
                 case 2:
-                    return scheduleListView;
+                    return scheduleListFragmnet;
                 case 3:
-                    return notificationListView;
+                    return notificationListFragment;
                 case 4:
-                    return profileView;
+                    return profileFragment;
                 default:
                     return null;
             }
@@ -702,9 +691,9 @@ public class MainViewPager extends BaseActivity {
             titleTxt.setText("친구추가");
             configTxt1.setVisibility(View.INVISIBLE);
             configTxt2.setImageResource(R.mipmap.btn_ok);
-//            final FriendListFragment friendListView = (FriendListFragment)getSupportFragmentManager().findFragmentByTag("1");
+//            final FriendListFragment friendListFragmnet = (FriendListFragment)getSupportFragmentManager().findFragmentByTag("1");
 
-            friendListView.findFriendFunc();
+            friendListFragmnet.findFriendFunc();
 
             configTxt2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -717,7 +706,7 @@ public class MainViewPager extends BaseActivity {
                     configTxt1.setOnClickListener(addFriendClickListner);
                     configTxt2.setImageResource(R.mipmap.btn_edit);
                     configTxt2.setOnClickListener(editFriendClickListener);
-                    friendListView.reloadFunc();
+                    friendListFragmnet.reloadFunc();
                 }
             });
         }
@@ -727,16 +716,16 @@ public class MainViewPager extends BaseActivity {
         @Override
         public void onClick(View v) {
             Log.i("버튼 클릭", "ㅇㅇㅇ");
-//            FriendListFragment friendListView = (FriendListFragment) getSupportFragmentManager().findFragmentByTag("1");
+//            FriendListFragment friendListFragmnet = (FriendListFragment) getSupportFragmentManager().findFragmentByTag("1");
 
-            friendListView.showBlockBtn();
+            friendListFragmnet.showBlockBtn();
         }
     };
 
     View.OnClickListener createNewRoomListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            CreateRoomDialog dialog = new CreateRoomDialog(MainViewPager.this);
+            CreateRoomDialog dialog = new CreateRoomDialog(MainViewPager.this, databaseReference);
             dialog.show();
         }
     };

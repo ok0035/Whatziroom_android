@@ -69,9 +69,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     //    private pagerAdapter vpAdapter;
     private LinearLayout linIndicator;
 
-    public static RoomInfoFragment roomInfoView;
-    public static RoomChatFragment roomChatView;
-    public static RoomUserList roomFriendList;
+    public static RoomInfoFragment roomInfoFragment = new RoomInfoFragment();
+    public static RoomChatFragment roomChatFragment = new RoomChatFragment();
+    public static RoomUserList roomFriendList = new RoomUserList();
 
     public android.widget.FrameLayout flChatSchedule;
     public static android.widget.LinearLayout llChatMapView;
@@ -107,7 +107,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private me.relex.circleindicator.CircleIndicator indicator;
     private android.widget.FrameLayout flRoom;
 
-    public static MapView chatMap;
+    public MapView chatMap;
     private String result = "notEmpty";
     private boolean shield = false;
     public static Context mContext;
@@ -119,17 +119,14 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     // TimePicker, DatePicker를 위한 변수 선언
 
-    private static final String TAG = "Sample";
-    private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
-    private static final String STATE_TEXTVIEW = "STATE_TEXTVIEW";
+    private final String TAG = "Sample";
+    private final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
+    private final String STATE_TEXTVIEW = "STATE_TEXTVIEW";
 
     private SwitchDateTimeDialogFragment dateTimeFragment;
 
     public RoomViewPager() {
 
-        roomInfoView = new RoomInfoFragment();
-        roomChatView = new RoomChatFragment();
-        roomFriendList = new RoomUserList();
         mContext = this;
         mActivity = this;
         ScheduleLongitude = 0.0;
@@ -159,7 +156,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         *   Viewpase Adapter 설정
         */
 
-        roomPKey = RoomViewPager.getRoomPKey();
+        roomPKey = getRoomPKey();
 
         Log.d("RoomPKey", roomPKey + "");
 
@@ -173,10 +170,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return roomInfoView;
+                        return roomInfoFragment;
 
                     case 1:
-                        return roomChatView;
+                        return roomChatFragment;
 
                     case 2:
                         return roomFriendList;
@@ -230,7 +227,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                 switch (position) {
                     case 0:
-                        Log.d("getIsCreate", roomInfoView.getIsEmpty());
+                        Log.d("getIsCreate", roomInfoFragment.getIsEmpty());
                         btnRoomSchedule.setVisibility(View.VISIBLE);
                         btnRoomSetting.setVisibility(View.VISIBLE);
                         btnRoomSetting.setImageResource(R.mipmap.btn_setting);
@@ -335,15 +332,15 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < MainViewPager.chatList.size(); i++) {
-                    if (MainViewPager.chatList.get(i).getRoomPKey().equals(getRoomPKey() + "")) {
-                        RoomChatFragment.lvChat.setAdapter(MainViewPager.chatList.get(i).getAdapter());
-                        MainViewPager.chatList.get(i).getAdapter().notifyDataSetChanged();
+                for (int i = 0; i < roomChatFragment.chatList.size(); i++) {
+                    if (roomChatFragment.chatList.get(i).getRoomPKey().equals(getRoomPKey() + "")) {
+                        RoomChatFragment.lvChat.setAdapter(roomChatFragment.chatList.get(i).getAdapter());
+                        roomChatFragment.chatList.get(i).getAdapter().notifyDataSetChanged();
 
                         Params params = new Params();
                         params.add("UserPKey", MainViewPager.getUserPKey() + "");
                         params.add("RoomPKey", getRoomPKey() + "");
-                        params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+                        params.add("ChatCount", roomChatFragment.chatList.get(i).getChatCount() + "");
 
                         new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                             @Override
@@ -530,7 +527,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public static void updateChatMapInfo() {
 
         Params scheduleParams = new Params();
-        scheduleParams.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
+        scheduleParams.add("RoomPKey", getRoomPKey() + "");
         scheduleParams.add("Limit", 1 + "");
 
         new HttpNetwork("GetScheduleData.php", scheduleParams.getParams(), new HttpNetwork.AsyncResponse() {
@@ -539,7 +536,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                 Log.d("LIMIT", response);
 
                 if (!response.equals("[]")) {
+
                     haveSchedule = true;
+
                     llRoomChatNoSchedule.setVisibility(View.GONE);
                     llRoomChatLayout.setVisibility(View.VISIBLE);
                     ParseData parse = new ParseData();
@@ -636,7 +635,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                                                 tvRoomChatDDay.setText("-");
                                                 isTracing = false;
                                                 updateChatMapInfo();
-                                                roomInfoView.updateRoomInfo();
+                                                roomInfoFragment.updateRoomInfo();
 
                                             }
                                         }
@@ -664,7 +663,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     llChatMapView.setVisibility(View.GONE);
                     llRoomChatLayout.setVisibility(View.GONE);
                     llRoomChatNoSchedule.setVisibility(View.VISIBLE);
-                    roomInfoView.updateRoomInfo();
+                    roomInfoFragment.updateRoomInfo();
 
                     Log.d("Longitude", ScheduleLongitude + "");
                     Log.d("Latitude", ScheduleLatitude + "");
@@ -719,7 +718,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         chatMap = null;
 
                         chatMap = new MapView(RoomViewPager.mContext);
-                        chatMap.setDaumMapApiKey(RoomViewPager.mContext.getResources().getString(R.string.APIKEY));
+                        chatMap.setDaumMapApiKey(getResources().getString(R.string.APIKEY));
                         flChatMap.addView(chatMap);
 
                         if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -934,7 +933,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         View customBarView = inf.inflate(R.layout.actionbar_room, null);
 
         this.tvRoomName = customBarView.findViewById(R.id.tvRoomName);
-        tvRoomName.setText(RoomViewPager.getRoomName());
+        tvRoomName.setText(getRoomName());
         this.btnRoomSetting = customBarView.findViewById(R.id.btnRoomSetting);
         this.btnRoomSchedule = customBarView.findViewById(R.id.btnRoomSchedule);
         this.btnRoomExit = customBarView.findViewById(R.id.btnRoomExit);
@@ -956,19 +955,19 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     @Override
     public void onBackPressed() {
 
-        for (int i = 0; i < MainViewPager.chatList.size(); i++) {
-            if (MainViewPager.chatList.get(i).getRoomPKey().equals(RoomViewPager.getRoomPKey() + "")) {
-                RoomChatFragment.lvChat.setAdapter(MainViewPager.chatList.get(i).getAdapter());
-                MainViewPager.chatList.get(i).getAdapter().notifyDataSetChanged();
+        for (int i = 0; i < roomChatFragment.chatList.size(); i++) {
+            if (roomChatFragment.chatList.get(i).getRoomPKey().equals(getRoomPKey() + "")) {
+                roomChatFragment.lvChat.setAdapter(roomChatFragment.chatList.get(i).getAdapter());
+                roomChatFragment.chatList.get(i).getAdapter().notifyDataSetChanged();
 
                 Params params = new Params();
                 params.add("UserPKey", MainViewPager.getUserPKey() + "");
-                params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
-                params.add("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+                params.add("RoomPKey", getRoomPKey() + "");
+                params.add("ChatCount", roomChatFragment.chatList.get(i).getChatCount() + "");
 
                 Log.d("UserPKey", MainViewPager.getUserPKey() + "");
-                Log.d("RoomPKey", RoomViewPager.getRoomPKey() + "");
-                Log.d("ChatCount", MainViewPager.chatList.get(i).getChatCount() + "");
+                Log.d("RoomPKey", getRoomPKey() + "");
+                Log.d("ChatCount", roomChatFragment.chatList.get(i).getChatCount() + "");
 
                 new HttpNetwork("UpdateChatCount.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -1026,7 +1025,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         else roomPKey = Integer.parseInt(PKey);
     }
 
-    public static int getSchedulePKey() {
+    public int getSchedulePKey() {
         return schedulePKey;
     }
 
@@ -1038,7 +1037,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         return SoonSchedulePKey;
     }
 
-    public static void setSoonSchedulePKey(String soonSchedulePKey) {
+    public void setSoonSchedulePKey(String soonSchedulePKey) {
         SoonSchedulePKey = soonSchedulePKey;
     }
 

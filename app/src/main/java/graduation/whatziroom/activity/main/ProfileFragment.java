@@ -20,8 +20,6 @@ import graduation.whatziroom.R;
 import graduation.whatziroom.activity.login.LoginActivity;
 import graduation.whatziroom.network.DBSI;
 
-import static graduation.whatziroom.activity.main.MainViewPager.CheckLocationTimer;
-
 /**
  * Created by ATIV on 2017-06-25.
  */
@@ -83,9 +81,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(CheckLocationTimer != null) {
-                    CheckLocationTimer.cancel();
-                    CheckLocationTimer = null;
+                if(MainViewPager.CheckLocationTimer != null) {
+                    MainViewPager.CheckLocationTimer.cancel();
+                    MainViewPager.CheckLocationTimer = null;
                 }
 
 

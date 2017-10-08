@@ -41,8 +41,8 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
     private LinearLayout layout;
     private ImageView ivRoomSearchFlag;
-    public static ListView roomListView;
-    public static RoomData roomData;
+    public ListView roomListView;
+    public RoomData roomData;
     private RoomData roomSearchData;
     private android.widget.EditText edFindRoom;
     private android.widget.ListView roomSearchListView;
@@ -82,8 +82,8 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 Intent intent = new Intent(getContext(), RoomViewPager.class);
-                RoomViewPager.setRoomPKey(MainViewPager.roomData.getRoomArrayList().get(position).getRoomPKey().toString());
-                RoomViewPager.setRoomName(MainViewPager.roomData.getRoomArrayList().get(position).getRoomName());
+                RoomViewPager.setRoomPKey(roomData.getRoomArrayList().get(position).getRoomPKey().toString());
+                RoomViewPager.setRoomName(roomData.getRoomArrayList().get(position).getRoomName());
                 startActivity(intent);
             }
         });

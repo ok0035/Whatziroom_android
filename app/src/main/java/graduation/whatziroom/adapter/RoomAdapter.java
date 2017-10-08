@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
-import graduation.whatziroom.activity.main.MainViewPager;
+
+import static graduation.whatziroom.activity.room.RoomViewPager.roomChatFragment;
 
 /**
  * Created by Heronation on 2017-07-10.
@@ -56,16 +57,16 @@ public class RoomAdapter extends ArrayAdapter {
         if(roomData.getChatCount() == null) tvChatCount.setVisibility(View.GONE);
         else {
 
-            for(int i =0; i< MainViewPager.chatList.size(); i++) {
-                if(roomData.getRoomPKey().equals(MainViewPager.chatList.get(i).getRoomPKey())) {
-                    chatCount = MainViewPager.chatList.get(i).getChatCount() - Integer.parseInt(roomData.getChatCount());
+            for(int i =0; i< roomChatFragment.chatList.size(); i++) {
+                if(roomData.getRoomPKey().equals(roomChatFragment.chatList.get(i).getRoomPKey())) {
+                    chatCount = roomChatFragment.chatList.get(i).getChatCount() - Integer.parseInt(roomData.getChatCount());
 
-                    Log.d("chatList.getChatCount()", "...." + MainViewPager.chatList.get(i).getChatCount() + "");
+                    Log.d("chatList.getChatCount()", "...." + roomChatFragment.chatList.get(i).getChatCount() + "");
                     Log.d("roomData.getChatCount", "...." + roomData.getChatCount() + "");
                     Log.d("chatCount", "...." + chatCount + "");
 
                     if(chatCount < 0) {
-                        Log.d("chatList.getChatCount()", MainViewPager.chatList.get(i).getChatCount() + "");
+                        Log.d("chatList.getChatCount()", roomChatFragment.chatList.get(i).getChatCount() + "");
                         Log.d("roomData.getChatCount()", roomData.getChatCount());
                     }
                     break;

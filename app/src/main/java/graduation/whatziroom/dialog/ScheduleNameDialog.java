@@ -17,15 +17,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import graduation.whatziroom.Data.MapData;
-
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.ScheduleListFragment;
-import graduation.whatziroom.activity.room.RoomInfoFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.activity.room.SearchPlaceActivity;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
+
+import static graduation.whatziroom.activity.room.RoomViewPager.roomInfoFragment;
 
 /**
  * Created by mapl0 on 2017-09-24.
@@ -96,8 +96,8 @@ public class ScheduleNameDialog extends Dialog implements BasicMethod {
                     public void onSuccess(String response) {
                         Log.d("RegistSchedule", response);
                         ScheduleListFragment.updateSchedule();
-                        RoomInfoFragment.updateRoomInfo();
-                        RoomInfoFragment.tvNeedCreateSchedule.setVisibility(View.GONE);
+                        roomInfoFragment.updateRoomInfo();
+                        roomInfoFragment.tvNeedCreateSchedule.setVisibility(View.GONE);
                         SearchPlaceActivity.searchActivity.finish();
                         Toast.makeText(RoomViewPager.mContext, "스케줄이 등록되었습니다.", Toast.LENGTH_SHORT).show();
                         dismiss();

@@ -24,7 +24,6 @@ import graduation.whatziroom.dialog.AttendScheduleDialog;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
-
 /**
  * Created by mapl0 on 2017-09-28.
  */

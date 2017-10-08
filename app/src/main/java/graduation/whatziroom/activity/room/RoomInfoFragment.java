@@ -31,21 +31,20 @@ import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
 
-
 /**
  * Created by ATIV on 2017-06-25.
  */
 
 public class RoomInfoFragment extends Fragment implements BasicMethod{
 
-    public static View infoLayout;
+    public View infoLayout;
     private ImageView[] ivAttendee;
     private LinearLayout linAttendee;
-    private static String isEmpty = "notEmpty";
+    private String isEmpty = "notEmpty";
 
-    public static TextView tvNeedCreateSchedule;
+    public TextView tvNeedCreateSchedule;
 
-    private static ListView roomInfoList;
+    private ListView roomInfoList;
 
 //    private ProgressDialog mProgressDialog;
 
@@ -53,7 +52,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
         return isEmpty;
     }
     public void setIsEmpty(String isEmpty) {
-        RoomInfoFragment.isEmpty = isEmpty;
+        this.isEmpty = isEmpty;
     }
 
     public RoomInfoFragment() {
@@ -132,7 +131,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
     }
 
-    public static void updateRoomInfo() {
+    public void updateRoomInfo() {
 
         Params params = new Params();
         params.add("RoomPKey", String.valueOf(RoomViewPager.getRoomPKey()));

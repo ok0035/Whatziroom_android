@@ -49,7 +49,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-
         bindView();
         setValues();
         setUpEvents();
