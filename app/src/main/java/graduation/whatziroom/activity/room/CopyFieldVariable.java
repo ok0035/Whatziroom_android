@@ -20,9 +20,9 @@ public class CopyFieldVariable extends BaseActivity {
 
 
     private android.support.v4.view.ViewPager vp;
-    private android.widget.TextView tvRoomChatPlace;
+    //private android.widget.TextView tvRoomChatPlace;
     private android.widget.TextView tvRoomChatTime;
-    private android.widget.LinearLayout llChatSchedule;
+    private android.widget.FrameLayout llChatSchedule;
     private android.widget.FrameLayout flChatMap;
     private android.widget.TextView tvChatCloseMap;
     private android.widget.LinearLayout llChatMapView;
@@ -38,11 +38,11 @@ public class CopyFieldVariable extends BaseActivity {
         this.indicator = (CircleIndicator) findViewById(R.id.indicator);
         this.scChatInfoParent = (ScrollView) findViewById(R.id.scChatInfoParent);
         this.llChatMapView = (LinearLayout) findViewById(R.id.llChatMapView);
-        this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
+        //this.tvChatCloseMap = (TextView) findViewById(R.id.tvChatCloseMap);
         this.flChatMap = (FrameLayout) findViewById(R.id.flChatMap);
-        this.llChatSchedule = (LinearLayout) findViewById(R.id.flChatSchedule);
+        this.llChatSchedule = (FrameLayout) findViewById(R.id.flChatSchedule);
         this.tvRoomChatTime = (TextView) findViewById(R.id.tvRoomChatTime);
-        this.tvRoomChatPlace = (TextView) findViewById(R.id.tvRoomChatPlace);
+        //this.tvRoomChatPlace = (TextView) findViewById(R.id.tvRoomChatPlace);
         this.vp = (ViewPager) findViewById(R.id.vp);
 
 

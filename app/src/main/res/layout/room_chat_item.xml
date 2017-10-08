@@ -61,7 +61,7 @@
         android:id="@+id/ivProfileRight"
         android:layout_width="50dp"
         android:layout_height="65dp"
-        android:src="@drawable/profile_test"
+        android:src="@mipmap/user1_icon"
         android:paddingTop="15dp"
         android:layout_marginLeft="5dp"
         app:civ_border_width="1dp"

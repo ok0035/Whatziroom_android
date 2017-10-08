@@ -30,4 +30,7 @@
     <color name="colorTxtNoDialogRequestFriend"> #000000 </color>
     <color name="colorTxtYesDialogRequestFriend"> #d12a10 </color>
 
+    <color name="colorBackSolidProfileUpdate"> #f5f5f5 </color>
+    <color name="colorBackStrokeBtnProfileUpdate"> #dbdbdb </color>
+
 </resources>

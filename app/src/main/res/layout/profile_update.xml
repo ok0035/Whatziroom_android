@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorActionBar"
     tools:context="com.graduation.project.whatziroom.activity.main.ProfilUpdateActivity">
 
     <LinearLayout
@@ -16,80 +17,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.3"
+            android:gravity="center"
             android:orientation="vertical"
             android:layout_marginBottom="20dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.9"
-                android:src="@mipmap/ic_launcher_round" />
-
-            <TextView
-                android:id="@+id/updateProfilePic"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:text="변경" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/password_icon"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
+            android:layout_weight="0.6"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
-                android:paddingLeft="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:paddingLeft="5dp"
-                    android:gravity="end|center_vertical"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="아이디 : " />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.75"
-                    android:paddingLeft="15dp"
-                    android:gravity="center_vertical"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:text="admin"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="　이름 : " />
+                android:background="@drawable/profile_update_pw">
 
                 <EditText
                     android:layout_width="0dp"
@@ -98,55 +50,19 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
-                    android:singleLine="true"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
-                android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
+                    android:hint="현재 비밀번호"
                     android:textSize="15dp"
-                    android:text="이메일 : " />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.75"
-                    android:background="@null"
-                    android:gravity="start|center_vertical"
-                    android:paddingLeft="10dp"
+                    android:textColorHint="@color/sColor"
                     android:singleLine="true"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="비밀번호 : " />
+                android:background="@drawable/profile_update_pw">
 
                 <EditText
                     android:layout_width="0dp"
@@ -155,26 +71,19 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
+                    android:hint="새 비밀번호"
+                    android:textSize="15dp"
+                    android:textColorHint="@color/sColor"
                     android:singleLine="true"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.16"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
-                android:background="@drawable/button_border">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:gravity="end|center_vertical"
-                    android:paddingLeft="5dp"
-                    android:textSize="15dp"
-                    android:text="비밀번호 확인 : " />
+                android:background="@drawable/profile_update_pw">
 
                 <EditText
                     android:layout_width="0dp"
@@ -183,6 +92,9 @@
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
+                    android:hint="새 비밀번호 확인"
+                    android:textSize="15dp"
+                    android:textColorHint="@color/sColor"
                     android:singleLine="true"/>
 
             </LinearLayout>

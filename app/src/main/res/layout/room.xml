@@ -52,8 +52,9 @@
                 android:id="@+id/flChatSchedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:background="@drawable/round_background_button"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -61,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/llRoomChatLayout"
-                    android:background="@drawable/round_background_button"
+                    android:background="@drawable/button_border_fill"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:weightSum="1">
@@ -69,18 +70,14 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginTop="3dp"
-                        android:background="@drawable/round_background_button"
+                        android:layout_margin="15dp"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
                         <TextView
                             android:id="@+id/tvRoomChatLocation"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="위치공유가 시작되었습니다!"
                             android:textColor="#ffff00"
@@ -89,19 +86,55 @@
                             android:visibility="invisible"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/tvRoomChatDDay"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:textSize="14dp"
-                            android:textColor="#FFFF00"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:textSize="20dp"
+                            android:textColor="@color/colorTxtTitleDialogExitRoom"
                             android:textStyle="bold"
                             android:text="D - 15"/>
 
+                        <TextView
+                            android:id="@+id/tvRoomChatTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="70dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="#000000"
+                            android:textSize="15dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="right">
+
+                            <TextView
+                                android:id="@+id/tvChatMapCheck"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="10dp"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:text="지도 보기"
+                                android:textSize="15dp"
+                                android:textColor="#000000"/>
+
+                            <ImageView
+                                android:id="@+id/ivChatMapCheck"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@mipmap/arrow_icon"/>
+
+                        </LinearLayout>
+
                     </FrameLayout>
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -153,6 +186,7 @@
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
+                        &lt;!&ndash;
                         <TextView
                             android:id="@+id/tvRoomChatTime"
                             android:layout_width="0dp"
@@ -163,7 +197,9 @@
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
-                    </LinearLayout>
+                            &ndash;&gt;
+
+                    </LinearLayout>-->
 
                 </LinearLayout>
 
@@ -172,16 +208,13 @@
                     android:layout_height="match_parent"
                     android:id="@+id/tvRoomChatNoSchedule"
                     android:gravity="center"
-                    android:textColor="#FFFF00"
+                    android:textColor="#000000"
                     android:textStyle="bold"
-                    android:textSize="14dp"
+                    android:textSize="15dp"
                     android:text="등록된 스케줄이 없습니다."
                     android:visibility="gone"/>
 
-
             </FrameLayout>
-
-
 
             <LinearLayout
                 android:id="@+id/llChatMapView"
@@ -196,30 +229,10 @@
                     android:layout_height="0dp"
                     android:layout_margin="6dp"
                     android:layout_weight="0.9"
-                    android:background="@drawable/round_background_button"
-                    android:padding="10dp">
-
+                    android:background="@drawable/button_border_fill"
+                    android:padding="5dp">
 
                 </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="6dp"
-                    android:layout_weight="0.1"
-                    android:background="@drawable/round_background_button">
-
-                    <TextView
-                        android:id="@+id/tvChatCloseMap"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="지도 닫기"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
 
             </LinearLayout>
 

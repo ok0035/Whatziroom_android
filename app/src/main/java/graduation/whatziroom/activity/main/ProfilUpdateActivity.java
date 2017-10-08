@@ -12,8 +12,6 @@ import graduation.whatziroom.activity.login.LoginActivity;
 
 public class ProfilUpdateActivity extends BaseActivity {
 
-    private TextView updateProfilePic;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +37,6 @@ public class ProfilUpdateActivity extends BaseActivity {
 //                overridePendingTransition(0, 0);
             }
         });
-
-        updateProfilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ProfilUpdateActivity.this, "이미지 변경", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -57,7 +48,7 @@ public class ProfilUpdateActivity extends BaseActivity {
     @Override
     public void setMainActionBar() {
         super.setMainActionBar();
-        titleTxt.setText("내 정보 수정");
+        titleTxt.setText("비밀번호 변경");
         backBtn.setVisibility(View.VISIBLE);
         configTxt1.setVisibility(View.INVISIBLE);
         configTxt2.setVisibility(View.VISIBLE);
@@ -73,7 +64,6 @@ public class ProfilUpdateActivity extends BaseActivity {
     @Override
     public void bindView() {
         super.bindView();
-        updateProfilePic = findViewById(R.id.updateProfilePic);
     }
 
 
