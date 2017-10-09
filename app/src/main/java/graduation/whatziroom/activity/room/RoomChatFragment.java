@@ -267,7 +267,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
                         Date date = transFormat.parse(roomInfo.getString("Time"));
 
                         roomInfoFragment.SoonSchedulePKey = roomInfo.getString("SchedulePKey");
-                        roomInfoFragment.ScheduleTime = (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
+                        roomInfoFragment.ScheduleTime = (date.getYear() + 1900) + "." + (date.getMonth() + 1) + "." + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
                         roomInfoFragment.SchedulePlace = roomInfo.getString("Place");
 
 //                        dDay = dDay / 1000 / 60 / 60 / 24;
