@@ -37,8 +37,8 @@ import graduation.whatziroom.util.ParseData;
 public class ScheduleListFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
-    private static ListView scheduleList;
-    private static ScheduleData data;
+    private ListView scheduleList;
+    private ScheduleData data;
 
     @Nullable
     @Override
@@ -68,6 +68,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 RoomViewPager.setRoomPKey(data.getScheduleList().get(i).getScheduleRoomPKey());
+                RoomViewPager.setRoomName(data.getScheduleList().get(i).getRoomTitle());
 
                 Log.d("RoomPKeyInSchedule", RoomViewPager.getRoomPKey() + "");
 
@@ -82,7 +83,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
     }
 
-    public static void updateSchedule() {
+    public void updateSchedule() {
 
         Params params = new Params();
         params.add("UserPKey", MainViewPager.getUserPKey() + "");
@@ -127,7 +128,7 @@ public class ScheduleListFragment extends Fragment implements BasicMethod {
 
                             Log.d("SListDate", scheduleDate.getDate() + "");
 
-                            data.addItem(jsonScheduleData.getString("RoomPKey"), jsonScheduleData.getString("SchedulePKey"), jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), parseTime, String.valueOf(dDay));
+                            data.addItem(jsonScheduleData.getString("RoomPKey"), jsonScheduleData.getString("SchedulePKey"), jsonScheduleData.getString("Title"), jsonScheduleData.getString("Name"), jsonScheduleData.getString("Place"), parseTime, String.valueOf(dDay));
                             Log.d("RoomPKey...", jsonScheduleData.getString("RoomPKey"));
                         }
 

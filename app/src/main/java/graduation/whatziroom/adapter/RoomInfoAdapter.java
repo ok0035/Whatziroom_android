@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -47,6 +46,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
     private TextView tvInfoSite;
     private TextView tvInfoDesc;
     private TextView tvInfoDDay;
+    private TextView tvInfoIsAttend;
 
     private RoomInfoData data;
 
@@ -80,6 +80,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
         this.textTitle = (TextView) roomInfoLayout.findViewById(R.id.tvTitle);
         this.ivInformation = (ImageView) roomInfoLayout.findViewById(R.id.ivInformation);
         this.tvInfoDDay = (TextView) roomInfoLayout.findViewById(R.id.tvInfoDDay);
+        this.tvInfoIsAttend = (TextView) roomInfoLayout.findViewById(R.id.tvInfoIsAttend);
 
         data = roomInfoList.get(position);
 
@@ -95,7 +96,11 @@ public class RoomInfoAdapter extends ArrayAdapter {
 
                 Log.d("UserScheduleStatus", response);
                 if(response.equals("1")) {
-                    tvInfoGoing.setText("참석 확정");
+                    tvInfoGoing.setText("참석자 보기");
+                    tvInfoIsAttend.setText("참석이 확정되었습니다.");
+                } else {
+                    tvInfoGoing.setText("참석");
+                    tvInfoIsAttend.setText("참석하시겠어요?");
                 }
             }
 
@@ -132,9 +137,9 @@ public class RoomInfoAdapter extends ArrayAdapter {
         tvInfoGoing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tvInfoGoing.getText().toString().equals("참석 확정")) {
+                if (tvInfoGoing.getText().toString().equals("참석자 보기")) {
                     //Toast.makeText(mContext, "이미 참석을 확정하였습니다.", Toast.LENGTH_SHORT).show();
-                    new RoomInfoGoingDialog(getContext()).show();
+                    new RoomInfoGoingDialog(getContext(), data.getSchedulePKey()).show();
                 }
                 else
                     new AttendScheduleDialog(getContext(), MainViewPager.getUserPKey() + "", data.getSchedulePKey()).show();

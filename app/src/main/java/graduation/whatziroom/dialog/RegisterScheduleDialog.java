@@ -19,12 +19,12 @@ import java.util.Date;
 import graduation.whatziroom.Data.MapData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
-import graduation.whatziroom.activity.main.ScheduleListFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.activity.room.SearchPlaceActivity;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
+import static graduation.whatziroom.activity.main.MainViewPager.scheduleListFragment;
 import static graduation.whatziroom.activity.room.RoomViewPager.roomInfoFragment;
 
 /**
@@ -95,7 +95,7 @@ public class RegisterScheduleDialog extends Dialog implements BasicMethod {
                     @Override
                     public void onSuccess(String response) {
                         Log.d("RegistSchedule", response);
-                        ScheduleListFragment.updateSchedule();
+                        scheduleListFragment.updateSchedule();
                         roomInfoFragment.updateRoomInfo();
 
                         RoomViewPager.updateChatMapInfo();

@@ -31,6 +31,14 @@ public class UserData {
         setFirebaseToken(FBToken);
     }
 
+    public UserData(String pkey, String name) {
+
+        //위치 추적을 위해서 사용, 필요에 따라 생성자로 만들어서 사용하면 될듯, 명시는 해주고.
+        setPKey(pkey);
+        setName(name);
+
+    }
+
     public String getPKey() {
         return PKey;
     }

@@ -106,6 +106,7 @@
 
                 <TextView
                     android:gravity="center"
+                    android:id="@+id/tvInfoIsAttend"
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:text="참석하시겠어요?"

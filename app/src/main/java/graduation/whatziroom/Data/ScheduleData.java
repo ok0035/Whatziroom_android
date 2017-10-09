@@ -25,6 +25,7 @@ public class ScheduleData {
     private String scheduleDate;
     private String scheduleDday;
     private String schedulePKey;
+    private String scheduleRoomTitle;
 
     public String getSchedulePlace() {
         return schedulePlace;
@@ -47,7 +48,7 @@ public class ScheduleData {
         scheduleList = new ArrayList<>();
     }
 
-    public ScheduleData(String roomPKey, String schedulePKey, String sName, String sPlace, String sDate, String sDday) {
+    public ScheduleData(String roomPKey, String schedulePKey, String roomTitle, String sName, String sPlace, String sDate, String sDday) {
 
         scheduleRoomPKey = roomPKey;
         this.schedulePKey = schedulePKey;
@@ -55,6 +56,7 @@ public class ScheduleData {
         schedulePlace = sPlace;
         scheduleDate = sDate;
         scheduleDday = sDday;
+        scheduleRoomTitle = roomTitle;
 
     }
 
@@ -63,6 +65,14 @@ public class ScheduleData {
         ScheduleAdapter adapter = new ScheduleAdapter(MainViewPager.mContext, scheduleList);
 
         return adapter;
+    }
+
+    public String getRoomTitle() {
+        return scheduleRoomTitle;
+    }
+
+    public void setRoomTitle(String scheduleRoomTitle) {
+        this.scheduleRoomTitle = scheduleRoomTitle;
     }
 
     public String getScheduleName() {
@@ -89,9 +99,9 @@ public class ScheduleData {
         this.scheduleDday = scheduleDday;
     }
 
-    public void addItem(String roomPKey, String schedulePKey, String scheduleName, String schedulePlace, String scheduleDate, String scheduleDday) {
+    public void addItem(String roomPKey, String schedulePKey, String roomTitle, String scheduleName, String schedulePlace, String scheduleDate, String scheduleDday) {
 
-        scheduleList.add(new ScheduleData(roomPKey, schedulePKey, scheduleName, schedulePlace, scheduleDate, scheduleDday));
+        scheduleList.add(new ScheduleData(roomPKey, schedulePKey, roomTitle, scheduleName, schedulePlace, scheduleDate, scheduleDday));
 
     }
 }

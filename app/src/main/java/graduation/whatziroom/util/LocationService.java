@@ -35,6 +35,8 @@ import java.util.UUID;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.SplashActivity;
+import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -62,6 +64,8 @@ public class LocationService extends Service {
 
     //UserPKey
     private String UserPKey;
+    //IsRunning
+    private String IsRunning = "0";
 
     //Schedule
     private String place;
@@ -105,8 +109,16 @@ public class LocationService extends Service {
         Log.e("LOG", "onStartCommand()");
         //서비스가 시작되면 이곳에 도착한다. 즉 여기서 원하는 이벤트를 주면 된다. OnCreate에서 해주려고 했으나 intent 값을 제대로 받아오지 못한다.
         UserPKey = intent.getStringExtra("UserPKey");
+        IsRunning = intent.getStringExtra("IsRunning");
+
         Log.d("UserPKeyInService", UserPKey);
         mContext = this;
+
+        if(IsRunning.equals("0")) {
+            if(RoomViewPager.getRoomViewPager() != null) RoomViewPager.getRoomViewPager().finish();
+            if(MainViewPager.getMainViewPager() != null) MainViewPager.getMainViewPager().finish();
+        }
+
         mMainIntent = new Intent(this, SplashActivity.class);
         mPendingIntent = PendingIntent.getActivity(this, 1, mMainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

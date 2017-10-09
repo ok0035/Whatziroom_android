@@ -1,7 +1,6 @@
 package graduation.whatziroom.activity.main;
 
 
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -27,10 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Timer;
 
 import graduation.whatziroom.Data.ChatData;
@@ -42,10 +37,7 @@ import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.dialog.ExitMainDialog;
 import graduation.whatziroom.network.DBSI;
-import graduation.whatziroom.network.HttpNetwork;
-import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.LocationService;
-import graduation.whatziroom.util.ParseData;
 
 
 /**
@@ -71,14 +63,16 @@ public class MainViewPager extends BaseActivity {
     // 각 프래그먼트 별로 태그 값 설정하기 위해 선언
     public static FriendListFragment friendListFragmnet = new FriendListFragment();
     public static RoomListFragment roomListFragment = new RoomListFragment();
-    public static ScheduleListFragment scheduleListFragmnet = new ScheduleListFragment();
+    public static ScheduleListFragment scheduleListFragment = new ScheduleListFragment();
     public static NotificationListFragment notificationListFragment = new NotificationListFragment();
     public ProfileFragment profileFragment = new ProfileFragment();
+
+    //서비스에서 실행중인지 확인
+    public static MainViewPager mainViewPager;
 
     //방정보
     private static int UserPKey;
     private static String UserName;
-    ProgressDialog mProgressDialog;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -143,6 +137,8 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setUpEvents() {
         super.setUpEvents();
+
+        mainViewPager = this;
 
 //        GPSTracer.getInstance().getLocation();
         DBSI db = new DBSI();
@@ -217,7 +213,7 @@ public class MainViewPager extends BaseActivity {
 //                        configTxt2.setText("편집");
                         break;
                     case 1:
-                        updateRoom(new AfterUpdate() {
+                        roomListFragment.updateRoom(new AfterUpdate() {
                             @Override
                             public void onPost(RoomData data) {
 
@@ -274,7 +270,7 @@ public class MainViewPager extends BaseActivity {
 
                     switch (position) {
                         case 1:
-                            updateRoom(new AfterUpdate() {
+                            roomListFragment.updateRoom(new AfterUpdate() {
                                 @Override
                                 public void onPost(RoomData data) {
 
@@ -282,7 +278,7 @@ public class MainViewPager extends BaseActivity {
                             });
                             break;
                         case 2:
-                            ScheduleListFragment.updateSchedule();
+                            scheduleListFragment.updateSchedule();
                             break;
                     }
 
@@ -313,7 +309,7 @@ public class MainViewPager extends BaseActivity {
 
                         case 1:
 
-                            updateRoom(new AfterUpdate() {
+                            roomListFragment.updateRoom(new AfterUpdate() {
                                 @Override
                                 public void onPost(RoomData roomData) {
                                     childAddListener(data.getRoomKey());
@@ -349,7 +345,7 @@ public class MainViewPager extends BaseActivity {
             }
         });
 
-        updateRoom(new AfterUpdate() {
+        roomListFragment.updateRoom(new AfterUpdate() {
             @Override
             public void onPost(RoomData data) {
 
@@ -489,55 +485,6 @@ public class MainViewPager extends BaseActivity {
 
     }
 
-
-    public static void updateRoom(final AfterUpdate delegate) {
-
-        Params params = new Params();
-        params.add("UserPKey", getUserPKey() + "");
-
-        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-            @Override
-            public void onSuccess(String response) {
-
-                try {
-                    ParseData parse = new ParseData();
-                    final JSONArray roomList = parse.parseJsonArray(response);
-                    roomListFragment.roomData = new RoomData();
-
-                    for (int i = 0; i < roomList.length(); i++) {
-                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-                        roomListFragment.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
-
-                        Log.d("roomPKey", jsonRoomData.getString("PKey"));
-                        Log.d("Name", jsonRoomData.getString("Name"));
-                        Log.d("DESC", jsonRoomData.getString("Description"));
-                        Log.d("ChatCount", jsonRoomData.getString("ChatCount"));
-
-                    }
-
-                    roomListFragment.roomListView.setAdapter(roomListFragment.roomData.getAdapter());
-                    roomListFragment.roomData.getAdapter().notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                delegate.onPost(roomListFragment.roomData);
-
-            }
-
-            @Override
-            public void onFailure(String response) {
-
-            }
-
-            @Override
-            public void onPreExcute() {
-
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
 
@@ -558,9 +505,11 @@ public class MainViewPager extends BaseActivity {
         //서비스가 시작되있지 않다면 서비스를 시작하고 바인딩 해준다.
         if (!isBind) {
 
-//            Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
+            Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
+            locationIntent.putExtra("UserPKey", getUserPKey() + "");
+            locationIntent.putExtra("IsRunning", "1");
 
-            startService(new Intent(MainViewPager.this, LocationService.class).putExtra("UserPKey", getUserPKey() + ""));
+            startService(locationIntent);
             bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);
             isBind = true;
         }
@@ -599,7 +548,7 @@ public class MainViewPager extends BaseActivity {
         // 태그값을 먹여야 밑의 프래그먼트 내의 함수를 MainViewPager에서 실행시킬수 있다.
 //        getSupportFragmentManager().beginTransaction().add(friendListFragmnet, "1").commit();
 //        getSupportFragmentManager().beginTransaction().add(roomListFragment, "2").commit();
-//        getSupportFragmentManager().beginTransaction().add(scheduleListFragmnet, "3").commit();
+//        getSupportFragmentManager().beginTransaction().add(scheduleListFragment, "3").commit();
 //        getSupportFragmentManager().beginTransaction().add(notificationListFragment, "4").commit();
 //        getSupportFragmentManager().beginTransaction().add(profileFragment, "5").commit();
     }
@@ -659,7 +608,7 @@ public class MainViewPager extends BaseActivity {
                 case 1:
                     return roomListFragment;
                 case 2:
-                    return scheduleListFragmnet;
+                    return scheduleListFragment;
                 case 3:
                     return notificationListFragment;
                 case 4:
@@ -771,12 +720,34 @@ public class MainViewPager extends BaseActivity {
         return UserName;
     }
 
+    public static MainViewPager getMainViewPager() {
+        return mainViewPager;
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+
+        Intent intent = new Intent(MainViewPager.this, LocationService.class);
+        intent.putExtra("UserPKey", MainViewPager.getUserPKey());
+        intent.putExtra("IsRunning", "0");
+
+        stopService(intent);
+
+        super.onUserLeaveHint();
+    }
+
     @Override
     protected void onDestroy() {
         if (CheckLocationTimer != null) {
             CheckLocationTimer.cancel();
             CheckLocationTimer = null;
         }
+
+        Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
+        locationIntent.putExtra("UserPKey", getUserPKey() + "");
+        locationIntent.putExtra("IsRunning", "0");
+
+        stopService(locationIntent);
         unbindService(sconn);
         isBind = false;
         locationService = null;

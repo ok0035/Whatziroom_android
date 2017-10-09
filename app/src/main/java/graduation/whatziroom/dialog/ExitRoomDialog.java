@@ -16,10 +16,12 @@ import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.BasicMethod;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.main.ScheduleListFragment;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
+
+import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
+import static graduation.whatziroom.activity.main.MainViewPager.scheduleListFragment;
 
 /**
  * Created by mapl0 on 2017-09-30.
@@ -66,13 +68,13 @@ public class ExitRoomDialog extends Dialog implements BasicMethod {
                         switch(response) {
                             case "success":
                                 RoomViewPager.mActivity.finish();
-                                MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                                roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
                                     @Override
                                     public void onPost(RoomData data) {
 
                                     }
                                 });
-                                ScheduleListFragment.updateSchedule();
+                                scheduleListFragment.updateSchedule();
                                 Toast.makeText(getContext(), "방이 목록에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                 break;
 

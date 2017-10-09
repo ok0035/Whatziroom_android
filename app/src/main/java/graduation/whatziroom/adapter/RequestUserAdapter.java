@@ -1,7 +1,6 @@
 package graduation.whatziroom.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -26,11 +25,13 @@ import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.Data.RoomUserData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.main.ScheduleListFragment;
 import graduation.whatziroom.activity.room.RoomUserList;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
+
+import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
+import static graduation.whatziroom.activity.main.MainViewPager.scheduleListFragment;
 
 /**
  * Created by mapl0 on 2017-09-30.
@@ -132,12 +133,12 @@ public class RequestUserAdapter extends ArrayAdapter {
 
                                 RoomUserList.updateRequestList();
                                 RoomUserList.updateRoomUserList();
-                                MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                                roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
                                     @Override
                                     public void onPost(RoomData data) {
                                         FirebaseNoticeData notice = new FirebaseNoticeData(1, RoomViewPager.getRoomPKey() + "");
                                         databaseReference.child("Notice").child(requestData.getUserPKey() + "").push().setValue(notice);
-                                        ScheduleListFragment.updateSchedule();
+                                        scheduleListFragment.updateSchedule();
                                     }
                                 });
 

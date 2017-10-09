@@ -81,7 +81,7 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
 
                         Toast.makeText(BaseActivity.mContext, "방 개설 완료", Toast.LENGTH_SHORT).show();
                         RoomViewPager.setRoomPKey(response);
-                        MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                        roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
                             @Override
                             public void onPost(RoomData data) {
 

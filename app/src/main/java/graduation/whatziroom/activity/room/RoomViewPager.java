@@ -59,6 +59,8 @@ import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.GPSTracer;
 import graduation.whatziroom.util.ParseData;
 
+import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
+
 
 /**
  * Created by heronation on 2017-05-22.
@@ -112,6 +114,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private boolean shield = false;
     public static Context mContext;
     public static Activity mActivity;
+    public static RoomViewPager roomViewPager;
 
     private static int roomPKey = 0;
     private static int schedulePKey = 0;
@@ -149,6 +152,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     @Override
     public void setUpEvents() {
         super.setUpEvents();
+
+        roomViewPager = this;
 
 //        updateMap();
 
@@ -347,7 +352,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             public void onSuccess(String response) {
                                 Log.d("UpdateChatCount", response);
 
-                                MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                                roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
                                     @Override
                                     public void onPost(RoomData data) {
 
@@ -974,7 +979,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                     public void onSuccess(String response) {
                         Log.d("UpdateChatCount", response);
 
-                        MainViewPager.updateRoom(new MainViewPager.AfterUpdate() {
+                        roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
                             @Override
                             public void onPost(RoomData data) {
 
@@ -1033,7 +1038,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         RoomViewPager.schedulePKey = schedulePKey;
     }
 
-    public static String getSoonSchedulePKey() {
+    public String getSoonSchedulePKey() {
         return SoonSchedulePKey;
     }
 
@@ -1142,6 +1147,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
+    }
+
+    public static RoomViewPager getRoomViewPager() {
+        return roomViewPager;
     }
 
     @Override

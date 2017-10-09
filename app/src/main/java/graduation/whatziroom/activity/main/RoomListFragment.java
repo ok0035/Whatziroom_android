@@ -33,6 +33,8 @@ import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.ParseData;
 
+import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
+
 /**
  * Created by ATIV on 2017-06-25.
  */
@@ -152,45 +154,53 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
     }
 
-//    public static void updateRoom() {
-//
-//        Params params = new Params();
-//        params.add("UserPKey", MainViewPager.getUserPKey() + "");
-//
-//        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-//            @Override
-//            public void onSuccess(String response) {
-//
-//                try {
-//                    ParseData parse = new ParseData();
-//                    JSONArray roomList = parse.parseJsonArray(response);
-//                    MainViewPager.roomData = new RoomData();
-//
-//                    for (int i = 0; i < roomList.length(); i++) {
-//                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-//                        //채팅이 구현되면 Description 부분에 최근 채팅 내용을 넣어줄 예정
-//                        MainViewPager.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
-//                    }
-//
-//                    roomListView.setAdapter(MainViewPager.roomData.getAdapter());
-//                    MainViewPager.roomData.getAdapter().notifyDataSetChanged();
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(String response) {
-//
-//            }
-//
-//            @Override
-//            public void onPreExcute() {
-//
-//            }
-//        });
-//    }
+    public void updateRoom(final MainViewPager.AfterUpdate delegate) {
+
+        Params params = new Params();
+        params.add("UserPKey", MainViewPager.getUserPKey() + "");
+
+        new HttpNetwork("GetRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+
+                try {
+                    ParseData parse = new ParseData();
+                    final JSONArray roomList = parse.parseJsonArray(response);
+                    roomListFragment.roomData = new RoomData();
+
+                    for (int i = 0; i < roomList.length(); i++) {
+                        JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
+                        roomListFragment.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
+
+                        Log.d("roomPKey", jsonRoomData.getString("PKey"));
+                        Log.d("Name", jsonRoomData.getString("Name"));
+                        Log.d("DESC", jsonRoomData.getString("Description"));
+                        Log.d("ChatCount", jsonRoomData.getString("ChatCount"));
+
+                    }
+
+                    roomListFragment.roomListView.setAdapter(roomListFragment.roomData.getAdapter());
+                    roomListFragment.roomData.getAdapter().notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                delegate.onPost(roomListFragment.roomData);
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
+    }
 
     public void updateSearchList() {
 
