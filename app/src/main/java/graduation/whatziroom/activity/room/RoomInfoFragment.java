@@ -43,10 +43,14 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
     private String isEmpty = "notEmpty";
 
     public TextView tvNeedCreateSchedule;
-
     private ListView roomInfoList;
 
-//    private ProgressDialog mProgressDialog;
+    public boolean haveSchedule = false;
+    public double ScheduleLongitude;
+    public double ScheduleLatitude;
+    public String SoonSchedulePKey;
+    public String SchedulePlace;
+    public String ScheduleTime;
 
     public String getIsEmpty() {
         return isEmpty;

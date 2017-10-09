@@ -67,9 +67,6 @@ public class MainViewPager extends BaseActivity {
     public static NotificationListFragment notificationListFragment = new NotificationListFragment();
     public ProfileFragment profileFragment = new ProfileFragment();
 
-    //서비스에서 실행중인지 확인
-    public static MainViewPager mainViewPager;
-
     //방정보
     private static int UserPKey;
     private static String UserName;
@@ -137,8 +134,6 @@ public class MainViewPager extends BaseActivity {
     @Override
     public void setUpEvents() {
         super.setUpEvents();
-
-        mainViewPager = this;
 
 //        GPSTracer.getInstance().getLocation();
         DBSI db = new DBSI();
@@ -720,18 +715,8 @@ public class MainViewPager extends BaseActivity {
         return UserName;
     }
 
-    public static MainViewPager getMainViewPager() {
-        return mainViewPager;
-    }
-
     @Override
     protected void onUserLeaveHint() {
-
-        Intent intent = new Intent(MainViewPager.this, LocationService.class);
-        intent.putExtra("UserPKey", MainViewPager.getUserPKey());
-        intent.putExtra("IsRunning", "0");
-
-        stopService(intent);
 
         super.onUserLeaveHint();
     }
@@ -743,11 +728,6 @@ public class MainViewPager extends BaseActivity {
             CheckLocationTimer = null;
         }
 
-        Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
-        locationIntent.putExtra("UserPKey", getUserPKey() + "");
-        locationIntent.putExtra("IsRunning", "0");
-
-        stopService(locationIntent);
         unbindService(sconn);
         isBind = false;
         locationService = null;
