@@ -38,7 +38,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,11 +75,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public static RoomUserList roomFriendList = new RoomUserList();
 
     public android.widget.FrameLayout flChatSchedule;
-    public static android.widget.LinearLayout llChatMapView;
+    public android.widget.LinearLayout llChatMapView;
     private TextView tvChatMapCheck;
     private ImageView ivChatMapCheck;
     private ImageView ivRoomChatNoScheduleDelete;
-    private static boolean haveSchedule = false;
 
     public android.widget.FrameLayout flChatMap;
     public android.widget.ScrollView scChatInfoParent;
@@ -88,20 +86,19 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     public android.widget.TextView tvRoomChatDDay;
     private android.widget.TextView tvRoomChatPlace;
     private android.widget.TextView tvRoomChatTime;
-    private static android.widget.LinearLayout llRoomChatNoSchedule;
-    private static android.widget.LinearLayout llRoomChatLayout;
+    private android.widget.LinearLayout llRoomChatNoSchedule;
+    private android.widget.LinearLayout llRoomChatLayout;
 
     private HashMap<Integer, UserData> mTagItemMap = new HashMap<Integer, UserData>();
 
-    private static double ScheduleLongitude;
-    private static double ScheduleLatitude;
-    private static String ScheduleTime;
-    private static String SchedulePlace;
-    private static String SoonSchedulePKey;
+//    private static boolean haveSchedule = false;
+//    private static double ScheduleLongitude;
+//    private static double ScheduleLatitude;
+//    private static String SoonSchedulePKey;
+
     private ArrayList<UserData> attendUserList;
     private Timer traceLocationTimer;
     private boolean isMove = false;
-    private static boolean isTracing = false;
 
     private ProgressDialog mProgressDialog;
 
@@ -114,7 +111,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private boolean shield = false;
     public static Context mContext;
     public static Activity mActivity;
-    public static RoomViewPager roomViewPager;
 
     private static int roomPKey = 0;
     private static int schedulePKey = 0;
@@ -132,8 +128,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
         mContext = this;
         mActivity = this;
-        ScheduleLongitude = 0.0;
-        ScheduleLatitude = 0.0;
+        roomInfoFragment.ScheduleLongitude = 0.0;
+        roomInfoFragment.ScheduleLatitude = 0.0;
 
     }
 
@@ -152,8 +148,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     @Override
     public void setUpEvents() {
         super.setUpEvents();
-
-        roomViewPager = this;
 
 //        updateMap();
 
@@ -271,7 +265,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             }
         });
 
-        updateChatMapInfo();
+        roomChatFragment.updateChatMapInfo();
 
 //                mProgressDialog.dismiss();
 //                Log.d("onPost", mProgressDialog.isShowing() + "");
@@ -281,7 +275,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             public void onClick(View view) {
 
                 //지도 안열려있으면
-                if (llChatMapView.getVisibility() == View.GONE && haveSchedule) {
+                if (llChatMapView.getVisibility() == View.GONE && roomInfoFragment.haveSchedule) {
                     llChatMapView.setVisibility(View.VISIBLE);
                     tvChatMapCheck.setText("지도 닫기");
 
@@ -526,6 +520,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     }
 
+<<<<<<< HEAD
     //스케줄을 생성했을때 다시 정보를 불러와야 하는데 이 작업은 RegisterScheduleDialog에서 하기 때문에 스태틱으로 할 수 밖에 없었음
     //스태틱 함수가 너무 많은게 걱정이 되긴 하지만 현재로선 마땅한 방법도 없는 듯... 우선 이렇게 쓰기로.
 
@@ -692,10 +687,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     }
 
+=======
+>>>>>>> 5c914f66c81d86b64f9c4c54f33baafc9be6af14
     public void updateMap() {
-
-//        mProgressDialog = ProgressDialog.show(RoomViewPager.mContext, "",
-//                "잠시만 기다려 주세요.", true);
 
         try {
 
@@ -704,9 +698,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
             if (chatMap != null) {
 
                 chatMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
+                chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(roomInfoFragment.ScheduleLatitude, roomInfoFragment.ScheduleLongitude), 4, true);
 
-                if(isTracing)
+                if(roomChatFragment.isTracing)
                     traceUserLocation();
 
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -739,10 +733,10 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                                     chatMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
 
-                                    if(isTracing)
+                                    if(roomChatFragment.isTracing)
                                         traceUserLocation();
 
-                                    chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude), 4, true);
+                                    chatMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(roomInfoFragment.ScheduleLatitude, roomInfoFragment.ScheduleLongitude), 4, true);
                                     mProgressDialog.dismiss();
 
                                 }
@@ -774,7 +768,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private void showLocationMarker() {
 
         Params params = new Params();
-        params.add("SchedulePKey", SoonSchedulePKey);
+        params.add("SchedulePKey", roomInfoFragment.SoonSchedulePKey);
 
         new HttpNetwork("GetAttendUserList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -808,9 +802,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             MapPointBounds mapPointBounds = new MapPointBounds();
                             MapPOIItem poiItem = new MapPOIItem();
 
-                            poiItem.setItemName(SchedulePlace);
+                            poiItem.setItemName(roomInfoFragment.SchedulePlace);
                             poiItem.setTag(0);
-                            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude);
+                            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(roomInfoFragment.ScheduleLatitude, roomInfoFragment.ScheduleLongitude);
                             mapPointBounds.add(mapPoint);
                             poiItem.setMapPoint(mapPoint);
 //                            chatMap.addCircle(new MapCircle(mapPoint, 100000, Color.TRANSPARENT, Color.argb(0, 0, 255, 0)));
@@ -900,9 +894,9 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         try {
 
             MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName(SchedulePlace);
+            poiItem.setItemName(roomInfoFragment.SchedulePlace);
             poiItem.setTag(0);
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(ScheduleLatitude, ScheduleLongitude);
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(roomInfoFragment.ScheduleLatitude, roomInfoFragment.ScheduleLongitude);
             poiItem.setMapPoint(mapPoint);
 //            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
             poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
@@ -1042,14 +1036,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
         RoomViewPager.schedulePKey = schedulePKey;
     }
 
-    public String getSoonSchedulePKey() {
-        return SoonSchedulePKey;
-    }
-
-    public void setSoonSchedulePKey(String soonSchedulePKey) {
-        SoonSchedulePKey = soonSchedulePKey;
-    }
-
     public static String getRoomName() {
         return roomName;
     }
@@ -1151,10 +1137,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-    }
-
-    public static RoomViewPager getRoomViewPager() {
-        return roomViewPager;
     }
 
     @Override
