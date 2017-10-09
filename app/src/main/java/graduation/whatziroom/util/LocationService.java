@@ -35,8 +35,6 @@ import java.util.UUID;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.SplashActivity;
-import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
@@ -111,13 +109,10 @@ public class LocationService extends Service {
         UserPKey = intent.getStringExtra("UserPKey");
         IsRunning = intent.getStringExtra("IsRunning");
 
+        Log.d("IsRunning", "...." + IsRunning);
+
         Log.d("UserPKeyInService", UserPKey);
         mContext = this;
-
-        if(IsRunning.equals("0")) {
-            if(RoomViewPager.getRoomViewPager() != null) RoomViewPager.getRoomViewPager().finish();
-            if(MainViewPager.getMainViewPager() != null) MainViewPager.getMainViewPager().finish();
-        }
 
         mMainIntent = new Intent(this, SplashActivity.class);
         mPendingIntent = PendingIntent.getActivity(this, 1, mMainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -161,8 +156,8 @@ public class LocationService extends Service {
     public boolean onUnbind(Intent intent) {
         //언바운드되면 다시 서비스를 재요청해서 백그라운드에 계속 살아남게 한다.
         Log.e("LOG", "onUnbind()");
+        IsRunning = intent.getStringExtra("IsRunning");
         registerRestartAlarm();
-
         return super.onUnbind(intent);
     }
 

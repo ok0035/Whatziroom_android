@@ -11,22 +11,52 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".activity.base.BaseActivity"/>
-        <activity android:name=".activity.base.SplashActivity">
+        <activity
+            android:name=".activity.base.SplashActivity"
+            android:launchMode="singleTask">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.room.SearchPlaceActivity"/>
-        <activity android:name=".activity.login.LoginActivity"/>
-        <activity android:name=".activity.room.RoomSettingActivity"/>
-        <activity android:name=".activity.login.SignUpActivity"/>
-        <activity android:name=".activity.room.RoomViewPager"/>
-        <activity android:name=".activity.main.ProfilUpdateActivity"/>
-        <activity android:name=".activity.main.ProfilUserSettingActivity"/>
-        <activity android:name=".activity.room.RegisterSchedule"/>
-        <activity android:name=".activity.main.MainViewPager"/>
+
+        <activity
+            android:name=".activity.room.SearchPlaceActivity"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".activity.login.LoginActivity"
+            android:launchMode="singleTask"/>
+        <activity
+
+            android:name=".activity.room.RoomSettingActivity"
+            android:launchMode="singleTask"/>
+        <activity
+
+            android:name=".activity.login.SignUpActivity"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".activity.room.RoomViewPager"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".activity.main.ProfilUpdateActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.main.ProfilUserSettingActivity"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".activity.room.RegisterSchedule"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".activity.main.MainViewPager"
+            android:launchMode="singleTask"/>
+
         <service android:name=".util.LocationService"></service>
 
         <receiver

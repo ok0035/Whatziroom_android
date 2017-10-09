@@ -25,6 +25,7 @@ import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
 import static graduation.whatziroom.activity.main.MainViewPager.scheduleListFragment;
+import static graduation.whatziroom.activity.room.RoomViewPager.roomChatFragment;
 import static graduation.whatziroom.activity.room.RoomViewPager.roomInfoFragment;
 
 /**
@@ -95,10 +96,11 @@ public class RegisterScheduleDialog extends Dialog implements BasicMethod {
                     @Override
                     public void onSuccess(String response) {
                         Log.d("RegistSchedule", response);
+
                         scheduleListFragment.updateSchedule();
                         roomInfoFragment.updateRoomInfo();
+                        roomChatFragment.updateChatMapInfo();
 
-                        RoomViewPager.updateChatMapInfo();
                         roomInfoFragment.setIsEmpty("notEmpty");
                         roomInfoFragment.tvNeedCreateSchedule.setVisibility(View.GONE);
                         SearchPlaceActivity.searchActivity.finish();
