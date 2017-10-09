@@ -136,7 +136,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 android:layout_gravity="right|center"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/round_background_button">
 
                 <TextView
@@ -147,7 +147,7 @@
                     android:textStyle="bold"
                     android:textColor="#ffffff"
                     android:text="D-25"
-                    android:textSize="21dp" />
+                    android:textSize="17dp" />
 
             </LinearLayout>
 

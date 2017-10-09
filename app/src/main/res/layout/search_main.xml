@@ -16,7 +16,7 @@
             android:id="@+id/edSearchQuery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.8"
+            android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:ems="10"
@@ -32,8 +32,8 @@
 
         <ImageView
             android:id="@+id/btnResetSearch"
-            android:layout_width="27dp"
-            android:layout_height="27dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/search_cancle_icon"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
@@ -41,13 +41,12 @@
 
         <TextView
             android:id="@+id/btnSearch"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.15"
             android:background="@drawable/search_ed_btn"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="16dp"
+            android:textSize="15dp"
             android:text="검색"
             android:textColor="#FFFFFF" />
 
@@ -86,7 +85,7 @@
     <LinearLayout
         android:id="@+id/llBtnSelectPlace"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
@@ -103,7 +102,7 @@
             android:gravity="center"
             android:text="취소"
             android:textColor="#000"
-            android:textSize="17dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/tvBtnSearchSelect"
@@ -116,7 +115,7 @@
             android:gravity="center"
             android:text="선택"
             android:textColor="#FFFFFF"
-            android:textSize="17dp" />
+            android:textSize="15dp" />
 
     </LinearLayout>
 

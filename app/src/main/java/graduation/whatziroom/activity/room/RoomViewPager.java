@@ -556,9 +556,13 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         JSONArray roomInfoArray = parse.parseJsonArray(response);
                         JSONObject roomInfo = new JSONObject(roomInfoArray.get(0).toString());
                         Date date = transFormat.parse(roomInfo.getString("Time"));
-
+                        String Minutes = "0";
                         SoonSchedulePKey = roomInfo.getString("SchedulePKey");
-                        ScheduleTime = (date.getYear() + 1900) + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일 " + date.getHours() + "시 " + date.getMinutes() + "분";
+                        if(date.getMinutes() < 10)
+                            Minutes += date.getMinutes();
+                        else
+                            Minutes = date.getMinutes() + "";
+                        ScheduleTime = (date.getYear() + 1900) + "." + (date.getMonth() + 1) + "." + date.getDate() + " " + date.getHours() + ":" + Minutes;
                         SchedulePlace = roomInfo.getString("Place");
 
 //                        dDay = dDay / 1000 / 60 / 60 / 24;
@@ -609,7 +613,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                             isTracing = false;
                             tvRoomChatTime.setVisibility(View.VISIBLE);
                             tvRoomChatLocation.setVisibility(View.INVISIBLE);
-                            tvRoomChatDDay.setText("D - "+ hour + "H");
+                            tvRoomChatDDay.setText(hour + "시간 전");
                         } else {
                             tvRoomChatTime.setVisibility(View.GONE);
 
@@ -632,7 +636,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                                             if (day == 0 && sec >= 0 && min < 60) {
                                                 tvRoomChatLocation.setVisibility(View.VISIBLE);
-                                                tvRoomChatDDay.setText("D - "+ min + "M");
+                                                tvRoomChatDDay.setText(min+"분 전");
                                                 isTracing = true;
 
                                             } else {

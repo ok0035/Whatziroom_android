@@ -22,7 +22,7 @@
                 android:layout_weight="0.9"
                 android:hint="친구 찾기(이름)"
                 android:layout_marginLeft="15dp"
-                android:textSize="16dp"
+                android:textSize="15dp"
                 android:background="@null"/>
 
             <ImageView
@@ -31,7 +31,7 @@
                 android:layout_height="20dp"
                 android:src="@mipmap/search_cancle_icon"
                 android:layout_gravity="center"
-                android:layout_marginRight="12dp"
+                android:layout_marginRight="10dp"
                 android:visibility="invisible"/>
 
             <ImageView

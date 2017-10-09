@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@drawable/round_background_button"
+        android:background="@drawable/button_border_fill"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -15,47 +15,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="경고\n\n한번 참석 확정한 스케줄은 \n취소할 수 없습니다."
+            android:text="이 스케줄에 참석하시겠습니까?"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#000000"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="\n\n이 스케줄에 참석하시겠습니까?"
+            android:text="\n\n참석을 원치 않으실 경우,\n모임 시작 한 시간 전까지 불참 신청 가능합니다."
             android:textSize="15dp"
             android:layout_marginBottom="30dp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:textColor="@color/colorTransparent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:gravity="right"
-            android:paddingRight="30dp">
+            android:gravity="center"
+            android:paddingRight="30dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvRoomAttendYes"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.45"
                 android:gravity="center"
                 android:text="네"
-                android:textColor="#FFFFFF"
-                android:textSize="14dp"
+                android:textColor="#000000"
+                android:textSize="15dp"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/sColor"/>
 
             <TextView
                 android:id="@+id/tvRoomAttendNo"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.45"
                 android:gravity="center"
                 android:text="아니오"
-                android:textColor="#FFFFFF"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
         </LinearLayout>
 
