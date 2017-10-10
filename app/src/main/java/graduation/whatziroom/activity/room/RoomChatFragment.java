@@ -196,35 +196,6 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
             }
         });
 
-//        databaseReference.child("Chat").child(RoomViewPager.getRoomPKey() + "").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                ChatData data = dataSnapshot.getValue(ChatData.class);
-//                chatData.addItem(data);
-//                chatData.getAdapter().notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
     }
 
     public void updateChatMapInfo() {
