@@ -35,9 +35,9 @@
                 android:id="@+id/tvInfoDDay"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="#FFFF00"
+                android:textColor="@color/colorTxtYesDialogRequestFriend"
                 android:text=""
-                android:textSize="30dp" />
+                android:textSize="28dp" />
 
             <TextView
                 android:background="@null"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textColor="#FFFFFF"
-                android:textSize="30dp"
+                android:textSize="25dp"
                 android:text=""/>
 
 

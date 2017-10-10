@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="스케줄을 등록해주세요.\n(스케줄 등록은 상단우측 아이콘을 클릭해주세요.)"
         android:textColor="#FFFFFF"
-        android:textSize="25dp" />
+        android:textSize="18dp" />
 
 
 </FrameLayout>
