@@ -22,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,9 +66,6 @@ import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment
 
 public class RoomViewPager extends BaseActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
 
-    //    private pagerAdapter vpAdapter;
-    private LinearLayout linIndicator;
-
     public static RoomInfoFragment roomInfoFragment = new RoomInfoFragment();
     public static RoomChatFragment roomChatFragment = new RoomChatFragment();
     public static RoomUserList roomFriendList = new RoomUserList();
@@ -90,12 +86,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private android.widget.LinearLayout llRoomChatLayout;
 
     private HashMap<Integer, UserData> mTagItemMap = new HashMap<Integer, UserData>();
-
-//    private static boolean haveSchedule = false;
-//    private static double ScheduleLongitude;
-//    private static double ScheduleLatitude;
-//    private static String SoonSchedulePKey;
-
     private ArrayList<UserData> attendUserList;
     private Timer traceLocationTimer;
     private boolean isMove = false;
@@ -107,8 +97,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
     private android.widget.FrameLayout flRoom;
 
     public MapView chatMap;
-    private String result = "notEmpty";
-    private boolean shield = false;
     public static Context mContext;
     public static Activity mActivity;
 
@@ -267,9 +255,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
         roomChatFragment.updateChatMapInfo();
 
-//                mProgressDialog.dismiss();
-//                Log.d("onPost", mProgressDialog.isShowing() + "");
-
         flChatSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -333,7 +318,7 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                 for (int i = 0; i < roomChatFragment.chatList.size(); i++) {
                     if (roomChatFragment.chatList.get(i).getRoomPKey().equals(getRoomPKey() + "")) {
-                        RoomChatFragment.lvChat.setAdapter(roomChatFragment.chatList.get(i).getAdapter());
+                        roomChatFragment.lvChat.setAdapter(roomChatFragment.chatList.get(i).getAdapter());
                         roomChatFragment.chatList.get(i).getAdapter().notifyDataSetChanged();
 
                         Params params = new Params();

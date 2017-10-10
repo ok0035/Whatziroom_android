@@ -10,7 +10,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -52,8 +54,8 @@ public class LocationService extends Service {
     private android.location.LocationManager locationManager;
     public double longitude;
     public double latitude;
-    private int interval = 5000;
-    private int distance = 10;
+    private int locationInterval = 3000;
+    private int locationDistance = 10;
 
     //Notification
     Intent mMainIntent;
@@ -62,8 +64,6 @@ public class LocationService extends Service {
 
     //UserPKey
     private String UserPKey;
-    //IsRunning
-    private String IsRunning = "0";
 
     //Schedule
     private String place;
@@ -75,7 +75,7 @@ public class LocationService extends Service {
     //Timer
     private Timer timer;
     private TimerTask task;
-    private int timerInterval = 30000;
+    private int timerInterval = 3000;
     private boolean locationFlag = false;
 
     public class LocationBinder extends Binder {
@@ -94,7 +94,6 @@ public class LocationService extends Service {
         return mIBinder;
     }
 
-
     @Override
     public void onCreate() {
         Log.e("LOG", "onCreate()");
@@ -107,11 +106,9 @@ public class LocationService extends Service {
         Log.e("LOG", "onStartCommand()");
         //서비스가 시작되면 이곳에 도착한다. 즉 여기서 원하는 이벤트를 주면 된다. OnCreate에서 해주려고 했으나 intent 값을 제대로 받아오지 못한다.
         UserPKey = intent.getStringExtra("UserPKey");
-        IsRunning = intent.getStringExtra("IsRunning");
+        if(UserPKey != null)
+            Log.d("UserPKeyInService", UserPKey);
 
-        Log.d("IsRunning", "...." + IsRunning);
-
-        Log.d("UserPKeyInService", UserPKey);
         mContext = this;
 
         mMainIntent = new Intent(this, SplashActivity.class);
@@ -126,12 +123,14 @@ public class LocationService extends Service {
 
                 update();
 
-                if(dMin <= 60 && dMin > 0 && interval != 0 && !locationFlag) {
+                if(dMin <= 60 && dMin > 0 && locationInterval != 0) {
+                    Log.d("StartLocationService", "Here");
+                    getLocation(locationInterval, locationDistance);
 
-                    getLocation(interval, distance);
-                    locationFlag = true;
-
-                } else if(dSec <= 0) locationFlag = false;
+                } else if(dSec <= 0) {
+//                    registerRestartAlarm();
+                    stopSelf();
+                }
 
             }
         };
@@ -156,7 +155,6 @@ public class LocationService extends Service {
     public boolean onUnbind(Intent intent) {
         //언바운드되면 다시 서비스를 재요청해서 백그라운드에 계속 살아남게 한다.
         Log.e("LOG", "onUnbind()");
-        IsRunning = intent.getStringExtra("IsRunning");
         registerRestartAlarm();
         return super.onUnbind(intent);
     }
@@ -275,13 +273,9 @@ public class LocationService extends Service {
 
     }
 
-    public void getLocation(int interval, int distance) {
+    public void getLocation(final int interval, final int distance) {
 
         String message = "D - " + dMin + "min / " + place;
-
-//        if(dDay > 0) message = dDay + "일 뒤에 " + place + "에서 일정이 있습니다.";
-//        else if(dHour > 0) message = dHour + "시간 " + dMin + "분 뒤에 " + place + " 에서 일정이 있습니다.";
-//        else message = dMin + "분 뒤에 " + place + " 에서 일정이 있습니다.";
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mContext)
@@ -304,7 +298,7 @@ public class LocationService extends Service {
         boolean isGPSEnabled = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
         boolean isNetworkEnabled = locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER);
 
-        if ((isGPSEnabled || isNetworkEnabled) && locationFlag) {
+        if (isGPSEnabled || isNetworkEnabled) {
             Log.e("GPS Enable", "true");
 
             final List<String> m_lstProviders = locationManager.getProviders(false);
@@ -362,12 +356,18 @@ public class LocationService extends Service {
 
             // QQQ: 시간, 거리를 0 으로 설정하면 가급적 자주 위치 정보가 갱신되지만 베터리 소모가 많을 수 있다.
 
-            for (String name : m_lstProviders) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    for (String name : m_lstProviders) {
 
-                System.out.println("Location In Manager..." + interval);
-                locationManager.requestLocationUpdates(name, interval, distance, locationListener);
+                        System.out.println("Location In Manager..." + interval);
+                        locationManager.requestLocationUpdates(name, interval, distance, locationListener);
 
-            }
+                    }
+                }
+            });
 
             new Runnable() {
                 @Override
@@ -389,14 +389,6 @@ public class LocationService extends Service {
         }
 
     }
-
-//    private void function() {
-//
-//        Log.d(TAG, "========================");
-//        Log.d(TAG, "function()");
-//        Log.d(TAG, "========================");
-//
-//    }
 
     /**
      * 서비스가 시스템에 의해서 또는 강제적으로 종료되었을 때 호출되어

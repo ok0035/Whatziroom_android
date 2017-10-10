@@ -160,7 +160,8 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                         //Log.d("Title", roomInfo.getString("Title"));
 
                         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        long dDay;
+                        long dMSec;
+                        long dMin;
 
                         try {
                             Date date = transFormat.parse(roomInfo.getString("Time"));
@@ -182,10 +183,10 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                             CalculateDate.setTime(Calendar.getInstance().getTime());
                             long nowTime = CalculateDate.getTimeInMillis();
 
-                            dDay = (goalTime - nowTime);
+                            dMSec = (goalTime - nowTime);
 
                             //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
-                            dDay = dDay / 1000 / 60 / 60 / 24;
+                            dMin = dMSec / 1000 / 60;
 
                             Log.d("SListDate", date.getDate() + "");
 
@@ -194,7 +195,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
 
                         } catch (ParseException e) {
                             e.printStackTrace();
-                            dDay = -1;
+                            dMin = -1;
                             parseTime = roomInfo.getString("Time");
                         }
 
@@ -211,7 +212,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                                 roomInfo.getString("NewAddress"),
                                 roomInfo.getString("TEL"),
                                 roomInfo.getString("WURL"),
-                                dDay + "");
+                                dMin + "");
 
                     }
 

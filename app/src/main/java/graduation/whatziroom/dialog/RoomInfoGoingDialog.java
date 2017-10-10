@@ -39,10 +39,12 @@ public class RoomInfoGoingDialog extends Dialog implements BasicMethod {
     private ListView lvRoomGoingUserList;
     private String SchedulePKey;
     private TextView tvUnCheckAttend;
+    private long dMin;
 
-    public RoomInfoGoingDialog(@NonNull Context context, String SchedulePKey) {
+    public RoomInfoGoingDialog(@NonNull Context context, String SchedulePKey, String dmin) {
         super(context);
         this.SchedulePKey = SchedulePKey;
+        dMin = Long.parseLong(dmin);
     }
 
     @Override
@@ -108,33 +110,42 @@ public class RoomInfoGoingDialog extends Dialog implements BasicMethod {
             @Override
             public void onClick(View view) {
 
-                Params notAttendParams = new Params();
-                notAttendParams.add("UserPKey", MainViewPager.getUserPKey() + "");
-                notAttendParams.add("SchedulePKey", SchedulePKey);
+                if(dMin < 60) {
 
-                new HttpNetwork("UnCheckAttendSchedule.php", notAttendParams.getParams(), new HttpNetwork.AsyncResponse() {
-                    @Override
-                    public void onSuccess(String response) {
-                        switch (response) {
-                            case "success":
-                                Toast.makeText(RoomViewPager.mContext, "불참으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                                roomInfoFragment.updateRoomInfo();
-                                break;
+                    Toast.makeText(getContext(), "위치공유 중이므로 변경할 수 없습니다.", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Params notAttendParams = new Params();
+                    notAttendParams.add("UserPKey", MainViewPager.getUserPKey() + "");
+                    notAttendParams.add("SchedulePKey", SchedulePKey);
+
+                    new HttpNetwork("UnCheckAttendSchedule.php", notAttendParams.getParams(), new HttpNetwork.AsyncResponse() {
+                        @Override
+                        public void onSuccess(String response) {
+                            switch (response) {
+                                case "success":
+                                    Toast.makeText(RoomViewPager.mContext, "불참으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                                    roomInfoFragment.updateRoomInfo();
+                                    break;
+                            }
+
+                            dismiss();
                         }
 
-                        dismiss();
-                    }
+                        @Override
+                        public void onFailure(String response) {
 
-                    @Override
-                    public void onFailure(String response) {
+                        }
 
-                    }
+                        @Override
+                        public void onPreExcute() {
 
-                    @Override
-                    public void onPreExcute() {
+                        }
+                    });
+                }
 
-                    }
-                });
+
 
             }
         });

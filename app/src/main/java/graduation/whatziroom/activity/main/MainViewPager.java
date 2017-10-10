@@ -502,7 +502,6 @@ public class MainViewPager extends BaseActivity {
 
             Intent locationIntent = new Intent(MainViewPager.this, LocationService.class);
             locationIntent.putExtra("UserPKey", getUserPKey() + "");
-            locationIntent.putExtra("IsRunning", "1");
 
             startService(locationIntent);
             bindService(new Intent(MainViewPager.this, LocationService.class), sconn, BIND_AUTO_CREATE);

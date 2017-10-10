@@ -189,8 +189,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 searcher.searchKeyword(getApplicationContext(), query, latitude, longitude, apikey, new OnFinishSearchListener() {
                     @Override
                     public void onSuccess(final List<MapData> itemList) {
-                        mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-                        showResult(itemList); // 검색 결과 보여줌
 
                         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -198,7 +196,10 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                             @Override
                             public void run() {
 
-                                mMapView.setVisibility(View.INVISIBLE);
+                                lvSearchList.setVisibility(View.INVISIBLE);
+                                mMapView.setVisibility(View.VISIBLE);
+                                mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
+                                showResult(itemList); // 검색 결과 보여줌
 
                                 searchData = new MapData();
 
@@ -210,7 +211,10 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                                 }
 
                                 lvSearchList.setAdapter(searchData.getAdapter());
-//                                lvSearchList.deferNotifyDataSetChanged();
+                                lvSearchList.deferNotifyDataSetChanged();
+
+                                mMapView.setVisibility(View.INVISIBLE);
+                                lvSearchList.setVisibility(View.VISIBLE);
                             }
                         });
                     }

@@ -25,7 +25,7 @@ public class RoomInfoData {
     private String TEL;
     private String WebURL;
     private String SchedulePKey;
-    private String DDay;
+    private String DMin;
 
     private ArrayList<RoomInfoData> RoomInfoList;
 
@@ -40,7 +40,7 @@ public class RoomInfoData {
 
     private RoomInfoAdapter adapter;
 
-    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl, String dDay) {
+    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl, String dMin) {
         super();
 
         SchedulePKey = schedulePKey;
@@ -56,7 +56,7 @@ public class RoomInfoData {
         NewAddress = newAddress;
         TEL = tel;
         WebURL = webUrl;
-        DDay = dDay;
+        DMin = dMin;
 
     }
 
@@ -163,12 +163,12 @@ public class RoomInfoData {
         return RoomInfoList;
     }
 
-    public String getDDay() {
-        return DDay;
+    public String getDMin() {
+        return DMin;
     }
 
-    public void setDDay(String DDay) {
-        this.DDay = DDay;
+    public void setDMin(String DMin) {
+        this.DMin = DMin;
     }
 
     public void setRoomInfoList(ArrayList<RoomInfoData> roomInfoList) {

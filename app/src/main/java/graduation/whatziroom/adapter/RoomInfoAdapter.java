@@ -125,7 +125,10 @@ public class RoomInfoAdapter extends ArrayAdapter {
         tvInfoNewAdd.setText(data.getNewAddress().equals("null") ? "" : data.getNewAddress());
         tvInfoTel.setText(data.getTEL().equals("null") ? "" : data.getTEL());
         tvInfoSite.setText(data.getWebURL().equals("null") ? "" : data.getWebURL());
-        tvInfoDDay.setText("D - " + data.getDDay());
+
+        long dDay = Long.parseLong(data.getDMin()) / 60 / 24;
+
+        tvInfoDDay.setText("D - " + dDay);
 
         setUpEvents();
 
@@ -139,7 +142,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
             public void onClick(View view) {
                 if (tvInfoGoing.getText().toString().equals("참석자 보기")) {
                     //Toast.makeText(mContext, "이미 참석을 확정하였습니다.", Toast.LENGTH_SHORT).show();
-                    new RoomInfoGoingDialog(getContext(), data.getSchedulePKey()).show();
+                    new RoomInfoGoingDialog(getContext(), data.getSchedulePKey(), data.getDMin()).show();
                 }
                 else
                     new AttendScheduleDialog(getContext(), MainViewPager.getUserPKey() + "", data.getSchedulePKey()).show();

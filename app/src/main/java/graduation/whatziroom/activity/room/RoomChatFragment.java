@@ -54,7 +54,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
     private LinearLayout layout;
     public ArrayList<ChatData> chatList = new ArrayList<ChatData>();
-    public static ListView lvChat;
+    public ListView lvChat;
     private ChatData chatData;
 
     private EditText edChat;
@@ -259,9 +259,9 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
                         //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
                         long sec = dDay / 1000;
-                        final long min = sec / 60;
+                        long min = sec / 60;
                         long hour = min / 60;
-                        final long day = hour / 24;
+                        long day = hour / 24;
 
                         if (day == 0 && min > 0) {
                             tvRoomChatDDay.setText(min + "min");
@@ -336,13 +336,7 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
                     }
 
                 } else {
-                    /*
-                    if(isDelete) {
-                        llRoomChatNoSchedule.setVisibility(View.GONE);
-                    } else {
-                        llRoomChatNoSchedule.setVisibility(View.VISIBLE);
-                    }
-                    */
+
                     roomInfoFragment.haveSchedule = false;
                     roomInfoFragment.updateRoomInfo();
 
@@ -366,7 +360,6 @@ public class RoomChatFragment extends Fragment implements BasicMethod {
 
             }
         });
-
     }
 
     private void sendPostToFCM(String msg){

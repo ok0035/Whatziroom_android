@@ -58,7 +58,6 @@ public class AttendScheduleDialog extends Dialog implements BasicMethod {
             @Override
             public void onClick(View view) {
 
-
                 Params params = new Params();
                 params.add("UserPKey", UserPKey);
                 params.add("SchedulePKey", SchedulePKey);
