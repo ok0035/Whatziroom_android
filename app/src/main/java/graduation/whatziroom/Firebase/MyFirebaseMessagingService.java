@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.mipmap.whatziroom)
                 .setContentTitle(alramTitleTxt)
                 .setContentText(alramContentTxt )
                 .setAutoCancel(true)

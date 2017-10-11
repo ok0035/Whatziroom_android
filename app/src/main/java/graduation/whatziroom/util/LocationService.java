@@ -217,7 +217,7 @@ public class LocationService extends Service {
 
                             NotificationCompat.Builder mBuilder =
                                     new NotificationCompat.Builder(mContext)
-                                            .setSmallIcon(R.drawable.logo)
+                                            .setSmallIcon(R.mipmap.whatziroom)
                                             .setContentTitle(message)
                                             .setContentIntent(mPendingIntent)
                                             .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
@@ -241,7 +241,7 @@ public class LocationService extends Service {
 
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(mContext)
-                                    .setSmallIcon(R.drawable.logo)
+                                    .setSmallIcon(R.mipmap.whatziroom)
                                     .setContentTitle("잊어버린 약속은 없으신가요?")
                                     .setContentIntent(mPendingIntent)
                                     .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
@@ -279,7 +279,7 @@ public class LocationService extends Service {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mContext)
-                        .setSmallIcon(R.drawable.logo)
+                        .setSmallIcon(R.mipmap.whatziroom)
                         .setContentTitle(message)
                         .setContentIntent(mPendingIntent)
                         .setContentText("위치공유가 시작되었습니다. 친구들의 위치를 확인하세요!")

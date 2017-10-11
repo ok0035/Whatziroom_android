@@ -19,27 +19,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/ic_map" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
 
             <ImageView
                 android:id="@+id/img_mypage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/logo" />
+                android:src="@mipmap/whatziroom" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -122,7 +110,7 @@
                     android:text="로그인"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
-                    android:textSize="22dp" />
+                    android:textSize="20dp" />
 
             </LinearLayout>
 
@@ -132,7 +120,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="left"
-                android:layout_weight="0.06">
+                android:layout_weight="0.06"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/chAutoCheckBox"
@@ -162,7 +151,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.16"
             android:paddingBottom="10dp">
 
             <TextView
