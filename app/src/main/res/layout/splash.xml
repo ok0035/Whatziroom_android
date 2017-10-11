@@ -7,16 +7,38 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="#ffffff">
+    android:background="@color/mainTxtColor">
 
-    <ImageView
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@mipmap/whatziroom_txt"/>
+
+    </LinearLayout>
+    -->
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="center"
-        android:foregroundGravity="center"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:id="@+id/LogoImage"
-        android:background="@drawable/logo"/>
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/splash"/>
+
+    </LinearLayout>
 
 </LinearLayout>
