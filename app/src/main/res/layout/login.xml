@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-    >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.21"
             android:orientation="vertical">
 
             <LinearLayout
@@ -41,29 +41,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="0.09"
-                android:background="@drawable/button_border"
+                android:layout_weight="0.07"
+                android:background="@drawable/round_background"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_login_id"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.25"
                     android:gravity="end|center_vertical"
                     android:paddingRight="10dp"
                     android:textSize="15dp"
-                    android:text="아이디" />
+                    android:text="아이디 :" />
 
                 <EditText
                     android:id="@+id/ed_login_id"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.75"
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:paddingLeft="10dp"
                     android:singleLine="true" />
+
             </LinearLayout>
 
 
@@ -71,41 +72,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="0.09"
-                android:background="@drawable/button_border">
+                android:layout_weight="0.07"
+                android:background="@drawable/round_background">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.25"
                     android:gravity="end|center_vertical"
                     android:paddingRight="10dp"
                     android:textSize="15dp"
-                    android:text="비밀번호" />
+                    android:text="비밀번호 :" />
 
                 <EditText
                     android:id="@+id/ed_login_pw"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.75"
                     android:background="@null"
                     android:gravity="start|center_vertical"
                     android:inputType="textPassword"
                     android:paddingLeft="10dp"
                     android:singleLine="true" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.1">
+                android:layout_weight="0.07">
 
                 <TextView
-
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/round_background_login_button"
                     android:gravity="center"
                     android:text="로그인"
                     android:textStyle="bold"
@@ -151,7 +152,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.16"
+            android:layout_weight="0.2"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
             <TextView
@@ -162,14 +164,14 @@
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:paddingRight="10dp"
-                android:gravity="right|center_vertical"
+                android:gravity="right|center_horizontal"
                 android:text="회원가입" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.01"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:text="│" />
 
             <TextView
@@ -179,7 +181,7 @@
                 android:textSize="15dp"
                 android:layout_weight="0.5"
                 android:paddingLeft="10dp"
-                android:gravity="left|center_vertical"
+                android:gravity="left|center_horizontal"
                 android:text="비밀번호를 잊으셨나요?" />
         </LinearLayout>
     </LinearLayout>
