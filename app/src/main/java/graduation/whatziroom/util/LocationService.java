@@ -54,7 +54,6 @@ public class LocationService extends Service {
     private android.location.LocationManager locationManager;
     public double longitude;
     public double latitude;
-    private int locationInterval = 3000;
     private int locationDistance = 10;
 
     //Notification
@@ -73,9 +72,11 @@ public class LocationService extends Service {
     private long dDay;
 
     //Timer
-    private Timer timer;
-    private TimerTask task;
-    private int timerInterval = 3000;
+    private Timer locationTimer, updateTimer;
+    private TimerTask locationTask, updateTask;
+    private long locationInterval = 3000;
+    private long updateInterval = 1000 * 60000 * 30;
+
     private boolean locationFlag = false;
 
     public class LocationBinder extends Binder {
@@ -102,7 +103,7 @@ public class LocationService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
         Log.e("LOG", "onStartCommand()");
         //서비스가 시작되면 이곳에 도착한다. 즉 여기서 원하는 이벤트를 주면 된다. OnCreate에서 해주려고 했으나 intent 값을 제대로 받아오지 못한다.
         UserPKey = intent.getStringExtra("UserPKey");
@@ -114,27 +115,47 @@ public class LocationService extends Service {
         mMainIntent = new Intent(this, SplashActivity.class);
         mPendingIntent = PendingIntent.getActivity(this, 1, mMainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //간격이 0이면 사용하지 않는 것으로 간주
+        updateTimer = new Timer();
+        updateTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(UserPKey != null) {
+                    update();
+                } else {
+                    UserPKey = intent.getStringExtra("UserPKey");
+                    if(UserPKey != null)
+                        Log.d("UserPKeyInService", UserPKey);
+                }
+            }
+        };
+        updateTimer.schedule(updateTask, 0, updateInterval);
 
-        timer = new Timer();
-        task = new TimerTask() {
+        locationTimer = new Timer();
+        locationTask = new TimerTask() {
             @Override
             public void run() {
 
-                update();
+                if(UserPKey != null) {
 
-                if(dMin <= 60 && dMin > 0 && locationInterval != 0) {
-                    Log.d("StartLocationService", "Here");
-                    getLocation(locationInterval, locationDistance);
+                    if(dMin <= 60 && dMin > 0 && locationInterval != 0 && !locationFlag) {
+                        Log.d("StartLocationService", "Here");
+                        getLocation(locationInterval, locationDistance);
+                        locationFlag = true;
 
-                } else if(dSec <= 0) {
-//                    registerRestartAlarm();
-                    stopSelf();
+                    } else if(dSec <= 0) {
+                        stopSelf();
+                    }
+
+                } else {
+                    locationFlag = false;
+                    UserPKey = intent.getStringExtra("UserPKey");
+                    if(UserPKey != null)
+                        Log.d("UserPKeyInService", UserPKey);
                 }
-
             }
         };
-        timer.schedule(task, 0, timerInterval);
+        locationTimer.schedule(locationTask, 0, locationInterval);
+
         unregisterRestartAlarm();
 
         return START_REDELIVER_INTENT;
@@ -212,7 +233,7 @@ public class LocationService extends Service {
                             String message  = "";
 
                             if(dDay > 0) message = dDay + "일 뒤에 " + place + "에서 일정이 있습니다.";
-                            else if(dHour > 0) message = dHour + "시간 " + dMin + "분 뒤에 " + place + "에서 일정이 있습니다.";
+                            else if(dHour > 0) message = dHour + "시간 " + (dMin % 60) + "분 뒤에 " + place + "에서 일정이 있습니다.";
                             else message = dMin + "분 뒤에 " + place + "에서 일정이 있습니다.";
 
                             NotificationCompat.Builder mBuilder =
@@ -273,7 +294,7 @@ public class LocationService extends Service {
 
     }
 
-    public void getLocation(final int interval, final int distance) {
+    public void getLocation(final long interval, final int distance) {
 
         String message = "D - " + dMin + "min / " + place;
 

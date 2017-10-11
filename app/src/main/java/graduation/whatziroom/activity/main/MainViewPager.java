@@ -74,18 +74,16 @@ public class MainViewPager extends BaseActivity {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    public LocationService locationService;
-    private boolean isBind = false;
-    public static Timer CheckLocationTimer;
-
-    private TextView tvMainExitYes;
-    private TextView tvMainExitNo;
-
     public interface AfterUpdate {
         void onPost(RoomData data);
     }
 
-    ServiceConnection sconn = new ServiceConnection() {
+    public static Timer CheckLocationTimer;
+
+    public  LocationService locationService;
+    private boolean isBind = false;
+
+    public ServiceConnection sconn = new ServiceConnection() {
         @Override //서비스가 실행될 때 호출
         public void onServiceConnected(ComponentName name, IBinder service) {
             LocationService.LocationBinder locationBinder = (LocationService.LocationBinder) service;
@@ -700,9 +698,6 @@ public class MainViewPager extends BaseActivity {
         this.tvRoom = findViewById(R.id.tvRoom);
         this.linFriend = findViewById(R.id.linFriend);
         this.tvFriend = findViewById(R.id.tvFriend);
-
-        this.tvMainExitNo = (TextView) findViewById(R.id.tvMainExitNo);
-        this.tvMainExitYes = (TextView) findViewById(R.id.tvMainExitYes);
 
     }
 

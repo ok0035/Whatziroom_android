@@ -98,11 +98,35 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_main);
 
-        setValues();
-        bindView();
-        setUpEvents();
+        mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this, "",
+                "잠시만 기다려 주세요.", true);
+
+        final Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            setContentView(R.layout.search_main);
+
+                            setValues();
+                            bindView();
+                            setUpEvents();
+
+                            timer.cancel();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        };
+        timer.schedule(task, 0, 500);
 
     }
 
@@ -351,8 +375,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         Log.i(LOG_TAG, "MapView had loaded. Now, MapView APIs could be called safely");
 
         final Timer timer = new Timer();
-        mProgressDialog = ProgressDialog.show(SearchPlaceActivity.this, "",
-                "잠시만 기다려 주세요.", true);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
