@@ -29,9 +29,11 @@ public class DeleteScheduleDialog extends Dialog implements BasicMethod {
 
     private android.widget.TextView tvDeleteScheduleNo;
     private android.widget.TextView tvDeleteScheduleYes;
+    private String SchedulePKey;
 
-    public DeleteScheduleDialog(@NonNull Context context) {
+    public DeleteScheduleDialog(@NonNull Context context, String schedulePKey) {
         super(context);
+        SchedulePKey = schedulePKey;
     }
 
     @Override
@@ -62,6 +64,7 @@ public class DeleteScheduleDialog extends Dialog implements BasicMethod {
             @Override
             public void onClick(View view) {
                 Params params = new Params();
+                params.add("SchedulePKey", SchedulePKey);
 
                 new HttpNetwork("DeleteSchedule.php", params.getParams(), new HttpNetwork.AsyncResponse() {
                     @Override
@@ -69,10 +72,12 @@ public class DeleteScheduleDialog extends Dialog implements BasicMethod {
                         switch (response) {
                             case "success":
                                 roomInfoFragment.updateRoomInfo();
+                                roomInfoFragment.updateNotEmptyRoom();
                                 roomChatFragment.updateChatMapInfo();
                                 scheduleListFragment.updateSchedule();
 
                                 Toast.makeText(mContext, "스케줄이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                dismiss();
                                 break;
                         }
                     }

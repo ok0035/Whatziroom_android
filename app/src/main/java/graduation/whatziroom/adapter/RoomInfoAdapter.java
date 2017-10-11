@@ -158,7 +158,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
                 if(MainViewPager.getUserPKey() != Integer.parseInt(data.getMakerPKey())) {
                     Toast.makeText(mContext, "이 일정의 개설자가 아닙니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    new DeleteScheduleDialog(mContext).show();
+                    new DeleteScheduleDialog(mContext, data.getSchedulePKey()).show();
                 }
             }
         });

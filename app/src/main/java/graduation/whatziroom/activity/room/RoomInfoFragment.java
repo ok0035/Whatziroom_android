@@ -95,43 +95,49 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
             tvNeedCreateSchedule.setVisibility(View.VISIBLE);
         } else {
 
-            Params params = new Params();
-            params.add("PKey", RoomViewPager.getRoomPKey() + "");
-
-            new HttpNetwork("IsEmptySchedule.php", params.getParams(), new HttpNetwork.AsyncResponse() {
-
-                @Override
-                public void onSuccess(final String response) {
-                    //Log.d("re", response);
-                    setIsEmpty(response);
-
-                    updateRoomInfo();
-
-                    switch (getIsEmpty()) {
-                        case "empty":
-                            tvNeedCreateSchedule.setVisibility(View.VISIBLE);
-                            break;
-
-                        case "notEmpty":
-                            tvNeedCreateSchedule.setVisibility(View.GONE);
-                            break;
-                    }
-
-                }
-
-                @Override
-                public void onFailure(String response) {
-
-                }
-
-                @Override
-                public void onPreExcute() {
-
-                }
-
-            });
+            updateNotEmptyRoom();
 
         }
+
+    }
+
+    public void updateNotEmptyRoom() {
+
+        Params params = new Params();
+        params.add("PKey", RoomViewPager.getRoomPKey() + "");
+
+        new HttpNetwork("IsEmptySchedule.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+
+            @Override
+            public void onSuccess(final String response) {
+                //Log.d("re", response);
+                setIsEmpty(response);
+
+                updateRoomInfo();
+
+                switch (getIsEmpty()) {
+                    case "empty":
+                        tvNeedCreateSchedule.setVisibility(View.VISIBLE);
+                        break;
+
+                    case "notEmpty":
+                        tvNeedCreateSchedule.setVisibility(View.GONE);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+
+        });
 
     }
 
