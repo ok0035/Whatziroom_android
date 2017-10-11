@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
                     MainViewPager.CheckLocationTimer = null;
                 }
 
-
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected void onPostExecute(Void aVoid) {

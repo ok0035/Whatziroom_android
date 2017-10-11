@@ -14,7 +14,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.SplashActivity;
-import graduation.whatziroom.activity.main.MainViewPager;
 
 /**
  * Created by user on 2017-10-04.
@@ -45,14 +44,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String msg = (remoteMessage.getData().get("txtMsg") == null )? "" :remoteMessage.getData().get("txtMsg");
         Log.d(TAG,"txtMSG.."+msg );
 
-//        Intent intent = new Intent(this, MainViewPager.class);
-//
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//                PendingIntent.FLAG_ONE_SHOT);
+        Intent intent = new Intent(this, SplashActivity.class);
 
-        Intent dummyIntent = new Intent();
-        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, dummyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+//        Intent dummyIntent = new Intent();
+//        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, dummyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -81,7 +80,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(alramContentTxt )
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pIntent);
+                .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

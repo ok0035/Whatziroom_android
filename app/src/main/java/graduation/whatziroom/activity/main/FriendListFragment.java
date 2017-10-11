@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -168,10 +167,12 @@ public class FriendListFragment extends Fragment {
         friendList.setVisibility(View.GONE);
         findFriendList.setVisibility(View.VISIBLE);
 
+        findFriendList.setAdapter(null);
+
         searchFreindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                findFriendList.setAdapter(null);
+
                 tvFriendSearchBack.setVisibility(View.VISIBLE);
                 final Params params = new Params();
                 params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
