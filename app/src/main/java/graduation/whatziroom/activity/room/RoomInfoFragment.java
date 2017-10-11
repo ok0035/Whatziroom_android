@@ -207,6 +207,7 @@ public class RoomInfoFragment extends Fragment implements BasicMethod{
                                 roomInfo.getString("Longitude"),
                                 roomInfo.getString("Latitude"), parseTime,
                                 roomInfo.getString("Description"),
+                                roomInfo.getString("MakerUserKey"),
                                 roomInfo.getString("Name"),
                                 roomInfo.getString("OldAddress"),
                                 roomInfo.getString("NewAddress"),

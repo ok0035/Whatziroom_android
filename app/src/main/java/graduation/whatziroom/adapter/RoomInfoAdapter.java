@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -20,6 +21,7 @@ import graduation.whatziroom.R;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.AttendScheduleDialog;
+import graduation.whatziroom.dialog.DeleteScheduleDialog;
 import graduation.whatziroom.dialog.RoomInfoGoingDialog;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
@@ -46,7 +48,7 @@ public class RoomInfoAdapter extends ArrayAdapter {
     private TextView tvInfoSite;
     private TextView tvInfoDesc;
     private TextView tvInfoDDay;
-    private TextView tvInfoIsAttend;
+    private TextView tvInfoIsAttend, tvInfoDeleteSchedule;
 
     private RoomInfoData data;
 
@@ -81,9 +83,9 @@ public class RoomInfoAdapter extends ArrayAdapter {
         this.ivInformation = (ImageView) roomInfoLayout.findViewById(R.id.ivInformation);
         this.tvInfoDDay = (TextView) roomInfoLayout.findViewById(R.id.tvInfoDDay);
         this.tvInfoIsAttend = (TextView) roomInfoLayout.findViewById(R.id.tvInfoIsAttend);
+        this.tvInfoDeleteSchedule = (TextView) roomInfoLayout.findViewById(R.id.tvInfoDeleteSchedule);
 
         data = roomInfoList.get(position);
-
 
         //스케줄키와 유저키를 이용해서 리스트 아이템이 유저가 참석확정하였는지를 판단한다.
         Params params = new Params();
@@ -147,6 +149,17 @@ public class RoomInfoAdapter extends ArrayAdapter {
                 else
                     new AttendScheduleDialog(getContext(), MainViewPager.getUserPKey() + "", data.getSchedulePKey()).show();
 
+            }
+        });
+
+        tvInfoDeleteSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MainViewPager.getUserPKey() != Integer.parseInt(data.getMakerPKey())) {
+                    Toast.makeText(mContext, "이 일정의 개설자가 아닙니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    new DeleteScheduleDialog(mContext).show();
+                }
             }
         });
 

@@ -26,6 +26,7 @@ public class RoomInfoData {
     private String WebURL;
     private String SchedulePKey;
     private String DMin;
+    private String MakerPKey;
 
     private ArrayList<RoomInfoData> RoomInfoList;
 
@@ -40,7 +41,7 @@ public class RoomInfoData {
 
     private RoomInfoAdapter adapter;
 
-    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl, String dMin) {
+    public RoomInfoData(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String makerPKey, String name, String oldAddress, String newAddress, String tel, String webUrl, String dMin) {
         super();
 
         SchedulePKey = schedulePKey;
@@ -57,7 +58,7 @@ public class RoomInfoData {
         TEL = tel;
         WebURL = webUrl;
         DMin = dMin;
-
+        MakerPKey = makerPKey;
     }
 
     public RoomInfoData() {
@@ -66,9 +67,9 @@ public class RoomInfoData {
 
     }
 
-    public void addItem(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String name, String oldAddress, String newAddress, String tel, String webUrl, String dDay) {
+    public void addItem(String schedulePKey, String imageURL, String title, String place, String longitude, String latitude, String time, String description, String makerPKey, String name, String oldAddress, String newAddress, String tel, String webUrl, String dDay) {
 
-        RoomInfoList.add(new RoomInfoData(schedulePKey, imageURL, title, place, longitude, latitude, time, description, name, oldAddress, newAddress, tel, webUrl, dDay));
+        RoomInfoList.add(new RoomInfoData(schedulePKey, imageURL, title, place, longitude, latitude, time, description, makerPKey, name, oldAddress, newAddress, tel, webUrl, dDay));
     }
 
     public String getSchedulePKey() {
@@ -169,6 +170,14 @@ public class RoomInfoData {
 
     public void setDMin(String DMin) {
         this.DMin = DMin;
+    }
+
+    public String getMakerPKey() {
+        return MakerPKey;
+    }
+
+    public void setMakerPKey(String makerPKey) {
+        MakerPKey = makerPKey;
     }
 
     public void setRoomInfoList(ArrayList<RoomInfoData> roomInfoList) {
