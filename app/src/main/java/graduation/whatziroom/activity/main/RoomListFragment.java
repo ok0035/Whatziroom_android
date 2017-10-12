@@ -210,9 +210,9 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
         new HttpNetwork("SearchRoomList.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
             public void onSuccess(String response) {
-                //Log.d("re", response);
+                Log.d("re", response);
 
-                if (response.equals("[]")) {
+                if (response.equals("[]") || response == null) {
                     llSearchRoom.setVisibility(View.GONE);
                     Toast.makeText(BaseActivity.mContext, "검색 결과가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }

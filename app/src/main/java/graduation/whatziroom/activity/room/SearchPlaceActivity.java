@@ -88,8 +88,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private int userPKey, roomPKey;
     private String myScheduleDate;
 
-    private boolean searchFlag = false;
-
     public SearchPlaceActivity() {
         super();
 

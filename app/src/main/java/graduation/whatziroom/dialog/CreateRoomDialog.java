@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import graduation.whatziroom.Data.ChatData;
 import graduation.whatziroom.Data.RoomData;
@@ -62,6 +63,8 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
         setValues();
         setUpEvents();
     }
+
+    FirebaseMessaging messaging;
 
     @Override
     public void setUpEvents() {
@@ -139,12 +142,12 @@ public class CreateRoomDialog extends Dialog implements BasicMethod {
                                     }
                                 });
 
+                                RoomViewPager.setRoomName(edCreateRoomNmae.getText().toString());
+                                Intent intent = new Intent(BaseActivity.mContext, RoomViewPager.class);
+                                BaseActivity.mContext.startActivity(intent);
+                                dismiss();
                             }
                         });
-                        Intent intent = new Intent(BaseActivity.mContext, RoomViewPager.class);
-                        BaseActivity.mContext.startActivity(intent);
-                        dismiss();
-
                     }
 
                     @Override

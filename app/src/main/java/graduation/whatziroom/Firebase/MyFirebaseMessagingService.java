@@ -33,9 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Message data payload2: " + remoteMessage.getData().get("body"));
 //        remoteMessage.getData();
 
-
         sendNotification(remoteMessage);
-
 
     }
 
@@ -87,8 +85,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
-
-
-
 
 }
