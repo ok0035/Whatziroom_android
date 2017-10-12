@@ -41,7 +41,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
- 0           <TextView
+            <TextView
                 android:id="@+id/tvRoomAttendYes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
