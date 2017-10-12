@@ -82,7 +82,7 @@ public class RegisterScheduleDialog extends Dialog implements BasicMethod {
                 params.add("RoomPKey", roomPKey + "");
                 params.add("Date", myDateFormat.format(Date.parse(myScheduleDate)));
                 params.add("Name", edScheduleName.getText().toString());
-                params.add("Place", data.getTitle());
+                params.add("Place", data.getTitle() == null ? "장소를 선택하지 않았습니다." : data.getTitle());
                 params.add("Description", edScheduleDesc.getText().toString());
                 params.add("Longitude", data.getLongitude() + "");
                 params.add("Latitude", data.getLatitude() + "");

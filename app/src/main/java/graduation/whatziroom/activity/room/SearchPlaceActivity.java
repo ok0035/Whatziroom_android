@@ -88,6 +88,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
     private int userPKey, roomPKey;
     private String myScheduleDate;
 
+    private boolean searchFlag = false;
+
     public SearchPlaceActivity() {
         super();
 
@@ -236,7 +238,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
                                 lvSearchList.setAdapter(searchData.getAdapter());
                                 lvSearchList.deferNotifyDataSetChanged();
-
+                                selectedData = searchData.getSearchList().get(0);
+                                mMapView.selectPOIItem(mMapView.getPOIItems()[0], true);
                                 mMapView.setVisibility(View.INVISIBLE);
                                 lvSearchList.setVisibility(View.VISIBLE);
                             }
@@ -314,9 +317,17 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
             @Override
             public void onClick(View view) {
-                GPSTracer.getInstance().stopLocation();
-                RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
-                dialog.show();
+
+                if(searchData == null) {
+
+                    Toast.makeText(SearchPlaceActivity.this, "장소를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    GPSTracer.getInstance().stopLocation();
+                    RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
+                    dialog.show();
+                }
+
             }
 
         });

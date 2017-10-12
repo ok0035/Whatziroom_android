@@ -37,6 +37,8 @@ import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.dialog.CreateRoomDialog;
 import graduation.whatziroom.dialog.ExitMainDialog;
 import graduation.whatziroom.network.DBSI;
+import graduation.whatziroom.network.HttpNetwork;
+import graduation.whatziroom.network.Params;
 import graduation.whatziroom.util.LocationService;
 
 
@@ -702,6 +704,36 @@ public class MainViewPager extends BaseActivity {
     }
 
     public static int getUserPKey() {
+
+
+
+        Params params = new Params();
+        params.add("UserPKey", UserPKey + "");
+
+        new HttpNetwork("GetUserInfo.php", params.getParams(), new HttpNetwork.AsyncResponse() {
+            @Override
+            public void onSuccess(String response) {
+
+            }
+
+            @Override
+            public void onFailure(String response) {
+
+            }
+
+            @Override
+            public void onPreExcute() {
+
+            }
+        });
+
+
+
+
+
+
+
+
         return UserPKey;
     }
 
