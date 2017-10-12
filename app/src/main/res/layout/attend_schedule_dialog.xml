@@ -6,9 +6,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@drawable/button_border_fill"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background"
         android:orientation="vertical"
+        android:paddingTop="20dp"
         android:gravity="center">
 
         <TextView
@@ -29,18 +30,22 @@
             android:layout_marginBottom="30dp"
             android:textColor="@color/colorTransparent"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/sColor"/>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="60dp"
             android:gravity="center"
-            android:paddingRight="30dp"
             android:orientation="horizontal">
 
-            <TextView
+ 0           <TextView
                 android:id="@+id/tvRoomAttendYes"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:text="네"
                 android:textColor="#000000"
@@ -48,15 +53,15 @@
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
                 android:background="@color/sColor"/>
 
             <TextView
                 android:id="@+id/tvRoomAttendNo"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:text="아니오"
                 android:textColor="#000000"
