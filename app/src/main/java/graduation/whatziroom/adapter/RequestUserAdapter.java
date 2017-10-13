@@ -25,13 +25,13 @@ import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.Data.RoomUserData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.room.RoomUserList;
 import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
 import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
 import static graduation.whatziroom.activity.main.MainViewPager.scheduleListFragment;
+import static graduation.whatziroom.activity.room.RoomViewPager.roomFriendList;
 
 /**
  * Created by mapl0 on 2017-09-30.
@@ -131,8 +131,8 @@ public class RequestUserAdapter extends ArrayAdapter {
 
                             case "success" :
 
-                                RoomUserList.updateRequestList();
-                                RoomUserList.updateRoomUserList();
+                                roomFriendList.updateRequestList();
+                                roomFriendList.updateRoomUserList();
                                 roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
                                     @Override
                                     public void onPost(RoomData data) {
@@ -181,7 +181,7 @@ public class RequestUserAdapter extends ArrayAdapter {
                         switch(response) {
 
                             case "success" :
-                                RoomUserList.updateRequestList();
+                                roomFriendList.updateRequestList();
                                 Toast.makeText(mContext, "거절하였습니다.", Toast.LENGTH_SHORT).show();
                                 break;
 

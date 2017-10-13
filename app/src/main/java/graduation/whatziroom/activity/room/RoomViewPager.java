@@ -54,7 +54,6 @@ import graduation.whatziroom.activity.base.BaseActivity;
 import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
-import graduation.whatziroom.util.GPSTracer;
 import graduation.whatziroom.util.ParseData;
 
 import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
@@ -240,8 +239,8 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
                         scChatInfoParent.setVisibility(View.GONE);
                         flChatSchedule.setVisibility(View.GONE);
                         llChatMapView.setVisibility(View.GONE);
-                        RoomUserList.updateRoomUserList();
-                        RoomUserList.updateRequestList();
+                        roomFriendList.updateRoomUserList();
+                        roomFriendList.updateRequestList();
 
                         break;
                 }
@@ -467,8 +466,6 @@ public class RoomViewPager extends BaseActivity implements MapView.MapViewEventL
 
                 mProgressDialog = ProgressDialog.show(BaseActivity.mContext, "",
                         "잠시만 기다려주세요...", true);
-
-                GPSTracer.getInstance().startLocation(1000, 0);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

@@ -52,9 +52,10 @@ public class LocationService extends Service {
     //Location
     private LocationListener locationListener;
     private android.location.LocationManager locationManager;
-    public double longitude;
-    public double latitude;
+    public static double longitude = 0;
+    public static double latitude = 0;
     private int locationDistance = 10;
+    private long locationInterval = 1000 * 5;
 
     //Notification
     Intent mMainIntent;
@@ -74,10 +75,7 @@ public class LocationService extends Service {
     //Timer
     private Timer locationTimer, updateTimer;
     private TimerTask locationTask, updateTask;
-    private long locationInterval = 3000;
-    private long updateInterval = 1000 * 60000 * 30;
-
-    private boolean locationFlag = false;
+    private long updateInterval = 60000;
 
     public class LocationBinder extends Binder {
         public LocationService getService() {
@@ -107,7 +105,7 @@ public class LocationService extends Service {
         Log.e("LOG", "onStartCommand()");
         //서비스가 시작되면 이곳에 도착한다. 즉 여기서 원하는 이벤트를 주면 된다. OnCreate에서 해주려고 했으나 intent 값을 제대로 받아오지 못한다.
         UserPKey = intent.getStringExtra("UserPKey");
-        if(UserPKey != null)
+        if (UserPKey != null)
             Log.d("UserPKeyInService", UserPKey);
 
         mContext = this;
@@ -119,43 +117,20 @@ public class LocationService extends Service {
         updateTask = new TimerTask() {
             @Override
             public void run() {
-                if(UserPKey != null) {
+                Log.d("updateTimer", UserPKey);
+                if (UserPKey != null) {
                     update();
                 } else {
                     UserPKey = intent.getStringExtra("UserPKey");
-                    if(UserPKey != null)
+                    if (UserPKey != null)
                         Log.d("UserPKeyInService", UserPKey);
                 }
             }
         };
         updateTimer.schedule(updateTask, 0, updateInterval);
 
-        locationTimer = new Timer();
-        locationTask = new TimerTask() {
-            @Override
-            public void run() {
-
-                if(UserPKey != null) {
-
-                    if(dMin <= 60 && dMin > 0 && locationInterval != 0 && !locationFlag) {
-                        Log.d("StartLocationService", "Here");
-                        getLocation(locationInterval, locationDistance);
-                        locationFlag = true;
-
-                    } else if(dSec <= 0) {
-                        stopSelf();
-                    }
-
-                } else {
-                    locationFlag = false;
-                    UserPKey = intent.getStringExtra("UserPKey");
-                    if(UserPKey != null)
-                        Log.d("UserPKeyInService", UserPKey);
-                }
-            }
-        };
-        locationTimer.schedule(locationTask, 0, locationInterval);
-
+        getLocation(locationInterval, locationDistance);
+        showNotification();
         unregisterRestartAlarm();
 
         return START_REDELIVER_INTENT;
@@ -191,6 +166,38 @@ public class LocationService extends Service {
         return deviceId;
     }
 
+    public void showNotification() {
+
+        String message = "잊어버린 약속은 없으신가요?";
+
+        if (dDay > 0) message = dDay + "일 뒤에 " + place + "에서 일정이 있습니다.";
+        else if (dHour > 0)
+            message = dHour + "시간 " + (dMin % 60) + "분 뒤에 " + place + "에서 일정이 있습니다.";
+        else {
+            message = "위치공유가 시작되었습니다. 친구들의 위치를 확인하세요.";
+            getLocation(locationInterval, locationDistance);
+        }
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(R.mipmap.app_icon)
+                        .setContentTitle(message)
+                        .setContentIntent(mPendingIntent)
+                        .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
+                        .setOngoing(true);
+
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        mNotifyMgr.notify(001, mBuilder.build());
+
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//        long[] vibratePattern = {300,100,100};
+//        vibrator.vibrate(vibratePattern, -1);
+
+        vibrator.vibrate(500);
+    }
+
     public void update() {
 
         Params params = new Params();
@@ -213,7 +220,7 @@ public class LocationService extends Service {
                             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = transFormat.parse(jsonScheduleData.getString("Time"));
 
-                            Calendar CalculateDate= Calendar.getInstance();
+                            Calendar CalculateDate = Calendar.getInstance();
 
                             CalculateDate.setTime(date);
                             long goalTime = CalculateDate.getTimeInMillis();
@@ -230,24 +237,6 @@ public class LocationService extends Service {
                             dDay = dHour / 24;
                             place = jsonScheduleData.getString("Place");
 
-                            String message  = "";
-
-                            if(dDay > 0) message = dDay + "일 뒤에 " + place + "에서 일정이 있습니다.";
-                            else if(dHour > 0) message = dHour + "시간 " + (dMin % 60) + "분 뒤에 " + place + "에서 일정이 있습니다.";
-                            else message = dMin + "분 뒤에 " + place + "에서 일정이 있습니다.";
-
-                            NotificationCompat.Builder mBuilder =
-                                    new NotificationCompat.Builder(mContext)
-                                            .setSmallIcon(R.mipmap.app_icon)
-                                            .setContentTitle(message)
-                                            .setContentIntent(mPendingIntent)
-                                            .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
-                                            .setOngoing(true);
-
-                            NotificationManager mNotifyMgr =
-                                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                            mNotifyMgr.notify(001, mBuilder.build());
                         }
 
 
@@ -258,26 +247,6 @@ public class LocationService extends Service {
                         e.printStackTrace();
 
                     }
-                } else {
-
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(mContext)
-                                    .setSmallIcon(R.mipmap.app_icon)
-                                    .setContentTitle("잊어버린 약속은 없으신가요?")
-                                    .setContentIntent(mPendingIntent)
-                                    .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
-                                    .setOngoing(true);
-
-                    NotificationManager mNotifyMgr =
-                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                    mNotifyMgr.notify(001, mBuilder.build());
-
-                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//        long[] vibratePattern = {300,100,100};
-//        vibrator.vibrate(vibratePattern, -1);
-
-                    vibrator.vibrate(500);
                 }
             }
 
@@ -295,24 +264,6 @@ public class LocationService extends Service {
     }
 
     public void getLocation(final long interval, final int distance) {
-
-        String message = "D - " + dMin + "min / " + place;
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(mContext)
-                        .setSmallIcon(R.mipmap.app_icon)
-                        .setContentTitle(message)
-                        .setContentIntent(mPendingIntent)
-                        .setContentText("위치공유가 시작되었습니다. 친구들의 위치를 확인하세요!")
-                        .setOngoing(true);
-
-        NotificationManager mNotifyMgr =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        mNotifyMgr.notify(001, mBuilder.build());
-
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(1000);
 
         locationManager = (android.location.LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -399,7 +350,7 @@ public class LocationService extends Service {
                 }
             };
 
-        } else if(!(isGPSEnabled || isNetworkEnabled)) {
+        } else if (!(isGPSEnabled || isNetworkEnabled)) {
 
             Log.e("GPS Enable", "false");
 

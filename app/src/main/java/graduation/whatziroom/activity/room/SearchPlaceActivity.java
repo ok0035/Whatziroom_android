@@ -55,7 +55,7 @@ import graduation.whatziroom.activity.main.MainViewPager;
 import graduation.whatziroom.dialog.RegisterScheduleDialog;
 import graduation.whatziroom.search.OnFinishSearchListener;
 import graduation.whatziroom.search.Searcher;
-import graduation.whatziroom.util.GPSTracer;
+import graduation.whatziroom.util.LocationService;
 
 public class SearchPlaceActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener, BasicMethod {
 
@@ -203,8 +203,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                 }
                 hideSoftKeyboard(); // 키보드 숨김
 //                MapPoint.GeoCoordinate geoCoordinate = mMapView.getMapCenterPoint().getMapPointGeoCoord();
-                double latitude = GPSTracer.latitude;
-                double longitude = GPSTracer.longitude;
+                double latitude = LocationService.latitude;
+                double longitude = LocationService.longitude;
 //		        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
 //		        int page = 1; // 페이지 번호 (1 ~ 3). 한페이지에 15개
                 String apikey = getResources().getString(R.string.APIKEY);
@@ -305,7 +305,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
 
             @Override
             public void onClick(View view) {
-                GPSTracer.getInstance().stopLocation();
                 finish();
             }
 
@@ -321,7 +320,6 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                     Toast.makeText(SearchPlaceActivity.this, "장소를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    GPSTracer.getInstance().stopLocation();
                     RegisterScheduleDialog dialog = new RegisterScheduleDialog(SearchPlaceActivity.this, userPKey, roomPKey, myScheduleDate, selectedData);
                     dialog.show();
                 }
@@ -387,9 +385,9 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing() && GPSTracer.latitude != 0 && GPSTracer.longitude != 0) {
+                if (mProgressDialog != null && mProgressDialog.isShowing() && LocationService.latitude != 0 && LocationService.longitude != 0) {
 
-                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 3, true);
+//                    mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(GPSTracer.latitude, GPSTracer.longitude), 3, true);
 
                     //이 모드는 현재위치로 이동시켜주지만 다른 곳으로 이동을 할 수 없고 오직 본인 위치에만 머무른다.
                     mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
@@ -409,8 +407,8 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                     Searcher searcher = new Searcher();
                     String query = edSearchQuery.getText().toString();
 
-                    double latitude = GPSTracer.latitude;
-                    double longitude = GPSTracer.longitude;
+                    double latitude = LocationService.latitude;
+                    double longitude = LocationService.longitude;
 
                     String apikey = getResources().getString(R.string.APIKEY);
 

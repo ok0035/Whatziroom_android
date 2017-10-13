@@ -33,13 +33,13 @@ import graduation.whatziroom.util.ParseData;
 public class RoomUserList extends Fragment implements BasicMethod{
 
     private LinearLayout parent;
-    private static android.widget.ListView lvRequestUserList;
-    private static android.widget.ListView lvRoomUserList;
+    private android.widget.ListView lvRequestUserList;
+    private android.widget.ListView lvRoomUserList;
     private android.widget.TextView tvRoomExit;
-    private static RoomUserData roomUserData;
-    private static RoomUserData requestUserData;
-    private static RequestUserAdapter requestUserAdapter;
-    private static RoomUserAdapter roomUserAdapter;
+    private RoomUserData roomUserData;
+    private RoomUserData requestUserData;
+    private RequestUserAdapter requestUserAdapter;
+    private RoomUserAdapter roomUserAdapter;
 
     @Nullable
     @Override
@@ -69,7 +69,7 @@ public class RoomUserList extends Fragment implements BasicMethod{
 
     }
 
-    public static void updateRequestList() {
+    public void updateRequestList() {
 
         Params params = new Params();
         params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");
@@ -117,7 +117,7 @@ public class RoomUserList extends Fragment implements BasicMethod{
 
     }
 
-    public static void updateRoomUserList() {
+    public void updateRoomUserList() {
 
         Params params = new Params();
         params.add("RoomPKey", RoomViewPager.getRoomPKey() + "");

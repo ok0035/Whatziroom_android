@@ -24,10 +24,9 @@ public class GPSTracer {
     private android.location.LocationManager locationManager;
 
     public static GPSTracer sTracer;
-    private static boolean locationFlag = false;
 
-    public static double longitude;
-    public static double latitude;
+    public double longitude = 0;
+    public double latitude = 0;
 
     public GPSTracer() {
 
@@ -40,16 +39,6 @@ public class GPSTracer {
         }
 
         return sTracer;
-    }
-
-    public void stopLocation() {
-        locationListener = null;
-        locationFlag = true;
-    }
-
-    public void startLocation(int interval, int distance) {
-        locationFlag = false;
-        getLocation(interval, distance);
     }
 
     public void getLocation(int interval, int distance) {
