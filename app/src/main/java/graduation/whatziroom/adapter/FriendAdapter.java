@@ -111,7 +111,7 @@ public class FriendAdapter extends ArrayAdapter {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         builder.setView(view);
-        builder.setPositiveButton("네, 괜찮아요.", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("네.", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(mContext, "차단되었습니다.", Toast.LENGTH_SHORT).show();

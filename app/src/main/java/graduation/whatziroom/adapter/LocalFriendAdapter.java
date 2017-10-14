@@ -100,7 +100,7 @@ public class LocalFriendAdapter extends BaseAdapter implements Filterable {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         builder.setView(view);
-        builder.setPositiveButton("네, 괜찮아요.", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("네.", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(context, "차단되었습니다.", Toast.LENGTH_SHORT).show();
