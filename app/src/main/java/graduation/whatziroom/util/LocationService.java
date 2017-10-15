@@ -300,7 +300,10 @@ public class LocationService extends Service {
                     latitude = location.getLatitude();
 
                     Params params = new Params();
-                    params.add("UserPKey", UserPKey);
+
+                    if(UserPKey != null) {
+                        params.add("UserPKey", UserPKey);
+                    }
                     params.add("UUID", GetDevicesUUID());
                     params.add("Longitude", longitude + "");
                     params.add("Latitude", latitude + "");
