@@ -220,28 +220,36 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
                             @Override
                             public void run() {
 
-                                lvSearchList.setVisibility(View.INVISIBLE);
-                                mMapView.setVisibility(View.VISIBLE);
-                                mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
-                                showResult(itemList); // 검색 결과 보여줌
+                                if (itemList.size() > 0) {
 
-                                searchData = new MapData();
+                                    lvSearchList.setVisibility(View.INVISIBLE);
+                                    mMapView.setVisibility(View.VISIBLE);
+                                    mMapView.removeAllPOIItems(); // 기존 검색 결과 삭제
+                                    showResult(itemList); // 검색 결과 보여줌
 
-                                for (int i = 0; i < itemList.size(); i++) {
+                                    searchData = new MapData();
 
-                                    MapData data = itemList.get(i);
-                                    searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
-                                            data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
+                                    for (int i = 0; i < itemList.size(); i++) {
+
+                                        MapData data = itemList.get(i);
+                                        searchData.addItem(data.getImageUrl(), data.getTitle(), data.getAddress(), data.getNewAddress(), data.getZipcode(), data.getPhone(),
+                                                data.getCategory(), data.getLongitude(), data.getLatitude(), data.getDistance(), data.getDirection(), data.getId(), data.getPlaceUrl(), data.getAddressBCode());
+                                    }
+
+                                    lvSearchList.setAdapter(searchData.getAdapter());
+                                    lvSearchList.deferNotifyDataSetChanged();
+                                    selectedData = searchData.getSearchList().get(0);
+                                    mMapView.selectPOIItem(mMapView.getPOIItems()[0], true);
+                                    mMapView.setVisibility(View.INVISIBLE);
+                                    lvSearchList.setVisibility(View.VISIBLE);
+
+                                } else {
+                                    Toast.makeText(SearchPlaceActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
-
-                                lvSearchList.setAdapter(searchData.getAdapter());
-                                lvSearchList.deferNotifyDataSetChanged();
-                                selectedData = searchData.getSearchList().get(0);
-                                mMapView.selectPOIItem(mMapView.getPOIItems()[0], true);
-                                mMapView.setVisibility(View.INVISIBLE);
-                                lvSearchList.setVisibility(View.VISIBLE);
                             }
                         });
+
+
                     }
 
                     @Override
@@ -315,7 +323,7 @@ public class SearchPlaceActivity extends FragmentActivity implements MapView.Map
             @Override
             public void onClick(View view) {
 
-                if(searchData == null) {
+                if (searchData == null) {
 
                     Toast.makeText(SearchPlaceActivity.this, "장소를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
                 } else {

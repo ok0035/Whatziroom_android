@@ -117,10 +117,11 @@ public class LocationService extends Service {
         updateTask = new TimerTask() {
             @Override
             public void run() {
-                Log.d("updateTimer", UserPKey);
                 if (UserPKey != null) {
                     update();
                 } else {
+
+
                     UserPKey = intent.getStringExtra("UserPKey");
                     if (UserPKey != null)
                         Log.d("UserPKeyInService", UserPKey);
@@ -170,14 +171,6 @@ public class LocationService extends Service {
 
         String message = "잊어버린 약속은 없으신가요?";
 
-        if (dDay > 0) message = dDay + "일 뒤에 " + place + "에서 일정이 있습니다.";
-        else if (dHour > 0)
-            message = dHour + "시간 " + (dMin % 60) + "분 뒤에 " + place + "에서 일정이 있습니다.";
-        else {
-            message = "위치공유가 시작되었습니다. 친구들의 위치를 확인하세요.";
-            getLocation(locationInterval, locationDistance);
-        }
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(R.mipmap.app_icon)
@@ -191,11 +184,6 @@ public class LocationService extends Service {
 
         mNotifyMgr.notify(001, mBuilder.build());
 
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//        long[] vibratePattern = {300,100,100};
-//        vibrator.vibrate(vibratePattern, -1);
-
-        vibrator.vibrate(500);
     }
 
     public void update() {
@@ -230,12 +218,39 @@ public class LocationService extends Service {
 
                             long dTime = (goalTime - nowTime);
 
+
                             //밀리세컨드를 밀리초, 초, 분, 시간 으로 나눔
                             dSec = dTime / 1000;
                             dMin = dSec / 60;
                             dHour = dMin / 60;
                             dDay = dHour / 24;
                             place = jsonScheduleData.getString("Place");
+
+                        }
+
+                        if (dMin <= 60) {
+
+                            String message = "위치공유가 시작되었습니다. 친구들의 위치를 확인하세요.";
+                            getLocation(locationInterval, locationDistance);
+
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(mContext)
+                                            .setSmallIcon(R.mipmap.app_icon)
+                                            .setContentTitle(message)
+                                            .setContentIntent(mPendingIntent)
+                                            .setContentText("와찌룸으로 이동하려면 여기를 누르세요.")
+                                            .setOngoing(true);
+
+                            NotificationManager mNotifyMgr =
+                                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                            mNotifyMgr.notify(001, mBuilder.build());
+
+                            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//        long[] vibratePattern = {300,100,100};
+//        vibrator.vibrate(vibratePattern, -1);
+
+                            vibrator.vibrate(1000);
 
                         }
 
@@ -286,6 +301,7 @@ public class LocationService extends Service {
 
                     Params params = new Params();
                     params.add("UserPKey", UserPKey);
+                    params.add("UUID", GetDevicesUUID());
                     params.add("Longitude", longitude + "");
                     params.add("Latitude", latitude + "");
 
