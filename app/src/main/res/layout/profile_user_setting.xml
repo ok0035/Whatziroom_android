@@ -50,7 +50,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.6"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:id="@+id/noticeOnRadioGroup">
 
                     <RadioButton
                         android:id="@+id/noticeOnRadioBtn"
