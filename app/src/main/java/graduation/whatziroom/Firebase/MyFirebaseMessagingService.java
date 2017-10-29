@@ -1,5 +1,6 @@
 package graduation.whatziroom.Firebase;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,6 +15,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.base.SplashActivity;
+import graduation.whatziroom.activity.main.MainViewPager;
+import graduation.whatziroom.network.DBSI;
 
 /**
  * Created by user on 2017-10-04.
@@ -34,8 +37,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(RemoteMessage remoteMessage) {
 
-        String msg = (remoteMessage.getData().get("txtMsg") == null )? "" :remoteMessage.getData().get("txtMsg");
-        Log.d(TAG,"txtMSG.."+msg );
+        String msg = (remoteMessage.getData().get("txtMsg") == null) ? "" : remoteMessage.getData().get("txtMsg");
+        Log.d(TAG, "txtMSG.." + msg);
 
         Intent intent = new Intent(this, SplashActivity.class);
 
@@ -46,22 +49,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        Intent dummyIntent = new Intent();
 //        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, dummyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         String alramTitleTxt = "와찌룸";
         String messageBody = remoteMessage.getData().get("body");
         String alramContentTxt = remoteMessage.getData().get("body");
 
-        switch (messageBody){
-            case "RequestFriend" :
+        switch (messageBody) {
+            case "RequestFriend":
                 alramContentTxt = "친구 요청이 들어왔어요!";
                 break;
-            case "RequestEnterRoom" : alramContentTxt = "방 입장 요청이 들어왔어요!";
+            case "RequestEnterRoom":
+                alramContentTxt = "방 입장 요청이 들어왔어요!";
                 break;
-            case "AcceptEnterRoom" : alramContentTxt = remoteMessage.getData().get("roomName") + "에 입장했습니다";
+            case "AcceptEnterRoom":
+                alramContentTxt = remoteMessage.getData().get("roomName") + "에 입장했습니다";
                 break;
-            case  "ChatMsg" :
-                alramTitleTxt = remoteMessage.getData().get("sender") + " / " + remoteMessage.getData().get("roomName") ;
+            case "ChatMsg":
+                alramTitleTxt = remoteMessage.getData().get("sender") + " / " + remoteMessage.getData().get("roomName");
                 alramContentTxt = remoteMessage.getData().get("txtMsg");
             default:
                 break;
@@ -70,15 +75,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.app_icon)
                 .setContentTitle(alramTitleTxt)
-                .setContentText(alramContentTxt )
+                .setContentText(alramContentTxt)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        DBSI dbsi = new DBSI();
+
+        int pushFlag = Integer.parseInt(dbsi.selectQuery("Select Push from User Where PKey = " + MainViewPager.getUserPKey())[0][0]);
+        int alarmFlag = Integer.parseInt(dbsi.selectQuery("Select Alarm from User Where PKey = " + MainViewPager.getUserPKey())[0][0]);
+
+        switch (alarmFlag){
+            case 0 :
+                notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+                break;
+            case 1 :
+                notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                break;
+            case 2 :
+                notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                break;
+        }
+
+        switch (pushFlag) {
+            case 0:
+                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+                break;
+            default:
+
+                break;
+        }
+
+
     }
 
 }
