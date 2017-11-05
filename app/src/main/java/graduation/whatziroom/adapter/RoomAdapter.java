@@ -50,6 +50,7 @@ public class RoomAdapter extends ArrayAdapter {
         TextView roomTime = row.findViewById(R.id.roomTimeTxt);
         TextView tvChatCount = row.findViewById(R.id.tvChatCount);
         TextView getOutBtn = row.findViewById(R.id.roomOutTxt);
+        TextView roomFounder = row.findViewById(R.id.roomFounder);
 
         RoomData roomData = mList.get(position);
         int chatCount = 0;
@@ -85,6 +86,7 @@ public class RoomAdapter extends ArrayAdapter {
 
         roomName.setText(roomData.getRoomName());
         roomTime.setText(roomData.getRoomDate());
+        roomFounder.setText(roomData.getRoomFounderName());
 
         return row;
     }

@@ -170,12 +170,13 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
 
                     for (int i = 0; i < roomList.length(); i++) {
                         JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
-                        roomListFragment.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"));
+                        roomListFragment.roomData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("ChatCount"), jsonRoomData.getString("FounderName"));
 
                         Log.d("roomPKey", jsonRoomData.getString("PKey"));
                         Log.d("Name", jsonRoomData.getString("Name"));
                         Log.d("DESC", jsonRoomData.getString("Description"));
                         Log.d("ChatCount", jsonRoomData.getString("ChatCount"));
+                        Log.d("FounderName", jsonRoomData.getString("FounderName"));
 
                     }
 
@@ -225,7 +226,8 @@ public class RoomListFragment extends Fragment implements BasicMethod, View.OnTo
                         for (int i = 0; i < roomList.length(); i++) {
                             JSONObject jsonRoomData = new JSONObject(roomList.get(i).toString());
                             //다시 방정보만 뿌려주는걸로 수정, MaxUser 삭제
-                            roomSearchData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"));
+                            roomSearchData.addItem(jsonRoomData.getString("PKey"), jsonRoomData.getString("Name"), jsonRoomData.getString("Description"), jsonRoomData.getString("FounderName"));
+                            Log.d("FounderName", jsonRoomData.getString("FounderName"));
                         }
                         roomSearchListView.setAdapter(roomSearchData.getAdapter());
                         roomSearchData.getAdapter().notifyDataSetChanged();

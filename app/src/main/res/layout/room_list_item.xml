@@ -26,7 +26,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="0.5"
                 android:weightSum="1"
@@ -37,11 +36,34 @@
                     android:id="@+id/roomNameTxt"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:text="모임 제목"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="center_vertical"
                     android:textColor="#000000"
                     android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/roomFounderLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="개설자 : "
+                    android:layout_weight="0.15"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/roomFounder"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="데이터 없음"
+                    android:layout_weight="0.25"
+                    android:gravity="center_vertical"
+                    android:textColor="#000000"
+                    android:textSize="10dp"
                     android:textStyle="bold" />
 
 

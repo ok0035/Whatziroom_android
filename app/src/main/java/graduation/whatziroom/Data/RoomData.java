@@ -13,7 +13,7 @@ import graduation.whatziroom.adapter.RoomAdapter;
 public class RoomData {
 
     private String roomName;
-    private String roomUserNumber;
+    private String roomFounderName;
     private String roomDate;
     private String roomPKey;
     private String chatCount;
@@ -27,20 +27,22 @@ public class RoomData {
         roomArrayList = new ArrayList<>();
     }
 
-    public RoomData(String PKey, String name, String date, String count) {
+    public RoomData(String PKey, String name, String date, String count, String founder) {
 
         setRoomPKey(PKey);
         setRoomName(name);
         setRoomDate(date);
         setChatCount(count);
+        setRoomFounderName(founder);
 
     }
 
-    public RoomData(String PKey, String name, String date) {
+    public RoomData(String PKey, String name, String date, String founder) {
 
         setRoomPKey(PKey);
         setRoomName(name);
         setRoomDate(date);
+        setRoomFounderName(founder);
 
     }
 
@@ -64,12 +66,12 @@ public class RoomData {
         this.roomName = roomName;
     }
 
-    public String getRoomUserNumber() {
-        return roomUserNumber;
+    public String getRoomFounderName() {
+        return roomFounderName;
     }
 
-    public void setRoomUserNumber(String roomUserNumber) {
-        this.roomUserNumber = roomUserNumber;
+    public void setRoomFounderName(String roomFounderName) {
+        this.roomFounderName = roomFounderName;
     }
 
     public String getRoomDate() {
@@ -90,15 +92,15 @@ public class RoomData {
 
 
 
-    public void addItem(String roomPKey, String name, String date, String count) {
+    public void addItem(String roomPKey, String name, String date, String count, String founder) {
 
-        roomArrayList.add(new RoomData(roomPKey ,name, date, count));
+        roomArrayList.add(new RoomData(roomPKey ,name, date, count, founder));
 
     }
 
-    public void addItem(String roomPKey, String name, String date) {
+    public void addItem(String roomPKey, String name, String date, String founder) {
 
-        roomArrayList.add(new RoomData(roomPKey ,name, date));
+        roomArrayList.add(new RoomData(roomPKey ,name, date, founder));
 
     }
 
@@ -106,7 +108,5 @@ public class RoomData {
         adapter = new RoomAdapter(BaseActivity.mContext, roomArrayList);
         return adapter;
     }
-
-
 
 }
