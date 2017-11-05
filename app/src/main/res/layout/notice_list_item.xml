@@ -9,20 +9,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_border_fill"
+        >
 
         <TextView
             android:id="@+id/noticeResultTxt"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.8"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:text="저와 친구가 되어주실래요?"
-            android:background="@drawable/button_border_fill"
             android:textSize="15dp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/noticeReadBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:text="확인"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 

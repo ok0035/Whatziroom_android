@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.ArrayList;
 
 import graduation.whatziroom.Data.NoticeData;
@@ -30,6 +31,7 @@ import graduation.whatziroom.util.ParseData;
 
 public class NotificationListFragment extends Fragment {
     LinearLayout layout;
+
     // 현재 fragment가 전활될때마다
     // 선언한 NoticeData클래스가 재선언되고있다.
     // DB의 friend테이블에 status를 가져와서 읽는 것으로 바꾸면 문제 해결될 것으로 예상
@@ -39,12 +41,12 @@ public class NotificationListFragment extends Fragment {
 
         layout = (LinearLayout) inflater.inflate(R.layout.notification_list, container, false);
 
-        final ListView listview = (ListView)layout.findViewById(R.id.noticeList);
-        Button button = (Button)layout.findViewById(R.id.tempBtn);
+        final ListView listview = (ListView) layout.findViewById(R.id.noticeList);
+        Button button = (Button) layout.findViewById(R.id.tempBtn);
         DBSI dbsi = new DBSI();
 
         Params params = new Params();
-        params.add("UserPKey",dbsi.selectQuery("Select PKey From User")[0][0]);
+        params.add("UserPKey", dbsi.selectQuery("Select PKey From User")[0][0]);
 
         new HttpNetwork("GetFriendNotification.php", params.getParams(), new HttpNetwork.AsyncResponse() {
             @Override
@@ -53,14 +55,17 @@ public class NotificationListFragment extends Fragment {
                 ParseData parseData = new ParseData();
                 final ArrayList<NoticeData> arrayList = new ArrayList<>();
                 try {
-                    JSONArray parseArray = parseData.parseJsonArray (response);
-                    for(int i = 0 ; i < parseArray.length(); i++){
+                    JSONArray parseArray = parseData.parseJsonArray(response);
+                    for (int i = 0; i < parseArray.length(); i++) {
                         NoticeData noticeData = new NoticeData();
                         noticeData.setFriendPKey(parseArray.getJSONObject(i).getString("PKey"));
                         noticeData.setUserName(parseArray.getJSONObject(i).getString("Name"));
                         noticeData.setFriendStatus(parseArray.getJSONObject(i).getString("Status"));
                         noticeData.setSrFlag(parseArray.getJSONObject(i).getString("Flag"));
-                        arrayList.add(noticeData);
+                        if (!noticeData.getFriendStatus().equals("2")) {
+                            arrayList.add(noticeData);
+                        }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -84,5 +89,5 @@ public class NotificationListFragment extends Fragment {
 
         return layout;
     }
-    
+
 }

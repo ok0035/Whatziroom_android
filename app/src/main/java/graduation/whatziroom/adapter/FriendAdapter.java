@@ -76,7 +76,7 @@ public class FriendAdapter extends ArrayAdapter {
 
         final FriendData data = mList.get(position);
 
-        friendName.setText(data.getUserName());
+        friendName.setText(mList.get(position).getUserName());
 
         if (this.blockFlag == 0) {
             System.out.println("어댑터 이벤트 0 작동" + blockFlag);
@@ -174,7 +174,7 @@ public class FriendAdapter extends ArrayAdapter {
         btnRequestFriendCancel = dialogLayout.findViewById(R.id.btnRequestFriendCancel);
         btnRequestFriendOk = dialogLayout.findViewById(R.id.btnRequestFriendOk);
 
-        tvFriendRequestTxt.setText(friendName.getText()+"님에게\n친구신청 메시지를 보내드릴께요!^.^");
+        tvFriendRequestTxt.setText(mList.get(position).getUserName()+"님에게\n친구신청 메시지를 보내드릴께요!^.^");
 
         btnRequestFriendCancel.setOnClickListener(new View.OnClickListener() {
             @Override
