@@ -108,8 +108,8 @@ public class MainViewPager extends BaseActivity {
 
     }
 
-//    public boolean isBind = false;
 
+//    public boolean isBind = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,7 +148,6 @@ public class MainViewPager extends BaseActivity {
         *   movePageListener 에서 페이지 이동 시 이벤트 구현
         */
 
-
         linFriend.setOnClickListener(movePageListener);
         linFriend.setTag(0);
         linRoomBtn.setOnClickListener(movePageListener);
@@ -160,13 +159,11 @@ public class MainViewPager extends BaseActivity {
         linProfile.setOnClickListener(movePageListener);
         linProfile.setTag(4);
 
-
         /*
         *   Viewpase Adapter 설정
         */
 
         vpAdapter = new pagerAdapter(getSupportFragmentManager());
-
 
         vp.setAdapter(vpAdapter);
         vp.setCurrentItem(0); // 앱실행시 첫번째 화면

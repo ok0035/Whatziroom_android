@@ -73,9 +73,10 @@ public class LocationService extends Service {
     private long dDay;
 
     //Timer
-    private Timer locationTimer, updateTimer;
-    private TimerTask locationTask, updateTask;
-    private long updateInterval = 60000;
+    private Timer updateTimer;
+    private TimerTask updateTask;
+    private long updateInterval = 60000 * 1;
+    private boolean vibratorFlag = false;
 
     public class LocationBinder extends Binder {
         public LocationService getService() {
@@ -228,9 +229,9 @@ public class LocationService extends Service {
 
                         }
 
-                        if (dMin <= 60) {
+                        if (dMin <= 60 && dMin > 0) {
 
-                            String message = "위치공유가 시작되었습니다. 친구들의 위치를 확인하세요.";
+                            String message = dMin + "분 전 / 위치공유가 시작되었습니다.";
                             getLocation(locationInterval, locationDistance);
 
                             NotificationCompat.Builder mBuilder =
@@ -244,13 +245,16 @@ public class LocationService extends Service {
                             NotificationManager mNotifyMgr =
                                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                            mNotifyMgr.notify(001, mBuilder.build());
+                            mNotifyMgr.notify(1, mBuilder.build());
 
-                            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//        long[] vibratePattern = {300,100,100};
-//        vibrator.vibrate(vibratePattern, -1);
-
-                            vibrator.vibrate(1000);
+                            if(!vibratorFlag) {
+                                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                vibrator.vibrate(1000);
+                                vibratorFlag = true;
+                            } else if(dMin == 10 || dMin == 5) {
+                                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                vibrator.vibrate(2000);
+                            }
 
                         }
 
