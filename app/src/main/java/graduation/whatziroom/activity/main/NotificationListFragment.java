@@ -3,6 +3,7 @@ package graduation.whatziroom.activity.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,18 +56,36 @@ public class NotificationListFragment extends Fragment {
                 ParseData parseData = new ParseData();
                 final ArrayList<NoticeData> arrayList = new ArrayList<>();
                 try {
-                    JSONArray parseArray = parseData.parseJsonArray(response);
-                    for (int i = 0; i < parseArray.length(); i++) {
+                    JSONArray friendArray = parseData.jsonArrayInObject(response, "Friend");
+                    Log.d("friendArray,", friendArray.toString());
+                    for (int i = 0; i < friendArray.length(); i++) {
                         NoticeData noticeData = new NoticeData();
-                        noticeData.setFriendPKey(parseArray.getJSONObject(i).getString("PKey"));
-                        noticeData.setUserName(parseArray.getJSONObject(i).getString("Name"));
-                        noticeData.setFriendStatus(parseArray.getJSONObject(i).getString("Status"));
-                        noticeData.setSrFlag(parseArray.getJSONObject(i).getString("Flag"));
+//                        Log.d("PKEYEY",parseData.doubleJsonObject(friendArray.get(i).toString(),"friend").getString("PKey"));
+                        noticeData.setSeperator("Friend");
+                        noticeData.setFriendPKey(parseData.doubleJsonObject(friendArray.get(i).toString(), "friend").getString("PKey"));
+                        noticeData.setUserName(parseData.doubleJsonObject(friendArray.get(i).toString(), "friend").getString("Name"));
+                        noticeData.setFriendStatus(parseData.doubleJsonObject(friendArray.get(i).toString(), "friend").getString("Status"));
+                        noticeData.setSrFlag(parseData.doubleJsonObject(friendArray.get(i).toString(), "friend").getString("Flag"));
                         if (!noticeData.getFriendStatus().equals("2")) {
                             arrayList.add(noticeData);
                         }
 
                     }
+                    JSONArray roomArray = parseData.jsonArrayInObject(response, "Room");
+                    for (int i = 0; i < roomArray.length(); i++) {
+                        NoticeData noticeData = new NoticeData();
+                        noticeData.setSeperator("Room");
+                        Log.d("PKEYEY", parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("PKey"));
+                        noticeData.setRoomListPKey(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("PKey"));
+                        noticeData.setUserName_Room(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("UserName"));
+                        noticeData.setRoomNAme(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("RoomName"));
+                        noticeData.setRaFlag(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("Flag"));
+                        noticeData.setRoomStatus(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("Status"));
+                        if (noticeData.getRoomStatus().equals("1") || noticeData.getRoomStatus().equals("2")) {
+                            arrayList.add(noticeData);
+                        }
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
