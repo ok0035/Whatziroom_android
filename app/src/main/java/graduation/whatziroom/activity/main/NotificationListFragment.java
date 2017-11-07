@@ -73,16 +73,18 @@ public class NotificationListFragment extends Fragment {
                     }
                     JSONArray roomArray = parseData.jsonArrayInObject(response, "Room");
                     for (int i = 0; i < roomArray.length(); i++) {
-                        NoticeData noticeData = new NoticeData();
-                        noticeData.setSeperator("Room");
+                        NoticeData noticeData2 = new NoticeData();
+                        noticeData2.setSeperator("Room");
                         Log.d("PKEYEY", parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("PKey"));
-                        noticeData.setRoomListPKey(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("PKey"));
-                        noticeData.setUserName_Room(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("UserName"));
-                        noticeData.setRoomNAme(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("RoomName"));
-                        noticeData.setRaFlag(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("Flag"));
-                        noticeData.setRoomStatus(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("Status"));
-                        if (noticeData.getRoomStatus().equals("1") || noticeData.getRoomStatus().equals("2")) {
-                            arrayList.add(noticeData);
+                        noticeData2.setRoomListPKey(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("PKey"));
+                        noticeData2.setUserName_Room(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("UserName"));
+                        noticeData2.setRoomNAme(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("RoomName"));
+                        noticeData2.setRaFlag(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("Flag"));
+                        noticeData2.setRoomStatus(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("Status"));
+                        noticeData2.setUserPKey_Room(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("UserPKey"));
+                        noticeData2.setRoomPKey(parseData.doubleJsonObject(roomArray.get(i).toString(), "room").getString("RoomPKey"));
+                        if (noticeData2.getRoomStatus().equals("1") || noticeData2.getRoomStatus().equals("2")) {
+                            arrayList.add(noticeData2);
                         }
                     }
 

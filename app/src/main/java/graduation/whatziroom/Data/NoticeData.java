@@ -57,7 +57,25 @@ public class NoticeData {
     private String RoomListPKey;
     private String userName_Room;
     private String roomNAme;
+    private String userPKey_Room;
 
+    public String getUserPKey_Room() {
+        return userPKey_Room;
+    }
+
+    public void setUserPKey_Room(String userPKey_Room) {
+        this.userPKey_Room = userPKey_Room;
+    }
+
+    public String getRoomPKey() {
+        return roomPKey;
+    }
+
+    public void setRoomPKey(String roomPKey) {
+        this.roomPKey = roomPKey;
+    }
+
+    private String roomPKey;
     public String getRoomStatus() {
         return roomStatus;
     }
