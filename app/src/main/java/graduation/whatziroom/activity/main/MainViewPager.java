@@ -288,30 +288,25 @@ public class MainViewPager extends BaseActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final FirebaseNoticeData data = dataSnapshot.getValue(FirebaseNoticeData.class);
 
-                boolean flag = false;
                 for(int i = 0; i< roomListFragment.roomData.getRoomArrayList().size(); i++) {
-                    if(roomListFragment.roomData.getRoomArrayList().get(i).getRoomPKey().equals(data.getRoomKey())) {
-                        flag = true;
+                    if(roomListFragment.roomData.getRoomArrayList().size() - 1 == i) {
+
+                        switch (data.getStatus()) {
+
+                            case 1:
+
+                                roomListFragment.updateRoom(new AfterUpdate() {
+                                    @Override
+                                    public void onPost(RoomData roomData) {
+                                        childAddListener(data.getRoomKey());
+                                    }
+                                });
+
+                                Log.d("NoticeTest", "Notice");
+                                break;
+
+                        }
                     }
-                }
-
-                if(!flag) {
-
-                    switch (data.getStatus()) {
-
-                        case 1:
-
-                            roomListFragment.updateRoom(new AfterUpdate() {
-                                @Override
-                                public void onPost(RoomData roomData) {
-                                    childAddListener(data.getRoomKey());
-                                }
-                            });
-
-                            Log.d("NoticeTest", "Notice");
-                            break;
-                    }
-
                 }
 
             }

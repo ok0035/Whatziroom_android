@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Whatziroom.iml" filepath="$PROJECT_DIR$/Whatziroom.iml" />
+<<<<<<< HEAD
+=======
+      <module fileurl="file://D:\GitHub\Whatziroom\Whatziroom\Whatziroom_android.iml" filepath="D:\GitHub\Whatziroom\Whatziroom\Whatziroom_android.iml" />
+>>>>>>> 68e560fc2ebbd4dd29cb167bb4ffff773f312067
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/switchdatetime/switchdatetime.iml" filepath="$PROJECT_DIR$/app/libs/switchdatetime/switchdatetime.iml" />
     </modules>

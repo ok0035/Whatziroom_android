@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 import graduation.whatziroom.Data.FirebaseNoticeData;
@@ -19,13 +22,11 @@ import graduation.whatziroom.Data.NoticeData;
 import graduation.whatziroom.Data.RoomData;
 import graduation.whatziroom.R;
 import graduation.whatziroom.activity.main.MainViewPager;
-import graduation.whatziroom.activity.room.RoomViewPager;
 import graduation.whatziroom.network.HttpNetwork;
 import graduation.whatziroom.network.Params;
 
 import static graduation.whatziroom.activity.main.MainViewPager.roomListFragment;
 import static graduation.whatziroom.activity.main.MainViewPager.scheduleListFragment;
-import static graduation.whatziroom.activity.room.RoomViewPager.roomFriendList;
 
 /**
  * Created by user on 2017-07-16.
@@ -37,6 +38,9 @@ public class NoticeAdapter extends ArrayAdapter {
     Context mContext = null;
     ArrayList<NoticeData> mList = null;
     LayoutInflater inf = null;
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     public NoticeAdapter(Context context, ArrayList<NoticeData> list) {
         super(context, R.layout.notice_list_item, list);
@@ -230,7 +234,18 @@ public class NoticeAdapter extends ArrayAdapter {
                                     switch (response) {
 
                                         case "success":
+
+                                            roomListFragment.updateRoom(new MainViewPager.AfterUpdate() {
+                                                @Override
+                                                public void onPost(RoomData data) {
+                                                    FirebaseNoticeData notice = new FirebaseNoticeData(1, mList.get(position).getRoomPKey() + "");
+                                                    databaseReference.child("Notice").child(mList.get(position).getUserPKey_Room() + "").push().setValue(notice);
+                                                    scheduleListFragment.updateSchedule();
+                                                }
+                                            });
+
                                             noticeResultTxt.setText(mList.get(position).getUserName_Room() + " 님의 " + mList.get(position).getRoomNAme() + "방 입장을 수락했습니다.");
+
                                             readBtn.setVisibility(View.VISIBLE);
                                             mList.get(position).setRoomStatus("2");
                                             notifyDataSetChanged();
