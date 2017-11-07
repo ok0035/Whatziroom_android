@@ -89,9 +89,9 @@ public class RoomUserList extends Fragment implements BasicMethod{
                         JSONObject jsonRoomData = new JSONObject(requestUserList.get(i).toString());
                         requestUserData.addItem(Integer.parseInt(jsonRoomData.getString("UserPKey")), Integer.parseInt(jsonRoomData.getString("RoomPKey")), jsonRoomData.getString("Name"));
 
-                        Log.d("RequestUserPKey", jsonRoomData.getString("UserPKey"));
-                        Log.d("RequestUserRoomKey", jsonRoomData.getString("RoomPKey"));
-                        Log.d("RequestUserName", jsonRoomData.getString("Name"));
+                        System.out.println("RequestUserPKey " +  jsonRoomData.getString("UserPKey"));
+                        System.out.println("RequestUserRoomKey " + jsonRoomData.getString("RoomPKey"));
+                        System.out.println("RequestUserName " + jsonRoomData.getString("Name"));
                     }
 
                     requestUserAdapter = new RequestUserAdapter(RoomViewPager.mContext, requestUserData.getUserList());

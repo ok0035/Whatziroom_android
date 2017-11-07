@@ -1,7 +1,6 @@
 package graduation.whatziroom.activity.main;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -86,33 +85,45 @@ public class ProfileFragment extends Fragment {
                     MainViewPager.CheckLocationTimer = null;
                 }
 
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        DBSI db = new DBSI();
-                        db.query("delete from User");
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
+                DBSI db = new DBSI();
+                db.query("delete from User");
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
 
-                    }
+                try {
+                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                    }
-
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        try {
-                            FirebaseInstanceId.getInstance().deleteInstanceId();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-                }.execute();
+//                new AsyncTask<Void, Void, Void>() {
+//                    @Override
+//                    protected void onPostExecute(Void aVoid) {
+//                        super.onPostExecute(aVoid);
+//                        DBSI db = new DBSI();
+//                        db.query("delete from User");
+//                        Intent intent = new Intent(getContext(), LoginActivity.class);
+//                        startActivity(intent);
+//                        getActivity().finish();
+//
+//                    }
+//
+//                    @Override
+//                    protected void onPreExecute() {
+//                        super.onPreExecute();
+//                    }
+//
+//                    @Override
+//                    protected Void doInBackground(Void... voids) {
+//                        try {
+//                            FirebaseInstanceId.getInstance().deleteInstanceId();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        return null;
+//                    }
+//                }.execute();
 
 //                Intent intent = new Intent(getContext(), LoginActivity.class);
 //                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(),0,0).toBundle();
