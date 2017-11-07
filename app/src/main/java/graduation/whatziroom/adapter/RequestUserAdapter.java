@@ -43,14 +43,12 @@ public class RequestUserAdapter extends ArrayAdapter {
     private ArrayList<RoomUserData> requestRoomUserList = null;
     private LayoutInflater inflater = null;
 
-    private android.widget.LinearLayout llRequestRoomUser;
-    private android.widget.LinearLayout llRoomRequestResult;
+    //private android.widget.LinearLayout llRequestRoomUser;
+    //private android.widget.LinearLayout llRoomRequestResult;
     private android.widget.ImageView ivRoomRequestCheck;
     private android.widget.TextView tvRoomRequestName;
     private android.widget.TextView tvRoomRequestYes;
     private android.widget.TextView tvRoomRequestNo;
-
-    private View parentLayout;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -68,50 +66,77 @@ public class RequestUserAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        parentLayout = convertView;
+        System.out.println("이 곳의 position은?"+position);
+        View view = convertView;
 
-        if(parentLayout == null) {
-            parentLayout = inflater.inflate(R.layout.request_room_user_item, null);
+        if(view == null) {
+            view = inflater.inflate(R.layout.request_room_user_item, null);
         }
 
         requestData = requestRoomUserList.get(position);
 
-        this.llRequestRoomUser = (LinearLayout) parentLayout.findViewById(R.id.llRequestRoomUser);
-        this.llRoomRequestResult = (LinearLayout) parentLayout.findViewById(R.id.llRoomRequestResult);
-        this.ivRoomRequestCheck = (ImageView) parentLayout.findViewById(R.id.ivRoomRequestCheck);
-        this.tvRoomRequestNo = (TextView) parentLayout.findViewById(R.id.tvRoomRequestNo);
-        this.tvRoomRequestYes = (TextView) parentLayout.findViewById(R.id.tvRoomRequestYes);
-        this.tvRoomRequestName = (TextView) parentLayout.findViewById(R.id.tvRoomRequestName);
+        final LinearLayout llRequestRoomUser = (LinearLayout) view.findViewById(R.id.llRequestRoomUser);
+        final LinearLayout llRoomRequestResult = (LinearLayout) view.findViewById(R.id.llRoomRequestResult);
+        this.ivRoomRequestCheck = (ImageView) view.findViewById(R.id.ivRoomRequestCheck);
+        this.tvRoomRequestNo = (TextView) view.findViewById(R.id.tvRoomRequestNo);
+        this.tvRoomRequestYes = (TextView) view.findViewById(R.id.tvRoomRequestYes);
+        this.tvRoomRequestName = (TextView) view.findViewById(R.id.tvRoomRequestName);
 
         tvRoomRequestName.setText(requestData.getName() + " 님이 입장을 신청하였습니다.");
+
+        // View를 식별할 수 있게 바코드 처럼 Tag를 달아줌~
+        llRequestRoomUser.setTag(position);
+        llRequestRoomUser.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 if (llRoomRequestResult.getVisibility() == View.GONE) {
+                     llRoomRequestResult.setVisibility(View.VISIBLE);
+
+                     Bitmap bitmap = BitmapFactory.decodeResource(view.getResources(), R.mipmap.arrow_icon);
+
+                     Matrix sideInversion = new Matrix();
+                     sideInversion.setScale(1, -1);
+
+                     ivRoomRequestCheck.setImageBitmap(Bitmap.createBitmap(bitmap, 0, 0,
+                             bitmap.getWidth(), bitmap.getHeight(), sideInversion, false));
+                 } else {
+                     llRoomRequestResult.setVisibility(View.GONE);
+                     ivRoomRequestCheck.setImageResource(R.mipmap.arrow_icon);
+                 }
+             }
+         });
 //        Log.d("requestAdapterName", requestData.getName());
 
         setUpEvents();
 
-        return parentLayout;
+        return view;
+    }
+
+    public RoomUserData getItem(int position) {
+        return requestRoomUserList.get(position);
     }
 
     public void setUpEvents() {
 
-        llRequestRoomUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(llRoomRequestResult.getVisibility() == View.GONE) {
-                    llRoomRequestResult.setVisibility(View.VISIBLE);
-
-                    Bitmap bitmap = BitmapFactory.decodeResource(parentLayout.getResources(), R.mipmap.arrow_icon);
-
-                    Matrix sideInversion = new Matrix();
-                    sideInversion.setScale(1, -1);
-
-                    ivRoomRequestCheck.setImageBitmap(Bitmap.createBitmap(bitmap, 0, 0,
-                            bitmap.getWidth(), bitmap.getHeight(), sideInversion, false));
-                } else {
-                    llRoomRequestResult.setVisibility(View.GONE);
-                    ivRoomRequestCheck.setImageResource(R.mipmap.arrow_icon);
-                }
-            }
-        });
+//        llRequestRoomUser.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(llRoomRequestResult.getVisibility() == View.GONE) {
+//                    llRoomRequestResult.setVisibility(View.VISIBLE);
+//
+//                    Bitmap bitmap = BitmapFactory.decodeResource(parentLayout.getResources(), R.mipmap.arrow_icon);
+//
+//                    Matrix sideInversion = new Matrix();
+//                    sideInversion.setScale(1, -1);
+//
+//                    ivRoomRequestCheck.setImageBitmap(Bitmap.createBitmap(bitmap, 0, 0,
+//                            bitmap.getWidth(), bitmap.getHeight(), sideInversion, false));
+//                } else {
+//                    llRoomRequestResult.setVisibility(View.GONE);
+//                    ivRoomRequestCheck.setImageResource(R.mipmap.arrow_icon);
+//                }
+//            }
+//        });
 
         tvRoomRequestYes.setOnClickListener(new View.OnClickListener() {
             @Override

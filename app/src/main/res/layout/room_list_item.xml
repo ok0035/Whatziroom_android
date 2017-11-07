@@ -41,19 +41,18 @@
                     android:layout_weight="0.6"
                     android:gravity="center_vertical"
                     android:textColor="#000000"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/roomFounderLabel"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="개설자 : "
+                    android:text="방장 :"
                     android:layout_weight="0.15"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:textColor="#000000"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/roomFounder"
@@ -61,10 +60,10 @@
                     android:layout_height="match_parent"
                     android:text="데이터 없음"
                     android:layout_weight="0.25"
+                    android:layout_gravity="center"
                     android:gravity="center_vertical"
                     android:textColor="#000000"
-                    android:textSize="10dp"
-                    android:textStyle="bold" />
+                    android:textSize="14dp" />
 
 
             </LinearLayout>
